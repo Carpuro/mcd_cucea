@@ -1,71 +1,45 @@
-# MCD — Almacenamiento de Grandes Bases de Datos
+# Almacenamiento de Grandes Bases de Datos
+**Semester:** 2nd | **Department:** DSI | **Credits:** 7 | **Pre-req:** Procesamiento de Grandes Bases de Datos
 
-**Universidad de Guadalajara CUCEA · Maestría en Ciencias de los Datos · 2do Semestre 2026**
+Big Data storage and querying using Hadoop (MapReduce + HDFS) and Apache Hive. Infrastructure runs on Docker in homelab.
 
-Stack: Hadoop 3.3.6 + Hive 2.3.2 + YARN — Docker en homelab (`192.168.100.11`)
+## Tasks (`tareas/`)
 
----
+### MapReduce
+| # | Task | Status |
+|---|------|--------|
+| 1 | WordCount — Hadoop MapReduce over `warandpeace.txt` | ✅ Done |
+| 2 | WordCount corrected + word cloud visualization | ✅ Done |
 
-## Actividades — Analítica con MapReduce
+### Hive
+| # | Task | Status |
+|---|------|--------|
+| 1 | Hive installation and configuration (persistent HDFS path) | ✅ Done |
+| 2 | Import IMSS ASG 2025 files to HDFS — external table `empleo` | ✅ Done |
+| 3 | Reorganize into two directories + two external tables | ✅ Done |
+| 4 | Employment analysis — 4 HiveQL queries + PDF report | ✅ Done |
 
-| # | Actividad | Descripción | Estado |
-|---|---|---|---|
-| 1 | WordCount | Implementación básica de WordCount en Hadoop MapReduce sobre `warandpeace.txt` | ✅ Entregada |
-| 2 | WordCount Corregido | WordCount mejorado + nube de palabras | ✅ Entregada |
+### Tarea 4 — Questions answered
+1. Top 5 economic sectors (4-digit) by insured workers — January 2025
+2. Top 2 age ranges among insured workers in Jalisco — January 2025
+3. Top 3 states by female insured workers + top 5 sectors per state
+4. Employer size distribution in Jalisco, Nuevo León, and CDMX with % of total
 
-**Datos:** `warandpeace.txt` — War and Peace (Tolstói), usado como corpus para MapReduce.
+## Infrastructure
 
----
-
-## Tareas — Hive
-
-| # | Tarea | Descripción | Estado |
-|---|---|---|---|
-| 1 | Instalación Hive | Instalación y configuración de Apache Hive 3.1.3; `hdfs-site.xml` con ruta persistente (no `/tmp`) | ✅ Entregada |
-| 2 | Importar archivos IMSS | Archivos de asegurados IMSS 1er semestre 2025 → HDFS `/user/oem/empleo/`; tabla externa `empleo` en Hive | ✅ Entregada |
-| 3 | Reorganizar archivos empleo | Dos directorios HDFS (semestre completo + solo enero); dos tablas externas correspondientes | ✅ Entregada |
-| 4 | Análisis de Empleo en México | 4 consultas Hive + informe PDF con catálogos de dimensiones | ⏳ Pendiente |
-
-### Tarea 4 — Preguntas
-
-1. ¿Cuáles son los primeros 5 sectores económicos (4 dígitos) con mayor número de asegurados en enero 2025?
-2. ¿Cuáles son los 2 primeros rangos de edad con mayor número de asegurados **urbanos en Jalisco** en enero 2025?
-3. ¿Cuáles son las 3 entidades con mayor número de **mujeres aseguradas** en enero 2025 y en qué sectores económicos (4 dígitos) laboran?
-4. ¿Cuál es el tamaño de empresas con mayor número de asegurados en Jalisco, Nuevo León y CDMX, y qué porcentaje representan del total en cada entidad?
-
-Entregable: informe PDF con resultados y descripciones de los catálogos de cada dimensión.
-
----
-
-## Infraestructura
-
-| Componente | Detalle |
-|---|---|
+| Component | Detail |
+|-----------|--------|
 | Hadoop | 3.3.6 / YARN · Docker (bde2020) |
-| Hive | 2.3.2 + PostgreSQL metastore |
+| Hive | 2.3.2 + PostgreSQL 9.6 metastore |
 | HDFS UI | `http://192.168.100.11:9870` |
 | YARN UI | `http://192.168.100.11:8088` |
-| HiveServer2 | `192.168.100.11:10000` |
-| Config | `~/apps/hadoop/docker-compose.yml` + `hadoop.env` |
+| HiveServer2 | `192.168.100.11:10000` (Tailscale accessible) |
 
-### Datos IMSS en HDFS
+### HDFS Data
+| HDFS Path | Hive Table | Content |
+|-----------|------------|---------|
+| `/user/oem/empleo/` | `empleo` | Full semester (~25M records, 6 files) |
+| `/user/oem/empleo_enero/` | `empleo_enero` | January 2025 only (~4.6M records) |
 
-| Ruta HDFS | Tabla Hive | Contenido |
-|---|---|---|
-| `/user/oem/empleo/` | `empleo` | Semestre completo (~25M registros, 6 archivos) |
-| `/user/oem/empleo_semestre/` | `empleo_semestre` | Semestre completo 2025 |
-| `/user/oem/empleo_enero/` | `empleo_enero` | Solo enero 2025 (~4M registros) |
-
----
-
-## Estructura del repositorio
-
-```
-Actividades/
-  Analitica con Map Reduce/
-    warandpeace.txt
-    Actividad 1/   ← WordCount básico
-    Actividad 2/   ← WordCount corregido + nube de palabras
-  Hive/
-    Actividad 3/   ← Instalación Hive (Tarea 1)
-```
+## Tools
+Apache Hadoop 3.3.6 · Apache Hive 2.3.2 · HiveQL · beeline · Docker · Python (python-docx)
