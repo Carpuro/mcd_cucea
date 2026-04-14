@@ -1,11 +1,40 @@
 # MCD CUCEA — Maestría en Ciencias de los Datos
-**Universidad de Guadalajara · Centro Universitario de Ciencias Económico Administrativas**
 
-Repositorio central con todo el material de trabajo del programa MCD — organizado por semestre y materia.
+**Universidad de Guadalajara · Centro Universitario de Ciencias Económico Administrativas**
+**Alumno:** Carlos Pulido Rosas · **Generación:** 2025–2027
+
+Repositorio central con todo el material de trabajo del programa MCD — organizado por semestre y materia. Incluye notebooks, tareas, proyectos, datasets e infraestructura de análisis.
 
 ---
 
-## Estructura
+## Programa
+
+La Maestría en Ciencias de los Datos (MCD) forma profesionistas capaces de diseñar soluciones basadas en datos a gran escala. El programa combina fundamentos estadísticos y matemáticos con herramientas modernas de Big Data, programación y visualización, con orientación hacia proyectos de investigación aplicada.
+
+- **Duración:** 4 semestres
+- **Créditos totales:** 112
+- **Modalidad:** Presencial — CUCEA, Zapopan, Jalisco
+- **Plan completo:** [plan-de-estudios.md](_recursos/plan-de-estudios.md)
+
+---
+
+## Tesis
+
+**Automatización Laboral por Inteligencia Artificial en Jalisco (2025–2030)**
+
+Investigación que predice el riesgo de automatización de ocupaciones en Jalisco usando datos ENOE y O\*NET, metodología Frey-Osborne y modelos de Machine Learning.
+
+| Elemento | Detalle |
+|----------|---------|
+| **Repositorio** | [ai-automation-risk-jalisco](https://github.com/Carpuro/ai-automation-risk-jalisco) |
+| **Datos** | O\*NET · ENOE (INEGI) |
+| **Método** | Random Forest · Frey-Osborne variables |
+| **Resultado Fase 1** | R² ≈ 0.75 — alto riesgo en agricultura; educación como factor protector |
+| **Fase 2 (pendiente)** | Indicadores específicos de LLMs |
+
+---
+
+## Estructura del repositorio
 
 ```
 mcd_cucea/
@@ -21,71 +50,103 @@ mcd_cucea/
 ```
 
 Cada materia sigue la misma estructura interna:
+
 ```
 materia/
-├── notebooks/   ← ejercicios y notebooks
-├── tareas/      ← entregas formales
+├── notebooks/   ← ejercicios y notebooks (Jupyter / R / Python)
+├── tareas/      ← entregas formales con PDF
 ├── proyectos/   ← proyectos parciales o finales
 ├── datos/       ← datasets específicos de la materia
 ├── notas/       ← slides, lecturas, material del profesor
-└── README.md
+└── README.md    ← descripción, contenido y herramientas de la materia
 ```
 
 ---
 
 ## Primer Semestre
 
-| Materia | Contenido |
-|---------|-----------|
-| [Métodos Estadísticos Básicos](1er-semestre/metodos-estadisticos-basicos/) | Estadística descriptiva, regresión, clustering, probabilidad, distribuciones, pruebas de hipótesis |
-| [Métodos Matemáticos para el Análisis de Datos](1er-semestre/metodos-matematicos-analisis-datos/) | Álgebra lineal, optimización, visión computacional, algoritmos evolutivos |
-| [Procesamiento de Grandes Bases de Datos](1er-semestre/procesamiento-grandes-bases-datos/) | Apache Spark, PySpark, Koalas, Spark ML, Spark Streaming |
-| [Programación I](1er-semestre/programacion-i/) | Python fundamentals, web scraping, SQL, GUIs — entorno Docker |
+| Materia | Depto | Herramientas | Contenido |
+|---------|-------|--------------|-----------|
+| [Métodos Estadísticos Básicos](1er-semestre/metodos-estadisticos-basicos/) | DMC | Python · scipy · sklearn | Estadística descriptiva, regresión lineal, clustering, probabilidad, distribuciones, pruebas de hipótesis |
+| [Métodos Matemáticos para el Análisis de Datos](1er-semestre/metodos-matematicos-analisis-datos/) | DMC | Python · OpenCV | Álgebra lineal, optimización, visión computacional, algoritmos evolutivos |
+| [Procesamiento de Grandes Bases de Datos](1er-semestre/procesamiento-grandes-bases-datos/) | DSI | PySpark · Koalas | Apache Spark, DataFrames, Spark ML, Spark Streaming — 8 tareas progresivas |
+| [Programación I](1er-semestre/programacion-i/) | DSI | Python · Docker · MySQL | Fundamentos Python, web scraping, manejo de archivos, SQL en Python, interfaces gráficas — 14 sesiones en Docker |
 
 ## Segundo Semestre
 
-| Materia | Contenido |
-|---------|-----------|
-| [Almacenamiento de Grandes Bases de Datos](2do-semestre/almacenamiento/) | Hadoop 3.3.6, Hive 2.3.2, MapReduce, datos IMSS ASG 2025 |
-| [Métodos Estadísticos Multivariados](2do-semestre/metodos-estadisticos-multivariados/) | Análisis multivariado, MANOVA, análisis discriminante |
-| [Programación II](2do-semestre/programacion-ii/) | Python avanzado, SQL Server, stored procedures, dataset Defunciones_2000 |
-| [Tópicos Selectos de GBD I](2do-semestre/topicos-selectos-i/) | Tópicos avanzados de gestión de grandes bases de datos |
+| Materia | Depto | Herramientas | Contenido | Repositorio |
+|---------|-------|--------------|-----------|-------------|
+| [Almacenamiento de Grandes Bases de Datos](2do-semestre/almacenamiento/) | DSI | Hadoop · Hive · HiveQL · beeline | MapReduce, HDFS, Hive 2.3.2, análisis de datos IMSS ASG 2025 (~27M registros) | — |
+| [Métodos Estadísticos Multivariados](2do-semestre/metodos-estadisticos-multivariados/) | DMC | Python / R · statsmodels · Orange3 | Análisis multivariado, reducción de dimensionalidad, MANOVA, análisis discriminante | — |
+| [Programación II](2do-semestre/programacion-ii/) | DSI | Python · pyodbc · SQL Server · Power BI | Python avanzado, stored procedures, análisis del dataset Defunciones_2000 (10M registros) | [censo-salud-mexico-2000](https://github.com/Carpuro/censo-salud-mexico-2000) |
+| [Tópicos Selectos de GBD I](2do-semestre/topicos-selectos-i/) | DSI | — | Tópicos avanzados de gestión de grandes bases de datos | — |
 
 ## Tercer Semestre *(próximo)*
 
-| Materia |
-|---------|
-| Econometría |
-| Visualización de Grandes Bases de Datos |
-| Desarrollo de Proyecto I |
-| Tópicos Selectos de GBD II |
+| Materia | Depto | Herramientas (esperadas) |
+|---------|-------|--------------------------|
+| Econometría | DPE | R · statsmodels · series de tiempo |
+| Visualización de Grandes Bases de Datos | DSI | Power BI · Grafana · D3.js |
+| Desarrollo de Proyecto I | DSI | Python · Spark · SQL |
+| Tópicos Selectos de GBD II | DMC | — |
 
 ## Cuarto Semestre *(próximo)*
 
-| Materia |
-|---------|
-| Seminario de Tesis |
-| Tópicos Complementarios de Gestión de Datos |
-| Desarrollo de Proyecto II |
-| Tópicos Selectos de GBD III |
+| Materia | Depto | Herramientas (esperadas) |
+|---------|-------|--------------------------|
+| Seminario de Tesis | DCSJ | — |
+| Tópicos Complementarios de Gestión de Datos | DSI | — |
+| Desarrollo de Proyecto II | DSI | — |
+| Tópicos Selectos de GBD III | DPE | — |
 
 ---
 
-## Infraestructura (Homelab)
+## Infraestructura de análisis
 
-| Servicio | Acceso |
-|----------|--------|
-| Hadoop HDFS UI | `http://192.168.100.11:9870` |
-| YARN UI | `http://192.168.100.11:8088` |
-| HiveServer2 | `192.168.100.11:10000` (Tailscale: `100.64.0.11:10000`) |
-| SQL Server 2025 | `100.64.0.11,1433` · user: `readonly` / `MCD_2000` |
+Todo el trabajo corre en un homelab local (ThinkPad T14 Gen 4, 32GB RAM, Ubuntu 24.04) con acceso remoto vía Tailscale.
 
-**Acceso remoto:** instalar [Tailscale](https://tailscale.com/download) y solicitar acceso.
+| Servicio | Descripción | Acceso |
+|----------|-------------|--------|
+| **Hadoop + HDFS** | Clúster bde2020, Hadoop 3.3.6 | UI: `http://192.168.100.11:9870` |
+| **YARN** | Resource manager del clúster | UI: `http://192.168.100.11:8088` |
+| **HiveServer2** | Hive 2.3.2 + PostgreSQL metastore | `100.64.0.11:10000` (Tailscale) |
+| **SQL Server 2025** | Dataset Defunciones_2000 (10M registros) | `100.64.0.11,1433` · `readonly/MCD_2000` |
+
+**Acceso remoto para compañeros:** instalar [Tailscale](https://tailscale.com/download), compartir IP y solicitar acceso. Conectarse a HiveServer2 con beeline o DBeaver.
+
+```bash
+# Hive desde beeline
+beeline -u "jdbc:hive2://100.64.0.11:10000/default" -n "" -p ""
+
+# SQL Server desde Python
+import pyodbc
+conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=100.64.0.11,1433;DATABASE=Defunciones_2000;UID=readonly;PWD=MCD_2000')
+```
+
+### Entorno Python
+```bash
+conda activate MCD   # Python 3.13
+# pandas · numpy · scipy · statsmodels · sklearn · xgboost
+# pyodbc · pyspark · jupyter · python-docx · matplotlib · seaborn · plotly
+# Orange3: python -m Orange.canvas
+```
+
+---
+
+## Datasets disponibles
+
+| Dataset | Materia | Ubicación | Registros | Fuente |
+|---------|---------|-----------|-----------|--------|
+| IMSS ASG 2025 — semestre completo | Almacenamiento | HDFS `/user/oem/empleo/` | ~25M | IMSS |
+| IMSS ASG enero 2025 | Almacenamiento | HDFS `/user/oem/empleo_enero/` | 4.6M | IMSS |
+| Defunciones México 2000 | Programación II | SQL Server `Defunciones_2000` | 10.1M | INEGI |
+| ENOE — Jalisco | Tesis | `ai-automation-risk-jalisco` | — | INEGI |
+| O\*NET Occupational Data | Tesis | `ai-automation-risk-jalisco` | 873 ocupaciones | O\*NET / DOL |
 
 ---
 
 ## Recursos
 
 - [Plan de estudios completo](_recursos/plan-de-estudios.md)
-- [Programas de materia](_recursos/programas/)
-- [Plantilla de informes](_recursos/plantillas/plantilla_informe_MCD.docx)
+- [Programas oficiales de materia](_recursos/programas/)
+- [Plantilla de informes (navy/amber)](_recursos/plantillas/plantilla_informe_MCD.docx)
