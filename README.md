@@ -65,12 +65,12 @@ materia/
 
 ## Primer Semestre
 
-| Materia | Depto | Herramientas | Contenido |
-|---------|-------|--------------|-----------|
-| [Métodos Estadísticos Básicos](1er-semestre/metodos-estadisticos-basicos/) | DMC | Python · scipy · sklearn | Estadística descriptiva, regresión lineal, clustering, probabilidad, distribuciones, pruebas de hipótesis |
-| [Métodos Matemáticos para el Análisis de Datos](1er-semestre/metodos-matematicos-analisis-datos/) | DMC | Python · OpenCV | Álgebra lineal, optimización, visión computacional, algoritmos evolutivos |
-| [Procesamiento de Grandes Bases de Datos](1er-semestre/procesamiento-grandes-bases-datos/) | DSI | PySpark · Koalas | Apache Spark, DataFrames, Spark ML, Spark Streaming — 8 tareas progresivas |
-| [Programación I](1er-semestre/programacion-i/) | DSI | Python · Docker · MySQL | Fundamentos Python, web scraping, manejo de archivos, SQL en Python, interfaces gráficas — 14 sesiones en Docker |
+| Materia | Depto | Herramientas | Contenido | Repositorio |
+|---------|-------|--------------|-----------|-------------|
+| [Métodos Estadísticos Básicos](1er-semestre/metodos-estadisticos-basicos/) | DMC | Python · scipy · sklearn | Estadística descriptiva, regresión lineal, clustering, probabilidad, distribuciones, pruebas de hipótesis | — |
+| [Métodos Matemáticos para el Análisis de Datos](1er-semestre/metodos-matematicos-analisis-datos/) | DMC | Python · OpenCV | Álgebra lineal, optimización, visión computacional, algoritmos evolutivos | — |
+| [Procesamiento de Grandes Bases de Datos](1er-semestre/procesamiento-grandes-bases-datos/) | DSI | PySpark · Koalas | Apache Spark, DataFrames, Spark ML, Spark Streaming — 8 tareas progresivas | — |
+| [Programación I](1er-semestre/programacion-i/) | DSI | Python · Docker · MySQL | Fundamentos Python, web scraping, manejo de archivos, SQL en Python, interfaces gráficas — 14 sesiones en Docker | — |
 
 ## Segundo Semestre
 
