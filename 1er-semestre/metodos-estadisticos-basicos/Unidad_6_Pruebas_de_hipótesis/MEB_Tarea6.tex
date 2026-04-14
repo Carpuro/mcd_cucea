@@ -1,0 +1,187 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                               %
+%                       Oficio Cientifico                   %
+%                                                                           %
+%                                                               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\documentclass[12pt,letterpaper]{book}
+\documentclass{article}
+\usepackage[spanish]{babel}
+%\renewcommand{\chaptername}{Cap\'itulo}
+%\renewcommand{\contentsname}{\'Indice}
+%\renewcommand{\figurename}{Figura}
+%\renewcommand{\tablename}{Tabla}
+%\renewcommand{\appendixname}{Ap\'endice}
+%\renewcommand{\bibname}{Referencias}
+
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{epsfig}
+\usepackage{tabularx}
+\usepackage[margin=3.5cm]{geometry}
+\usepackage[final]{pdfpages}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage[section]{placeins}
+\usepackage{rotating}
+\usepackage{appendix}
+\usepackage[utf8]{inputenc}
+
+%format
+\pagestyle{fancy}
+%\renewcommand{\chaptermark}[1]{\markright{\thechapter.\ #1}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}{}}
+%\lhead[\fancyplain{}{}]%
+ %     {\fancyplain{}{\bfseries\rightmark}}
+%\chead[\fancyplain{}{}]%
+ %     {\fancyplain{}{}}
+%\rhead[\fancyplain{}{}]%
+ %     {\fancyplain{}{\bfseries\thepage}}
+\lfoot[\fancyplain{}{}]%
+      {\fancyplain{}{}}
+\cfoot[\fancyplain{}{}]%
+      {\fancyplain{}{}}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+
+\title{Métodos Estadísticos Básicos: Tarea 5}
+\date{2023\\ Noviembre}
+\author{Maestría en Ciencias de Datos, CUCEA, UdeG}
+
+\begin{document}
+  
+\maketitle
+  
+  
+
+  
+
+\noindent Escribir el procedimiento completo (ecuaciones y variables utilizadas) para resolver los siguientes problemas:
+
+\begin{enumerate}
+
+\item \textbf{(10 puntos)}:  Las calificaciones de una clase están distribuidas de manera normal con una media de 80 y una desviación estándar de 12. 
+
+\begin{itemize}
+\item Encuentra la calificación x que separa 30\% a la izquierda (menor) y 70\% a la derecha (mayor) de la distribución. 
+\item Si un estudiante se encuentra en el top 10\% de la clase, al menos cuánto tiene que ser el valor de su calificación?
+\item ¿Qué rango de calificaciones constituye el 50\% central (i.e. entre cuartiles Q$_1$ y Q$_2$) de esta distribución normal?
+\end{itemize}
+
+Agregar figuras de la distribución normal y su correspondiente área integrada en cada apartado (puede ser a mano).
+
+\item \textbf{(10 puntos)} Una encuesta de opinión quiere estimar las preferencias de los votantes (sí o no) dentro de dos puntos porcentuales como margen de error. ¿Cómo podría decidirse el tamaño de la muestra de encuestados a considerar?
+
+
+\item \textbf{(10 puntos)} Expresar la hipótesis nula (H$_0$) e hipótesis alternativa (H$_1$) en términos de los parámetros apropiados ($\mu$, $p$ ó $\sigma$) de las siguientes situaciones:
+
+\begin{itemize}
+\item El salario promedio inicial de un graduado en ingeniería en sistemas computacionales es mayor a 20,000 mxn.
+\item La desviación estándar de la temperatura de un cuerpo humano promedio es de 0.62 F.
+\item La proporción de personas que sufren de diabetes en México es menor a 9\%.
+\end{itemize}
+
+
+\item \textbf{(10 puntos)} Una base de datos de los puntos de rating de distintos \href{https://www.kaggle.com/zynicide/wine-reviews}{vinos} (1-100) fue obtenida y extraída a partir de una revista y pagina \href{https://www.winemag.com/?s=&drink_type=wine}{web} dedicada a este tema. Se encuentra que estos puntos de rating pueden ser modelados como una curva normal. Considerando esto como una población en el análisis, se tiene una media de 88.44 puntos y una desviación estándar de 3.03 puntos. Supongamos que de una muestra de $n=10$ vinos se obtuvo una media muestral de puntos de 90.2. ¿Salió esta muestra de la población de vinos anterior? Escribir la prueba de hipótesis y llegar a una conclusión con un nivel de significancia del 5\% (decir si se realiza una prueba de una o dos colas).
+
+\item \textbf{(10 puntos)} En tiempos de campaña, una pequeña encuesta es realizada preguntando si las personas votarían por un candidato de un partido o no. De esta encuesta los resultados son los siguientes: 24 de 80 mujeres encuestadas y 11 de 65 hombres encuestados dicen que no van a votar por el candidato. Realizar una prueba de hipótesis con un nivel de significancia del 10\% para ver las proporciones entre hombres y mujeres es significativamente diferente.
+
+
+\item \textbf{(20 puntos)} En una prueba t de una sola muestra se compara una media muestral con respecto a un valor de la hipótesis nula. De manera similar, en una prueba t para muestras dependientes apareadas se calcula la diferencia entre las observaciones pareadas (ejemplo: observaciones antes y después en una sola muestra) y después se realiza una prueba t de una sola muestra a estas diferencias. En el cuadro 1 se muestran las calificaciones de 20 estudiantes antes y después de llevar un curso de preparación. Se quiere buscar si en general este curso mejoró la capacidad de los estudiantes para realizar este examen. Realizar la prueba t pareada para esta muestra de estudiantes calculando cada uno de los siguiente incisos:
+
+\begin{itemize}
+\item Calcular la diferencia $d_i$ entre las dos observaciones de cada para, haciendo la distinción entre diferencias negativas y positivas.
+\item Calcular la media de la distribución de estas diferencias, $\bar{d}$.
+\item Calcular la desviación estándar de estas diferencias, $s_d$, y utilizar esto para calcular el error estándar de la distribución muestral asociada, $SE(\bar{d}) = \frac{s_d}{\sqrt{n}}$.
+\item En la hipótesis nula se tendría que las diferencias antes y después sean cero. Lo que nosotros queremos estudiar (hipótesis alternativa) es si estas diferencias son mayores (test de una sola cola). En base a esto, la estadística de prueba T se calcula con la ecuación:
+\begin{equation*}
+T = \frac{\bar{d}}{SE(\bar{d})}
+\end{equation*}
+\item Esta estadística correspondiente a una distribución T de Student tiene los grados de libertad de la única muestra analizada de 20 alumnos, $n-1$. Con la estadística de prueba calculada y los grados de libertad, encontrar el p-valor asociado a esta estadística.
+\item Escoger un nivel de significancia y concluir si la diferencia entre las notas obtenidas después del curso de preparación son significativamente más altas que aquellas antes del curso.
+
+\end{itemize}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ | c | c | c |} \hline
+ Número de estudiante & Calificación (antes) & Calificación (después) \\ \hline 
+ 1 & 18 & 22 \\  
+ 2 & 21 & 25 \\
+ 3 & 16 & 17 \\  
+ 4 & 22 & 24 \\
+ 5 & 19 & 16 \\  
+ 6 & 24 & 29 \\
+ 7 & 17 & 20 \\  
+ 8 & 21 & 23 \\
+ 9 & 23 & 19 \\  
+ 10 & 18 & 20 \\
+ 11 & 14 & 15 \\  
+ 12 & 16 & 15 \\ 
+ 13 & 16 & 18 \\  
+ 14 & 19 & 26 \\
+ 15 & 18 & 18 \\  
+16 & 20 & 24 \\
+17 & 12 & 18 \\  
+18 & 22 & 25 \\
+19 & 15 & 19 \\  
+20 & 17 & 16 \\  \hline
+\end{tabular}
+\label{Table1}
+\caption{Calificaciones de 20 estudiantes en un examen antes y después de tomar un curso de preparación.}
+\end{table}
+
+
+\item \textbf{(20 puntos)} En la parte de distribuciones utilizamos el data set \textbf{Babyboom.csv} e hicimos un ajuste con una distribución de Poisson para la probabilidad de tener $x$ número de nacimientos en un lapso de 24 horas, para $n=44$ bebés. Observamos que las frecuencias esperadas (teóricamente) en un \textbf{lapso de 24 horas} sugerían que la distribución de Poisson era un buen ajuste para los datos observados. Para probar que este es un buen ajuste, realizar una prueba de bondad de Chi cuadrada entre lo observado y esperado teóricamente (es importante utilizar lo esperado en todo el rango de 24, para tener unidades de frecuencia y no una probabilidad) \textbf{entre los valores x = 0 y x = 6}, y concluir si esto es un buen ajuste con un nivel de significancia del 5\%. La tabla de de frecuencias esperadas y observadas se pueden encontrar en el cuadro 2, o se puede revisar \textbf{el notebook de Python adjunto}, .
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{  c c  c  c   } 
+ Número de nacimientos & Probabilidad & Frecuencia Esperada & Frecuencia Observada  \\ 
+ (por hora) & (D. Poisson) & [\# observaciones]  & [\# observaciones]  \\ \hline
+0 & 0.159885 & 3.837242 & 3  \\
+1 & 0.293117 & 7.034815 & 8  \\
+2 & 0.268686 & 6.448464 & 6 \\
+3 & 0.164194 & 3.940656 & 4 \\
+4 & 0.075254 & 1.806101 & 3 \\
+5 & 0.027593 & 0.662225 & 0 \\
+$>$ 6 & 0.011271 & 0.270497 & 0 \\ \hline
+Total  & 1.0 & 24 & 24
+
+\end{tabular}
+\label{Table2}
+\caption{Observaciones de número de sobrevivientes en el Titanic}
+\end{table}
+
+
+\item \textbf{(10 puntos)} Suponer que uno compara el tipo de pasajeros (tripulación, 1era, 2da, 3era clase) del viaje el Titanic, y se observa el número de pasajeros que sobrevivieron o no el hundimiento del barco. Las cuentas se muestran en el cuadro 3, y uno se pregunta si algún tipo de pasajero de cierta clase tenía más probabilidad de sobrevivir que los otros. Hacer una prueba de Chi cuadrada para prueba de independencia de variables para decidir si las probabilidades de supervivencia es independiente del status de un pasajero.
+
+
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{  c | c  c  c  c | c } 
+ & Tripulación & 1era Clase & 2da Clase & 3era Clase & Total \\ \hline
+ Vivos & 212 & 202 & 118 & 178 & 710 \\
+ Muertos & 673 & 123 & 167 & 528 & 1491 \\ \hline
+ Total & 885 & 325 & 285 & 706 & 2201
+
+\end{tabular}
+\label{Table3}
+\caption{Observaciones de número de sobrevivientes en el Titanic}
+\end{table}
+
+
+
+
+\end{enumerate}  
+  
+  
+
+
+\end{document}

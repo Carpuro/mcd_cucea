@@ -1,0 +1,36 @@
+[
+  {
+    "departamento": 1,
+    "nombre_depto": "Recursos Humanos",
+    "director": "Laura Godinez",
+    "empleados": [
+      {
+        "nombre": "Paul",
+        "apellido": "Fierro"
+      },
+      {
+        "nombre": "Jose",
+        "apellido": "Bonilla"
+      }
+    ]
+  },
+  {
+    "departamento": 2,
+    "nombre_depto": "Ingenierias",
+    "director": "Salvador Medrano",
+    "empleados": [
+      {
+        "nombre": "Carlos",
+        "apellido": "Oropeza"
+      },
+      {
+        "nombre": "Manuel",
+        "apellido": "Medina"
+      },
+      {
+        "nombre": "Roberto",
+        "apellido": "Aguirre"
+      }
+    ]
+  }
+]

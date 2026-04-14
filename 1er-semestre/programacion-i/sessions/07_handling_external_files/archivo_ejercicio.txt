@@ -1,0 +1,4 @@
+Esta es la primera línea del archivo con suficientes caracteres para cumplir el requisito.
+La segunda línea también contiene bastante texto para asegurar más de 120 caracteres.
+Finalmente, la tercera línea completa el archivo con el contenido necesario para este ejercicio.
+Esta es la cuarta línea agregada posteriormente al archivo.

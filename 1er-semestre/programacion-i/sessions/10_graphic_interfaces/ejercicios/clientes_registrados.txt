@@ -1,0 +1,8 @@
+==================================================
+Nombre: Carlos Pulido Rosas
+CURP: 123456789012345678
+RFC: 123456789012
+Sexo: Masculino
+Servicios: Reparacion de Computadoras, Venta de Software, Asesoria Tecnologica
+==================================================
+

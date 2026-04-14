@@ -1,0 +1,42 @@
+[
+  {
+    "Cliente": "C",
+    "Estado Civil": "Soltero",
+    "Edad": 23
+  },
+  {
+    "Cliente": "D",
+    "Estado Civil": "Soltero",
+    "Edad": 35
+  },
+  {
+    "Cliente": "E",
+    "Estado Civil": "Casado",
+    "Edad": 45
+  },
+  {
+    "Cliente": "F",
+    "Estado Civil": "Soltero",
+    "Edad": 50
+  },
+  {
+    "Cliente": "G",
+    "Estado Civil": "Casado",
+    "Edad": 37
+  },
+  {
+    "Cliente": "B",
+    "Estado Civil": "Viudo",
+    "Edad": 64
+  },
+  {
+    "Cliente": "A",
+    "Estado Civil": "Divorciado",
+    "Edad": 47
+  },
+  {
+    "Cliente": "H",
+    "Estado Civil": "Casado",
+    "Edad": 33
+  }
+]

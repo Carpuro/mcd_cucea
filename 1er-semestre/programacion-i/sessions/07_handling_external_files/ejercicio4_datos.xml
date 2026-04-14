@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<data>
+  <row>
+    <Cliente>C</Cliente>
+    <Estado_Civil>Soltero</Estado_Civil>
+    <Edad>23</Edad>
+  </row>
+  <row>
+    <Cliente>D</Cliente>
+    <Estado_Civil>Soltero</Estado_Civil>
+    <Edad>35</Edad>
+  </row>
+  <row>
+    <Cliente>E</Cliente>
+    <Estado_Civil>Casado</Estado_Civil>
+    <Edad>45</Edad>
+  </row>
+  <row>
+    <Cliente>F</Cliente>
+    <Estado_Civil>Soltero</Estado_Civil>
+    <Edad>50</Edad>
+  </row>
+  <row>
+    <Cliente>G</Cliente>
+    <Estado_Civil>Casado</Estado_Civil>
+    <Edad>37</Edad>
+  </row>
+  <row>
+    <Cliente>B</Cliente>
+    <Estado_Civil>Viudo</Estado_Civil>
+    <Edad>64</Edad>
+  </row>
+  <row>
+    <Cliente>A</Cliente>
+    <Estado_Civil>Divorciado</Estado_Civil>
+    <Edad>47</Edad>
+  </row>
+  <row>
+    <Cliente>H</Cliente>
+    <Estado_Civil>Casado</Estado_Civil>
+    <Edad>33</Edad>
+  </row>
+</data>
