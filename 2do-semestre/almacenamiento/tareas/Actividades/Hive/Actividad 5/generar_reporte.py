@@ -227,6 +227,9 @@ def clear_body_after_table1(doc):
 # ── Main ───────────────────────────────────────────────────────────────────────
 doc = Document(TEMPLATE)
 
+# Subject name in header
+doc.tables[0].rows[0].cells[1].paragraphs[3].runs[0].text = "Materia: Almacenamiento de Grandes Bases de Datos"
+
 # Title
 title_para = doc.paragraphs[1]
 title_para.clear()

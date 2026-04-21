@@ -319,6 +319,9 @@ if __name__ == "__main__":
     print("\nGenerando documento...")
     doc = Document(TEMPLATE)
 
+    # Subject name in header
+    doc.tables[0].rows[0].cells[1].paragraphs[3].runs[0].text = "Materia: Tópicos Selectos de Grandes Bases de Datos"
+
     # Replace title
     title_para = doc.paragraphs[1]
     title_para.clear()
