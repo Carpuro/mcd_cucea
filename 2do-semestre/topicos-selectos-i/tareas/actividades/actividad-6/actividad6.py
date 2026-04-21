@@ -14,7 +14,7 @@ from docx.oxml import OxmlElement
 from pathlib import Path
 
 TEMPLATE = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
-OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/topicos-selectos-i/tareas/actividad-6/Actividad6_TopicosSelectos_CarlosPulidoRosas.docx"
+OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/topicos-selectos-i/tareas/actividades/actividad-6/Actividad6_TopicosSelectos_CarlosPulidoRosas.docx"
 
 NAVY  = RGBColor(0x1F, 0x49, 0x7D)
 AMBER = RGBColor(0xD4, 0x8C, 0x00)
