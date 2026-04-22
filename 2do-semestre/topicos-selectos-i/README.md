@@ -3,6 +3,22 @@
 
 En la práctica, el curso cubrió dos bloques independientes: (1) diseño y análisis de comportamiento de agentes de IA, y (2) teoría de decisiones bajo incertidumbre aplicada a inversión agrícola.
 
+## Criterios de evaluación
+
+| Rubro | Peso |
+|-------|------|
+| Tareas | 35% |
+| Trabajo en clase | 35% |
+| Exámenes / Proyecto | 30% |
+
+### Puntos extra disponibles
+| Actividad | Puntos extra |
+|-----------|-------------|
+| Asistencia perfecta | +5% |
+| Actividad de voluntariado (hasta 2) | +5% c/u (máx. 10%) |
+| Participar en eventos de ciencia de datos | +10% |
+| Dar una clase | +10% |
+
 ## Actividades (`tareas/actividades/`)
 
 ### Bloque 1 — Agentes de IA y toma de decisiones
