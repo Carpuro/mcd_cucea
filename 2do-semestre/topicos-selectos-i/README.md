@@ -27,7 +27,7 @@ En la práctica, el curso cubrió dos bloques independientes: (1) diseño y aná
 | 1 | Examen diagnóstico | 100/100 | ✅ Entregada |
 | 2 | Diseño de agente de IA — Guerrero Maestro de Batalla Drow (identidad, rasgos, moral) | 75/100 | ✅ Entregada |
 | 3 | Evaluación de coherencia y decisión — predecir vs. ejecutar vs. analizar (escenario Strahd) | 100/100 | ✅ Entregada |
-| 4 | Inventario del agente — armas, riqueza, estado persistente | 100/100 | ✅ Entregada |
+| 4 | Inventario del agente (armas, riqueza, estado persistente) + Memoria colectiva del agente + Leyes de la física y la realidad | 100/100 | ✅ Entregada |
 | 5 | Autopercepción del agente — el agente se describe a sí mismo según sus parámetros | 100/100 | ✅ Entregada |
 
 ### Bloque 2 — Teoría de decisiones bajo incertidumbre
