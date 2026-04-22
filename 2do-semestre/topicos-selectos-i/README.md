@@ -1,58 +1,58 @@
 # Tópicos Selectos de Grandes Bases de Datos I
-**Semester:** 2nd | **Department:** DSI | **Credits:** 7
+**Semestre:** 2do | **Departamento:** DSI | **Créditos:** 7
 
-In practice, the course covered two independent blocks: (1) AI agent design and behavioral analysis, and (2) decision theory under uncertainty applied to agricultural investment.
+En la práctica, el curso cubrió dos bloques independientes: (1) diseño y análisis de comportamiento de agentes de IA, y (2) teoría de decisiones bajo incertidumbre aplicada a inversión agrícola.
 
-## Activities (`tareas/actividades/`)
+## Actividades (`tareas/actividades/`)
 
-### Block 1 — AI Agents and Decision Making
-| # | Activity | Score | Status |
-|---|----------|-------|--------|
-| 1 | Diagnostic exam | 100/100 | ✅ Done |
-| 2 | Design an AI agent — Drow Battle Master Warrior (identity, traits, morals) | 75/100 | ✅ Done |
-| 3 | Coherence and decision evaluation — predict vs. execute vs. analyze (Strahd scenario) | 100/100 | ✅ Done |
-| 4 | Agent inventory — weapons, wealth, persistent state | 100/100 | ✅ Done |
-| 5 | Agent self-perception — agent describes itself according to its parameters | 100/100 | ✅ Done |
+### Bloque 1 — Agentes de IA y toma de decisiones
+| # | Actividad | Calificación | Estado |
+|---|-----------|--------------|--------|
+| 1 | Examen diagnóstico | 100/100 | ✅ Entregada |
+| 2 | Diseño de agente de IA — Guerrero Maestro de Batalla Drow (identidad, rasgos, moral) | 75/100 | ✅ Entregada |
+| 3 | Evaluación de coherencia y decisión — predecir vs. ejecutar vs. analizar (escenario Strahd) | 100/100 | ✅ Entregada |
+| 4 | Inventario del agente — armas, riqueza, estado persistente | 100/100 | ✅ Entregada |
+| 5 | Autopercepción del agente — el agente se describe a sí mismo según sus parámetros | 100/100 | ✅ Entregada |
 
-### Block 2 — Decision Theory Under Uncertainty
-| # | Activity | Score | Status |
-|---|----------|-------|--------|
-| 6 | Decision tree + Monte Carlo simulation — irrigation investment for sugar cane producer, Pánuco | 100/100 | ✅ Done |
-| 7 | Viability conditions for irrigation investment — seller's perspective, 5-slide pitch | — | ✅ Done |
+### Bloque 2 — Teoría de decisiones bajo incertidumbre
+| # | Actividad | Calificación | Estado |
+|---|-----------|--------------|--------|
+| 6 | Árbol de decisión + simulación Monte Carlo — inversión en riego para productor de caña, Pánuco | 100/100 | ✅ Entregada |
+| 7 | Condiciones de viabilidad para la inversión — perspectiva del vendedor, presentación 5 slides | 100/100 | ✅ Entregada |
 
-## Key Results — Activity 6 & 7
+## Resultados clave — Actividades 6 y 7
 
-| Metric | Temporal (no irrigation) | Irrigation — full price | Irrigation — 30% discount |
-|--------|--------------------------|------------------------|---------------------------|
-| Expected yield (ton/ha/year) | 47.0 | 88.7 | 88.7 |
-| Expected annual utility | −$4,902 MXN | +$860,851 MXN | +$860,851 MXN |
-| Net cumulative utility (7 years) | −$34,316 MXN | −$1,974,042 MXN | **+$425,958 MXN** |
-| Breakeven horizon | — | 9.2 years | **6.5 years** |
-| Price of indifference (7 years) | — | $873.48 MXN/ton | **$791.27 MXN/ton** |
-| P(irrigation > temporal) — Monte Carlo | — | 35.3% | 44.5% |
+| Métrica | Temporal (sin riego) | Riego precio lista | Riego con 30% de descuento |
+|---------|----------------------|--------------------|----------------------------|
+| Rendimiento esperado (ton/ha/año) | 47.0 | 88.7 | 88.7 |
+| Utilidad anual esperada | −$4,902 MXN | +$860,851 MXN | +$860,851 MXN |
+| Utilidad neta acumulada (7 años) | −$34,316 MXN | −$1,974,042 MXN | **+$425,958 MXN** |
+| Punto de recuperación | — | 9.2 años | **6.5 años** |
+| Precio de indiferencia (7 años) | — | $873.48 MXN/ton | **$791.27 MXN/ton** |
+| P(riego > temporal) — Monte Carlo | — | 35.3% | 44.5% |
 
-## Glossary
+## Glosario
 
-### AI Agents
-| Term | Definition |
-|------|------------|
-| **AI Agent** | Autonomous system with defined identity, internal rules, and capacity to make decisions in context |
-| **Persistent state** | Agent memory (inventory, attributes, history) that survives between interactions |
-| **Alignment** | Degree to which an agent's actual behavior matches the values and intentions of its designer |
-| **Coherence** | Consistency between an agent's identity/values and its real decisions when facing ambiguous input |
-| **Explainable reasoning** | Ability to justify a decision in terms of the agent's own identity, context, and evidence |
-| **Prediction vs. result** | Core evaluation framework: what you expected the agent to do vs. what it actually did — analogous to model error analysis |
+### Agentes de IA
+| Término | Definición |
+|---------|------------|
+| **Agente de IA** | Sistema autónomo con identidad definida, reglas internas y capacidad de tomar decisiones en contexto |
+| **Estado persistente** | Memoria del agente (inventario, atributos, historial) que sobrevive entre interacciones |
+| **Alineación** | Grado en que el comportamiento real de un agente corresponde a los valores e intenciones de su diseñador |
+| **Coherencia** | Consistencia entre la identidad/valores del agente y sus decisiones reales ante entradas ambiguas |
+| **Razonamiento explicable** | Capacidad de justificar una decisión en términos de la propia identidad, contexto y evidencia del agente |
+| **Predicción vs. resultado** | Marco de evaluación central: qué se esperaba que hiciera el agente vs. qué hizo realmente — análogo al análisis de error de un modelo |
 
-### Decision Theory
-| Term | Definition |
-|------|------------|
-| **Decision tree** | Graphical model that maps choices, probabilistic events, and their outcomes to support structured decision-making |
-| **Expected utility** | Probability-weighted average of outcomes across all scenarios; the standard criterion for decisions under uncertainty |
-| **Monte Carlo simulation** | Method of estimating a distribution by running thousands of random scenarios independently |
-| **Price of indifference** | The price level at which two alternatives produce equal cumulative utility; below it one wins, above it the other |
-| **Breakeven horizon** | Number of years required for an investment's cumulative utility to equal the next-best alternative |
-| **Loss aversion** | Psychological bias where losses are weighted more heavily than equivalent gains — used in Act. 7 sales framing |
-| **Asymmetric distribution** | When the mean of an outcome differs significantly from its median due to rare but extreme events (e.g., 200 ton/ha years pulling riego's mean up despite fewer winning scenarios) |
+### Teoría de decisiones
+| Término | Definición |
+|---------|------------|
+| **Árbol de decisión** | Modelo gráfico que mapea alternativas, eventos probabilísticos y sus resultados para apoyar decisiones estructuradas |
+| **Utilidad esperada** | Promedio ponderado por probabilidad de los resultados en todos los escenarios; criterio estándar para decisiones bajo incertidumbre |
+| **Simulación de Monte Carlo** | Método para estimar una distribución corriendo miles de escenarios aleatorios independientes |
+| **Precio de indiferencia** | Nivel de precio al que dos alternativas producen igual utilidad acumulada; por debajo gana una, por encima la otra |
+| **Punto de recuperación** | Número de años necesarios para que la utilidad acumulada de una inversión iguale a la mejor alternativa |
+| **Aversión a la pérdida** | Sesgo psicológico donde las pérdidas se ponderan más que las ganancias equivalentes — usado en el pitch de ventas de la Act. 7 |
+| **Distribución asimétrica** | Cuando la media de un resultado difiere significativamente de su mediana por eventos raros pero extremos (ej. años con 200 ton/ha que elevan la media del riego aunque haya menos escenarios ganadores) |
 
-## Tools
+## Herramientas
 Python 3.13 · NumPy · python-docx · LibreOffice headless · Jupyter · conda env `MCD`

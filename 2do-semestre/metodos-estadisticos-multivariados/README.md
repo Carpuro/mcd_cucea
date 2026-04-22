@@ -1,16 +1,16 @@
 # Métodos Estadísticos Multivariados
-**Semester:** 2nd | **Department:** DMC | **Credits:** 7 | **Pre-req:** Métodos Estadísticos Básicos | **Status:** 🔄 Active
+**Semestre:** 2do | **Departamento:** DMC | **Créditos:** 7 | **Prerrequisito:** Métodos Estadísticos Básicos | **Estado:** 🔄 En curso
 
-Advanced statistical methods for multivariate data: dimensionality reduction, factor analysis, MANOVA, discriminant analysis, and multivariate regression.
+Métodos estadísticos avanzados para el análisis de datos multivariados: reducción de dimensionalidad, análisis factorial, MANOVA, análisis discriminante y regresión multivariada.
 
 ## Notebooks (`notebooks/`)
 
-To be updated as the course progresses.
+Se actualiza conforme avanza el curso.
 
-## Tools
+## Herramientas
 Python · R · Jupyter · statsmodels · scikit-learn · scipy · Orange3
 
 ```bash
-# Launch Orange3
+# Lanzar Orange3
 conda activate MCD && python -m Orange.canvas
 ```

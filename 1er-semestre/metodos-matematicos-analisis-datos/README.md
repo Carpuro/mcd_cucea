@@ -1,28 +1,28 @@
 # Métodos Matemáticos para el Análisis de Datos
-**Semester:** 1st | **Department:** DMC | **Credits:** 7 | **Status:** ✅ Completed
+**Semestre:** 1ro | **Departamento:** DMC | **Créditos:** 7 | **Estado:** ✅ Terminado
 
-Mathematical foundations for data analysis: linear algebra, optimization, computer vision, and evolutionary algorithms applied to data science problems.
+Fundamentos matemáticos para análisis de datos: álgebra lineal, optimización, visión computacional y algoritmos evolutivos aplicados a problemas de ciencia de datos.
 
 ## Notebooks (`notebooks/`)
 
-| Unit | Topic | Notebook |
-|------|-------|----------|
-| 1 | Computer vision fundamentals — image processing, filters, feature detection | `cv2.ipynb` |
-| 2 | Data analysis with structured interview datasets | — |
+| Unidad | Tema | Notebook |
+|--------|------|----------|
+| 1 | Fundamentos de visión computacional — procesamiento de imágenes, filtros, detección de características | `cv2.ipynb` |
+| 2 | Análisis de datos con datasets de entrevistas estructuradas | — |
 
-## Notes (`notas/`)
+## Notas (`notas/`)
 
-| File | Content |
-|------|---------|
-| `Exposiciones/Algoritmos Evolutivos.pptx` | Evolutionary algorithms — theory and applications |
-| `Exposiciones/estrategia_evolutiva.ipynb` | Evolutionary strategy implementation |
+| Archivo | Contenido |
+|---------|-----------|
+| `Exposiciones/Algoritmos Evolutivos.pptx` | Algoritmos evolutivos — teoría y aplicaciones |
+| `Exposiciones/estrategia_evolutiva.ipynb` | Implementación de estrategia evolutiva |
 
 ## Datasets
 
-| File | Used in |
-|------|---------|
-| `interview_data.csv` | Data analysis — Unit 2 |
-| `Interview data David Torres.json` | Data analysis — Unit 2 |
+| Archivo | Usado en |
+|---------|----------|
+| `interview_data.csv` | Análisis de datos — Unidad 2 |
+| `Interview data David Torres.json` | Análisis de datos — Unidad 2 |
 
-## Tools
+## Herramientas
 Python · Jupyter · OpenCV (cv2) · NumPy

@@ -78,8 +78,8 @@ materia/
 |---------|-------|--------------|-----------|-------------|
 | [Almacenamiento de Grandes Bases de Datos](2do-semestre/almacenamiento/) | DSI | Hadoop · Hive · HiveQL · beeline | MapReduce, HDFS, Hive 2.3.2, análisis de datos IMSS ASG 2025 (~27M registros) | — |
 | [Métodos Estadísticos Multivariados](2do-semestre/metodos-estadisticos-multivariados/) | DMC | Python / R · statsmodels · Orange3 | Análisis multivariado, reducción de dimensionalidad, MANOVA, análisis discriminante | — |
-| [Programación II](2do-semestre/programacion-ii/) | DSI | Python · pyodbc · SQL Server · Power BI | Python avanzado, stored procedures, análisis del dataset Defunciones_2000 (10M registros) | [censo-salud-mexico-2000](https://github.com/Carpuro/censo-salud-mexico-2000) |
-| [Tópicos Selectos de GBD I](2do-semestre/topicos-selectos-i/) | DSI | Python · NumPy · python-docx | AI agent design and behavioral analysis; decision trees, Monte Carlo simulation, investment viability | — |
+| [Programación II](2do-semestre/programacion-ii/) | DSI | Python · pyodbc · SQL Server · Power BI | Python avanzado, procedimientos almacenados, análisis del dataset Defunciones_2000 (10M registros) | [censo-salud-mexico-2000](https://github.com/Carpuro/censo-salud-mexico-2000) |
+| [Tópicos Selectos de GBD I](2do-semestre/topicos-selectos-i/) | DSI | Python · NumPy · python-docx | Diseño y análisis de agentes de IA; árboles de decisión, simulación Monte Carlo, viabilidad de inversión | — |
 
 ## Tercer Semestre *(próximo)*
 
@@ -108,8 +108,8 @@ Todo el trabajo corre en un homelab local (ThinkPad T14 Gen 4, 32GB RAM, Ubuntu 
 | Servicio | Descripción | Acceso |
 |----------|-------------|--------|
 | **Hadoop + HDFS** | Clúster bde2020, Hadoop 3.3.6 | UI: `http://192.168.100.11:9870` |
-| **YARN** | Resource manager del clúster | UI: `http://192.168.100.11:8088` |
-| **HiveServer2** | Hive 2.3.2 + PostgreSQL metastore | `100.64.0.11:10000` (Tailscale) |
+| **YARN** | Administrador de recursos del clúster | UI: `http://192.168.100.11:8088` |
+| **HiveServer2** | Hive 2.3.2 + metastore PostgreSQL | `100.64.0.11:10000` (Tailscale) |
 | **SQL Server 2025** | Dataset Defunciones_2000 (10M registros) | `100.64.0.11,1433` · `readonly/MCD_2000` |
 
 **Acceso remoto para compañeros:** instalar [Tailscale](https://tailscale.com/download), compartir IP y solicitar acceso. Conectarse a HiveServer2 con beeline o DBeaver.

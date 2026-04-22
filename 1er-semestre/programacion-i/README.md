@@ -1,28 +1,28 @@
 # Programación I
-**Semester:** 1st | **Department:** DSI | **Credits:** 7 | **Status:** ✅ Completed
+**Semestre:** 1ro | **Departamento:** DSI | **Créditos:** 7 | **Estado:** ✅ Terminado
 
-Python programming fundamentals for data science: core language, file handling, web scraping, database connectivity, and graphical interfaces. Sessions run in a Dockerized environment.
+Fundamentos de programación en Python para ciencia de datos: estructuras del lenguaje, manejo de archivos, web scraping, conectividad con bases de datos e interfaces gráficas. Las sesiones corren en un entorno Dockerizado.
 
-## Sessions (`notebooks/sessions/`)
+## Sesiones (`notebooks/sessions/`)
 
-| # | Topic | Status |
-|---|-------|--------|
-| 01 | Python architecture | ✅ Done |
-| 02 | Python fundamentals | ✅ Done |
-| 03 | String functions | ✅ Done |
-| 04 | File handling | ✅ Done |
-| 05 | Data structures | ✅ Done |
-| 06 | Regular expressions | ✅ Done |
-| 07 | External files (Excel, CSV, JSON) | ✅ Done |
-| 08 | Sockets and web services | ✅ Done |
-| 09 | Web scraping (Selenium) | ✅ Done |
-| 10 | Graphical interfaces (tkinter) | ✅ Done |
-| 11 | SQL in Python (Part 1) | ✅ Done |
-| 12 | SQL in Python (Part 2) | ✅ Done |
-| 13 | MySQL in Python | ✅ Done |
-| 14 | Combining GUIs and databases | ✅ Done |
+| # | Tema | Estado |
+|---|------|--------|
+| 01 | Arquitectura de Python | ✅ Hecho |
+| 02 | Fundamentos de Python | ✅ Hecho |
+| 03 | Funciones de cadenas | ✅ Hecho |
+| 04 | Manejo de archivos | ✅ Hecho |
+| 05 | Estructuras de datos | ✅ Hecho |
+| 06 | Expresiones regulares | ✅ Hecho |
+| 07 | Archivos externos (Excel, CSV, JSON) | ✅ Hecho |
+| 08 | Sockets y servicios web | ✅ Hecho |
+| 09 | Web scraping (Selenium) | ✅ Hecho |
+| 10 | Interfaces gráficas (tkinter) | ✅ Hecho |
+| 11 | SQL en Python (Parte 1) | ✅ Hecho |
+| 12 | SQL en Python (Parte 2) | ✅ Hecho |
+| 13 | MySQL en Python | ✅ Hecho |
+| 14 | Combinar interfaces gráficas y bases de datos | ✅ Hecho |
 
-## Quick Start (Docker)
+## Inicio rápido (Docker)
 
 ```bash
 docker build -t mcd_prog1:latest .
@@ -33,12 +33,12 @@ docker run --rm \
   python sessions/01_python_architecture/<script>.py
 ```
 
-## Structure
-- `notebooks/sessions/` — one folder per session with exercises
-- `notebooks/common/` — shared helper functions
-- `datos/data/` — input CSV files
-- `tareas/output/` — generated plots and results
-- `notas/presentation/` — slides (Selenium, Graphical Interfaces)
+## Estructura
+- `notebooks/sessions/` — una carpeta por sesión con ejercicios
+- `notebooks/common/` — funciones de apoyo compartidas
+- `datos/data/` — archivos CSV de entrada
+- `tareas/output/` — gráficas y resultados generados
+- `notas/presentation/` — diapositivas (Selenium, Interfaces gráficas)
 
-## Tools
+## Herramientas
 Python 3.11 · Docker · pandas · matplotlib · Selenium · MySQL

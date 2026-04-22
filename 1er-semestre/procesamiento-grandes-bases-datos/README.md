@@ -1,35 +1,35 @@
 # Procesamiento de Grandes Bases de Datos
-**Semester:** 1st | **Department:** DSI | **Credits:** 7 | **Status:** ✅ Completed
+**Semestre:** 1ro | **Departamento:** DSI | **Créditos:** 7 | **Estado:** ✅ Terminado
 
-Introduction to Big Data processing with Apache Spark and PySpark — DataFrames, Spark ML, Spark Streaming, and the Koalas API.
+Introducción al procesamiento de Big Data con Apache Spark y PySpark — DataFrames, Spark ML, Spark Streaming y la API Koalas.
 
-## Tasks (`tareas/`)
+## Tareas (`tareas/`)
 
-| # | Task | Topic | Status |
-|---|------|-------|--------|
-| 1 | Framework | Big Data framework overview | ✅ Done |
-| 2 | Mental Map | Conceptual map of Big Data ecosystem | ✅ Done |
-| 3 | Data Frames | DataFrames in PySpark | ✅ Done |
-| 4 | PySpark | PySpark fundamentals | ✅ Done |
-| 5 | Challenge Básico | Basic PySpark challenge | ✅ Done |
-| 6 | Challenge Intermedio | Intermediate PySpark challenge | ✅ Done |
-| 7 | Challenge Avanzado | Advanced PySpark challenge | ✅ Done |
-| 8 | Mapa Conceptual ML | Conceptual map of Machine Learning with Spark | ✅ Done |
+| # | Tarea | Tema | Estado |
+|---|-------|------|--------|
+| 1 | Framework | Panorama del ecosistema Big Data | ✅ Entregada |
+| 2 | Mapa mental | Mapa conceptual del ecosistema Big Data | ✅ Entregada |
+| 3 | Data Frames | DataFrames en PySpark | ✅ Entregada |
+| 4 | PySpark | Fundamentos de PySpark | ✅ Entregada |
+| 5 | Challenge Básico | Reto básico PySpark | ✅ Entregada |
+| 6 | Challenge Intermedio | Reto intermedio PySpark | ✅ Entregada |
+| 7 | Challenge Avanzado | Reto avanzado PySpark | ✅ Entregada |
+| 8 | Mapa Conceptual ML | Mapa conceptual de Machine Learning con Spark | ✅ Entregada |
 
 ## Notebooks (`notebooks/`)
 
-| Notebook | Content |
-|----------|---------|
-| Spark fundamentals | RDDs, synthetic data generation |
-| PySpark analytics | DataFrame operations, aggregations |
-| Koalas API | pandas-like API over Spark |
-| Spark ML + Koalas | Machine learning pipelines |
-| Spark Streaming | Real-time data processing |
-| Machine Learning with Spark | Classification and regression models |
+| Notebook | Contenido |
+|----------|-----------|
+| Fundamentos Spark | RDDs, generación de datos sintéticos |
+| Analítica PySpark | Operaciones con DataFrames y agregaciones |
+| API Koalas | Interfaz tipo pandas sobre Spark |
+| Spark ML + Koalas | Pipelines de machine learning |
+| Spark Streaming | Procesamiento de datos en tiempo real |
+| Machine Learning con Spark | Modelos de clasificación y regresión |
 
-## Reference Material (`notas/`)
-- Course syllabus and presentations
-- 10 e-books on Big Data theory and applications
+## Material de referencia (`notas/`)
+- Programa y presentaciones del curso
+- 10 e-books sobre teoría y aplicaciones de Big Data
 
-## Tools
+## Herramientas
 Python · Apache Spark 3.x · PySpark · Koalas · Jupyter

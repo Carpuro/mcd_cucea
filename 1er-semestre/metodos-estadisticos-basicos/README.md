@@ -1,28 +1,28 @@
 # Métodos Estadísticos Básicos
-**Semester:** 1st | **Department:** DMC | **Credits:** 7 | **Status:** ✅ Completed
+**Semestre:** 1ro | **Departamento:** DMC | **Créditos:** 7 | **Estado:** ✅ Terminado
 
-Introduction to statistical methods for data analysis: descriptive statistics, regression, clustering, probability theory, distributions, and hypothesis testing.
+Introducción a los métodos estadísticos para análisis de datos: estadística descriptiva, regresión, clustering, teoría de probabilidad, distribuciones y pruebas de hipótesis.
 
 ## Notebooks (`notebooks/`)
 
-| Unit | Topic | Notebook |
-|------|-------|----------|
-| 1 | Descriptive statistics | `estadistica_descriptiva.ipynb` |
-| 2 | Linear regression | `regresion_lineal.ipynb` |
-| 3 | Clustering (K-Means, hierarchical) | `clustering.ipynb` |
-| 4 | Probability — Naive Bayes | `probabilidad.py` |
-| 5 | Probability distributions — Chi-squared, Normal, T-Student | — |
-| 6 | Hypothesis testing | `pruebas_de_hipotesis.ipynb` |
+| Unidad | Tema | Notebook |
+|--------|------|----------|
+| 1 | Estadística descriptiva | `estadistica_descriptiva.ipynb` |
+| 2 | Regresión lineal | `regresion_lineal.ipynb` |
+| 3 | Clustering (K-Means, jerárquico) | `clustering.ipynb` |
+| 4 | Probabilidad — Naive Bayes | `probabilidad.py` |
+| 5 | Distribuciones de probabilidad — Chi-cuadrada, Normal, T-Student | — |
+| 6 | Pruebas de hipótesis | `pruebas_de_hipotesis.ipynb` |
 
 ## Datasets
 
-| File | Used in |
-|------|---------|
-| `ai_index_data.csv` | Multiple units — AI indicators |
-| `mtcars.csv` | Regression and descriptive stats |
-| `OnlineRetail.csv` | Clustering — UK retail transactions |
-| `emails_spam_sample.csv` | Naive Bayes classification |
-| `Babyboom.csv` | Probability distributions |
+| Archivo | Usado en |
+|---------|----------|
+| `ai_index_data.csv` | Múltiples unidades — indicadores de IA |
+| `mtcars.csv` | Regresión y estadística descriptiva |
+| `OnlineRetail.csv` | Clustering — transacciones retail UK |
+| `emails_spam_sample.csv` | Clasificación Naive Bayes |
+| `Babyboom.csv` | Distribuciones de probabilidad |
 
-## Tools
+## Herramientas
 Python · Jupyter · pandas · numpy · scipy · matplotlib · seaborn · scikit-learn
