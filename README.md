@@ -79,7 +79,7 @@ materia/
 | [Almacenamiento de Grandes Bases de Datos](2do-semestre/almacenamiento/) | DSI | Hadoop · Hive · HiveQL · beeline | MapReduce, HDFS, Hive 2.3.2, análisis de datos IMSS ASG 2025 (~27M registros) | — |
 | [Métodos Estadísticos Multivariados](2do-semestre/metodos-estadisticos-multivariados/) | DMC | Python / R · statsmodels · Orange3 | Análisis multivariado, reducción de dimensionalidad, MANOVA, análisis discriminante | — |
 | [Programación II](2do-semestre/programacion-ii/) | DSI | Python · pyodbc · SQL Server · Power BI | Python avanzado, stored procedures, análisis del dataset Defunciones_2000 (10M registros) | [censo-salud-mexico-2000](https://github.com/Carpuro/censo-salud-mexico-2000) |
-| [Tópicos Selectos de GBD I](2do-semestre/topicos-selectos-i/) | DSI | — | Tópicos avanzados de gestión de grandes bases de datos | — |
+| [Tópicos Selectos de GBD I](2do-semestre/topicos-selectos-i/) | DSI | Python · NumPy · python-docx | AI agent design and behavioral analysis; decision trees, Monte Carlo simulation, investment viability | — |
 
 ## Tercer Semestre *(próximo)*
 

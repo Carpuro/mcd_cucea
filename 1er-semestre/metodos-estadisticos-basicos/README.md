@@ -1,25 +1,28 @@
 # Métodos Estadísticos Básicos
-**Semester:** 1st | **Department:** DMC | **Credits:** 7
+**Semester:** 1st | **Department:** DMC | **Credits:** 7 | **Status:** ✅ Completed
 
-Introduction to statistical methods for data analysis, covering descriptive statistics, regression, clustering, probability theory, probability distributions, and hypothesis testing.
+Introduction to statistical methods for data analysis: descriptive statistics, regression, clustering, probability theory, distributions, and hypothesis testing.
 
-## Notebooks
+## Notebooks (`notebooks/`)
 
-| Unit | Topic |
-|------|-------|
-| Unidad 1 | Descriptive Statistics — `estadistica_descriptiva.ipynb` |
-| Unidad 2 | Linear Regression — `regresion_lineal.ipynb` |
-| Unidad 3 | Clustering — `clustering.ipynb` |
-| Unidad 4 | Probability — `probabilidad.py`, Naive Bayes |
-| Unidad 5 | Probability Distributions — Chi-squared, Normal, T-Student |
-| Unidad 6 | Hypothesis Testing — `pruebas_de_hipotesis.ipynb` |
+| Unit | Topic | Notebook |
+|------|-------|----------|
+| 1 | Descriptive statistics | `estadistica_descriptiva.ipynb` |
+| 2 | Linear regression | `regresion_lineal.ipynb` |
+| 3 | Clustering (K-Means, hierarchical) | `clustering.ipynb` |
+| 4 | Probability — Naive Bayes | `probabilidad.py` |
+| 5 | Probability distributions — Chi-squared, Normal, T-Student | — |
+| 6 | Hypothesis testing | `pruebas_de_hipotesis.ipynb` |
 
 ## Datasets
-- `ai_index_data.csv` — AI index indicators
-- `mtcars.csv` — Motor Trend Car Road Tests
-- `OnlineRetail.csv` — UK online retail transactions
-- `emails_spam_sample.csv` — Spam classification
-- `Babyboom.csv` — Birth data for distribution analysis
+
+| File | Used in |
+|------|---------|
+| `ai_index_data.csv` | Multiple units — AI indicators |
+| `mtcars.csv` | Regression and descriptive stats |
+| `OnlineRetail.csv` | Clustering — UK retail transactions |
+| `emails_spam_sample.csv` | Naive Bayes classification |
+| `Babyboom.csv` | Probability distributions |
 
 ## Tools
-Python · Jupyter · pandas · numpy · scipy · matplotlib · seaborn · sklearn
+Python · Jupyter · pandas · numpy · scipy · matplotlib · seaborn · scikit-learn

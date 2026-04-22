@@ -1,28 +1,29 @@
 # Programación I
-**Semester:** 1st | **Department:** DSI | **Credits:** 7
+**Semester:** 1st | **Department:** DSI | **Credits:** 7 | **Status:** ✅ Completed
 
-Python programming fundamentals applied to data science, from core language features to web scraping, database connectivity, and graphical interfaces. Sessions run in a Dockerized environment.
+Python programming fundamentals for data science: core language, file handling, web scraping, database connectivity, and graphical interfaces. Sessions run in a Dockerized environment.
 
 ## Sessions (`notebooks/sessions/`)
 
-| # | Topic |
-|---|-------|
-| 01 | Python architecture |
-| 02 | Python fundamentals |
-| 03 | String functions |
-| 04 | File handling |
-| 05 | Data structures |
-| 06 | Regular expressions |
-| 07 | External files (Excel, CSV, JSON) |
-| 08 | Sockets and web services |
-| 09 | Web scraping |
-| 10 | Graphical interfaces |
-| 11 | SQL in Python (Part 1) |
-| 12 | SQL in Python (Part 2) |
-| 13 | MySQL in Python |
-| 14 | Combining GUIs and databases |
+| # | Topic | Status |
+|---|-------|--------|
+| 01 | Python architecture | ✅ Done |
+| 02 | Python fundamentals | ✅ Done |
+| 03 | String functions | ✅ Done |
+| 04 | File handling | ✅ Done |
+| 05 | Data structures | ✅ Done |
+| 06 | Regular expressions | ✅ Done |
+| 07 | External files (Excel, CSV, JSON) | ✅ Done |
+| 08 | Sockets and web services | ✅ Done |
+| 09 | Web scraping (Selenium) | ✅ Done |
+| 10 | Graphical interfaces (tkinter) | ✅ Done |
+| 11 | SQL in Python (Part 1) | ✅ Done |
+| 12 | SQL in Python (Part 2) | ✅ Done |
+| 13 | MySQL in Python | ✅ Done |
+| 14 | Combining GUIs and databases | ✅ Done |
 
 ## Quick Start (Docker)
+
 ```bash
 docker build -t mcd_prog1:latest .
 docker run --rm \

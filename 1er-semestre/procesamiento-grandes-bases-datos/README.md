@@ -1,28 +1,31 @@
 # Procesamiento de Grandes Bases de Datos
-**Semester:** 1st | **Department:** DSI | **Credits:** 7
+**Semester:** 1st | **Department:** DSI | **Credits:** 7 | **Status:** ✅ Completed
 
-Introduction to Big Data processing frameworks, with a focus on Apache Spark and PySpark for large-scale data analysis and machine learning.
+Introduction to Big Data processing with Apache Spark and PySpark — DataFrames, Spark ML, Spark Streaming, and the Koalas API.
 
 ## Tasks (`tareas/`)
 
-| # | Task | Topic |
-|---|------|-------|
-| 1 | Framework | Big Data framework overview |
-| 2 | Mental Map | Conceptual map of Big Data ecosystem |
-| 3 | Data Frames | DataFrames in PySpark |
-| 4 | PySpark | PySpark fundamentals |
-| 5 | Challenge Básico | Basic PySpark challenge |
-| 6 | Challenge Intermedio | Intermediate PySpark challenge |
-| 7 | Challenge Avanzado | Advanced PySpark challenge |
-| 8 | Mapa Conceptual ML | Conceptual map of Machine Learning with Spark |
+| # | Task | Topic | Status |
+|---|------|-------|--------|
+| 1 | Framework | Big Data framework overview | ✅ Done |
+| 2 | Mental Map | Conceptual map of Big Data ecosystem | ✅ Done |
+| 3 | Data Frames | DataFrames in PySpark | ✅ Done |
+| 4 | PySpark | PySpark fundamentals | ✅ Done |
+| 5 | Challenge Básico | Basic PySpark challenge | ✅ Done |
+| 6 | Challenge Intermedio | Intermediate PySpark challenge | ✅ Done |
+| 7 | Challenge Avanzado | Advanced PySpark challenge | ✅ Done |
+| 8 | Mapa Conceptual ML | Conceptual map of Machine Learning with Spark | ✅ Done |
 
 ## Notebooks (`notebooks/`)
-- Spark fundamentals and synthetic data
-- PySpark analytics
-- Apache Spark Koalas API
-- Spark ML + Koalas
-- Apache Spark Streaming
-- Machine Learning with Spark
+
+| Notebook | Content |
+|----------|---------|
+| Spark fundamentals | RDDs, synthetic data generation |
+| PySpark analytics | DataFrame operations, aggregations |
+| Koalas API | pandas-like API over Spark |
+| Spark ML + Koalas | Machine learning pipelines |
+| Spark Streaming | Real-time data processing |
+| Machine Learning with Spark | Classification and regression models |
 
 ## Reference Material (`notas/`)
 - Course syllabus and presentations
