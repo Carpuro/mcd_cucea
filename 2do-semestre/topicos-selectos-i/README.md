@@ -26,20 +26,20 @@ En la práctica, el curso cubrió dos bloques independientes: (1) diseño y aná
 |---|-------|--------------|--------------|--------|
 | 1 | Quiz Machine Learning | 80/100 | 3 feb | ✅ Entregada |
 | 2 | Quiz ejercicio de escenario | 90/100 | 18 feb | ✅ Entregada |
-| 3 | Lectura: AI Agents vs. Agentic AI — A Conceptual Taxonomy (arXiv) | 100 pts | 5 may | ⏳ Pendiente |
-| 4 | Lectura: Agentes de IA y workflows agénticos | 100 pts | 5 may | ⏳ Pendiente |
-| 5 | Lectura: The Rise of Agentic AI — Definitions, Frameworks and Architectures (MDPI) | 100 pts | 5 may | ⏳ Pendiente |
+| 3 | Lectura: AI Agents vs. Agentic AI — A Conceptual Taxonomy (arXiv) | 100 pts | 5 may | ✅ Entregada |
+| 4 | Lectura: Agentes de IA y workflows agénticos | 100 pts | 5 may | ✅ Entregada |
+| 5 | Lectura: The Rise of Agentic AI — Definitions, Frameworks and Architectures (MDPI) | 100 pts | 5 may | ✅ Entregada |
 | 6 | Introducción a universos simulados con IA (Rick & Morty + Futurama) | 100/100 | 17 mar | ✅ Entregada |
 
 ### Bloque 2 — Fundamentos de Machine Learning (lecturas + ejemplos matemáticos)
 | # | Tarea | Calificación | Fecha límite | Estado |
 |---|-------|--------------|--------------|--------|
 | 7 | Paradigmas supervisado y no supervisado en ML | 100/100 | 31 mar | ✅ Entregada |
-| 8 | Machine Learning como problema de inferencia | 100 pts | 14 may | ⏳ Pendiente |
-| 9 | Flujo general de modelado y evaluación en ML | 100 pts | 14 may | ⏳ Pendiente |
-| 10 | Variables aleatorias y distribuciones en ML | 100 pts | 14 may | ⏳ Pendiente |
-| 11 | Esperanza, varianza y covarianza en ML | 100 pts | 14 may | ⏳ Pendiente |
-| 12 | Máxima verosimilitud e inferencia estadística en ML | 100 pts | 14 may | ⏳ Pendiente |
+| 8 | Machine Learning como problema de inferencia | 100 pts | 14 may | ✅ Entregada |
+| 9 | Flujo general de modelado y evaluación en ML | 100 pts | 14 may | ✅ Entregada |
+| 10 | Variables aleatorias y distribuciones en ML | 100 pts | 14 may | ✅ Entregada |
+| 11 | Esperanza, varianza y covarianza en ML | 100 pts | 14 may | ✅ Entregada |
+| 12 | Máxima verosimilitud e inferencia estadística en ML | 100 pts | 14 may | ✅ Entregada |
 
 > **Tareas 8–12:** misma estructura — cita textual de Hastie/Murphy/Strang + explicación conceptual (máx. 300 palabras) + ejemplo matemático resuelto. Valor: 10 pts c/u (3+3+3+1).
 
