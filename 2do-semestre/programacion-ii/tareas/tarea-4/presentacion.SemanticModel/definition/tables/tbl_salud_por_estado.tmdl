@@ -1,0 +1,67 @@
+table tbl_salud_por_estado
+	lineageTag: 091d1489-89fc-4f20-8f7b-aaa11a3c130d
+
+	column ENT
+		dataType: string
+		lineageTag: 7cf31c1a-9809-4f53-bf3e-5e0168e5dc5a
+		summarizeBy: none
+		sourceColumn: ENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column con_imss
+		dataType: int64
+		formatString: 0
+		lineageTag: c5218738-6a8a-456d-945e-26b85c32b0ef
+		summarizeBy: sum
+		sourceColumn: con_imss
+
+		annotation SummarizationSetBy = Automatic
+
+	column con_issste
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f04ed2a-f7c0-4db3-9fc3-987682b996bb
+		summarizeBy: sum
+		sourceColumn: con_issste
+
+		annotation SummarizationSetBy = Automatic
+
+	column con_pemex
+		dataType: int64
+		formatString: 0
+		lineageTag: 79ae2dee-5c50-45b1-ad5d-42b9209be04a
+		summarizeBy: sum
+		sourceColumn: con_pemex
+
+		annotation SummarizationSetBy = Automatic
+
+	column sin_derechohabiencia
+		dataType: int64
+		formatString: 0
+		lineageTag: 07336dc1-0edd-4e48-b0d8-ed613fd5f511
+		summarizeBy: sum
+		sourceColumn: sin_derechohabiencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_poblacion
+		dataType: int64
+		formatString: 0
+		lineageTag: 5471799f-e965-4bd8-8ca7-54bac4844018
+		summarizeBy: sum
+		sourceColumn: total_poblacion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tbl_salud_por_estado = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "Defunciones_2000"),
+				    dbo_tbl_salud_por_estado = Source{[Schema="dbo",Item="tbl_salud_por_estado"]}[Data]
+				in
+				    dbo_tbl_salud_por_estado
+
+	annotation PBI_ResultType = Table
+

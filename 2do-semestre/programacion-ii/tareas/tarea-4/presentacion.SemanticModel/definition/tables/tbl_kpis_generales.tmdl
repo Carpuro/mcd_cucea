@@ -1,0 +1,89 @@
+table tbl_kpis_generales
+	lineageTag: 646e5c67-9f00-4f0b-a2e5-27e0480ce8dd
+
+	column total_poblacion
+		dataType: int64
+		formatString: 0
+		lineageTag: 89aa8528-e5a6-4326-8771-b90a1824d3d9
+		summarizeBy: sum
+		sourceColumn: total_poblacion
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_con_imss
+		dataType: int64
+		formatString: 0
+		lineageTag: fffd63d7-393e-4e18-b600-3579298272e4
+		summarizeBy: sum
+		sourceColumn: total_con_imss
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_con_issste
+		dataType: int64
+		formatString: 0
+		lineageTag: 4111483f-5c1f-4493-9c5c-d68cfa364708
+		summarizeBy: sum
+		sourceColumn: total_con_issste
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_con_pemex
+		dataType: int64
+		formatString: 0
+		lineageTag: c9e0c587-884c-4b24-a5f6-110eddd70578
+		summarizeBy: sum
+		sourceColumn: total_con_pemex
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_sin_derechohabiencia
+		dataType: int64
+		formatString: 0
+		lineageTag: 76137124-3a13-44b4-939a-5fa2367a2994
+		summarizeBy: sum
+		sourceColumn: total_sin_derechohabiencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_imss
+		dataType: double
+		lineageTag: 45d9b0ec-601c-4934-89ce-bd587bf3904b
+		summarizeBy: sum
+		sourceColumn: pct_imss
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_sin_derechohabiencia
+		dataType: double
+		lineageTag: a16bd657-dd0f-4826-8497-b9832be60410
+		summarizeBy: sum
+		sourceColumn: pct_sin_derechohabiencia
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column edad_promedio
+		dataType: double
+		lineageTag: b952e26a-c717-49ff-8762-575f3525790e
+		summarizeBy: sum
+		sourceColumn: edad_promedio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition tbl_kpis_generales = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "Defunciones_2000"),
+				    dbo_tbl_kpis_generales = Source{[Schema="dbo",Item="tbl_kpis_generales"]}[Data]
+				in
+				    dbo_tbl_kpis_generales
+
+	annotation PBI_ResultType = Table
+

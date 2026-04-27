@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "kpi3pctimss000000003",
+  "position": {
+    "x": 620,
+    "y": 30,
+    "z": 0,
+    "height": 120,
+    "width": 280,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "tbl_kpis"
+                        }
+                      },
+                      "Property": "pct_imss"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(tbl_kpis.pct_imss)",
+              "nativeQueryRef": "% Con IMSS"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

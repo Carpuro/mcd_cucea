@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+  "pageOrder": [
+    "c6c0d7e312295e1f0013",
+    "geo2analisisestados01",
+    "socio3factores000001",
+    "comp4servicio000001",
+    "concl5conclusiones01"
+  ],
+  "activePageName": "c6c0d7e312295e1f0013"
+}

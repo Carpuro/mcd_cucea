@@ -1,0 +1,105 @@
+Estado: Entregada | Calificación: Pendiente
+Título: Ejercicio de Validación de Librerias
+
+1.2 NumPy
+Qué es: Librería para cálculo numérico eficiente y arreglos multidimensionales (Numerical Python).
+
+Ventaja sobre listas Python: almacena datos en memoria continua y opera sobre todos los elementos simultáneamente.
+
+Capacidades:
+
+Arreglos multidimensionales (ndarray)
+Operaciones matemáticas vectorizadas
+Álgebra lineal y números aleatorios
+Base para Pandas, Scikit-learn y SciPy
+Ejercicio — Edad promedio de fallecimiento:
+
+import numpy as np
+import pandas as pd
+
+data = pd.read_csv("defunciones_mexico.csv")
+edades = np.array(data["edad"])
+
+print("Edad promedio:", np.mean(edades))
+print("Edad máxima:",  np.max(edades))
+print("Edad mínima:",  np.min(edades))
+1.3 Pandas
+Qué es: Librería para análisis y manipulación de datos tabulares.
+
+Estructuras principales:
+
+Estructura	Descripción
+Series	Arreglo unidimensional con etiquetas
+DataFrame	Tabla bidimensional (filas × columnas)
+Capacidades: importar CSV/Excel/SQL, limpiar, filtrar, agrupar y transformar datos.
+
+Ejercicio — Defunciones por sexo:
+
+import pandas as pd
+
+data = pd.read_csv("defunciones_mexico.csv")
+print(data["sexo"].value_counts())
+1.4 rpy2
+Qué es: Librería que integra R dentro de Python.
+
+Cuándo usarla: cuando se necesitan métodos estadísticos avanzados disponibles en R (estadística epidemiológica, modelos estadísticos).
+
+Capacidades: ejecutar código R desde Python, usar paquetes de R, intercambiar datos entre Pandas y R.
+
+Ejercicio — Estadísticas descriptivas con R:
+
+import pandas as pd
+import rpy2.robjects as robjects
+
+data = pd.read_csv("defunciones_mexico.csv")
+robjects.r('summary(data$edad)')
+1.5 Scikit-learn
+Qué es: Librería estándar para machine learning en Python.
+
+Modelos disponibles: clasificación, regresión, clustering, reducción de dimensionalidad.
+
+Herramientas adicionales: preparación de datos, evaluación de modelos, validación cruzada.
+
+Ejercicio — Predecir tipo de defunción (natural vs. violenta):
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+data = pd.read_csv("defunciones_mexico.csv")
+
+X = data[["edad"]]
+y = data["tipo_defuncion"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+modelo = DecisionTreeClassifier()
+modelo.fit(X_train, y_train)
+print(modelo.predict(X_test))
+1.6 Anaconda
+Qué es: Distribución de Python orientada a ciencia de datos con +250 paquetes preinstalados.
+
+Incluye: NumPy, Pandas, Scikit-learn, Matplotlib, Jupyter Notebook.
+
+Herramientas: Anaconda Navigator, Conda (gestor de paquetes), Jupyter Notebook.
+
+Ejercicio — Crear entorno para análisis de defunciones:
+
+conda create -n ciencia_datos python=3.10
+conda activate ciencia_datos
+conda install numpy pandas scikit-learn matplotlib
+jupyter notebook
+Ejercicio Integrador
+Usando la base de datos de Defunciones del INEGI:
+
+Cargar datos con Pandas
+Calcular estadísticas de edad con NumPy
+Analizar distribución por sexo y estado
+Construir modelo predictivo de tipo de defunción con Scikit-learn
+Ejecutar todo en Jupyter Notebook dentro de entorno Anaconda
+Entregables esperados:
+
+Tabla de defunciones por estado
+Edad promedio de fallecimiento
+Gráfica de distribución de mortalidad
+Modelo predictivo simple

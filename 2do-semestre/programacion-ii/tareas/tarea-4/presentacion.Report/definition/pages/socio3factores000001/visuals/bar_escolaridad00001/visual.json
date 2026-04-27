@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "bar_escolaridad00001",
+  "position": {
+    "x": 20,
+    "y": 30,
+    "z": 0,
+    "height": 310,
+    "width": 610,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_escolaridad_resumen"
+                    }
+                  },
+                  "Property": "nivel_educativo"
+                }
+              },
+              "queryRef": "tbl_escolaridad_resumen.nivel_educativo",
+              "nativeQueryRef": "nivel_educativo",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_escolaridad_resumen"
+                    }
+                  },
+                  "Property": "% Sin Cobertura Escolaridad"
+                }
+              },
+              "queryRef": "tbl_escolaridad_resumen.% Sin Cobertura Escolaridad",
+              "nativeQueryRef": "% Sin Cobertura Escolaridad"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "tbl_escolaridad_resumen"
+                  }
+                },
+                "Property": "% Sin Cobertura Escolaridad"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

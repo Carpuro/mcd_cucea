@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "kpi1_total_pob001",
+  "position": {
+    "x": 20,
+    "y": 30,
+    "z": 0,
+    "height": 120,
+    "width": 290,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_kpis"
+                    }
+                  },
+                  "Property": "total_poblacion"
+                }
+              },
+              "queryRef": "tbl_kpis.total_poblacion",
+              "nativeQueryRef": "total_poblacion"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

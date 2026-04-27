@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "slicer_estado_000001",
+  "position": {
+    "x": 20,
+    "y": 30,
+    "z": 0,
+    "height": 650,
+    "width": 200,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Field": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_estados_resumen"
+                    }
+                  },
+                  "Property": "nombre_estado"
+                }
+              },
+              "queryRef": "tbl_estados_resumen.nombre_estado",
+              "nativeQueryRef": "nombre_estado",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_estados_resumen"
+                    }
+                  },
+                  "Property": "nombre_estado"
+                }
+              },
+              "queryRef": "tbl_estados_resumen.nombre_estado",
+              "nativeQueryRef": "nombre_estado",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Basic'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
+        }
+      ]
+    }
+  }
+}

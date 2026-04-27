@@ -1,0 +1,40 @@
+table tbl_grupos_edad_resumen
+	lineageTag: 4d4581fb-8eff-4629-b2e4-19ed66d9fb82
+
+	column grupo_edad
+		dataType: string
+		lineageTag: 28c3d90b-98f9-43ca-ad49-a0430192507a
+		summarizeBy: none
+		sourceColumn: grupo_edad
+
+		annotation SummarizationSetBy = Automatic
+
+	column con_imss
+		dataType: int64
+		formatString: 0
+		lineageTag: ec08046e-5f5d-4d62-b0df-3e464c336dd4
+		summarizeBy: sum
+		sourceColumn: con_imss
+
+		annotation SummarizationSetBy = Automatic
+
+	column sin_derechohabiencia
+		dataType: int64
+		formatString: 0
+		lineageTag: 56dfe485-a96b-4787-bc90-f0c3f063957e
+		summarizeBy: sum
+		sourceColumn: sin_derechohabiencia
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tbl_grupos_edad_resumen = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "Defunciones_2000"),
+				    dbo_tbl_grupos_edad_resumen = Source{[Schema="dbo",Item="tbl_grupos_edad_resumen"]}[Data]
+				in
+				    dbo_tbl_grupos_edad_resumen
+
+	annotation PBI_ResultType = Table
+

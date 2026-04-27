@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "bar_indigena00001",
+  "position": {
+    "x": 20,
+    "y": 370,
+    "z": 0,
+    "height": 320,
+    "width": 610,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_indigena_resumen"
+                    }
+                  },
+                  "Property": "habla_indigena"
+                }
+              },
+              "queryRef": "tbl_indigena_resumen.habla_indigena",
+              "nativeQueryRef": "habla_indigena",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_indigena_resumen"
+                    }
+                  },
+                  "Property": "% Sin Cobertura Indígena"
+                }
+              },
+              "queryRef": "tbl_indigena_resumen.% Sin Cobertura Indígena",
+              "nativeQueryRef": "% Sin Cobertura Indígena"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "tbl_indigena_resumen"
+                  }
+                },
+                "Property": "% Sin Cobertura Indígena"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

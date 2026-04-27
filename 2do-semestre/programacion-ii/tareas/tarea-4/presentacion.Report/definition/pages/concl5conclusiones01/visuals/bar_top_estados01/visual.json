@@ -1,0 +1,75 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "bar_top_estados01",
+  "position": {
+    "x": 20,
+    "y": 180,
+    "z": 0,
+    "height": 510,
+    "width": 780,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_estados_resumen"
+                    }
+                  },
+                  "Property": "nombre_estado"
+                }
+              },
+              "queryRef": "tbl_estados_resumen.nombre_estado",
+              "nativeQueryRef": "nombre_estado",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_estados_resumen"
+                    }
+                  },
+                  "Property": "% Sin Cobertura Estado"
+                }
+              },
+              "queryRef": "tbl_estados_resumen.% Sin Cobertura Estado",
+              "nativeQueryRef": "% Sin Cobertura Estado"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "tbl_estados_resumen"
+                  }
+                },
+                "Property": "% Sin Cobertura Estado"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

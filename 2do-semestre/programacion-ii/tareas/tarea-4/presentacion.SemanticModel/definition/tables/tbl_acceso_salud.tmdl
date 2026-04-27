@@ -1,0 +1,55 @@
+table tbl_acceso_salud
+	lineageTag: da806a09-3402-42b9-b3f0-d31267bff611
+
+	column ENT
+		dataType: string
+		lineageTag: 4292ff53-2b42-4ae7-b198-ef87d1dc5bf7
+		summarizeBy: none
+		sourceColumn: ENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEXO
+		dataType: string
+		lineageTag: 79a7205e-4680-47f7-930d-52b5dd067263
+		summarizeBy: none
+		sourceColumn: SEXO
+
+		annotation SummarizationSetBy = Automatic
+
+	column EDAD
+		dataType: string
+		lineageTag: 2718085d-747a-457f-99f0-fb2731518061
+		summarizeBy: none
+		sourceColumn: EDAD
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_servicio
+		dataType: string
+		lineageTag: 5601201f-955e-402b-9fc5-5607def6abbc
+		summarizeBy: none
+		sourceColumn: tipo_servicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column total
+		dataType: int64
+		formatString: 0
+		lineageTag: f5bda446-bbef-4e40-b8c5-d67864b56a22
+		summarizeBy: sum
+		sourceColumn: total
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tbl_acceso_salud = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "Defunciones_2000"),
+				    dbo_tbl_acceso_salud = Source{[Schema="dbo",Item="tbl_acceso_salud"]}[Data]
+				in
+				    dbo_tbl_acceso_salud
+
+	annotation PBI_ResultType = Table
+

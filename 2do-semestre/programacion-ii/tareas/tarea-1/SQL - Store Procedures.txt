@@ -1,0 +1,49 @@
+Estado: Entregada | Calificación: Pendiente
+Título: SQL — Stored Procedures
+
+Lineamiento General
+Todos los procedimientos almacenados deben:
+
+Permitir filtros opcionales por Estado, Municipio y Año
+Si no se especifica ningún filtro → mostrar información completa
+Si se especifica → limitar resultados a los registros correspondientes
+Validar que los valores recibidos existan en la base de datos
+Excluir registros con información incompleta o inconsistente
+Mantener el formato estructural solicitado en cada reporte
+Procedimientos
+1. Muertes por Año por Estado
+Matriz de defunciones con filas = Estado y columnas = Año.
+
+Agrupa por Estado y Año
+Ordena estados alfabéticamente, años ascendentemente
+Filtros opcionales: Estado, Municipio, Año
+2. Muertes por Año por Municipio
+Matriz de defunciones con filas = Municipio y columnas = Año.
+
+Agrupa por Municipio y Año
+Ordena municipios alfabéticamente
+Filtros opcionales: Estado, Municipio, Año
+3. Muertes Totales de México por Año
+Fila única identificada como "México" con columnas por Año.
+
+Agrupa únicamente por Año a nivel nacional
+Años en orden ascendente
+Filtros opcionales: Estado, Municipio, Año
+4. Top 10 Padecimientos por Estado
+Los 10 padecimientos con más defunciones por Estado.
+
+Agrupa por Estado y Padecimiento
+Ordena de mayor a menor, top 10 por Estado
+Filtros opcionales: Estado, Municipio, Año
+5. Top 10 Padecimientos por Municipio
+Los 10 padecimientos con más defunciones por Municipio.
+
+Agrupa por Municipio y Padecimiento
+Ordena de mayor a menor, top 10 por Municipio
+Filtros opcionales: Estado, Municipio, Año
+6. Top 10 Padecimientos Nacional
+Los 10 padecimientos con más defunciones a nivel nacional.
+
+Agrupa únicamente por Padecimiento
+Ordena de mayor a menor, top 10
+Filtros opcionales: Estado, Municipio, Año

@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-MX
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["tbl_acceso_salud","tbl_acceso_resumen","tbl_escolaridad_resumen","tbl_grupos_edad_resumen","tbl_estados_resumen","tbl_indigena_resumen","tbl_kpis","tbl_kpis_generales","tbl_salud_por_estado","tbl_urbano_resumen"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table tbl_acceso_salud
+ref table tbl_acceso_resumen
+ref table tbl_escolaridad_resumen
+ref table tbl_grupos_edad_resumen
+ref table tbl_estados_resumen
+ref table tbl_indigena_resumen
+ref table tbl_kpis
+ref table tbl_kpis_generales
+ref table tbl_salud_por_estado
+ref table tbl_urbano_resumen
+
+ref cultureInfo en-US
+

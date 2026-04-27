@@ -1,0 +1,56 @@
+table tbl_estados_resumen
+	lineageTag: 90c88f75-412f-4bbd-8327-31a80e09cfde
+
+	measure '% Sin Cobertura Estado' =
+			
+			DIVIDE(SUM(tbl_estados_resumen[sin_derechohabiencia]), SUM(tbl_estados_resumen[total_poblacion])) * 100
+		lineageTag: c03aa370-12f2-4f49-b22e-7a143ad8ff91
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nombre_estado
+		dataType: string
+		lineageTag: 01025b90-a86a-4c47-b149-ed05da4b3372
+		summarizeBy: none
+		sourceColumn: nombre_estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column con_imss
+		dataType: int64
+		formatString: 0
+		lineageTag: a1616c4c-2522-444b-8bde-63defdd82882
+		summarizeBy: sum
+		sourceColumn: con_imss
+
+		annotation SummarizationSetBy = Automatic
+
+	column sin_derechohabiencia
+		dataType: int64
+		formatString: 0
+		lineageTag: 31de1516-39f2-4973-ab69-8d4a109e2c01
+		summarizeBy: sum
+		sourceColumn: sin_derechohabiencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_poblacion
+		dataType: int64
+		formatString: 0
+		lineageTag: 43e292c1-66a0-4639-8209-4c32d8447080
+		summarizeBy: sum
+		sourceColumn: total_poblacion
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tbl_estados_resumen = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "Defunciones_2000"),
+				    dbo_tbl_estados_resumen = Source{[Schema="dbo",Item="tbl_estados_resumen"]}[Data]
+				in
+				    dbo_tbl_estados_resumen
+
+	annotation PBI_ResultType = Table
+

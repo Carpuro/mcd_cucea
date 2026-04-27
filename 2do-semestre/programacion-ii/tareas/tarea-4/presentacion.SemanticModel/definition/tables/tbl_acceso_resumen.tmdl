@@ -1,0 +1,41 @@
+table tbl_acceso_resumen
+	lineageTag: 6b230eae-6dd6-4492-af5f-0b64ae5583c1
+
+	measure '% Sin Cobertura General' =
+			
+			DIVIDE(
+			    CALCULATE(SUM(tbl_acceso_resumen[total]), tbl_acceso_resumen[tipo_servicio] = "Sin derechohabiencia"),
+			    SUM(tbl_acceso_resumen[total])
+			) * 100
+		lineageTag: 86952729-f50f-4c5c-b1b8-510b9874e230
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tipo_servicio
+		dataType: string
+		lineageTag: b0fbca0d-f569-41c6-b369-9423d9d98885
+		summarizeBy: none
+		sourceColumn: tipo_servicio
+
+		annotation SummarizationSetBy = Automatic
+
+	column total
+		dataType: int64
+		formatString: 0
+		lineageTag: fd3a46fd-8b24-4d9d-b1b3-41865464378b
+		summarizeBy: sum
+		sourceColumn: total
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tbl_acceso_resumen = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("localhost", "Defunciones_2000"),
+				    dbo_tbl_acceso_resumen = Source{[Schema="dbo",Item="tbl_acceso_resumen"]}[Data]
+				in
+				    dbo_tbl_acceso_resumen
+
+	annotation PBI_ResultType = Table
+

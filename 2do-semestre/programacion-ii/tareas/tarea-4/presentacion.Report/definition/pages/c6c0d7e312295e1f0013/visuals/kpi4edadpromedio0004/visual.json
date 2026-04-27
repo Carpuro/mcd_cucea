@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "kpi4edadpromedio0004",
+  "position": {
+    "x": 920,
+    "y": 30,
+    "z": 0,
+    "height": 120,
+    "width": 280,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "tbl_kpis"
+                        }
+                      },
+                      "Property": "edad_promedio"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(tbl_kpis.edad_promedio)",
+              "nativeQueryRef": "Edad Promedio de Muerte"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 1473,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 72
+          },
+          "nodeIndex": "tbl_acceso_resumen",
+          "nodeLineageTag": "6b230eae-6dd6-4492-af5f-0b64ae5583c1",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 284,
+            "y": 36
+          },
+          "nodeIndex": "tbl_acceso_salud",
+          "nodeLineageTag": "da806a09-3402-42b9-b3f0-d31267bff611",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 24
+          },
+          "nodeIndex": "tbl_escolaridad_resumen",
+          "nodeLineageTag": "5b0e92e0-2647-40a8-8880-20252f9576a8",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 48
+          },
+          "nodeIndex": "tbl_estados_resumen",
+          "nodeLineageTag": "90c88f75-412f-4bbd-8327-31a80e09cfde",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 60
+          },
+          "nodeIndex": "tbl_grupos_edad_resumen",
+          "nodeLineageTag": "4d4581fb-8eff-4629-b2e4-19ed66d9fb82",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 24
+          },
+          "nodeIndex": "tbl_indigena_resumen",
+          "nodeLineageTag": "de42917e-0578-4c23-a755-4af460906872",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 0
+          },
+          "nodeIndex": "tbl_kpis",
+          "nodeLineageTag": "229103f6-0a65-4d55-8d5e-425341714d06",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 0
+          },
+          "nodeIndex": "tbl_kpis_generales",
+          "nodeLineageTag": "646e5c67-9f00-4f0b-a2e5-27e0480ce8dd",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 24
+          },
+          "nodeIndex": "tbl_salud_por_estado",
+          "nodeLineageTag": "091d1489-89fc-4f20-8f7b-aaa11a3c130d",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 24
+          },
+          "nodeIndex": "tbl_urbano_resumen",
+          "nodeLineageTag": "95c2c772-11ce-466e-a069-663db69deb3c",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

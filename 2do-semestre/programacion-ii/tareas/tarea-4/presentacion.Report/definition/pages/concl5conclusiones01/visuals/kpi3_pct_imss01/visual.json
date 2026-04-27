@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "kpi3_pct_imss01",
+  "position": {
+    "x": 640,
+    "y": 30,
+    "z": 0,
+    "height": 120,
+    "width": 290,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_kpis"
+                    }
+                  },
+                  "Property": "pct_imss"
+                }
+              },
+              "queryRef": "tbl_kpis.pct_imss",
+              "nativeQueryRef": "pct_imss"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

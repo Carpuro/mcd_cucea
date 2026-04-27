@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "table_estados_detail1",
+  "position": {
+    "x": 240,
+    "y": 430,
+    "z": 0,
+    "height": 260,
+    "width": 1020,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_estados_resumen"
+                    }
+                  },
+                  "Property": "nombre_estado"
+                }
+              },
+              "queryRef": "tbl_estados_resumen.nombre_estado",
+              "nativeQueryRef": "nombre_estado"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "tbl_estados_resumen"
+                        }
+                      },
+                      "Property": "total_poblacion"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(tbl_estados_resumen.total_poblacion)",
+              "nativeQueryRef": "Total Población"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "tbl_estados_resumen"
+                        }
+                      },
+                      "Property": "con_imss"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(tbl_estados_resumen.con_imss)",
+              "nativeQueryRef": "Con IMSS"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "tbl_estados_resumen"
+                        }
+                      },
+                      "Property": "sin_derechohabiencia"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(tbl_estados_resumen.sin_derechohabiencia)",
+              "nativeQueryRef": "Sin Derechohabiencia"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "tbl_estados_resumen"
+                    }
+                  },
+                  "Property": "% Sin Cobertura Estado"
+                }
+              },
+              "queryRef": "tbl_estados_resumen.% Sin Cobertura Estado",
+              "nativeQueryRef": "% Sin Cobertura"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
