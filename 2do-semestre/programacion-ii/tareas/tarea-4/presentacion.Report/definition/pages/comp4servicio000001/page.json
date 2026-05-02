@@ -4,5 +4,21 @@
   "displayName": "Distribución por Servicio",
   "displayOption": "FitToPage",
   "height": 720,
-  "width": 1280
+  "width": 1280,
+  "background": {
+    "color": {
+      "solid": {
+        "color": "#0F1923"
+      }
+    },
+    "transparency": 0
+  },
+  "wallpaper": {
+    "color": {
+      "solid": {
+        "color": "#0F1923"
+      }
+    },
+    "transparency": 0
+  }
 }
