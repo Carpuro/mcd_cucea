@@ -9,6 +9,10 @@
         "page": "2.3.0"
       },
       "type": "SharedResources"
+    },
+    "customTheme": {
+      "name": "PresentacionTheme",
+      "type": "RegisteredResources"
     }
   },
   "objects": {
@@ -48,6 +52,17 @@
           "name": "CY26SU02",
           "path": "BaseThemes/CY26SU02.json",
           "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "PresentacionTheme",
+          "path": "PresentacionTheme.json",
+          "type": "CustomTheme"
         }
       ]
     }
