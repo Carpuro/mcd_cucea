@@ -3,7 +3,7 @@
 	<nodes>
 		<node id="0" name="Python Script" qualified_name="Orange.widgets.data.owpythonscript.OWPythonScript" project_name="Orange3" version="" title="Cargar Datos de SSMS con Pyodbc" position="(-107.0, 88.0)" />
 		<node id="1" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="Acceso a Salud" position="(86.0, 93.0)" />
-		<node id="2" name="Bar Plot" qualified_name="Orange.widgets.visualize.owbarplot.OWBarPlot" project_name="Orange3" version="" title="Bar Plot" position="(285.0, 101.0)" />
+		<node id="2" name="Bar Plot" qualified_name="Orange.widgets.visualize.owbarplot.OWBarPlot" project_name="Orange3" version="" title="Bar Plot" position="(284.0, 101.0)" />
 		<node id="3" name="Python Script" qualified_name="Orange.widgets.data.owpythonscript.OWPythonScript" project_name="Orange3" version="" title="Cargar Datos de SSMS con Pyodbc" position="(-112.0, 248.0)" />
 		<node id="4" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="Cobertura por Estado" position="(88.0, 206.0)" />
 		<node id="5" name="Bar Plot" qualified_name="Orange.widgets.visualize.owbarplot.OWBarPlot" project_name="Orange3" version="" title="Bar Plot" position="(275.0, 214.0)" />
@@ -40,23 +40,24 @@
 	<annotations />
 	<thumbnail />
 	<node_properties>
-		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'currentScriptIndex': 0, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03\xe9\x00\x00\x00u\x00\x00\x07\x08\x00\x00\x02\xeb\x00\x00\x03\xe9\x00\x00\x00\x94\x00\x00\x07\x08\x00\x00\x02\xeb\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x03\xe9\x00\x00\x00\x94\x00\x00\x07\x08\x00\x00\x02\xeb', 'scriptLibrary': [{'name': 'Acceso a Salud', 'script': 'import numpy as np\nfrom Orange.data import Table, Domain, ContinuousVariable, DiscreteVariable\n\ndomain = Domain([ContinuousVariable("age"),\n                 ContinuousVariable("height"),\n                 DiscreteVariable("gender", values=("M", "F"))])\narr = np.array([\n  [25, 186, 0],\n  [30, 164, 1]])\nout_data = Table.from_numpy(domain, arr)\n', 'filename': None}], 'scriptText': 'import pyodbc\nimport numpy as np\nfrom Orange.data import Table, Domain, ContinuousVariable, DiscreteVariable, StringVariable\n\nconn = pyodbc.connect(\n    \'DRIVER={ODBC Driver 17 for SQL Server};\'\n    \'SERVER=localhost;\'\n    \'DATABASE=Defunciones_2000;\'\n    \'Trusted_Connection=yes;\'\n)\n\ncursor = conn.cursor()\ncursor.execute("SELECT tipo_servicio, total FROM tbl_acceso_resumen")\nrows = cursor.fetchall()\nconn.close()\n\ntotal_general = sum([row[1] for row in rows])\nservicios = list(set([row[0] for row in rows]))\n\ntipo_var = DiscreteVariable("tipo_servicio", values=servicios)\ntotal_var = ContinuousVariable("total")\npct_var = ContinuousVariable("porcentaje")\netiqueta_var = StringVariable("etiqueta")\n\ndomain = Domain(\n    [total_var, pct_var, tipo_var],\n    metas=[etiqueta_var]\n)\n\nX = np.array([\n    [row[1], round(row[1]/total_general*100, 2), servicios.index(row[0])]\n    for row in rows\n], dtype=float)\n\nmetas = np.array([\n    [f"{row[1]/1e6:.1f}M\\n{round(row[1]/total_general*100, 1)}%"]\n    for row in rows\n], dtype=object)\n\nout_data = Table.from_numpy(domain, X, metas=metas)', 'splitterState': b'\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\xa9\x00\x00\x00g\x01\xff\xff\xff\xff\x01\x00\x00\x00\x02\x00', 'vimModeEnabled': False, '__version__': 2}</properties>
+		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'currentScriptIndex': 0, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x00\xe0\x00\x00\x00e\x00\x00\x05\xf1\x00\x00\x03\xa6\x00\x00\x00\xe0\x00\x00\x00\x84\x00\x00\x05\xf1\x00\x00\x03\xa6\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x00\xe0\x00\x00\x00\x84\x00\x00\x05\xf1\x00\x00\x03\xa6', 'scriptLibrary': [{'name': 'Acceso a Salud', 'script': 'import numpy as np\nfrom Orange.data import Table, Domain, ContinuousVariable, DiscreteVariable\n\ndomain = Domain([ContinuousVariable("age"),\n                 ContinuousVariable("height"),\n                 DiscreteVariable("gender", values=("M", "F"))])\narr = np.array([\n  [25, 186, 0],\n  [30, 164, 1]])\nout_data = Table.from_numpy(domain, arr)\n', 'filename': None}], 'scriptText': 'import pyodbc\nimport numpy as np\nfrom Orange.data import Table, Domain, ContinuousVariable, DiscreteVariable, StringVariable\n\nconn = pyodbc.connect(\n    \'DRIVER={ODBC Driver 17 for SQL Server};\'\n    \'SERVER=localhost;\'\n    \'DATABASE=Defunciones_2000;\'\n    \'Trusted_Connection=yes;\'\n)\n\ncursor = conn.cursor()\ncursor.execute("SELECT tipo_servicio, total FROM tbl_acceso_resumen")\nrows = cursor.fetchall()\nconn.close()\n\ntotal_general = sum([row[1] for row in rows])\nservicios = list(set([row[0] for row in rows]))\n\ntipo_var = DiscreteVariable("tipo_servicio", values=servicios)\ntotal_var = ContinuousVariable("total")\npct_var = ContinuousVariable("porcentaje")\netiqueta_var = StringVariable("etiqueta")\n\ndomain = Domain(\n    [total_var, pct_var, tipo_var],\n    metas=[etiqueta_var]\n)\n\nX = np.array([\n    [row[1], round(row[1]/total_general*100, 2), servicios.index(row[0])]\n    for row in rows\n], dtype=float)\n\nmetas = np.array([\n    [f"{row[1]/1e6:.1f}M\\n{round(row[1]/total_general*100, 1)}%"]\n    for row in rows\n], dtype=object)\n\nout_data = Table.from_numpy(domain, X, metas=metas)', 'splitterState': b'\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\xa9\x00\x00\x00g\x01\xff\xff\xff\xff\x01\x00\x00\x00\x02\x00', 'vimModeEnabled': False, '__version__': 2}</properties>
 		<properties node_id="1" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x01\x9c\x00\x00\x01,\x00\x00\x05\xdc\x00\x00\x03J\x00\x00\x01\x9c\x00\x00\x01K\x00\x00\x05\xdc\x00\x00\x03J\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x01\x9c\x00\x00\x01K\x00\x00\x05\xdc\x00\x00\x03J', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
-		<properties node_id="2" format="pickle">gASVKgMAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjBNzYXZl
-ZFdpZGdldEdlb21ldHJ5lENCAdnQywADAAAAAAHkAAAAsQAABpwAAAORAAAB5AAAANAAAAacAAAD
-kQAAAAAAAAAAB4AAAAHkAAAA0AAABpwAAAORlIwJc2VsZWN0aW9ulF2UjA92aXN1YWxfc2V0dGlu
+		<properties node_id="2" format="pickle">gASVeAMAAAAAAAB9lCiMC2F1dG9fY29tbWl0lIiMEmNvbnRyb2xBcmVhVmlzaWJsZZSIjBNzYXZl
+ZFdpZGdldEdlb21ldHJ5lENCAdnQywADAAAAAAGTAAAAsgAABksAAAOSAAABkwAAANEAAAZLAAAD
+kgAAAAAAAAAAB4AAAAGTAAAA0QAABksAAAOSlIwJc2VsZWN0aW9ulF2UjA92aXN1YWxfc2V0dGlu
 Z3OUfZQojAZGaWd1cmWUjApHcm91cCBheGlzlIwOVmVydGljYWwgdGlja3OUh5SJaAmMC0JvdHRv
 bSBheGlzlGgLh5SJdYwFZ3JhcGiUfZSMC19fdmVyc2lvbl9flEsBjBBjb250ZXh0X3NldHRpbmdz
 lF2UKIwVb3Jhbmdld2lkZ2V0LnNldHRpbmdzlIwHQ29udGV4dJSTlCmBlH2UKIwGdmFsdWVzlH2U
 KIwJYW5ub3RfdmFylIwIZXRpcXVldGGUS2eGlIwJY29sb3JfdmFylIwNdGlwb19zZXJ2aWNpb5RL
 ZYaUjAlncm91cF92YXKUaB9LZYaUjAxzZWxlY3RlZF92YXKUjAV0b3RhbJRLZoaUaA99lGgRSwF1
-jAphdHRyaWJ1dGVzlH2UKGgkSwKMCnBvcmNlbnRhamWUSwJoH0sBdYwFbWV0YXOUfZRoHEsDc3Vi
-aBYpgZR9lChoGX2UKGgbTkr+////hpRoHmgfS2WGlGghaB9LZYaUaCNoKUtmhpRoD32UaBFLAXVo
-J32UKGgkSwJoKUsCaB9LAXVoKn2UdWJoFimBlH2UKGgZfZQoaBtOSv7///+GlGgeaB9LZYaUaCFo
-H0tlhpRoI2gkS2aGlGgPfZRoEUsBdWgnfZQoaCRLAmgfSwF1aCp9lHViaBYpgZR9lChoGX2UKIwJ
-YW5ub3RfdmFylE5K/v///4aUjAljb2xvcl92YXKUTkr+////hpSMCWdyb3VwX3ZhcpROSv7///+G
-lIwMc2VsZWN0ZWRfdmFylIwFdG90YWyUS2aGlIwFZ3JhcGiUfZRoEUsBdWgnfZRoSksCc2gqfZSM
-DXRpcG9fc2VydmljaW+USwNzdWJldS4=
+jAphdHRyaWJ1dGVzlH2UKIwFdG90YWyUSwKMCnBvcmNlbnRhamWUSwKMDXRpcG9fc2VydmljaW+U
+SwF1jAVtZXRhc5R9lIwIZXRpcXVldGGUSwNzdWJoFimBlH2UKGgZfZQojAlhbm5vdF92YXKUTkr+
+////hpSMCWNvbG9yX3ZhcpRoK0tlhpSMCWdyb3VwX3ZhcpRoK0tlhpSMDHNlbGVjdGVkX3ZhcpRo
+KktmhpSMBWdyYXBolH2UaBFLAXVoJ32UKGgpSwJoKksCaCtLAXVoLH2UdWJoFimBlH2UKGgZfZQo
+aDJOSv7///+GlGg0aCtLZYaUaDZoK0tlhpRoOGgpS2aGlGg6fZRoEUsBdWgnfZQoaClLAmgrSwF1
+aCx9lHViaBYpgZR9lChoGX2UKIwJYW5ub3RfdmFylE5K/v///4aUjAljb2xvcl92YXKUTkr+////
+hpSMCWdyb3VwX3ZhcpROSv7///+GlIwMc2VsZWN0ZWRfdmFylIwFdG90YWyUS2aGlIwFZ3JhcGiU
+fZRoEUsBdWgnfZRoUksCc2gsfZSMDXRpcG9fc2VydmljaW+USwNzdWJldS4=
 </properties>
 		<properties node_id="3" format="literal">{'controlAreaVisible': True, 'currentScriptIndex': 0, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03\xe9\x00\x00\x00u\x00\x00\x07\r\x00\x00\x02\xeb\x00\x00\x03\xe9\x00\x00\x00\x94\x00\x00\x07\r\x00\x00\x02\xeb\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x03\xe9\x00\x00\x00\x94\x00\x00\x07\r\x00\x00\x02\xeb', 'scriptLibrary': [{'name': 'Cobertura por Estado', 'script': 'import numpy as np\nfrom Orange.data import Table, Domain, ContinuousVariable, DiscreteVariable\n\ndomain = Domain([ContinuousVariable("age"),\n                 ContinuousVariable("height"),\n                 DiscreteVariable("gender", values=("M", "F"))])\narr = np.array([\n  [25, 186, 0],\n  [30, 164, 1]])\nout_data = Table.from_numpy(domain, arr)\n', 'filename': None}], 'scriptText': 'import pyodbc\nimport numpy as np\nfrom Orange.data import Table, Domain, ContinuousVariable, DiscreteVariable, StringVariable\n\nconn = pyodbc.connect(\n    \'DRIVER={ODBC Driver 17 for SQL Server};\'\n    \'SERVER=localhost;\'\n    \'DATABASE=Defunciones_2000;\'\n    \'Trusted_Connection=yes;\'\n)\n\ncursor = conn.cursor()\ncursor.execute("""\n    SELECT nombre_estado, con_imss, sin_derechohabiencia, total_poblacion\n    FROM tbl_estados_resumen\n""")\nrows = cursor.fetchall()\nconn.close()\n\nregiones = {\n    \'Baja California\': \'Noroeste\', \'Baja California Sur\': \'Noroeste\',\n    \'Sonora\': \'Noroeste\', \'Sinaloa\': \'Noroeste\',\n    \'Chihuahua\': \'Noroeste\', \'Durango\': \'Noroeste\',\n    \'Coahuila\': \'Noreste\', \'Nuevo Leon\': \'Noreste\', \'Tamaulipas\': \'Noreste\',\n    \'Jalisco\': \'Occidente\', \'Nayarit\': \'Occidente\',\n    \'Colima\': \'Occidente\', \'Michoacan\': \'Occidente\',\n    \'Aguascalientes\': \'Centro-Norte\', \'Guanajuato\': \'Centro-Norte\',\n    \'San Luis Potosi\': \'Centro-Norte\', \'Zacatecas\': \'Centro-Norte\',\n    \'Queretaro\': \'Centro-Norte\',\n    \'Ciudad de Mexico\': \'Centro\', \'Estado de Mexico\': \'Centro\',\n    \'Morelos\': \'Centro\', \'Hidalgo\': \'Centro\',\n    \'Tlaxcala\': \'Centro\', \'Puebla\': \'Centro\',\n    \'Veracruz\': \'Golfo\', \'Tabasco\': \'Golfo\',\n    \'Guerrero\': \'Suroeste\', \'Oaxaca\': \'Suroeste\', \'Chiapas\': \'Suroeste\',\n    \'Yucatan\': \'Sureste\', \'Campeche\': \'Sureste\', \'Quintana Roo\': \'Sureste\'\n}\n\nlista_regiones = [\'Noroeste\', \'Noreste\', \'Occidente\', \'Centro-Norte\',\n                  \'Centro\', \'Golfo\', \'Suroeste\', \'Sureste\']\n\nrows_sorted = sorted(rows, key=lambda x: x[2]/x[3], reverse=True)\n\n# Variables numéricas para el clustering\npct_sin_var = ContinuousVariable("pct_sin_cobertura")\npct_imss_var = ContinuousVariable("pct_con_imss")\nregion_var = DiscreteVariable("region", values=lista_regiones)\n\n# Estado como StringVariable en metas — así aparece en Annotations\nestado_meta = StringVariable("estado")\n\ndomain = Domain(\n    [pct_sin_var, pct_imss_var, region_var],  # features\n    metas=[estado_meta]                         # aquí va el nombre del estado\n)\n\nX = np.array([\n    [round(row[2]/row[3]*100, 1),\n     round(row[1]/row[3]*100, 1),\n     lista_regiones.index(regiones.get(row[0], \'Centro\'))]\n    for row in rows_sorted\n], dtype=float)\n\nmetas = np.array([[row[0]] for row in rows_sorted], dtype=object)\n\nout_data = Table.from_numpy(domain, X, metas=metas)', 'splitterState': b'\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00\xa9\x00\x00\x00g\x01\xff\xff\xff\xff\x01\x00\x00\x00\x02\x00', 'vimModeEnabled': False, '__version__': 2}</properties>
 		<properties node_id="4" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x02&amp;\x00\x00\x00\xe2\x00\x00\x06f\x00\x00\x03\x00\x00\x00\x02&amp;\x00\x00\x01\x01\x00\x00\x06f\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x02&amp;\x00\x00\x01\x01\x00\x00\x06f\x00\x00\x03\x00', 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
@@ -131,7 +132,7 @@ bHNfaGludJSMAJSMEnRhcmdldF9jbGFzc19pbmRleJRLAGgKSwF1jAdjbGFzc2VzlIwST3Jhbmdl
 LmRhdGEuZG9tYWlulIwGRG9tYWlulJOUKYGUfZQojAphdHRyaWJ1dGVzlIwUT3JhbmdlLmRhdGEu
 dmFyaWFibGWUjA1tYWtlX3ZhcmlhYmxllJOUaB6MEkNvbnRpbnVvdXNWYXJpYWJsZZSTlE6MBmVz
 dGFkb5SHlFKUfZQojAVfbmFtZZRoI4wOX2NvbXB1dGVfdmFsdWWUTowLdW5rbm93bl9zdHKUj5Qo
-aBVOjAEulIwBP5SMAX6UR3/4AAAAAAAAjANuYW6UjAJOQZSQjA9zb3VyY2VfdmFyaWFibGWUTowG
+aBVOR3/4AAAAAAAAjANuYW6UjAJOQZSMAS6UjAE/lIwBfpSQjA9zb3VyY2VfdmFyaWFibGWUTowG
 c3BhcnNllIloHX2UjA9fbWF4X3JvdW5kX2RpZmaUSwCME19udW1iZXJfb2ZfZGVjaW1hbHOUSwOM
 D2FkanVzdF9kZWNpbWFsc5RLAowLX2Zvcm1hdF9zdHKUjAIlZ5R1YmggaCJOjARzZXhvlIeUUpR9
 lChoJ2g4aChOaCloKmgwTmgxiWgdfZRoM0sAaDRLA2g1SwJoNmg3dWJoIGgiTowEZWRhZJSHlFKU
@@ -162,18 +163,18 @@ iWgdfZRoTn2UKGi+SwBov0sBdWhQaFMpgZR9lChoVmhXaFhoV2hZjAZDdXN0b22UaFtoXmhhSwCF
 lGhjh5RSlChLAUsCSwOGlGhriUMGRr767UYvlHSUYmhwaHFocmh2dWJod2heaGFLAIWUaGOHlFKU
 KEsBSwJLA4aUaGuJQwZGvvrtRi+UdJRidWKFlGh/KWiAaMJogYl1YnViZXUu
 </properties>
-		<properties node_id="17" format="literal">{'autocommit': True, 'axis': 0, 'controlAreaVisible': True, 'metric_id': 1, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x05q\x00\x00\x00S\x00\x00\x06\xc0\x00\x00\x01\xc4\x00\x00\x05q\x00\x00\x00r\x00\x00\x06\xc0\x00\x00\x01\xc4\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x05q\x00\x00\x00r\x00\x00\x06\xc0\x00\x00\x01\xc4', '__version__': 4}</properties>
-		<properties node_id="18" format="pickle">gASVRwIAAAAAAAB9lCiMF2Fubm90YXRpb25faWZfZW51bWVyYXRllE6ME2Fubm90YXRpb25faWZf
-bmFtZXOUjAROYW1llIwKYXV0b2NvbW1pdJSIjBJjb250cm9sQXJlYVZpc2libGWUiIwJY3V0X3Jh
-dGlvlEdAUsAAAAAAAIwRbGFiZWxfb25seV9zdWJzZXSUiYwHbGlua2FnZZRLBIwJbWF4X2RlcHRo
-lEsKjAdwcnVuaW5nlEsAjBNzYXZlZFdpZGdldEdlb21ldHJ5lENCAdnQywADAAAAAAAA////+AAA
-B38AAAQHAAAAAAAAABcAAAd/AAAEBwAAAAACAAAAB4AAAAAAAAAAFwAAB38AAAQHlIwQc2VsZWN0
-aW9uX21ldGhvZJRLAowFdG9wX26USwOMC3pvb21fZmFjdG9ylEsAjAtfX3ZlcnNpb25fX5RLAowU
-X19zZXNzaW9uX3N0YXRlX2RhdGGUfZSMB3ZlcnNpb26USwBLAEsAh5RzjBBjb250ZXh0X3NldHRp
-bmdzlF2UjBVvcmFuZ2V3aWRnZXQuc2V0dGluZ3OUjAdDb250ZXh0lJOUKYGUfZQojAZ2YWx1ZXOU
-fZQojAphbm5vdGF0aW9ulIwGZXN0YWRvlEtnhpSMCGNvbG9yX2J5lIwGcmVnaW9ulEtlhpRoEEsC
-dYwKYXR0cmlidXRlc5R9lCiMEXBjdF9zaW5fY29iZXJ0dXJhlEsCjAxwY3RfY29uX2ltc3OUSwJo
-IksBdYwFbWV0YXOUfZRoH0sDc3ViYXUu
+		<properties node_id="17" format="literal">{'autocommit': True, 'axis': 0, 'controlAreaVisible': True, 'metric_id': 1, 'savedWidgetGeometry': b'\x01\xd9\xd0\xcb\x00\x03\x00\x00\x00\x00\x03\xf1\x00\x00\x00\xa5\x00\x00\x05@\x00\x00\x02\x16\x00\x00\x03\xf1\x00\x00\x00\xc4\x00\x00\x05@\x00\x00\x02\x16\x00\x00\x00\x00\x00\x00\x00\x00\x07\x80\x00\x00\x03\xf1\x00\x00\x00\xc4\x00\x00\x05@\x00\x00\x02\x16', '__version__': 4}</properties>
+		<properties node_id="18" format="pickle">gASVYgIAAAAAAAB9lCiMF2Fubm90YXRpb25faWZfZW51bWVyYXRllIwLRW51bWVyYXRpb26UjBNh
+bm5vdGF0aW9uX2lmX25hbWVzlIwETmFtZZSMCmF1dG9jb21taXSUiIwSY29udHJvbEFyZWFWaXNp
+YmxllIiMCWN1dF9yYXRpb5RHQFLAAAAAAACMEWxhYmVsX29ubHlfc3Vic2V0lImMB2xpbmthZ2WU
+SwSMCW1heF9kZXB0aJRLCowHcHJ1bmluZ5RLAIwTc2F2ZWRXaWRnZXRHZW9tZXRyeZRDQgHZ0MsA
+AwAAAAAAAP////gAAAd/AAAEBwAAAAAAAAAXAAAHfwAABAcAAAAAAgAAAAeAAAAAAAAAABcAAAd/
+AAAEB5SMEHNlbGVjdGlvbl9tZXRob2SUSwKMBXRvcF9ulEsDjAt6b29tX2ZhY3RvcpRLAIwLX192
+ZXJzaW9uX1+USwKMFF9fc2Vzc2lvbl9zdGF0ZV9kYXRhlH2UjAd2ZXJzaW9ulEsASwBLAIeUc4wQ
+Y29udGV4dF9zZXR0aW5nc5RdlIwVb3Jhbmdld2lkZ2V0LnNldHRpbmdzlIwHQ29udGV4dJSTlCmB
+lH2UKIwGdmFsdWVzlH2UKIwKYW5ub3RhdGlvbpSMBmVzdGFkb5RLZ4aUjAhjb2xvcl9ieZSMBnJl
+Z2lvbpRLZYaUaBFLAnWMCmF0dHJpYnV0ZXOUfZQojBFwY3Rfc2luX2NvYmVydHVyYZRLAowMcGN0
+X2Nvbl9pbXNzlEsCjAZyZWdpb26USwF1jAVtZXRhc5R9lIwGZXN0YWRvlEsDc3ViYXUu
 </properties>
 	</node_properties>
 	<session_state>
