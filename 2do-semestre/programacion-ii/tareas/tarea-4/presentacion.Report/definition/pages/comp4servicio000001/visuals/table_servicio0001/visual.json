@@ -4,7 +4,7 @@
   "position": {
     "x": 272.23880597014926,
     "y": 370.74626865671638,
-    "z": 0,
+    "z": 2000,
     "height": 320.59701492537312,
     "width": 754.92537313432831,
     "tabOrder": 3000
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "tbl_estados_resumen.nombre_estado",
-              "nativeQueryRef": "nombre_estado"
+              "nativeQueryRef": "Estado",
+              "displayName": "Estado"
             },
             {
               "field": {
@@ -46,7 +47,8 @@
                 }
               },
               "queryRef": "Sum(tbl_estados_resumen.con_imss)",
-              "nativeQueryRef": "Con IMSS"
+              "nativeQueryRef": "Personas con Seguro",
+              "displayName": "Personas con Seguro"
             },
             {
               "field": {
@@ -65,7 +67,8 @@
                 }
               },
               "queryRef": "Sum(tbl_estados_resumen.sin_derechohabiencia)",
-              "nativeQueryRef": "Sin Derechohabiencia"
+              "nativeQueryRef": "Personas Sin Seguro",
+              "displayName": "Personas Sin Seguro"
             },
             {
               "field": {
@@ -84,7 +87,8 @@
                 }
               },
               "queryRef": "Sum(tbl_estados_resumen.total_poblacion)",
-              "nativeQueryRef": "Total Población"
+              "nativeQueryRef": "Población Total",
+              "displayName": "Población Total"
             },
             {
               "field": {
@@ -103,6 +107,52 @@
           ]
         }
       }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

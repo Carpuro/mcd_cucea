@@ -1,2 +1,3976 @@
 cultureInfo en-US
 
+	linguisticMetadata =
+			{
+			  "Version": "4.1.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "tbl_acceso_salud": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_salud"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl acceso salud": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_acceso_salud": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud.ent": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_salud",
+			          "ConceptualProperty": "ENT"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ent": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud.sexo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_salud",
+			          "ConceptualProperty": "SEXO"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sexo": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud.edad": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_salud",
+			          "ConceptualProperty": "EDAD"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "edad": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud.tipo_servicio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_salud",
+			          "ConceptualProperty": "tipo_servicio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tipo servicio": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tipo_servicio": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud.total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_salud",
+			          "ConceptualProperty": "total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        },
+			        {
+			          "overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_resumen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_resumen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl acceso resumen": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_acceso_resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_resumen.tipo_servicio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_resumen",
+			          "ConceptualProperty": "tipo_servicio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tipo servicio": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tipo_servicio": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Por tipo de Seguro": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Tipo de Servicio": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_resumen.total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_resumen",
+			          "ConceptualProperty": "total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        },
+			        {
+			          "overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_acceso_resumen.sin_cobertura_general": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_acceso_resumen",
+			          "ConceptualProperty": "% Sin Cobertura General"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% sin cobertura general": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "percentage sin cobertura general": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "pct sin cobertura general": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl escolaridad resumen": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_escolaridad_resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen.nivel_educativo_codigo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen",
+			          "ConceptualProperty": "nivel_educativo_codigo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nivel educativo codigo": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nivel_educativo_codigo": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen.nivel_educativo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen",
+			          "ConceptualProperty": "nivel_educativo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nivel educativo": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nivel_educativo": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen.con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen",
+			          "ConceptualProperty": "con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen.con_issste": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen",
+			          "ConceptualProperty": "con_issste"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con issste": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_issste": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen.sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen",
+			          "ConceptualProperty": "sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen.total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen",
+			          "ConceptualProperty": "total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        },
+			        {
+			          "overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen.sin_cobertura_escolaridad": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_escolaridad_resumen",
+			          "ConceptualProperty": "% Sin Cobertura Escolaridad"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% sin cobertura escolaridad": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "percentage sin cobertura escolaridad": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "pct sin cobertura escolaridad": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_grupos_edad_resumen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_grupos_edad_resumen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl grupos edad resumen": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl grupo edad resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.78
+			          }
+			        },
+			        {
+			          "tbl_grupos_edad_resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_grupos_edad_resumen.grupo_edad": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_grupos_edad_resumen",
+			          "ConceptualProperty": "grupo_edad"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "grupo edad": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "grupo_edad": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Grupo de Edad": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_grupos_edad_resumen.con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_grupos_edad_resumen",
+			          "ConceptualProperty": "con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_grupos_edad_resumen.sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_grupos_edad_resumen",
+			          "ConceptualProperty": "sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_estados_resumen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl estados resumen": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl estado resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.78
+			          }
+			        },
+			        {
+			          "tbl_estados_resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen.nombre_estado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_estados_resumen",
+			          "ConceptualProperty": "nombre_estado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "nombre estado": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "nombre_estado": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Estado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen.con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_estados_resumen",
+			          "ConceptualProperty": "con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen.sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_estados_resumen",
+			          "ConceptualProperty": "sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen.total_poblacion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_estados_resumen",
+			          "ConceptualProperty": "total_poblacion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total poblacion": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_poblacion": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "overall poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen.sin_cobertura_estado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_estados_resumen",
+			          "ConceptualProperty": "% Sin Cobertura Estado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% sin cobertura estado": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "percentage sin cobertura estado": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "pct sin cobertura estado": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        },
+			        {
+			          "% Sin Cobertura": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl indigena resumen": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_indigena_resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen.habla_indigena": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen",
+			          "ConceptualProperty": "habla_indigena"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "habla indigena": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "habla_indigena": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen.habla_espanol": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen",
+			          "ConceptualProperty": "habla_espanol"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "habla espanol": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "habla_espanol": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen.con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen",
+			          "ConceptualProperty": "con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen.con_issste": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen",
+			          "ConceptualProperty": "con_issste"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con issste": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_issste": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen.sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen",
+			          "ConceptualProperty": "sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen.total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen",
+			          "ConceptualProperty": "total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        },
+			        {
+			          "overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen.sin_cobertura_indígena": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_indigena_resumen",
+			          "ConceptualProperty": "% Sin Cobertura Indígena"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% sin cobertura indígena": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "percentage sin cobertura indígena": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "pct sin cobertura indígena": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl kpis": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_kpis": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.total_poblacion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "total_poblacion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total poblacion": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_poblacion": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "overall poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.total_con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "total_con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate con imss": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall con imss": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.total_con_issste": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "total_con_issste"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total con issste": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_con_issste": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate con issste": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall con issste": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.total_con_pemex": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "total_con_pemex"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total con pemex": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_con_pemex": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "pemex": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "aggregate con pemex": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall con pemex": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.total_sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "total_sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate sin derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall sin derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.pct_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "pct_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pct imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pct_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.pct_sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "pct_sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pct sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pct_sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis.edad_promedio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis",
+			          "ConceptualProperty": "edad_promedio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "edad promedio": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "edad_promedio": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl kpis generale": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_kpis_generales": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.total_poblacion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "total_poblacion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total poblacion": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_poblacion": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "overall poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.total_con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "total_con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate con imss": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall con imss": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.total_con_issste": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "total_con_issste"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total con issste": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_con_issste": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate con issste": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall con issste": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.total_con_pemex": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "total_con_pemex"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total con pemex": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_con_pemex": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "pemex": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "aggregate con pemex": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall con pemex": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.total_sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "total_sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate sin derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "overall sin derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.pct_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "pct_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pct imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pct_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.pct_sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "pct_sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "pct sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "pct_sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale.edad_promedio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_kpis_generales",
+			          "ConceptualProperty": "edad_promedio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "edad promedio": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "edad_promedio": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_salud_por_estado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl salud por estado": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_salud_por_estado": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado.ent": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_salud_por_estado",
+			          "ConceptualProperty": "ENT"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ent": {
+			            "State": "Generated"
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado.con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_salud_por_estado",
+			          "ConceptualProperty": "con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado.con_issste": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_salud_por_estado",
+			          "ConceptualProperty": "con_issste"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con issste": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_issste": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado.con_pemex": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_salud_por_estado",
+			          "ConceptualProperty": "con_pemex"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con pemex": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_pemex": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "pemex": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado.sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_salud_por_estado",
+			          "ConceptualProperty": "sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado.total_poblacion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_salud_por_estado",
+			          "ConceptualProperty": "total_poblacion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total poblacion": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "total_poblacion": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "aggregate poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "overall poblacion": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tbl urbano resumen": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tbl_urbano_resumen": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen.tipo_localidad_codigo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen",
+			          "ConceptualProperty": "tipo_localidad_codigo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tipo localidad codigo": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tipo_localidad_codigo": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen.tipo_localidad": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen",
+			          "ConceptualProperty": "tipo_localidad"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "tipo localidad": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tipo_localidad": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "Tipo de Localidad": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen.con_imss": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen",
+			          "ConceptualProperty": "con_imss"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con imss": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_imss": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen.con_issste": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen",
+			          "ConceptualProperty": "con_issste"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "con issste": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "con_issste": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen.sin_derechohabiencia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen",
+			          "ConceptualProperty": "sin_derechohabiencia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "sin derechohabiencia": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "sin_derechohabiencia": {
+			            "Type": "Noun",
+			            "State": "Generated",
+			            "Weight": 0.99
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen.total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen",
+			          "ConceptualProperty": "total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        },
+			        {
+			          "overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen.sin_cobertura_urbano": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tbl_urbano_resumen",
+			          "ConceptualProperty": "% Sin Cobertura Urbano"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% sin cobertura urbano": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "percentage sin cobertura urbano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.617
+			          }
+			        },
+			        {
+			          "pct sin cobertura urbano": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        }
+			      ]
+			    }
+			  },
+			  "Relationships": {
+			    "tbl_urbano_resumen_has_sin_cobertura_urbano": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_urbano_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_urbano_resumen": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen"
+			          }
+			        },
+			        "tbl_urbano_resumen.sin_cobertura_urbano": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen.sin_cobertura_urbano"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_urbano_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_urbano_resumen.sin_cobertura_urbano"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_urbano_resumens_have__sin_cobertura_urbano"
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen_has_total": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_urbano_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_urbano_resumen": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen"
+			          }
+			        },
+			        "tbl_urbano_resumen.total": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen.total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_urbano_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_urbano_resumen.total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_urbano_resumens_have_totals"
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen_has_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_urbano_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_urbano_resumen": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen"
+			          }
+			        },
+			        "tbl_urbano_resumen.sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen.sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_urbano_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_urbano_resumen.sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_urbano_resumens_have_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen_has_con_issste": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_urbano_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_urbano_resumen": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen"
+			          }
+			        },
+			        "tbl_urbano_resumen.con_issste": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen.con_issste"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_urbano_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_urbano_resumen.con_issste"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_urbano_resumens_have_con_issstes"
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen_has_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_urbano_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_urbano_resumen": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen"
+			          }
+			        },
+			        "tbl_urbano_resumen.con_imss": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen.con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_urbano_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_urbano_resumen.con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_urbano_resumens_have_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen_has_tipo_localidad": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_urbano_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_urbano_resumen": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen"
+			          }
+			        },
+			        "tbl_urbano_resumen.tipo_localidad": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen.tipo_localidad"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_urbano_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_urbano_resumen.tipo_localidad"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_urbano_resumens_have_tipo_localidads"
+			        }
+			      ]
+			    },
+			    "tbl_urbano_resumen_has_tipo_localidad_codigo": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_urbano_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_urbano_resumen": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen"
+			          }
+			        },
+			        "tbl_urbano_resumen.tipo_localidad_codigo": {
+			          "Target": {
+			            "Entity": "tbl_urbano_resumen.tipo_localidad_codigo"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_urbano_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_urbano_resumen.tipo_localidad_codigo"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_urbano_resumens_have_tipo_localidad_codigos"
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado_has_total_poblacion": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_salud_por_estado"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_salud_por_estado": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado"
+			          }
+			        },
+			        "tbl_salud_por_estado.total_poblacion": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado.total_poblacion"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_salud_por_estado"
+			            },
+			            "Object": {
+			              "Role": "tbl_salud_por_estado.total_poblacion"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_salud_por_estado_have_total_poblacions"
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado_has_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_salud_por_estado"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_salud_por_estado": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado"
+			          }
+			        },
+			        "tbl_salud_por_estado.sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado.sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_salud_por_estado"
+			            },
+			            "Object": {
+			              "Role": "tbl_salud_por_estado.sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_salud_por_estado_have_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado_has_con_pemex": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_salud_por_estado"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_salud_por_estado": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado"
+			          }
+			        },
+			        "tbl_salud_por_estado.con_pemex": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado.con_pemex"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_salud_por_estado"
+			            },
+			            "Object": {
+			              "Role": "tbl_salud_por_estado.con_pemex"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_salud_por_estado_have_con_pemex"
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado_has_con_issste": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_salud_por_estado"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_salud_por_estado": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado"
+			          }
+			        },
+			        "tbl_salud_por_estado.con_issste": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado.con_issste"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_salud_por_estado"
+			            },
+			            "Object": {
+			              "Role": "tbl_salud_por_estado.con_issste"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_salud_por_estado_have_con_issstes"
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado_has_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_salud_por_estado"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_salud_por_estado": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado"
+			          }
+			        },
+			        "tbl_salud_por_estado.con_imss": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado.con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_salud_por_estado"
+			            },
+			            "Object": {
+			              "Role": "tbl_salud_por_estado.con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_salud_por_estado_have_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_salud_por_estado_has_ent": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_salud_por_estado"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_salud_por_estado": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado"
+			          }
+			        },
+			        "tbl_salud_por_estado.ent": {
+			          "Target": {
+			            "Entity": "tbl_salud_por_estado.ent"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_salud_por_estado"
+			            },
+			            "Object": {
+			              "Role": "tbl_salud_por_estado.ent"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_salud_por_estado_have_ents"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_edad_promedio": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.edad_promedio": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.edad_promedio"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.edad_promedio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_edad_promedios"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_pct_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.pct_sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.pct_sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.pct_sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_pct_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_pct_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.pct_imss": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.pct_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.pct_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_pct_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_total_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.total_sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.total_sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.total_sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_total_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_total_con_pemex": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.total_con_pemex": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.total_con_pemex"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.total_con_pemex"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_total_con_pemex"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_total_con_issste": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.total_con_issste": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.total_con_issste"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.total_con_issste"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_total_con_issstes"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_total_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.total_con_imss": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.total_con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.total_con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_total_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_generale_has_total_poblacion": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis_generales"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis_generale": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale"
+			          }
+			        },
+			        "tbl_kpis_generale.total_poblacion": {
+			          "Target": {
+			            "Entity": "tbl_kpis_generale.total_poblacion"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis_generale"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis_generale.total_poblacion"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpis_generales_have_total_poblacions"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_edad_promedio": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.edad_promedio": {
+			          "Target": {
+			            "Entity": "tbl_kpis.edad_promedio"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.edad_promedio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_edad_promedios"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_pct_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.pct_sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_kpis.pct_sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.pct_sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_pct_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_pct_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.pct_imss": {
+			          "Target": {
+			            "Entity": "tbl_kpis.pct_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.pct_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_pct_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_total_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.total_sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_kpis.total_sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.total_sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_total_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_total_con_pemex": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.total_con_pemex": {
+			          "Target": {
+			            "Entity": "tbl_kpis.total_con_pemex"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.total_con_pemex"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_total_con_pemex"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_total_con_issste": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.total_con_issste": {
+			          "Target": {
+			            "Entity": "tbl_kpis.total_con_issste"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.total_con_issste"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_total_con_issstes"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_total_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.total_con_imss": {
+			          "Target": {
+			            "Entity": "tbl_kpis.total_con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.total_con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_total_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_kpis_has_total_poblacion": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_kpis"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_kpis": {
+			          "Target": {
+			            "Entity": "tbl_kpis"
+			          }
+			        },
+			        "tbl_kpis.total_poblacion": {
+			          "Target": {
+			            "Entity": "tbl_kpis.total_poblacion"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_kpis"
+			            },
+			            "Object": {
+			              "Role": "tbl_kpis.total_poblacion"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_kpises_have_total_poblacions"
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen_has_sin_cobertura_indígena": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_indigena_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_indigena_resumen": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen"
+			          }
+			        },
+			        "tbl_indigena_resumen.sin_cobertura_indígena": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen.sin_cobertura_indígena"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_indigena_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_indigena_resumen.sin_cobertura_indígena"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_indigena_resumens_have__sin_cobertura_indígena"
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen_has_total": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_indigena_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_indigena_resumen": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen"
+			          }
+			        },
+			        "tbl_indigena_resumen.total": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen.total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_indigena_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_indigena_resumen.total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_indigena_resumens_have_totals"
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen_has_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_indigena_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_indigena_resumen": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen"
+			          }
+			        },
+			        "tbl_indigena_resumen.sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen.sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_indigena_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_indigena_resumen.sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_indigena_resumens_have_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen_has_con_issste": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_indigena_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_indigena_resumen": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen"
+			          }
+			        },
+			        "tbl_indigena_resumen.con_issste": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen.con_issste"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_indigena_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_indigena_resumen.con_issste"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_indigena_resumens_have_con_issstes"
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen_has_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_indigena_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_indigena_resumen": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen"
+			          }
+			        },
+			        "tbl_indigena_resumen.con_imss": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen.con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_indigena_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_indigena_resumen.con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_indigena_resumens_have_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen_has_habla_espanol": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_indigena_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_indigena_resumen": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen"
+			          }
+			        },
+			        "tbl_indigena_resumen.habla_espanol": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen.habla_espanol"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_indigena_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_indigena_resumen.habla_espanol"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_indigena_resumens_have_habla_espanols"
+			        }
+			      ]
+			    },
+			    "tbl_indigena_resumen_has_habla_indigena": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_indigena_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_indigena_resumen": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen"
+			          }
+			        },
+			        "tbl_indigena_resumen.habla_indigena": {
+			          "Target": {
+			            "Entity": "tbl_indigena_resumen.habla_indigena"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_indigena_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_indigena_resumen.habla_indigena"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_indigena_resumens_have_habla_indigenas"
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen_has_sin_cobertura_estado": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_estados_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_estados_resumen": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen"
+			          }
+			        },
+			        "tbl_estados_resumen.sin_cobertura_estado": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen.sin_cobertura_estado"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_estados_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_estados_resumen.sin_cobertura_estado"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_estados_resumens_have__sin_cobertura_estado"
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen_has_total_poblacion": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_estados_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_estados_resumen": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen"
+			          }
+			        },
+			        "tbl_estados_resumen.total_poblacion": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen.total_poblacion"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_estados_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_estados_resumen.total_poblacion"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_estados_resumens_have_total_poblacions"
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen_has_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_estados_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_estados_resumen": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen"
+			          }
+			        },
+			        "tbl_estados_resumen.sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen.sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_estados_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_estados_resumen.sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_estados_resumens_have_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen_has_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_estados_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_estados_resumen": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen"
+			          }
+			        },
+			        "tbl_estados_resumen.con_imss": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen.con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_estados_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_estados_resumen.con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_estados_resumens_have_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_estados_resumen_has_nombre_estado": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_estados_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_estados_resumen": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen"
+			          }
+			        },
+			        "tbl_estados_resumen.nombre_estado": {
+			          "Target": {
+			            "Entity": "tbl_estados_resumen.nombre_estado"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_estados_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_estados_resumen.nombre_estado"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_estados_resumens_have_nombre_estado"
+			        }
+			      ]
+			    },
+			    "tbl_grupos_edad_resumen_has_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_grupos_edad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_grupos_edad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_grupos_edad_resumen"
+			          }
+			        },
+			        "tbl_grupos_edad_resumen.sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_grupos_edad_resumen.sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_grupos_edad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_grupos_edad_resumen.sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_grupos_edad_resumens_have_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_grupos_edad_resumen_has_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_grupos_edad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_grupos_edad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_grupos_edad_resumen"
+			          }
+			        },
+			        "tbl_grupos_edad_resumen.con_imss": {
+			          "Target": {
+			            "Entity": "tbl_grupos_edad_resumen.con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_grupos_edad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_grupos_edad_resumen.con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_grupos_edad_resumens_have_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_grupos_edad_resumen_has_grupo_edad": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_grupos_edad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_grupos_edad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_grupos_edad_resumen"
+			          }
+			        },
+			        "tbl_grupos_edad_resumen.grupo_edad": {
+			          "Target": {
+			            "Entity": "tbl_grupos_edad_resumen.grupo_edad"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_grupos_edad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_grupos_edad_resumen.grupo_edad"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_grupos_edad_resumens_have_grupo_edads"
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen_has_sin_cobertura_escolaridad": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_escolaridad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_escolaridad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen"
+			          }
+			        },
+			        "tbl_escolaridad_resumen.sin_cobertura_escolaridad": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen.sin_cobertura_escolaridad"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_escolaridad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_escolaridad_resumen.sin_cobertura_escolaridad"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_escolaridad_resumens_have__sin_cobertura_escolaridad"
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen_has_total": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_escolaridad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_escolaridad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen"
+			          }
+			        },
+			        "tbl_escolaridad_resumen.total": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen.total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_escolaridad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_escolaridad_resumen.total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_escolaridad_resumens_have_totals"
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen_has_sin_derechohabiencia": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_escolaridad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_escolaridad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen"
+			          }
+			        },
+			        "tbl_escolaridad_resumen.sin_derechohabiencia": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen.sin_derechohabiencia"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_escolaridad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_escolaridad_resumen.sin_derechohabiencia"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_escolaridad_resumens_have_sin_derechohabiencias"
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen_has_con_issste": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_escolaridad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_escolaridad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen"
+			          }
+			        },
+			        "tbl_escolaridad_resumen.con_issste": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen.con_issste"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_escolaridad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_escolaridad_resumen.con_issste"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_escolaridad_resumens_have_con_issstes"
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen_has_con_imss": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_escolaridad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_escolaridad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen"
+			          }
+			        },
+			        "tbl_escolaridad_resumen.con_imss": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen.con_imss"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_escolaridad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_escolaridad_resumen.con_imss"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_escolaridad_resumens_have_con_imsses"
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen_has_nivel_educativo": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_escolaridad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_escolaridad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen"
+			          }
+			        },
+			        "tbl_escolaridad_resumen.nivel_educativo": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen.nivel_educativo"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_escolaridad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_escolaridad_resumen.nivel_educativo"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_escolaridad_resumens_have_nivel_educativos"
+			        }
+			      ]
+			    },
+			    "tbl_escolaridad_resumen_has_nivel_educativo_codigo": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_escolaridad_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_escolaridad_resumen": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen"
+			          }
+			        },
+			        "tbl_escolaridad_resumen.nivel_educativo_codigo": {
+			          "Target": {
+			            "Entity": "tbl_escolaridad_resumen.nivel_educativo_codigo"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_escolaridad_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_escolaridad_resumen.nivel_educativo_codigo"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_escolaridad_resumens_have_nivel_educativo_codigos"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_resumen_has_sin_cobertura_general": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_resumen": {
+			          "Target": {
+			            "Entity": "tbl_acceso_resumen"
+			          }
+			        },
+			        "tbl_acceso_resumen.sin_cobertura_general": {
+			          "Target": {
+			            "Entity": "tbl_acceso_resumen.sin_cobertura_general"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_resumen.sin_cobertura_general"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_resumens_have__sin_cobertura_general"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_resumen_has_total": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_resumen": {
+			          "Target": {
+			            "Entity": "tbl_acceso_resumen"
+			          }
+			        },
+			        "tbl_acceso_resumen.total": {
+			          "Target": {
+			            "Entity": "tbl_acceso_resumen.total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_resumen.total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_resumens_have_totals"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_resumen_has_tipo_servicio": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_resumen"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_resumen": {
+			          "Target": {
+			            "Entity": "tbl_acceso_resumen"
+			          }
+			        },
+			        "tbl_acceso_resumen.tipo_servicio": {
+			          "Target": {
+			            "Entity": "tbl_acceso_resumen.tipo_servicio"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_resumen"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_resumen.tipo_servicio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_resumens_have_tipo_servicios"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud_has_total": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_salud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_salud": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud"
+			          }
+			        },
+			        "tbl_acceso_salud.total": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud.total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_salud"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_salud.total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_saluds_have_totals"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud_has_tipo_servicio": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_salud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_salud": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud"
+			          }
+			        },
+			        "tbl_acceso_salud.tipo_servicio": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud.tipo_servicio"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_salud"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_salud.tipo_servicio"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_saluds_have_tipo_servicios"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud_has_edad": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_salud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_salud": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud"
+			          }
+			        },
+			        "tbl_acceso_salud.edad": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud.edad"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_salud"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_salud.edad"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_saluds_have_edads"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud_has_sexo": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_salud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_salud": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud"
+			          }
+			        },
+			        "tbl_acceso_salud.sexo": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud.sexo"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_salud"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_salud.sexo"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_saluds_have_sexos"
+			        }
+			      ]
+			    },
+			    "tbl_acceso_salud_has_ent": {
+			      "Binding": {
+			        "ConceptualEntity": "tbl_acceso_salud"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "tbl_acceso_salud": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud"
+			          }
+			        },
+			        "tbl_acceso_salud.ent": {
+			          "Target": {
+			            "Entity": "tbl_acceso_salud.ent"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "tbl_acceso_salud"
+			            },
+			            "Object": {
+			              "Role": "tbl_acceso_salud.ent"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "tbl_acceso_saluds_have_ents"
+			        }
+			      ]
+			    }
+			  },
+			  "Agents": {
+			    "Internal": {
+			      "Version": "1.1.0"
+			    }
+			  }
+			}
+		contentType: json
+

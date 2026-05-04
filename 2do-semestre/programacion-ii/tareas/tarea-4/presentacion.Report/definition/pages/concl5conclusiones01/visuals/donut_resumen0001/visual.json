@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "donut_resumen0001",
   "position": {
-    "x": 820,
-    "y": 180,
-    "z": 0,
-    "height": 510,
-    "width": 440,
+    "x": 667.60107816711593,
+    "y": 21.5633423180593,
+    "z": 1000,
+    "height": 668.46361185983824,
+    "width": 592.56064690026949,
     "tabOrder": 6000
   },
   "visual": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "tbl_acceso_resumen.tipo_servicio",
-              "nativeQueryRef": "tipo_servicio",
-              "active": true
+              "nativeQueryRef": "Tipo de Servicio",
+              "active": true,
+              "displayName": "Tipo de Servicio"
             }
           ]
         },
@@ -51,11 +52,58 @@
                 }
               },
               "queryRef": "Sum(tbl_acceso_resumen.total)",
-              "nativeQueryRef": "Total"
+              "nativeQueryRef": "%",
+              "displayName": "%"
             }
           ]
         }
       }
+    },
+    "visualContainerObjects": {
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

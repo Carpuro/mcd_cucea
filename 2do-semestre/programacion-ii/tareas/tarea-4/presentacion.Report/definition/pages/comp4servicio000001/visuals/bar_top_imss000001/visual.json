@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "bar_top_imss000001",
   "position": {
-    "x": 20,
-    "y": 30,
-    "z": 0,
-    "height": 310,
-    "width": 610,
+    "x": 21.5633423180593,
+    "y": 29.326145552560646,
+    "z": 1000,
+    "height": 309.6495956873315,
+    "width": 609.81132075471692,
     "tabOrder": 1000
   },
   "visual": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "tbl_estados_resumen.nombre_estado",
-              "nativeQueryRef": "nombre_estado",
-              "active": true
+              "nativeQueryRef": "Estado",
+              "active": true,
+              "displayName": "Estado"
             }
           ]
         },
@@ -51,7 +52,8 @@
                 }
               },
               "queryRef": "Sum(tbl_estados_resumen.con_imss)",
-              "nativeQueryRef": "Con IMSS"
+              "nativeQueryRef": "Millones de Personas con Seguro",
+              "displayName": "Millones de Personas con Seguro"
             }
           ]
         }
@@ -79,6 +81,79 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "valueAxis": [
+        {
+          "properties": {
+            "gridlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "gridlineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'dashed'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

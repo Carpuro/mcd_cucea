@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "bar_top_estados01",
   "position": {
-    "x": 20,
-    "y": 180,
+    "x": 19.838274932614553,
+    "y": 21.5633423180593,
     "z": 0,
-    "height": 510,
-    "width": 780,
+    "height": 668.46361185983824,
+    "width": 636.54986522911054,
     "tabOrder": 5000
   },
   "visual": {
@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "tbl_estados_resumen.nombre_estado",
-              "nativeQueryRef": "nombre_estado",
-              "active": true
+              "nativeQueryRef": "Estado",
+              "active": true,
+              "displayName": "Estado"
             }
           ]
         },
@@ -46,7 +47,8 @@
                 }
               },
               "queryRef": "tbl_estados_resumen.% Sin Cobertura Estado",
-              "nativeQueryRef": "% Sin Cobertura Estado"
+              "nativeQueryRef": "% Sin Cobertura",
+              "displayName": "% Sin Cobertura"
             }
           ]
         }
@@ -69,6 +71,52 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "drillFilterOtherVisuals": true
   }

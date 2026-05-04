@@ -4,7 +4,7 @@
   "position": {
     "x": 320,
     "y": 30,
-    "z": 0,
+    "z": 2000,
     "height": 120,
     "width": 280,
     "tabOrder": 1000
@@ -32,11 +32,58 @@
                 }
               },
               "queryRef": "Sum(tbl_kpis.pct_sin_derechohabiencia)",
-              "nativeQueryRef": "% Sin Derechohabiencia"
+              "nativeQueryRef": "% de Personas sin Derecho-habiencia",
+              "displayName": "% de Personas sin Derecho-habiencia"
             }
           ]
         }
       }
+    },
+    "visualContainerObjects": {
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

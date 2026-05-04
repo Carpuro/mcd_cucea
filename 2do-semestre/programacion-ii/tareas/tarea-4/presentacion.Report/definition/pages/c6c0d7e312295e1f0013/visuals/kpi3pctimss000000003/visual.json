@@ -4,7 +4,7 @@
   "position": {
     "x": 620,
     "y": 30,
-    "z": 0,
+    "z": 3000,
     "height": 120,
     "width": 280,
     "tabOrder": 2000
@@ -32,11 +32,78 @@
                 }
               },
               "queryRef": "Sum(tbl_kpis.pct_imss)",
-              "nativeQueryRef": "% Con IMSS"
+              "nativeQueryRef": "% con Derecho-habiencia",
+              "displayName": "% con Derecho-habiencia"
             }
           ]
         }
       }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'center'"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

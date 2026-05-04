@@ -4,7 +4,7 @@
   "position": {
     "x": 920,
     "y": 30,
-    "z": 0,
+    "z": 4000,
     "height": 120,
     "width": 280,
     "tabOrder": 3000
@@ -32,11 +32,58 @@
                 }
               },
               "queryRef": "Sum(tbl_kpis.edad_promedio)",
-              "nativeQueryRef": "Edad Promedio de Muerte"
+              "nativeQueryRef": "Edad Promedio de la Muestra",
+              "displayName": "Edad Promedio de la Muestra"
             }
           ]
         }
       }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0.6
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }
