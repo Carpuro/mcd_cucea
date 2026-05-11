@@ -1,6 +1,7 @@
 # Actividad 1 — WordCount con Hadoop MapReduce
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
+**Módulo:** Analítica con MapReduce  
 **Alumno:** Carlos Pulido Rosas  
 **Herramienta:** Apache Hadoop 3.3.6 (MapReduce + HDFS)
 

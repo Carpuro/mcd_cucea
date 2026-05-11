@@ -1,6 +1,7 @@
 # Actividad 4 — Análisis de Empleo IMSS 2025 con HiveQL
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
+**Módulo:** Apache Hive  
 **Alumno:** Carlos Pulido Rosas  
 **Herramienta:** Apache Hive 2.3.2 · HiveQL · beeline
 

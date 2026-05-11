@@ -1,6 +1,7 @@
 # Actividad 6 — Estrategia de Optimización de Data Warehouse
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
+**Módulo:** Apache Hive  
 **Alumno:** Carlos Pulido Rosas  
 **Tipo:** Propuesta analítica (sin implementación)
 

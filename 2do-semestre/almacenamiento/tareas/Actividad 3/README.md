@@ -1,6 +1,7 @@
 # Actividad 3 — Instalación y Configuración de Apache Hive
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
+**Módulo:** Apache Hive  
 **Alumno:** Carlos Pulido Rosas  
 **Herramienta:** Apache Hive 2.3.2 + Hadoop 3.3.6 (Docker Compose)
 

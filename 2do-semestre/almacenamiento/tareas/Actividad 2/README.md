@@ -1,6 +1,7 @@
 # Actividad 2 — WordCount Corregido + Nube de Palabras
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
+**Módulo:** Analítica con MapReduce  
 **Alumno:** Carlos Pulido Rosas  
 **Herramienta:** Apache Hadoop 3.3.6 · Python (wordcloud)
 

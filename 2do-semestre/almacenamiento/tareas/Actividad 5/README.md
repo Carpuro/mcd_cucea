@@ -1,6 +1,7 @@
 # Actividad 5 — Optimización en Hive: Particionado por Mes
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
+**Módulo:** Apache Hive  
 **Alumno:** Carlos Pulido Rosas  
 **Herramienta:** Apache Hive 2.3.2 · HDFS · HiveQL
 

@@ -11,7 +11,7 @@ from docx.oxml import OxmlElement
 import lxml.etree as etree
 
 TEMPLATE = "/home/carpuro/Documents/mcd/mcd-almacenamiento-de-grandes-bases-de-datos/plantillas/plantilla_informe_MCD.docx"
-OUTPUT   = "/home/carpuro/Documents/mcd/mcd-almacenamiento-de-grandes-bases-de-datos/Actividades/Hive/Actividad 4/Actividad_Hive_Tarea4_CarlosPulidoRosas.docx"
+OUTPUT   = "/home/carpuro/Documents/mcd/mcd-almacenamiento-de-grandes-bases-de-datos/Actividad 4/Actividad_Hive_Tarea4_CarlosPulidoRosas.docx"
 
 NAVY   = RGBColor(0x1F, 0x49, 0x7D)
 AMBER  = RGBColor(0xD4, 0x8C, 0x00)

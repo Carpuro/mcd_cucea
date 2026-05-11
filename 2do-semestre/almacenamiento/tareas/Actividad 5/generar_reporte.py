@@ -9,7 +9,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 TEMPLATE = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
-OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividades/Hive/Actividad 5/Actividad_Hive_Tarea5_CarlosPulidoRosas.docx"
+OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 5/Actividad_Hive_Tarea5_CarlosPulidoRosas.docx"
 
 NAVY   = RGBColor(0x1F, 0x49, 0x7D)
 AMBER  = RGBColor(0xD4, 0x8C, 0x00)

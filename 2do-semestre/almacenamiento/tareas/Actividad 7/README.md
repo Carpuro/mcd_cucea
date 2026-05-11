@@ -1,6 +1,7 @@
 # Actividad 7 — Instalación de paquetes bigmemory y ff en R
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
+**Módulo:** R para Grandes Datos  
 **Alumno:** Carlos Pulido Rosas  
 **Herramienta:** R 4.5.3 · RStudio 2025.05.0
 

@@ -18,8 +18,8 @@ if sys.platform == "win32":
     SS_DIR      = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividades\R\Actividad 7\screenshots"
 else:
     TEMPLATE    = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
-    OUTPUT      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividades/R/Actividad 7/Actividad_R_Tarea7_CarlosPulidoRosas.docx"
-    SS_DIR      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividades/R/Actividad 7/screenshots"
+    OUTPUT      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 7/Actividad_R_Tarea7_CarlosPulidoRosas.docx"
+    SS_DIR      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 7/screenshots"
 
 NAVY   = RGBColor(0x1F, 0x49, 0x7D)
 WHITE  = RGBColor(0xFF, 0xFF, 0xFF)

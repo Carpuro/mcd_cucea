@@ -24,7 +24,7 @@
 ## Módulo 1 — Analítica con MapReduce
 
 ### Actividad 1 — WordCount con Hadoop
-**Ruta:** `tareas/Actividades/Analitica con Map Reduce/Actividad 1/`
+**Ruta:** `tareas/Actividad 1/`
 
 WordCount clásico ejecutado sobre el texto completo de *War and Peace* (Tolstói) usando Hadoop MapReduce sobre HDFS. Se documentó el proceso completo: carga del archivo, ejecución del job y lectura de resultados.
 
@@ -32,7 +32,7 @@ WordCount clásico ejecutado sobre el texto completo de *War and Peace* (Tolstó
 - **Resultado:** `resultado.txt` — frecuencia de cada palabra en el corpus
 
 ### Actividad 2 — WordCount corregido + nube de palabras
-**Ruta:** `tareas/Actividades/Analitica con Map Reduce/Actividad 2/`
+**Ruta:** `tareas/Actividad 2/`
 
 Versión corregida del WordCount que filtra stopwords y signos de puntuación, generando un conteo más limpio. Se añadió visualización en forma de nube de palabras con las 100 palabras más frecuentes.
 
@@ -43,7 +43,7 @@ Versión corregida del WordCount que filtra stopwords y signos de puntuación, g
 ## Módulo 2 — Apache Hive
 
 ### Actividad 3 — Instalación y configuración de Hive
-**Ruta:** `tareas/Actividades/Hive/Actividad 3/`
+**Ruta:** `tareas/Actividad 3/`
 
 Instalación de Apache Hive 2.3.2 sobre Hadoop 3.3.6 en Docker Compose. Se configuró el metastore con PostgreSQL 9.6, se definió la ruta HDFS persistente `/user/oem/` y se verificó la conexión vía beeline.
 
@@ -59,7 +59,7 @@ hadoop-nodemanager
 ```
 
 ### Actividad 4 — Análisis de empleo IMSS 2025
-**Ruta:** `tareas/Actividades/Hive/Actividad 4/`
+**Ruta:** `tareas/Actividad 4/`
 
 Carga de los datos abiertos de Asegurados IMSS (ASG 2025) en HDFS y ejecución de 4 consultas analíticas sobre ~4.6M registros de enero 2025. Los datos tienen 29 columnas delimitadas por pipe `|`.
 
@@ -79,7 +79,7 @@ TBLPROPERTIES ('skip.header.line.count'='1');
 ```
 
 ### Actividad 5 — Optimización: particionado por mes
-**Ruta:** `tareas/Actividades/Hive/Actividad 5/`
+**Ruta:** `tareas/Actividad 5/`
 
 Reorganización de los 6 archivos mensuales (enero–junio 2025, ~2.3 GB total) en estructura de particiones HDFS. La tabla se reconstruyó como `PARTITIONED BY (mes STRING)` para habilitar partition pruning.
 
@@ -98,7 +98,7 @@ Reorganización de los 6 archivos mensuales (enero–junio 2025, ~2.3 GB total) 
 CDMX (cve=9): **4,787,763** asegurados en marzo 2025.
 
 ### Actividad 6 — Estrategia de optimización de Data Warehouse
-**Ruta:** `tareas/Actividades/Hive/Actividad 6/`
+**Ruta:** `tareas/Actividad 6/`
 
 Propuesta analítica (sin implementación) de una estrategia de optimización de DW para una agencia de investigación sobre calidad de empleo que consume datos IMSS. Las variables de análisis son: entidad federativa, sector económico (1 dígito SCIAN), rango salarial y sexo.
 
@@ -117,7 +117,7 @@ Propuesta analítica (sin implementación) de una estrategia de optimización de
 ## Módulo 3 — R para Grandes Datos
 
 ### Actividad 7 — Instalación de paquetes `bigmemory` y `ff`
-**Ruta:** `tareas/Actividades/R/Actividad 7/`
+**Ruta:** `tareas/Actividad 7/`
 
 Instalación y verificación de los dos principales paquetes de R para procesamiento de grandes volúmenes de datos en equipo local, usando **RStudio 2025.05.0** sobre R 4.5.3.
 
