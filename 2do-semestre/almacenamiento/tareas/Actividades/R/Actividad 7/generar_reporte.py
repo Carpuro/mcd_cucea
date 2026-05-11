@@ -9,14 +9,17 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 import os, sys
+from docx.shared import Inches
 
 # Adjust template path for Windows vs Linux
 if sys.platform == "win32":
-    TEMPLATE = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx"
-    OUTPUT   = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividades\R\Actividad 7\Actividad_R_Tarea7_CarlosPulidoRosas.docx"
+    TEMPLATE    = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx"
+    OUTPUT      = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividades\R\Actividad 7\Actividad_R_Tarea7_CarlosPulidoRosas.docx"
+    SS_DIR      = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividades\R\Actividad 7\screenshots"
 else:
-    TEMPLATE = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
-    OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividades/R/Actividad 7/Actividad_R_Tarea7_CarlosPulidoRosas.docx"
+    TEMPLATE    = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
+    OUTPUT      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividades/R/Actividad 7/Actividad_R_Tarea7_CarlosPulidoRosas.docx"
+    SS_DIR      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividades/R/Actividad 7/screenshots"
 
 NAVY   = RGBColor(0x1F, 0x49, 0x7D)
 WHITE  = RGBColor(0xFF, 0xFF, 0xFF)
@@ -122,6 +125,18 @@ def make_table(doc, headers, rows, caption=None):
         add_caption(doc, caption)
     else:
         doc.add_paragraph().paragraph_format.space_after = Pt(4)
+
+def add_image(doc, filename, caption=None, width=Inches(5.8)):
+    path = os.path.join(SS_DIR, filename)
+    if os.path.exists(path):
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p.paragraph_format.space_before = Pt(4)
+        p.paragraph_format.space_after  = Pt(2)
+        run = p.add_run()
+        run.add_picture(path, width=width)
+    if caption:
+        add_caption(doc, caption)
 
 def add_bullet(doc, titulo, texto):
     p = doc.add_paragraph(style="List Bullet")
@@ -235,6 +250,9 @@ bigmemory:  4.6.4
 ff:         4.5.2""")
 add_caption(doc, "Salida real de R 4.5.3 — ambos paquetes instalados correctamente.")
 
+add_image(doc, "ss1_instalacion.png",
+    caption="Figura 1. Consola de RStudio 2025.05.0 — instalacion completa de bigmemory 4.6.4 y ff 4.5.2 con todas sus dependencias.")
+
 # ── 3. BIGMEMORY ─────────────────────────────────────────────────────────────
 add_heading(doc, "3. Paquete bigmemory — Memoria Compartida")
 add_para(doc,
@@ -270,6 +288,9 @@ Primeras 3 filas:
 [2,]    2    5    8
 [3,]    3    6    9""")
 add_caption(doc, "big.matrix de 1,000 x 5 en memoria compartida. Los datos persisten fuera del heap de R.")
+
+add_image(doc, "ss2_ejecucion.png",
+    caption="Figura 2. Ejecucion en RStudio — ejemplo de ff: vector de 10,000 enteros, longitud, primeros elementos, suma y tamano en disco (40,000 bytes). Panel Environment muestra bm (big.matrix) y ffv activos.")
 
 add_para(doc,
     "La funcion describe() genera un objeto que puede pasarse a otros procesos de R "
