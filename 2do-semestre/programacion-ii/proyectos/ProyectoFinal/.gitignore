@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Outputs generados al correr el notebook (no van en el repo)
+*.png
+*.html
+
+# Datos sensibles o grandes (los CSVs de muestra si van)
+data/raw/
+data/processed/
+
+# Orange flows temporales
+*.ows.bak
+
+# Zip de entrega
+*.zip
+
+# OS
+.DS_Store
+Thumbs.db
