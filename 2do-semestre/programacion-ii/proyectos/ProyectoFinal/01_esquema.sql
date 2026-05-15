@@ -6,7 +6,7 @@
 -- Base de datos: Defunciones_2000 (SQL Server)
 -- ============================================================
 
-USE Defunciones_2000;
+USE ai_automation_risk_jalisco;
 GO
 
 -- ------------------------------------------------------------

@@ -28,12 +28,12 @@ PROC = os.path.join(REPO, 'data', 'processed')
 conn = pyodbc.connect(
     'DRIVER={ODBC Driver 17 for SQL Server};'
     'SERVER=localhost,1433;'
-    'DATABASE=Defunciones_2000;'
+    'DATABASE=ai_automation_risk_jalisco;'
     'Trusted_Connection=yes;'
     'TrustServerCertificate=yes;'
 )
 cursor = conn.cursor()
-print('Conexion exitosa a Defunciones_2000')
+print('Conexion exitosa a ai_automation_risk_jalisco')
 
 # ------------------------------------------------------------------
 # 2. Limpiar tablas existentes
@@ -92,14 +92,15 @@ occ_jalisco = occ_jalisco.merge(
     on='sinco_major', how='left'
 )
 
-# Pequeno ruido para diferenciar ocupaciones dentro del mismo grupo
+# Pequeno ruido diferenciador: escala 0-100 para variables O*NET, 0-1 para risk
 np.random.seed(42)
-for col in ['cognitive_demand', 'social_interaction', 'creativity',
-            'manual_dexterity', 'rti', 'automation_risk']:
-    noise = np.random.normal(0, 2, len(occ_jalisco))
+for col in ['cognitive_demand', 'social_interaction', 'creativity', 'manual_dexterity', 'rti']:
+    noise = np.random.normal(0, 1.5, len(occ_jalisco))   # escala 0-100
     occ_jalisco[col] = (occ_jalisco[col] + noise).clip(0, 100)
 
-occ_jalisco['automation_risk'] = occ_jalisco['automation_risk'].clip(0, 1)
+# automation_risk en escala 0-1: ruido proporcional muy pequeno
+risk_noise = np.random.normal(0, 0.015, len(occ_jalisco))
+occ_jalisco['automation_risk'] = (occ_jalisco['automation_risk'] + risk_noise).clip(0.01, 0.99)
 occ_jalisco['frey_osborne_score'] = occ_jalisco['automation_risk']
 
 print(f'Ocupaciones unicas ENOE Jalisco: {len(occ_jalisco)}')
