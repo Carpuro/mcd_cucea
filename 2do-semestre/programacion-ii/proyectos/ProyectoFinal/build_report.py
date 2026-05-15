@@ -461,6 +461,7 @@ print(f'Reporte guardado: {OUT_DOCX}')
 soffice_paths = [
     r'C:\Program Files\LibreOffice\program\soffice.exe',
     r'C:\Program Files (x86)\LibreOffice\program\soffice.exe',
+    '/usr/bin/soffice',  # homelab Linux
 ]
 soffice = next((p for p in soffice_paths if os.path.exists(p)), None)
 if soffice:
