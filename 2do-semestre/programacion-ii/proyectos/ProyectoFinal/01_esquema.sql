@@ -28,6 +28,7 @@ CREATE TABLE dbo.ocupaciones_onet (
     sinco_code          INT             NOT NULL,
     occupation_name     NVARCHAR(100)   NOT NULL,
     sector              NVARCHAR(50)    NOT NULL,
+    -- Block 2 — Task profile (O*NET Phase 1)
     frey_osborne_score  FLOAT           NOT NULL,
     rti                 FLOAT           NOT NULL,
     cognitive_demand    FLOAT           NOT NULL,
@@ -35,11 +36,27 @@ CREATE TABLE dbo.ocupaciones_onet (
     creativity          FLOAT           NOT NULL,
     manual_dexterity    FLOAT           NOT NULL,
     automation_risk     FLOAT           NOT NULL,
+    -- Block 3 — LLM Exposure (Phase 2)
+    -- gpt_exposure_score: Eloundou et al. (2024) via IDB SINCO crosswalk
+    gpt_exposure_score  FLOAT           NOT NULL,
+    -- moravec_index: Arora et al. (2025) arXiv:2510.13369 — sin sesgo de modelo
+    moravec_index       FLOAT           NOT NULL,
+    -- dual_factor_score: factibilidad tecnica x (1 - compliance_friction) arXiv:2604.04464
+    dual_factor_score   FLOAT           NOT NULL,
+    -- iceberg_score: MIT Iceberg Index (2025) arXiv:2510.25137 — valor salarial expuesto
+    iceberg_score       FLOAT           NOT NULL,
+    -- digital_access: requiere computadora? (ILO/World Bank WP121 2024) — buffer/bottleneck
+    digital_access      INT             NOT NULL,
 
-    CONSTRAINT pk_ocupaciones       PRIMARY KEY (sinco_code),
-    CONSTRAINT ck_frey_range        CHECK (frey_osborne_score BETWEEN 0 AND 1),
-    CONSTRAINT ck_automation_range  CHECK (automation_risk BETWEEN 0 AND 1),
-    CONSTRAINT ck_sector_values     CHECK (sector IN (
+    CONSTRAINT pk_ocupaciones           PRIMARY KEY (sinco_code),
+    CONSTRAINT ck_frey_range            CHECK (frey_osborne_score BETWEEN 0 AND 1),
+    CONSTRAINT ck_automation_range      CHECK (automation_risk BETWEEN 0 AND 1),
+    CONSTRAINT ck_gpt_range             CHECK (gpt_exposure_score BETWEEN 0 AND 1),
+    CONSTRAINT ck_moravec_range         CHECK (moravec_index BETWEEN 0 AND 1),
+    CONSTRAINT ck_dual_range            CHECK (dual_factor_score BETWEEN 0 AND 1),
+    CONSTRAINT ck_iceberg_range         CHECK (iceberg_score BETWEEN 0 AND 1),
+    CONSTRAINT ck_digital_access        CHECK (digital_access IN (0, 1)),
+    CONSTRAINT ck_sector_values         CHECK (sector IN (
         'Agricultura', 'Manufactura', 'Construccion',
         'Comercio', 'Servicios', 'Tecnologia',
         'Educacion', 'Salud', 'Finanzas', 'Transporte'

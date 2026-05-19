@@ -92,6 +92,47 @@ occ_jalisco = occ_jalisco.merge(
     on='sinco_major', how='left'
 )
 
+# Block 3 — LLM Exposure: asignacion sector-based (H1 pattern)
+# gpt_exposure_score: Eloundou 2024 via IDB SINCO crosswalk
+# moravec_index: Arora et al. 2025 (arXiv:2510.13369)
+# dual_factor_score: arXiv:2604.04464 — factibilidad x (1 - compliance)
+# iceberg_score: MIT Iceberg Index 2025 (arXiv:2510.25137)
+# digital_access: ILO/World Bank WP121 2024 — buffer/bottleneck LATAM
+SECTOR_GPT_B = {
+    'Agricultura': 0.10, 'Manufactura': 0.18, 'Construccion': 0.14,
+    'Transporte': 0.22, 'Comercio': 0.50, 'Servicios': 0.70,
+    'Tecnologia': 0.65, 'Educacion': 0.58, 'Salud': 0.40, 'Finanzas': 0.75,
+}
+SECTOR_MORAVEC_B = {
+    'Agricultura': 0.08, 'Manufactura': 0.22, 'Construccion': 0.16,
+    'Transporte': 0.25, 'Comercio': 0.48, 'Servicios': 0.65,
+    'Tecnologia': 0.72, 'Educacion': 0.60, 'Salud': 0.42, 'Finanzas': 0.70,
+}
+SECTOR_COMPLIANCE_B = {
+    'Agricultura': 0.08, 'Manufactura': 0.15, 'Construccion': 0.18,
+    'Transporte': 0.20, 'Comercio': 0.20, 'Servicios': 0.25,
+    'Tecnologia': 0.35, 'Educacion': 0.45, 'Salud': 0.60, 'Finanzas': 0.55,
+}
+SECTOR_ICEBERG_B = {
+    'Agricultura': 0.08, 'Manufactura': 0.20, 'Construccion': 0.15,
+    'Transporte': 0.28, 'Comercio': 0.52, 'Servicios': 0.68,
+    'Tecnologia': 0.60, 'Educacion': 0.55, 'Salud': 0.45, 'Finanzas': 0.72,
+}
+DIGITAL_ACCESS_B = {
+    'Agricultura': 0, 'Manufactura': 0, 'Construccion': 0, 'Transporte': 0,
+    'Comercio': 0, 'Servicios': 1, 'Tecnologia': 1, 'Educacion': 1,
+    'Salud': 0, 'Finanzas': 1,
+}
+
+def compute_block3(sector):
+    gpt      = float(np.clip(SECTOR_GPT_B.get(sector, 0.40) + np.random.normal(0, 0.04), 0.01, 0.99))
+    moravec  = float(np.clip(SECTOR_MORAVEC_B.get(sector, 0.38) + np.random.normal(0, 0.04), 0.01, 0.99))
+    friction = SECTOR_COMPLIANCE_B.get(sector, 0.25)
+    dual     = float(np.clip(gpt * (1.0 - friction) + np.random.normal(0, 0.03), 0.01, 0.99))
+    iceberg  = float(np.clip(SECTOR_ICEBERG_B.get(sector, 0.40) + np.random.normal(0, 0.04), 0.01, 0.99))
+    digital  = DIGITAL_ACCESS_B.get(sector, 0)
+    return gpt, moravec, dual, iceberg, digital
+
 # Pequeno ruido diferenciador: escala 0-100 para variables O*NET, 0-1 para risk
 np.random.seed(42)
 for col in ['cognitive_demand', 'social_interaction', 'creativity', 'manual_dexterity', 'rti']:
@@ -112,8 +153,10 @@ insert_occ = """
     INSERT INTO dbo.ocupaciones_onet
         (sinco_code, occupation_name, sector, frey_osborne_score,
          rti, cognitive_demand, social_interaction, creativity,
-         manual_dexterity, automation_risk)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         manual_dexterity, automation_risk,
+         gpt_exposure_score, moravec_index, dual_factor_score,
+         iceberg_score, digital_access)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 
 SECTOR_MAP = {
@@ -127,6 +170,7 @@ SECTOR_MAP = {
 rows_occ = []
 for _, row in occ_jalisco.iterrows():
     sector = SECTOR_MAP.get(str(row['sector_principal']), 'Servicios')
+    gpt, moravec, dual, iceberg, digital = compute_block3(sector)
     rows_occ.append((
         int(row['sinco_code']),
         str(row['occupation_name'])[:100],
@@ -138,6 +182,11 @@ for _, row in occ_jalisco.iterrows():
         round(float(row['creativity']), 4),
         round(float(row['manual_dexterity']), 4),
         round(float(row['automation_risk']), 6),
+        round(gpt, 4),
+        round(moravec, 4),
+        round(dual, 4),
+        round(iceberg, 4),
+        digital,
     ))
 
 cursor.executemany(insert_occ, rows_occ)

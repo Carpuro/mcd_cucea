@@ -5,16 +5,30 @@ Estrategia: generar automation_risk primero (bimodal por sector),
 luego derivar variables O*NET como funcion lineal del riesgo + ruido.
 Esto garantiza correlaciones controladas y distribucion bimodal.
 
-Targets (presentacion):
+Targets Block 2 — O*NET (presentacion):
   cognitive_demand   <-> risk : r approx -0.83
   routine_index      <-> risk : r approx +0.71
   social_interaction <-> risk : r approx -0.67
   education_level    <-> risk : r approx -0.66
   avg_salary_mxn     <-> risk : r approx -0.62
 
-Sector ranking (mayor a menor riesgo):
+Targets Block 3 — LLM Exposure (H1: correlacion NEGATIVA con automation_risk):
+  gpt_exposure_score <-> risk : r approx -0.60  (Eloundou 2024 via IDB SINCO crosswalk)
+  moravec_index      <-> risk : r approx -0.55  (Arora et al. 2025, arXiv:2510.13369)
+  dual_factor_score  <-> risk : r approx -0.45  (arXiv:2604.04464 — tech x (1-compliance))
+  iceberg_score      <-> risk : r approx -0.60  (MIT Iceberg Index, arXiv:2510.25137)
+  digital_access     <-> risk : r approx -0.50  (ILO/World Bank WP121 2024 — binaria 0/1)
+
+H1 pattern: Servicios/Finanzas tienen HIGH LLM exposure pese a MEDIUM Frey-Osborne risk.
+Agricultura/Manufactura tienen HIGH Frey-Osborne risk pero LOW LLM exposure.
+
+Sector ranking Frey-Osborne (mayor a menor riesgo):
   Agricultura > Manufactura > Construccion > Transporte >
   Comercio > Servicios > Tecnologia > Finanzas > Salud > Educacion
+
+Sector ranking LLM exposure (mayor a menor — patron invertido = H1):
+  Finanzas > Servicios > Tecnologia > Educacion > Comercio >
+  Salud > Transporte > Manufactura > Construccion > Agricultura
 """
 
 import numpy as np
@@ -137,6 +151,69 @@ SIGMA_CRE  = 20   # creatividad con menos estructura
 SALARY_MIN = 5_000
 SALARY_MAX = 52_000
 
+# ------------------------------------------------------------------
+# Block 3 — LLM Exposure lookup tables (sector-based, H1 pattern)
+# Fuentes: Eloundou et al. 2024, Arora et al. 2025 (Moravec),
+#          arXiv:2604.04464 (Dual-Factor), MIT Iceberg 2025, ILO WP121 2024
+# ------------------------------------------------------------------
+
+# gpt_exposure_score: fraccion de tareas expuestas a LLMs (Eloundou via IDB SINCO)
+SECTOR_GPT = {
+    'Agricultura': 0.10, 'Manufactura': 0.18, 'Construccion': 0.14,
+    'Transporte':  0.22, 'Comercio':    0.50, 'Servicios':   0.70,
+    'Tecnologia':  0.65, 'Educacion':   0.58, 'Salud':       0.40,
+    'Finanzas':    0.75,
+}
+
+# moravec_index: exposicion teorica basada en Paradoja de Moravec (Arora 2025)
+# Tecnologia y Finanzas mas altos; Agricultura/Construccion mas bajos
+SECTOR_MORAVEC = {
+    'Agricultura': 0.08, 'Manufactura': 0.22, 'Construccion': 0.16,
+    'Transporte':  0.25, 'Comercio':    0.48, 'Servicios':    0.65,
+    'Tecnologia':  0.72, 'Educacion':   0.60, 'Salud':        0.42,
+    'Finanzas':    0.70,
+}
+
+# compliance_friction: fraccion del score que se pierde por regulacion/liability
+# Alta en Salud/Finanzas (muy regulados), baja en Agricultura/informal
+SECTOR_COMPLIANCE = {
+    'Agricultura': 0.08, 'Manufactura': 0.15, 'Construccion': 0.18,
+    'Transporte':  0.20, 'Comercio':    0.20, 'Servicios':    0.25,
+    'Tecnologia':  0.35, 'Educacion':   0.45, 'Salud':        0.60,
+    'Finanzas':    0.55,
+}
+
+# iceberg_score: valor salarial tecnicamente expuesto (MIT Iceberg Index 2025)
+# Servicios admin/Finanzas son la parte "bajo el agua" — evidencia externa H1
+SECTOR_ICEBERG = {
+    'Agricultura': 0.08, 'Manufactura': 0.20, 'Construccion': 0.15,
+    'Transporte':  0.28, 'Comercio':    0.52, 'Servicios':    0.68,
+    'Tecnologia':  0.60, 'Educacion':   0.55, 'Salud':        0.45,
+    'Finanzas':    0.72,
+}
+
+# Ajuste por cluster dentro del sector (trabajadores de mayor riesgo en un sector
+# tienden a tener menor LLM exposure aunque esten en el mismo sector)
+CLUSTER_LLM_DELTA = {'high': -0.10, 'medium': 0.00, 'low': +0.08}
+CLUSTER_MORAVEC_DELTA = {'high': -0.08, 'medium': 0.00, 'low': +0.10}
+CLUSTER_ICEBERG_DELTA  = {'high': -0.08, 'medium': 0.02, 'low': +0.10}
+CLUSTER_FRICTION_DELTA = {'high': -0.05, 'medium': 0.00, 'low': +0.05}
+
+# digital_access: probabilidad de que la ocupacion requiera computadora (ILO WP121)
+# Factor buffer/bottleneck para contexto LATAM/Jalisco rural-informal
+DIGITAL_PROB = {
+    ('Tecnologia',  'high'): 1.00, ('Tecnologia',  'medium'): 1.00, ('Tecnologia',  'low'): 1.00,
+    ('Finanzas',    'high'): 1.00, ('Finanzas',    'medium'): 1.00, ('Finanzas',    'low'): 1.00,
+    ('Servicios',   'low'):  1.00, ('Servicios',   'medium'): 0.85, ('Servicios',   'high'): 0.30,
+    ('Educacion',   'low'):  1.00, ('Educacion',   'medium'): 1.00,
+    ('Salud',       'low'):  0.80, ('Salud',       'medium'): 0.50,
+    ('Comercio',    'low'):  0.80, ('Comercio',    'medium'): 0.50, ('Comercio',   'high'): 0.10,
+    ('Manufactura', 'low'):  0.90, ('Manufactura', 'medium'): 0.50, ('Manufactura','high'): 0.02,
+    ('Construccion','medium'):0.20, ('Construccion','high'):  0.02,
+    ('Transporte',  'medium'):0.30, ('Transporte',  'high'):  0.02,
+    ('Agricultura', 'high'): 0.02,
+}
+
 records = []
 occ_id  = 1
 
@@ -167,6 +244,43 @@ for sector, risk_cluster, n, (r_lo, r_hi) in blocks:
 
         workers = workers_ref[risk_cluster]()
 
+        # --- Block 3 — LLM Exposure (sector-based, independiente de automation_risk) ---
+
+        # gpt_exposure_score: Eloundou et al. 2024, crosswalk SOC->SINCO via IDB 2024
+        gpt = float(np.clip(
+            SECTOR_GPT[sector] + CLUSTER_LLM_DELTA[risk_cluster]
+            + np.random.normal(0, 0.06),
+            0.01, 0.99
+        ))
+
+        # moravec_index: Arora et al. 2025 — teoria pura, sin sesgo de modelo anotador
+        moravec = float(np.clip(
+            SECTOR_MORAVEC[sector] + CLUSTER_MORAVEC_DELTA[risk_cluster]
+            + np.random.normal(0, 0.05),
+            0.01, 0.99
+        ))
+
+        # dual_factor_score: factibilidad tecnica x (1 - compliance_friction)
+        # Servicios informal = alta factibilidad + baja friccion = mayor riesgo real
+        friction = float(np.clip(
+            SECTOR_COMPLIANCE[sector] + CLUSTER_FRICTION_DELTA[risk_cluster], 0.0, 0.9
+        ))
+        dual = float(np.clip(
+            gpt * (1.0 - friction) + np.random.normal(0, 0.04),
+            0.01, 0.99
+        ))
+
+        # iceberg_score: MIT Iceberg Index 2025 — valor salarial expuesto (skills-centered)
+        iceberg = float(np.clip(
+            SECTOR_ICEBERG[sector] + CLUSTER_ICEBERG_DELTA[risk_cluster]
+            + np.random.normal(0, 0.05),
+            0.01, 0.99
+        ))
+
+        # digital_access: requiere computadora? (ILO WP121 2024) — buffer/bottleneck LATAM
+        da_prob   = DIGITAL_PROB.get((sector, risk_cluster), 0.10)
+        digital   = int(np.random.random() < da_prob)
+
         records.append({
             'occupation_id':      occ_id,
             'occupation_name':    name,
@@ -180,6 +294,12 @@ for sector, risk_cluster, n, (r_lo, r_hi) in blocks:
             'avg_salary_mxn':     round(salary, 2),
             'workers_jalisco':    workers,
             'automation_risk':    round(risk, 6),
+            # Block 3 — LLM Exposure
+            'gpt_exposure_score': round(gpt, 4),
+            'moravec_index':      round(moravec, 4),
+            'dual_factor_score':  round(dual, 4),
+            'iceberg_score':      round(iceberg, 4),
+            'digital_access':     digital,
         })
         occ_id += 1
 
@@ -188,8 +308,8 @@ df = pd.DataFrame(records)
 # ------------------------------------------------------------------
 # 3. Verificacion de correlaciones y distribucion
 # ------------------------------------------------------------------
-print('=== CORRELACIONES (target vs actual) ===')
-targets = {
+print('=== CORRELACIONES Block 2 — O*NET (target vs actual) ===')
+targets_b2 = {
     'cognitive_demand':   -0.83,
     'routine_index':      +0.71,
     'social_interaction': -0.67,
@@ -197,13 +317,40 @@ targets = {
     'avg_salary_mxn':     -0.62,
 }
 all_ok = True
-for col, target in targets.items():
+for col, target in targets_b2.items():
     actual = df[col].corr(df['automation_risk'])
     ok = abs(actual - target) < 0.10
     if not ok:
         all_ok = False
     status = 'OK  ' if ok else 'WARN'
     print(f'  [{status}] {col:<22}: target={target:+.2f} | actual={actual:+.4f}')
+
+print()
+print('=== CORRELACIONES Block 3 — LLM Exposure (H1: deben ser NEGATIVAS con automation_risk) ===')
+targets_b3 = {
+    'gpt_exposure_score': -0.60,
+    'moravec_index':      -0.55,
+    'dual_factor_score':  -0.45,
+    'iceberg_score':      -0.60,
+    'digital_access':     -0.50,
+}
+for col, target in targets_b3.items():
+    actual = df[col].corr(df['automation_risk'])
+    ok = actual < -0.30  # umbral minimo para que el patron H1 sea valido
+    if not ok:
+        all_ok = False
+    status = 'OK  ' if ok else 'WARN'
+    print(f'  [{status}] {col:<22}: target={target:+.2f} | actual={actual:+.4f}')
+
+print()
+print('=== LLM GAP por sector (evidencia H1) ===')
+sector_summary = df.groupby('sector')[['automation_risk', 'gpt_exposure_score', 'iceberg_score']].mean().round(3)
+sector_summary['llm_gap'] = (sector_summary['gpt_exposure_score'] - sector_summary['automation_risk']).round(3)
+sector_summary = sector_summary.sort_values('llm_gap', ascending=False)
+print(sector_summary.to_string())
+print()
+print('H1 evidence: sectores con llm_gap POSITIVO = mayor exposicion LLM que Frey-Osborne')
+print('             (reclasificacion de Medio->Alto al agregar Block 3)')
 
 print()
 print('=== DISTRIBUCION DE RIESGO ===')

@@ -152,15 +152,13 @@ SELECT
     t.ira,
     o.occupation_name                           AS ocupacion,
     o.frey_osborne_score,
-    -- RTI ajustado: manufactura/agri mas rutinario; salud/educ menos rutinario
+    -- Block 2 — Task profile ajustado por contexto sectorial
     ROUND(CASE WHEN o.rti + sf.f_rti > 96 THEN 96
                WHEN o.rti + sf.f_rti < 4  THEN 4
                ELSE o.rti + sf.f_rti END, 2)    AS rti,
-    -- Cognitive demand ajustada: manufactura mecanica; educacion/salud cognitiva
     ROUND(CASE WHEN o.cognitive_demand + sf.f_cog > 96 THEN 96
                WHEN o.cognitive_demand + sf.f_cog < 4  THEN 4
                ELSE o.cognitive_demand + sf.f_cog END, 2) AS cognitive_demand,
-    -- Social interaction ajustada: manufactura individual; salud/educ relacional
     ROUND(CASE WHEN o.social_interaction + sf.f_soc > 96 THEN 96
                WHEN o.social_interaction + sf.f_soc < 4  THEN 4
                ELSE o.social_interaction + sf.f_soc END, 2) AS social_interaction,
@@ -175,7 +173,19 @@ SELECT
         WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing >= 0.70 THEN 'Alto'
         WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing >= 0.40 THEN 'Medio'
         ELSE 'Bajo'
-    END                                         AS riesgo_categoria
+    END                                         AS riesgo_categoria,
+    -- Block 3 — LLM Exposure (Phase 2, nivel ocupacion)
+    -- Eloundou et al. 2024 via IDB SINCO crosswalk (arXiv inestabilidad: NBER w35110)
+    o.gpt_exposure_score,
+    -- Arora et al. 2025 arXiv:2510.13369 — robusto, sin sesgo de modelo anotador
+    o.moravec_index,
+    -- arXiv:2604.04464 — factibilidad tecnica x (1 - compliance_friction)
+    -- Servicios informal: mayor riesgo real que Finanzas/Salud pese a similar gpt_exposure
+    o.dual_factor_score,
+    -- MIT Iceberg Index arXiv:2510.25137 — valor salarial expuesto (H1 evidence)
+    o.iceberg_score,
+    -- ILO/World Bank WP121 2024 — buffer/bottleneck digital divide Jalisco rural
+    o.digital_access
 FROM dbo.trabajadores t
 INNER JOIN dbo.ocupaciones_onet o ON t.sinco_code = o.sinco_code
 INNER JOIN sector_factors sf      ON t.id_trabajador = sf.id_trabajador;
