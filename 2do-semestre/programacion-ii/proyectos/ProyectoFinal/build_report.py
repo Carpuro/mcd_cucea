@@ -197,31 +197,36 @@ heading('2.3 Diagrama Entidad-Relacion', level=2)
 body_text('El esquema relacional consta de dos tablas relacionadas via clave foranea:')
 body_text('ocupaciones_onet (sinco_code PK) <—— trabajadores (sinco_code FK)')
 
-t1 = table_header('Variable', 'Tabla', 'Tipo', 'Descripcion / Fuente')
+t1 = table_header('Variable', 'Tabla', 'Tipo', 'Bloque / Fuente')
 for v, tb, tp, d in [
-    # Block 2 — Task profile (O*NET)
-    ('sinco_code',          'ocupaciones_onet', 'INT PK',    'Grupo SINCO (1-9)'),
-    ('frey_osborne_score',  'ocupaciones_onet', 'FLOAT',     'Score base O*NET — Frey & Osborne (2017)'),
-    ('rti',                 'ocupaciones_onet', 'FLOAT',     'Routine Task Intensity (0-100)'),
-    ('cognitive_demand',    'ocupaciones_onet', 'FLOAT',     'Demanda cognitiva O*NET (0-100)'),
-    ('social_interaction',  'ocupaciones_onet', 'FLOAT',     'Interaccion social O*NET (0-100)'),
-    ('automation_risk',     'ocupaciones_onet', 'FLOAT',     'Riesgo ajustado sector+edu+ingreso (0-1)'),
-    # Block 3 — LLM Exposure (Phase 2)
-    ('gpt_exposure_score',  'ocupaciones_onet', 'FLOAT',     'Exposicion LLM — Eloundou et al. 2024 / IDB SINCO'),
-    ('moravec_index',       'ocupaciones_onet', 'FLOAT',     'Indice teorico Paradoja Moravec — Arora et al. 2025'),
-    ('dual_factor_score',   'ocupaciones_onet', 'FLOAT',     'Factibilidad x (1-compliance) — arXiv:2604.04464'),
-    ('iceberg_score',       'ocupaciones_onet', 'FLOAT',     'Valor salarial expuesto — MIT Iceberg 2025'),
-    ('digital_access',      'ocupaciones_onet', 'INT (0/1)', 'Requiere computadora — ILO/World Bank WP121 2024'),
-    # Block 1 — Worker profile (ENOE)
-    ('id_trabajador',       'trabajadores',     'INT PK',    'Llave primaria IDENTITY'),
-    ('sinco_code',          'trabajadores',     'INT FK',    'Referencia a ocupaciones_onet'),
-    ('escoacum',            'trabajadores',     'INT(1-6)',   'Nivel educativo acumulado (ENOE)'),
-    ('ingocup',             'trabajadores',     'FLOAT',     'Ingreso mensual MXN (ENOE)'),
-    ('scian_sector',        'trabajadores',     'NVARCHAR',  'Sector economico SCIAN'),
-    ('formalidad',          'trabajadores',     'NVARCHAR',  'Formal/Informal (seg_soc ENOE)'),
-    ('edad',                'trabajadores',     'INT(15-70)', 'Edad del trabajador'),
-    # Block 4 — Economic incentive
-    ('ira',                 'trabajadores',     'FLOAT',     'IRA = ingocup*12 / activo_fijo — INEGI 2019'),
+    # Block 1 — Worker profile (ENOE) — trabajadores
+    ('id_trabajador',       'trabajadores',     'INT PK',    'B1 — Llave primaria IDENTITY'),
+    ('sinco_code',          'trabajadores',     'INT FK',    'B1 — Referencia a ocupaciones_onet'),
+    ('escoacum',            'trabajadores',     'INT(1-6)',   'B1 — Nivel educativo acumulado (ENOE)'),
+    ('ingocup',             'trabajadores',     'FLOAT',     'B1 — Ingreso mensual MXN (ENOE)'),
+    ('scian_sector',        'trabajadores',     'NVARCHAR',  'B1 — Sector economico SCIAN'),
+    ('formalidad',          'trabajadores',     'NVARCHAR',  'B1 — Formal/Informal (seg_soc ENOE)'),
+    ('edad',                'trabajadores',     'INT(15-70)','B1 — Edad del trabajador'),
+    ('urban_rural',         'trabajadores',     'INT (0/1)', 'B1 — Urbano/Rural aprox. ENOE t_loc'),
+    # Block 2 — Task profile (O*NET) — ocupaciones_onet
+    ('sinco_code',          'ocupaciones_onet', 'INT PK',    'B2 — Grupo SINCO (1-9)'),
+    ('frey_osborne_score',  'ocupaciones_onet', 'FLOAT',     'B2 — Score base O*NET — Frey & Osborne (2017)'),
+    ('rti',                 'ocupaciones_onet', 'FLOAT',     'B2 — Routine Task Intensity (0-100)'),
+    ('cognitive_demand',    'ocupaciones_onet', 'FLOAT',     'B2 — Demanda cognitiva O*NET (0-100)'),
+    ('social_interaction',  'ocupaciones_onet', 'FLOAT',     'B2 — Interaccion social O*NET (0-100)'),
+    ('creativity',          'ocupaciones_onet', 'FLOAT',     'B2 — Creatividad O*NET (0-100)'),
+    ('manual_dexterity',    'ocupaciones_onet', 'FLOAT',     'B2 — Destreza manual O*NET (0-100)'),
+    ('automation_risk',     'ocupaciones_onet', 'FLOAT',     'Target — Riesgo ajustado (0-1)'),
+    # Block 3 — LLM Exposure — ocupaciones_onet
+    ('gpt_exposure_score',  'ocupaciones_onet', 'FLOAT',     'B3 — Eloundou et al. 2024 via IDB SINCO'),
+    ('moravec_index',       'ocupaciones_onet', 'FLOAT',     'B3 — Arora et al. 2025 arXiv:2510.13369'),
+    ('dual_factor_score',   'ocupaciones_onet', 'FLOAT',     'B3 — Tech x (1-compliance) arXiv:2604.04464'),
+    ('iceberg_score',       'ocupaciones_onet', 'FLOAT',     'B3 — MIT Iceberg Index arXiv:2510.25137'),
+    ('digital_access',      'ocupaciones_onet', 'INT (0/1)', 'B3 — Requiere computadora ILO WP121 2024'),
+    ('ltii',                'ocupaciones_onet', 'FLOAT',     'B3 — LLM Task Intensity Index (O*NET items)'),
+    ('aioe',                'ocupaciones_onet', 'FLOAT',     'B3 — AI Occ. Exposure Felten et al. 2023'),
+    # Block 4 — Economic incentive — trabajadores
+    ('ira',                 'trabajadores',     'FLOAT',     'B4 — IRA = ingocup*12 / activo_fijo INEGI 2019'),
 ]:
     table_row(t1, v, tb, tp, d)
 
@@ -363,57 +368,74 @@ body_text(
     'Conexion via SQLAlchemy con Windows Authentication a ai_automation_risk_jalisco. '
     'Se carga la vista completa: 2,000 registros, 16 columnas, 0 valores nulos.')
 
-heading('5.2 Algoritmo Supervisado — Regresion Lineal Multiple (U3)', level=2)
+heading('5.2 Algoritmo Supervisado — Regresion Lineal Jerarquica M1-M4 (U3)', level=2)
 body_text(
-    'Justificacion: automation_risk es variable continua (0-1), por lo que '
-    'Regresion Lineal Multiple es el algoritmo apropiado de U3. '
-    'Se implementan dos configuraciones del modelo para el H1 test de la tesis:')
-bullet('M1 (baseline): variables Block 1 (ENOE sociolaboral + IRA). Sector codificado '
-       'con OneHotEncoder — correccion metodologica respecto a versiones anteriores que '
-       'usaban LabelEncoder, el cual implicaria un orden ordinal inexistente entre sectores.')
-bullet('M1+Block3: M1 ampliado con las cinco variables de exposicion LLM (Block 3). '
-       'Las variables O*NET (rti, cognitive_demand, etc.) se excluyen de ambos modelos '
-       'para evitar data leakage, ya que forman parte del calculo del target.')
-body_text('Preprocesamiento: StandardScaler en ambos modelos (obligatorio para interpretar '
-          'coeficientes estandarizados). Division 70/30, random_state=42. '
-          'Nota metodologica: NBER w35110 (Yin et al., 2026) documenta que los scores '
-          'de exposicion LLM varian 3.6x entre modelos (kappa=0.36). Para mitigar esta '
-          'inestabilidad se usan cuatro indices complementarios (gpt_exposure, moravec, '
-          'dual_factor, iceberg) en lugar de depender de un unico score.')
+    'Justificacion: automation_risk es variable continua (0-1) — Regresion Lineal '
+    'Multiple es el algoritmo apropiado de U3. Se implementa una '
+    'regresion jerarquica por bloques (M1 a M4) para cuantificar la contribucion '
+    'independiente de cada conjunto de variables. Sector codificado con '
+    'OneHotEncoder (nominal, no ordinal). Division 70/30, random_state=42. '
+    'Nota metodologica: M2/M3/M4 incluyen variables O*NET que son la base del '
+    'target — esto genera R² alto en M2 (upper bound metodologico). '
+    'El aporte estadisticamente significativo de Block 3 se verifica via F-test '
+    'incremental (NBER w35110 recomienda indices complementarios para mitigar '
+    'inestabilidad de scores LLM).')
 
-t4 = table_header('Modelo', 'R²', 'RMSE', 'Delta R²', 'Interpretacion')
-for m, r2, rmse, delta, interp in [
-    ('M1 (Block 1)',  '0.6262', '0.0907', '—',       'Perfil ENOE + IRA explica 62.6% de la varianza del riesgo'),
-    ('M1+Block3',     '0.9635', '0.0284', '+0.3373', 'LLM exposure agrega 33.7 pp — H1 confirmada con datos reales'),
+t4 = table_header('Modelo', 'Features', 'R²', 'RMSE', 'Delta R²', 'F-test', 'H test')
+for m, nf, r2, rmse, delta, ftest, h in [
+    ('M1 (Block 1)',   '12', '0.6261', '0.0907', 'baseline', '—',           'Baseline ENOE'),
+    ('M2 (+Block 2)',  '17', '0.9959', '0.0095', '+0.3698',  'F=10615 ***', 'Leakage documentado'),
+    ('M3 (+Block 3)',  '24', '0.9972', '0.0079', '+0.0012',  'F=35.25 ***', 'H1 confirmada'),
+    ('M4 (+Block 4)',  '25', '0.9971', '0.0080', '-0.0001',  'ns',           'IRA redundante (H2: target alternativo)'),
 ]:
-    table_row(t4, m, r2, rmse, delta, interp)
+    table_row(t4, m, nf, r2, rmse, delta, ftest, h)
 
 doc.add_paragraph()
 body_text(
-    'Interpretacion M1 (baseline, datos reales ENOE Q3 2024): R²=0.6262 — el perfil '
-    'sociolaboral con OneHotEncoder para sector explica el 62.6% de la varianza. '
-    'Los dummies sectoriales son los predictores mas influyentes, confirmando que '
-    'el contexto sectorial determina el perfil de rutinizacion. nivel_educativo '
-    'tiene coeficiente negativo (factor protector). ira tiene coeficiente negativo: '
-    'mayor incentivo economico correlaciona con sectores manuales.')
+    'M1 (Block 1, baseline): R²=0.6261 — el perfil sociolaboral del trabajador '
+    '(educacion, ingreso, sector, formalidad, edad, tamanio_empresa, urban_rural) '
+    'explica el 62.6% de la varianza del riesgo. Los dummies sectoriales son '
+    'los predictores dominantes: el contexto sectorial determina el RTI base. '
+    'nivel_educativo tiene coeficiente negativo (factor protector). '
+    'El 37.4% restante requiere descriptores de tarea (Block 2) o LLM (Block 3).')
 body_text(
-    'Interpretacion M1+Block3 — H1 confirmada (datos reales): R²=0.9635, RMSE=0.0284, '
-    'Delta=+0.3373 (33.7 pp adicionales al agregar LLM exposure). '
-    'gpt_exposure_score, moravec_index e iceberg_score tienen coeficientes negativos — '
-    'mayor exposicion LLM implica mayor riesgo de automatizacion. '
-    'dual_factor_score revela que la informalidad reduce la friccion de compliance, '
-    'acelerando la sustitucion real. digital_access actua como buffer: '
-    '1,624 trabajadores con digital_access=1 pueden beneficiarse de complementariedad, '
-    '376 con digital_access=0 enfrentan el bottleneck del digital divide (ILO WP121, 2024).')
+    'M2 (Block 1+2): R²=0.9959 — la inclusion de variables O*NET (rti, '
+    'cognitive_demand, social_interaction, creativity, manual_dexterity) casi '
+    'predice perfectamente el target. Esto se explica porque automation_risk '
+    'es una funcion de frey_osborne_score, que a su vez se computa desde O*NET. '
+    'Se documenta como upper bound metodologico y referencia para el F-test.')
+body_text(
+    'M3 (Block 1+2+3) — H1 confirmada estadisticamente: F=35.25, p<0.001. '
+    'Block 3 (LLM exposure: gpt_exposure_score, moravec_index, dual_factor_score, '
+    'iceberg_score, digital_access, ltii, aioe) agrega varianza INDEPENDIENTE '
+    'y significativa sobre Block 2. Los 7 indices LLM capturan una dimension '
+    'de riesgo distinta a la rutinizacion O*NET: la exposicion especifica a '
+    'modelos de lenguaje en tareas de escritura, analisis y procesamiento de '
+    'informacion — exactamente las tareas del Cluster Medio (H1).')
+body_text(
+    'M4 (Block 1+2+3+4): IRA no agrega prediccion significativa (F-test ns, '
+    'delta=-0.0001). Esto ocurre porque IRA = f(ingocup, sector) y ambas '
+    'variables ya estan en Block 1. Para testear H2 se requiere una variable '
+    'de adopcion real (p.ej., penetracion de automatizacion por sector INEGI) '
+    'como target alternativo — trabajo futuro de la Fase 2.')
 
+figure(os.path.join(PLOTS_DIR, 'comparacion_modelos.png'),
+       'Figura 1. Regresion jerarquica M1-M4: R² por modelo, ganancia incremental '
+       'por bloque y scatter predicciones vs reales M3. '
+       'Block 3 agrega F=35.25*** sobre Block 2 (H1 confirmada).')
 figure(os.path.join(PLOTS_DIR, 'regresion_lineal_resultados.png'),
-       'Figura 1. Coeficientes estandarizados M1 y predicciones vs valores reales (automation_risk).')
+       'Figura 2. Coeficientes estandarizados M1 (baseline) y predicciones vs reales. '
+       'R²=0.6261 con perfil sociolaboral ENOE.')
+figure(os.path.join(PLOTS_DIR, 'coeficientes_block3.png'),
+       'Figura 3. Coeficientes Block 3 en M3 (estandarizados). '
+       'ltii y aioe tienen mayor peso — la intensidad de tareas lenguaje '
+       'es el predictor LLM mas fuerte dado Block 2.')
 figure(os.path.join(PLOTS_DIR, 'curva_aprendizaje.png'),
-       'Figura 2. Curva de aprendizaje M1 con CV 5-fold — sin overfitting.')
+       'Figura 4. Curva de aprendizaje M1 con CV 5-fold — sin overfitting.')
 figure(os.path.join(PLOTS_DIR, 'llm_gap_h1.png'),
-       'Figura 3. LLM Gap por sector: gpt_exposure_score vs automation_risk Frey-Osborne. '
-       'Sectores sobre la diagonal (rojo) tienen mayor exposicion LLM que riesgo Frey-Osborne — '
-       'evidencia directa de H1. Servicios gap=+0.32, Finanzas gap=+0.54.')
+       'Figura 5. LLM Gap por sector: gpt_exposure vs automation_risk Frey-Osborne. '
+       'Servicios gap=+0.216, Salud gap=+0.388. '
+       'Manufactura gap=-0.341 — trabajadores manuales protegidos de LLMs (H1).')
 
 heading('5.3 IRA — Incentivo Economico de la Automatizacion', level=2)
 body_text(
@@ -495,12 +517,14 @@ for etapa, preg, hall in [
     ('SQL GROUP BY',      'Riesgo Frey-Osborne',       'Agri 0.758 > Manuf 0.666 > ... > Salud 0.235'),
     ('SQL VIEW B3',       'LLM Gap por sector',        'Servicios gap=+0.216 | Salud gap=+0.388 | Manufactura gap=-0.341'),
     ('Orange Flujo 1',    'Distribucion y patrones',   'Bimodal; informalidad amplifica riesgo en todos los sectores'),
-    ('Orange Flujo 2',    'Correlaciones B2+B3',       'RTI r=+0.85 | gpt_exposure r=-0.74 | iceberg r=-0.76'),
+    ('Orange Flujo 2',    'Correlaciones B2+B3',       'RTI r=+0.85 | gpt_exposure r=-0.74 | ltii/aioe complementan'),
     ('Orange Flujo 3',    'Clasificacion visual',      'Random Forest clasifica Alto/Medio/Bajo; AUC clase Alto'),
-    ('Reg. Lineal M1',    'Baseline sociolaboral',     'R²=0.6262 RMSE=0.0907; OneHotEncoder sector; sector y educacion dominan'),
-    ('Reg. Lineal M1+B3', 'H1 — LLM exposure',        'R²=0.9635 RMSE=0.0284 (+33.7 pp); coefs Block3 negativos confirman H1'),
-    ('K-Means LLM-aware', 'Cluster shift Block3',      'Cluster Medio migra hacia Alto al incluir gpt_exposure'),
-    ('IRA',               'Incentivo economico (H2)',  'Paradoja agricola: IRA=5.07 + riesgo=0.758, sigue manual'),
+    ('M1 Block1',         'Baseline sociolaboral',     'R2=0.6261 RMSE=0.0907 — sector y educacion dominan'),
+    ('M2 +Block2',        'Upper bound O*NET',         'R2=0.9959 F=10615*** — leakage documentado (O*NET = base target)'),
+    ('M3 +Block3',        'H1 — LLM exposure',         'R2=0.9972 F=35.25*** — Block 3 agrega varianza independiente'),
+    ('M4 +Block4',        'H2 — IRA',                  'R2=0.9971 ns — IRA redundante en M4; H2 requiere target alternativo'),
+    ('K-Means LLM-aware', 'Cluster shift B2+B3',       'Cluster Medio migra hacia Alto al incluir ltii/gpt_exposure'),
+    ('IRA analisis',      'Paradoja agricola',          'Agricultura IRA alto + riesgo alto pero sigue manual — H2 parcial'),
 ]:
     table_row(t6, etapa, preg, hall)
 
@@ -527,38 +551,44 @@ doc.add_page_break()
 heading('7. Conclusiones y Trabajo Futuro')
 
 heading('7.1 Que demuestra este proyecto', level=2)
-bullet('El pipeline SQL → Orange → Python es completamente funcional con datos reales de Jalisco.')
-bullet('M1 (R²=0.36, OneHotEncoder sector): el perfil ENOE establece el baseline sociolaboral '
-       'del modelo M1 de la tesis. La correccion de LabelEncoder a OneHotEncoder para sector '
-       '(variable nominal) mejora la interpretabilidad de los coeficientes.')
-bullet('M1+Block3 (R²~0.72, +36 pp): la exposicion LLM agrega poder predictivo sustancial. '
-       'Los coeficientes negativos de gpt_exposure, moravec e iceberg_score confirman H1: '
-       'mayor exposicion LLM = mayor riesgo de automatizacion para los trabajadores del '
-       'Cluster Medio (administrativos/servicios), que Frey-Osborne subestimaba.')
-bullet('LLM Gap evidenciado: Servicios gap=+0.32, Finanzas gap=+0.54. Agricultura gap=-0.76 '
-       '— los trabajadores manuales estan protegidos de LLMs pese a alto riesgo Frey-Osborne.')
-bullet('K-Means LLM-aware (Block2+Block3): cluster shift observable — el Cluster Medio '
-       'se redistribuye al incluir variables de exposicion LLM en los features.')
-bullet('IRA confirma H2: paradoja agricola con IRA=5.07 y riesgo=0.758, pero adopcion '
-       'real minima por costos de transaccion y heterogeneidad del terreno.')
-bullet('O*NET 28.3 y ENOE Q3 2024 son integrables via crosswalk SINCO-ISCO-08 '
-       '(IDB, 2024) para politica laboral en Mexico.')
+bullet('Pipeline completo SQL -> Orange -> Python funcionando con datos reales ENOE Q3 2024 '
+       'Jalisco (2,000 trabajadores) y O*NET 28.3 — integracion via crosswalk SINCO-ISCO-08 '
+       '(IDB, 2024).')
+bullet('M1 (Block 1): R2=0.6261 — el perfil sociolaboral ENOE con OneHotEncoder para sector '
+       'explica el 62.6% de la varianza. Correccion de LabelEncoder a OneHotEncoder mejora '
+       'interpretabilidad (sector es variable nominal, no ordinal).')
+bullet('M2 (Block 1+2): R2=0.9959, F=10,615*** — documentado como upper bound metodologico. '
+       'Las variables O*NET son la base del target (data leakage documentado y justificado).')
+bullet('M3 (Block 1+2+3): R2=0.9972, F=35.25*** (p<0.001) — H1 CONFIRMADA estadisticamente. '
+       'Block 3 (ltii, aioe, gpt_exposure, moravec, dual_factor, iceberg, digital_access) '
+       'agrega varianza INDEPENDIENTE y significativa sobre Block 2. La intensidad de tareas '
+       'lenguaje (ltii, aioe) es el predictor Block 3 mas fuerte, dado que Block 2 ya '
+       'captura la rutinizacion general.')
+bullet('M4 (Block 1+2+3+4): IRA no agrega prediccion significativa (ns) porque ingreso y '
+       'sector ya estan en Block 1. H2 requiere variable de adopcion real como target alternativo.')
+bullet('LLM Gap evidenciado con datos reales: Salud gap=+0.388, Servicios gap=+0.216 — '
+       'sectores subestimados por Frey-Osborne. Manufactura gap=-0.341 — protegidos de LLMs.')
+bullet('K-Means LLM-aware (Block2+Block3): cluster shift visible — Cluster Medio migra '
+       'hacia perfil de mayor riesgo LLM al incorporar ltii y gpt_exposure en los features.')
+bullet('1,633 trabajadores urbanos (81.7%) con digital_access=1 enfrentan riesgo de '
+       'desplazamiento LLM; 367 rurales (18.3%) enfrentan el bottleneck del digital divide '
+       '(ILO/World Bank WP121, 2024).')
 
 heading('7.2 Fase 2 de la tesis (trabajo futuro)', level=2)
-bullet('Regresion jerarquica por bloques (M1→M4) con F-test incremental: cuantificar '
-       'exactamente cuanto agrega cada bloque y si la ganancia es estadisticamente '
-       'significativa. Meta: R²(M4) comparable con Random Forest R²~0.75 de Phase 1.')
-bullet('Ensemble de gpt_exposure para mitigar inestabilidad de anotacion (NBER w35110, 2026): '
-       'promedio de scores de ≥2 modelos sobre las mismas tareas O*NET. Priorizar Moravec '
-       'index como medida primaria por ser teoria-based sin sesgo de modelo anotador.')
-bullet('Integrar Anthropic Economic Index (observed exposure): complementar la exposicion '
-       'teorica con datos reales de uso de Claude en tareas O*NET (49% de empleos ya usan '
-       'Claude en ≥25% de sus tareas a abril 2026).')
-bullet('Analisis de reentrenabilidad por cluster (NBER w34174, 2025): '
-       '25-40% de trabajadores expuestos pueden reentrenarse exitosamente. '
-       'El Cluster Medio es el mas relevante para politica de capacitacion en Jalisco.')
-bullet('Validacion estadistica: Ramsey RESET, VIF multicolinealidad, SHAP values, '
-       'GAM para relacion no lineal IRA-riesgo.')
+bullet('Variable de adopcion real para H2: penetracion de automatizacion por sector '
+       '(INEGI Censos Economicos 2019 o indicador ENOE de uso de maquinaria). '
+       'En M4 actual IRA es redundante porque el target es Frey-Osborne, no adopcion real.')
+bullet('VIF y SHAP values para M3: coeficientes de ltii (+43) y aioe (+20) son grandes '
+       'por multicolinealidad con Block 2. SHAP daria importancia mas estable.')
+bullet('Ensemble de gpt_exposure (NBER w35110, 2026): promedio de anotaciones de 2+ modelos. '
+       'Priorizar Moravec como primario (teoria-based, sin sesgo de modelo anotador).')
+bullet('Integrar Anthropic Economic Index (observed exposure 2025-2026): complementar '
+       'exposicion teorica con datos reales de uso de Claude en tareas O*NET.')
+bullet('Analisis de reentrenabilidad por cluster (NBER w34174): 25-40% de trabajadores '
+       'expuestos a IA pueden reentrenarse. El Cluster Medio de Jalisco (1,493 trabajadores) '
+       'es el objetivo principal de politica publica.')
+bullet('Ramsey RESET para no-linealidad, GAM para relacion IRA-riesgo, '
+       'test de estabilidad de coeficientes entre sectores.')
 
 doc.add_page_break()
 
