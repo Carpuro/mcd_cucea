@@ -155,13 +155,15 @@ body_text(
     'Frey-Osborne y sobreexpuestos a LLMs. K-Means (k=3, features Block2+Block3) '
     'identifica tres grupos accionables con perfiles diferenciados.')
 body_text(
-    'El hallazgo central de Block 3 es el LLM Gap: Servicios tiene automation_risk '
-    'Frey-Osborne de 0.39 (Medio) pero gpt_exposure_score de 0.71 (Alto), con un gap '
-    'de +0.32. Finanzas muestra el gap mas extremo (+0.54). En contraste, Agricultura '
-    'tiene Frey-Osborne 0.78 pero gpt_exposure 0.10 (gap -0.76) — los trabajadores '
-    'manuales estan protegidos de LLMs aunque sean altamente automatizables por robotica. '
-    'Adicionalmente, el IRA revela la paradoja agricola (H2): mayor incentivo economico '
-    'y mayor riesgo tecnico, pero minima adopcion real (Acemoglu & Restrepo, 2018).')
+    'El hallazgo central de Block 3 (datos reales ENOE Q3 2024): '
+    'Servicios tiene automation_risk Frey-Osborne de 0.438 (Medio) pero '
+    'gpt_exposure_score de 0.654 (Alto), con LLM gap de +0.216. '
+    'Salud gap=+0.388, Educacion gap=+0.167 — sectores que Frey-Osborne '
+    'consideraba seguros tienen alta exposicion LLM. En contraste, Manufactura '
+    'gap=-0.341, Construccion gap=-0.266 — trabajadores manuales protegidos de '
+    'LLMs pese a su alto riesgo Frey-Osborne. '
+    'Adicionalmente, el IRA revela la paradoja agricola (H2): mayor incentivo '
+    'economico y mayor riesgo tecnico, pero minima adopcion real (Acemoglu & Restrepo, 2018).')
 
 doc.add_page_break()
 
@@ -381,26 +383,28 @@ body_text('Preprocesamiento: StandardScaler en ambos modelos (obligatorio para i
 
 t4 = table_header('Modelo', 'R²', 'RMSE', 'Delta R²', 'Interpretacion')
 for m, r2, rmse, delta, interp in [
-    ('M1 (Block 1)',    '0.3618', '0.1186', '—',      'Perfil ENOE explica 36% de la varianza del riesgo'),
-    ('M1+Block3',       '~0.72',  '~0.079', '+~0.36', 'LLM exposure agrega 36 pp de varianza explicada (H1)'),
+    ('M1 (Block 1)',  '0.6262', '0.0907', '—',       'Perfil ENOE + IRA explica 62.6% de la varianza del riesgo'),
+    ('M1+Block3',     '0.9635', '0.0284', '+0.3373', 'LLM exposure agrega 33.7 pp — H1 confirmada con datos reales'),
 ]:
     table_row(t4, m, r2, rmse, delta, interp)
 
 doc.add_paragraph()
 body_text(
-    'Interpretacion M1 (baseline): los coeficientes de sector (dummies OHE) son los '
-    'mas influyentes — el contexto sectorial determina la rutinizacion. '
-    'nivel_educativo tiene coeficiente negativo (factor protector). '
-    'ira tiene coeficiente negativo: mayor incentivo economico correlaciona con '
-    'sectores manuales que invierten menos en capital humano. '
-    'El 64% de varianza no explicada por M1 es capturado parcialmente por Block 3.')
+    'Interpretacion M1 (baseline, datos reales ENOE Q3 2024): R²=0.6262 — el perfil '
+    'sociolaboral con OneHotEncoder para sector explica el 62.6% de la varianza. '
+    'Los dummies sectoriales son los predictores mas influyentes, confirmando que '
+    'el contexto sectorial determina el perfil de rutinizacion. nivel_educativo '
+    'tiene coeficiente negativo (factor protector). ira tiene coeficiente negativo: '
+    'mayor incentivo economico correlaciona con sectores manuales.')
 body_text(
-    'Interpretacion M1+Block3 (H1 test): los coeficientes de gpt_exposure_score, '
-    'moravec_index e iceberg_score son negativos — a mayor exposicion LLM, mayor '
-    'riesgo de automatizacion. dual_factor_score (negativo) revela que la informalidad '
-    'reduce la friccion de compliance, acelerando la sustitucion real. digital_access '
-    '(positivo o neutro) actua como buffer: ocupaciones sin computadora estan '
-    'protegidas del desplazamiento LLM inmediato (ILO/World Bank WP121, 2024).')
+    'Interpretacion M1+Block3 — H1 confirmada (datos reales): R²=0.9635, RMSE=0.0284, '
+    'Delta=+0.3373 (33.7 pp adicionales al agregar LLM exposure). '
+    'gpt_exposure_score, moravec_index e iceberg_score tienen coeficientes negativos — '
+    'mayor exposicion LLM implica mayor riesgo de automatizacion. '
+    'dual_factor_score revela que la informalidad reduce la friccion de compliance, '
+    'acelerando la sustitucion real. digital_access actua como buffer: '
+    '1,624 trabajadores con digital_access=1 pueden beneficiarse de complementariedad, '
+    '376 con digital_access=0 enfrentan el bottleneck del digital divide (ILO WP121, 2024).')
 
 figure(os.path.join(PLOTS_DIR, 'regresion_lineal_resultados.png'),
        'Figura 1. Coeficientes estandarizados M1 y predicciones vs valores reales (automation_risk).')
@@ -489,12 +493,12 @@ for etapa, preg, hall in [
     ('SQL INNER JOIN',    'Cobertura O*NET',          '2,000 trab. mapeados; 18% informal sin crosswalk completo'),
     ('SQL LEFT JOIN',     'Brechas de datos',          'Agropecuarios e informales sub-representados en O*NET'),
     ('SQL GROUP BY',      'Riesgo Frey-Osborne',       'Agri 0.758 > Manuf 0.666 > ... > Salud 0.235'),
-    ('SQL VIEW B3',       'LLM Gap por sector',        'Servicios gap=+0.32 | Finanzas gap=+0.54 | Agri gap=-0.76'),
+    ('SQL VIEW B3',       'LLM Gap por sector',        'Servicios gap=+0.216 | Salud gap=+0.388 | Manufactura gap=-0.341'),
     ('Orange Flujo 1',    'Distribucion y patrones',   'Bimodal; informalidad amplifica riesgo en todos los sectores'),
     ('Orange Flujo 2',    'Correlaciones B2+B3',       'RTI r=+0.85 | gpt_exposure r=-0.74 | iceberg r=-0.76'),
     ('Orange Flujo 3',    'Clasificacion visual',      'Random Forest clasifica Alto/Medio/Bajo; AUC clase Alto'),
-    ('Reg. Lineal M1',    'Baseline sociolaboral',     'R²=0.36; OneHotEncoder sector; educacion y sector dominan'),
-    ('Reg. Lineal M1+B3', 'H1 — LLM exposure',        'R²~0.72 (+36 pp); coefs Block3 negativos confirman H1'),
+    ('Reg. Lineal M1',    'Baseline sociolaboral',     'R²=0.6262 RMSE=0.0907; OneHotEncoder sector; sector y educacion dominan'),
+    ('Reg. Lineal M1+B3', 'H1 — LLM exposure',        'R²=0.9635 RMSE=0.0284 (+33.7 pp); coefs Block3 negativos confirman H1'),
     ('K-Means LLM-aware', 'Cluster shift Block3',      'Cluster Medio migra hacia Alto al incluir gpt_exposure'),
     ('IRA',               'Incentivo economico (H2)',  'Paradoja agricola: IRA=5.07 + riesgo=0.758, sigue manual'),
 ]:
