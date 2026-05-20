@@ -604,6 +604,84 @@ figure(os.path.join(PLOTS_DIR, 'kmeans_llm_shift.png'),
 doc.add_page_break()
 
 # ------------------------------------------------------------------
+# 6b. MINERIA DE DATOS
+# ------------------------------------------------------------------
+heading('5.6 Mineria de Datos: Arbol de Decision y Reglas de Asociacion', level=2)
+
+heading('5.6.1 Arbol de Decision (CART)', level=2)
+body_text(
+    'Se entreno un arbol de decision CART con profundidad maxima 6 y pesos balanceados '
+    'por clase para compensar la baja prevalencia de la clase Alto (4.9%). '
+    'El arbol produce reglas interpretables directamente aplicables en politica publica.')
+
+t_dt = table_header('Clasificador', 'Accuracy', 'F1 ponderado', 'CV-5 Accuracy', 'AUC Alto')
+for clf, acc, f1, cv, auc_val in [
+    ('Arbol CART (depth=6)',        '0.970', '0.972', '0.955', '0.997'),
+    ('Random Forest',               '0.990', '0.990', '0.990', '1.000'),
+    ('Gradient Boosting',           '0.992', '0.992', '0.988', '1.000'),
+    ('Regresion Logistica',         '0.990', '0.990', '0.984', '1.000'),
+    ('Naive Bayes',                 '0.468', '0.464', '0.457', '0.989'),
+]:
+    table_row(t_dt, clf, acc, f1, cv, auc_val)
+doc.add_paragraph()
+body_text(
+    'Gradient Boosting obtiene el mejor F1 (0.992). Naive Bayes falla (0.46) porque '
+    'asume independencia entre variables, supuesto claramente violado: RTI y cognitive_demand '
+    'estan correlacionadas con automation_risk por construccion. El Arbol CART con '
+    'accuracy=0.97 ofrece la mejor interpretabilidad a costa de una pequena ganancia '
+    'de los metodos ensemble.')
+
+figure(os.path.join(PLOTS_DIR, 'arbol_decision.png'),
+       'Figura 14. Arbol de Decision CART (depth=4). '
+       'Regla principal: RTI alto (>1.54 std) + cognitive demand bajo = Riesgo Alto. '
+       'RTI bajo + educacion alta + interaccion social alta = Riesgo Bajo.')
+
+body_text('Reglas principales extraidas del arbol:')
+bullet('Si RTI > 1.54 (alta rutinizacion) y cognitivo_demand bajo: → Riesgo Alto.')
+bullet('Si RTI <= 1.54 y educacion baja (sin prepa) y RTI > -1.03: → Riesgo Medio.')
+bullet('Si RTI <= 1.54 y educacion alta y interaccion_social alta: → Riesgo Bajo.')
+bullet('RTI es la variable mas importante (Gini importance=0.66), seguida por educacion (0.23).')
+
+figure(os.path.join(PLOTS_DIR, 'arbol_importancia.png'),
+       'Figura 15. Importancia de variables en CART (reduccion de impureza Gini). '
+       'RTI domina (0.66), seguido por educacion (0.23), interaccion social (0.04) e IRA (0.04).')
+
+heading('5.6.2 Reglas de Asociacion', level=2)
+body_text(
+    'Se aplicó un algoritmo Apriori sobre variables discretizadas '
+    '(sector, formalidad, nivel educativo, ingreso, edad, LLM exposure y riesgo). '
+    'Se reportan reglas con soporte >= 0.02, confianza >= 0.40 y lift >= 1.2.')
+
+t_rules = table_header('Antecedente', 'Consecuente', 'Soporte', 'Confianza', 'Lift', 'N')
+for ant, cons, sup, conf, lift_val, n_val in [
+    ('sector = Agricultura',  'riesgo = Alto', '0.026', '0.879', '17.945', '51'),
+    ('edu_cat = Superior',    'riesgo = Bajo', '0.146', '0.764',  '3.735', '291'),
+    ('sector = Educacion',    'riesgo = Bajo', '0.027', '0.495',  '2.423',  '54'),
+    ('edu_cat = Sin Secundaria', 'riesgo = Medio', '0.335', '0.917', '1.228', '670'),
+]:
+    table_row(t_rules, ant, cons, sup, conf, lift_val, n_val)
+doc.add_paragraph()
+body_text(
+    'La regla mas fuerte (lift=17.9): los trabajadores del sector primario tienen '
+    '17.9 veces mas probabilidad de caer en Riesgo Alto que el promedio. '
+    'Esto es consistente con el alto RTI de tareas agricolas manuales (Frey-Osborne). '
+    'La segunda regla (lift=3.7) confirma que la educacion superior es el '
+    'factor protector mas robusto: 76.4% de los trabajadores con licenciatura '
+    'o posgrado pertenecen al Cluster Riesgo Bajo.')
+
+figure(os.path.join(PLOTS_DIR, 'reglas_asociacion.png'),
+       'Figura 16. Reglas de asociacion: scatter soporte vs confianza (izq) '
+       'y top reglas por lift (der). La regla Agricultura → Alto tiene lift=17.9, '
+       'la mas fuerte del dataset.')
+
+figure(os.path.join(PLOTS_DIR, 'comparacion_clasificadores.png'),
+       'Figura 17. Comparacion de 5 clasificadores: barras agrupadas por metrica (izq) '
+       'y heatmap de metricas (der). Gradient Boosting lidera (F1=0.992). '
+       'Naive Bayes falla por supuesto de independencia violado.')
+
+doc.add_page_break()
+
+# ------------------------------------------------------------------
 # 7. DISCUSION INTEGRADA
 # ------------------------------------------------------------------
 heading('6. Discusion Integrada')
