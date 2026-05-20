@@ -1,38 +1,66 @@
 # Almacenamiento de Grandes Bases de Datos
 
-**Materia:** Almacenamiento de Grandes Bases de Datos  
-**Maestría:** Maestría en Ciencia de Datos (MCD) — CUCEA, Universidad de Guadalajara  
-**Alumno:** Carlos Pulido Rosas  
+**Materia:** Almacenamiento de Grandes Bases de Datos
+**Maestría:** Maestría en Ciencia de Datos (MCD) — CUCEA, Universidad de Guadalajara
+**Alumno:** Carlos Pulido Rosas
 **Semestre:** 2do | **Créditos:** 7 | **Prerrequisito:** Procesamiento de Grandes Bases de Datos
 
 ---
 
 ## Resumen de Actividades
 
-| # | Módulo | Tema | Herramienta | Entregable | Estado |
-|---|--------|------|-------------|------------|--------|
-| 1 | MapReduce | WordCount sobre *War and Peace* | Hadoop 3.3.6 | PDF + resultado.txt | ✅ |
-| 2 | MapReduce | WordCount corregido + nube de palabras | Hadoop + Python | PDF + nube.webp | ✅ |
-| 3 | Hive | Instalación y configuración de Apache Hive | Docker + Hive 2.3.2 | PDF | ✅ |
-| 4 | Hive | Análisis de empleo IMSS 2025 — 4 consultas HiveQL | HiveQL + beeline | PDF | ✅ |
-| 5 | Hive | Optimización: particionado por mes (`mes=01`…`mes=06`) | HiveQL + HDFS | PDF | ✅ |
-| 6 | Hive | Estrategia de optimización de Data Warehouse (análisis) | Python (docx) | PDF | ✅ |
-| 7 | R | Instalación de paquetes `bigmemory` y `ff` | R 4.5.3 + RStudio | PDF | ✅ |
+| # | Módulo | Tema | Herramienta | Entregable |
+|---|--------|------|-------------|------------|
+| 1 | Configuración | Descarga de aplicativos para Linux Mint | — | — |
+| 2 | Hadoop | Instalación de Hadoop | Docker | — |
+| 3 | MapReduce | WordCount sobre *War and Peace* | Hadoop 3.3.6 | PDF + resultado.txt |
+| 4 | MapReduce | WordCount corregido + nube de palabras | Hadoop + Python | PDF + nube.webp |
+| 5 | Hive | Instalación y configuración de Apache Hive | Docker + Hive 2.3.2 | PDF |
+| 6 | Hive | Importar archivos IMSS ASG 2025 a HDFS | HDFS CLI + beeline | — |
+| 7 | Hive | Reorganizar archivos IMSS en HDFS | HDFS CLI + HiveQL | — |
+| 8 | Hive | Análisis de empleo IMSS 2025 — 4 consultas HiveQL | HiveQL + beeline | PDF |
+| 9 | Hive | Optimización: particionado por mes | HiveQL + HDFS | PDF |
+| 10 | Hive | Estrategia de optimización de Data Warehouse | Python (python-docx) | PDF |
+| 11 | R | Instalación de paquetes `bigmemory` y `ff` | R 4.5.3 + RStudio | PDF |
+| 12 | R | Construcción de modelos con BigData (WLS + Logístico) | Python / statsmodels | PDF |
 
 ---
 
-## Módulo 1 — Analítica con MapReduce
+## Módulo 1 — Configuración del entorno
 
-### Actividad 1 — WordCount con Hadoop
+### Actividad 1 — Descarga de aplicativos para Linux Mint
 **Ruta:** `tareas/Actividad 1/`
+
+Descarga de la imagen ISO de Linux Mint y aplicativos necesarios para montar el entorno base del curso.
+
+### Actividad 2 — Instalación de Hadoop
+**Ruta:** `tareas/Actividad 2/`
+
+Instalación y configuración de Apache Hadoop en entorno Docker Compose.
+La configuración final vive en el homelab: `~/apps/hadoop/docker-compose.yml` + `hadoop.env`.
+
+**Stack Docker:**
+```yaml
+hadoop-namenode      # HDFS NameNode — puerto 9870
+hadoop-datanode
+hadoop-resourcemanager  # YARN — puerto 8088
+hadoop-nodemanager
+```
+
+---
+
+## Módulo 2 — Analítica con MapReduce
+
+### Actividad 3 — WordCount con Hadoop
+**Ruta:** `tareas/Actividad 3/`
 
 WordCount clásico ejecutado sobre el texto completo de *War and Peace* (Tolstói) usando Hadoop MapReduce sobre HDFS. Se documentó el proceso completo: carga del archivo, ejecución del job y lectura de resultados.
 
 - **Archivo de entrada:** `warandpeace.txt`
 - **Resultado:** `resultado.txt` — frecuencia de cada palabra en el corpus
 
-### Actividad 2 — WordCount corregido + nube de palabras
-**Ruta:** `tareas/Actividad 2/`
+### Actividad 4 — WordCount corregido + nube de palabras
+**Ruta:** `tareas/Actividad 4/`
 
 Versión corregida del WordCount que filtra stopwords y signos de puntuación, generando un conteo más limpio. Se añadió visualización en forma de nube de palabras con las 100 palabras más frecuentes.
 
@@ -40,36 +68,30 @@ Versión corregida del WordCount que filtra stopwords y signos de puntuación, g
 
 ---
 
-## Módulo 2 — Apache Hive
+## Módulo 3 — Apache Hive
 
-### Actividad 3 — Instalación y configuración de Hive
-**Ruta:** `tareas/Actividad 3/`
+### Actividad 5 — Instalación y configuración de Hive
+**Ruta:** `tareas/Actividad 5/`
 
 Instalación de Apache Hive 2.3.2 sobre Hadoop 3.3.6 en Docker Compose. Se configuró el metastore con PostgreSQL 9.6, se definió la ruta HDFS persistente `/user/oem/` y se verificó la conexión vía beeline.
 
-**Stack Docker:**
+**Stack Docker completo:**
 ```yaml
-hive-server      # HiveServer2 — puerto 10000
-hive-metastore   # Thrift metastore
-hive-metastore-db  # PostgreSQL 9.6
-hadoop-namenode  # HDFS NameNode — puerto 9870
+hive-server           # HiveServer2 — puerto 10000
+hive-metastore        # Thrift metastore
+hive-metastore-db     # PostgreSQL 9.6
+hadoop-namenode       # HDFS NameNode — puerto 9870
 hadoop-datanode
 hadoop-resourcemanager  # YARN — puerto 8088
 hadoop-nodemanager
 ```
 
-### Actividad 4 — Análisis de empleo IMSS 2025
-**Ruta:** `tareas/Actividad 4/`
+### Actividad 6 — Importar archivos IMSS a HDFS
+**Ruta:** `tareas/Actividad 6/`
 
-Carga de los datos abiertos de Asegurados IMSS (ASG 2025) en HDFS y ejecución de 4 consultas analíticas sobre ~4.6M registros de enero 2025. Los datos tienen 29 columnas delimitadas por pipe `|`.
+Carga de los datos abiertos de Asegurados IMSS (ASG 2025) en HDFS.
+Tabla externa `empleo_enero` creada en `/user/oem/empleo_enero/` (~4.6M registros, enero 2025).
 
-**Consultas ejecutadas:**
-1. Top 5 sectores económicos (4 dígitos SCIAN) por total de asegurados — enero 2025
-2. Top 2 rangos de edad con más asegurados en Jalisco (cve_entidad = 14)
-3. Top 3 entidades por mujeres aseguradas + top 5 sectores por entidad
-4. Distribución por tamaño de patrón en Jalisco, Nuevo León y CDMX con % del total
-
-**Tabla Hive:**
 ```sql
 CREATE EXTERNAL TABLE empleo_enero (...)
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
@@ -78,10 +100,30 @@ LOCATION '/user/oem/empleo_enero/'
 TBLPROPERTIES ('skip.header.line.count'='1');
 ```
 
-### Actividad 5 — Optimización: particionado por mes
-**Ruta:** `tareas/Actividad 5/`
+### Actividad 7 — Reorganizar archivos en HDFS
+**Ruta:** `tareas/Actividad 7/`
 
-Reorganización de los 6 archivos mensuales (enero–junio 2025, ~2.3 GB total) en estructura de particiones HDFS. La tabla se reconstruyó como `PARTITIONED BY (mes STRING)` para habilitar partition pruning.
+Reorganización de HDFS en dos directorios con dos tablas externas independientes:
+
+| Ruta HDFS | Tabla Hive | Descripción |
+|-----------|------------|-------------|
+| `/user/oem/empleo_semestre/` | `empleo_semestre` | Semestre completo (~25M registros) |
+| `/user/oem/empleo_enero/` | `empleo_enero` | Solo enero 2025 (~4.6M registros) |
+
+### Actividad 8 — Análisis de empleo IMSS 2025
+**Ruta:** `tareas/Actividad 8/`
+
+4 consultas analíticas sobre los datos IMSS enero 2025 (~4.6M registros):
+
+1. Top 5 sectores económicos (4 dígitos SCIAN) por total de asegurados
+2. Top 2 rangos de edad con más asegurados en Jalisco (cve_entidad=14)
+3. Top 3 entidades por mujeres aseguradas + top 5 sectores por entidad
+4. Distribución por tamaño de patrón en Jalisco, Nuevo León y CDMX con % del total
+
+### Actividad 9 — Optimización: particionado por mes
+**Ruta:** `tareas/Actividad 9/`
+
+Reorganización de los 6 archivos mensuales (enero–junio 2025, ~2.3 GB) en estructura de particiones HDFS. Tabla reconstruida como `PARTITIONED BY (mes STRING)` para habilitar partition pruning.
 
 **Estructura HDFS resultante:**
 ```
@@ -94,57 +136,56 @@ Reorganización de los 6 archivos mensuales (enero–junio 2025, ~2.3 GB total) 
 └── mes=06/  asg-2025-06-30.csv  (383 MB)
 ```
 
-**Validación:** `SUM(asegurados) GROUP BY cve_entidad WHERE mes='03'` → 32 entidades correctas.  
-CDMX (cve=9): **4,787,763** asegurados en marzo 2025.
+**Validación:** CDMX (cve=9): **4,787,763** asegurados en marzo 2025.
 
-### Actividad 6 — Estrategia de optimización de Data Warehouse
-**Ruta:** `tareas/Actividad 6/`
+### Actividad 10 — Estrategia de optimización de Data Warehouse
+**Ruta:** `tareas/Actividad 10/`
 
-Propuesta analítica (sin implementación) de una estrategia de optimización de DW para una agencia de investigación sobre calidad de empleo que consume datos IMSS. Las variables de análisis son: entidad federativa, sector económico (1 dígito SCIAN), rango salarial y sexo.
+Propuesta analítica de estrategia de optimización de DW para una agencia de investigación sobre calidad de empleo que consume datos IMSS (variables: entidad, sector 1 dígito SCIAN, rango salarial, sexo).
 
-**Pilares de la estrategia:**
 | Pilar | Descripción | Beneficio estimado |
 |-------|-------------|-------------------|
-| ORC + SNAPPY | Migrar de TEXTFILE a formato columnar | −74% volumen · −93% I/O por consulta |
-| Clustering (32 buckets) | `CLUSTERED BY (cve_entidad, sector_1)` | Bucket pruning en filtros por entidad |
-| Tablas de agregación | 3 vistas materializadas pre-calculadas | Consultas KPI < 1 segundo |
+| ORC + SNAPPY | Migrar de TEXTFILE a formato columnar | −74% volumen · −93% I/O |
+| Clustering (32 buckets) | `CLUSTERED BY (cve_entidad, sector_1)` | Bucket pruning en filtros |
+| Tablas de agregación | Vistas materializadas pre-calculadas | KPIs < 1 segundo |
 | Tez + vectorización | Motor DAG en memoria, bloques de 1,024 filas | −85% latencia vs MapReduce |
 
-**Esquema estrella propuesto:** `fact_asegurados` + `dim_entidad`, `dim_sector`, `dim_salario`, `dim_sexo`, `dim_tiempo`.
+**Esquema estrella:** `fact_asegurados` + `dim_entidad`, `dim_sector`, `dim_salario`, `dim_sexo`, `dim_tiempo`.
 
 ---
 
-## Módulo 3 — R para Grandes Datos
+## Módulo 4 — R para Grandes Datos
 
-### Actividad 7 — Instalación de paquetes `bigmemory` y `ff`
-**Ruta:** `tareas/Actividad 7/`
+### Actividad 11 — Instalación de paquetes `bigmemory` y `ff`
+**Ruta:** `tareas/Actividad 11/`
 
-Instalación y verificación de los dos principales paquetes de R para procesamiento de grandes volúmenes de datos en equipo local, usando **RStudio 2025.05.0** sobre R 4.5.3.
+Instalación y verificación en R 4.5.3 / RStudio 2025.05.0 sobre Windows 11.
 
-| Paquete | Versión | Estrategia | Descripción |
-|---------|---------|------------|-------------|
-| `bigmemory` | 4.6.4 | Memoria compartida | Matrices fuera del heap — acceso concurrente entre procesos R |
-| `ff` | 4.5.2 | Memory-mapped files | Datos en disco accedidos como RAM vía paginación del SO |
+| Paquete | Versión | Estrategia |
+|---------|---------|------------|
+| `bigmemory` | 4.6.4 | Memoria compartida — matrices fuera del heap, acceso concurrente |
+| `ff` | 4.5.2 | Memory-mapped files — datos en disco accedidos como RAM |
 
-**Instalación:**
 ```r
 install.packages(c("bigmemory", "ff"), repos = "https://cran.rstudio.com/")
 ```
 
-**Dependencias instaladas automáticamente:** `bigmemory.sri`, `Rcpp`, `uuid`, `BH`, `bit`
+### Actividad 12 — Construcción de modelos con BigData
+**Ruta:** `tareas/Actividad 12/`
 
-**Ejemplos verificados:**
-```r
-# bigmemory — matriz en memoria compartida
-library(bigmemory)
-bm <- big.matrix(nrow=1000, ncol=5, type="double", init=0)
-# → Clase: big.matrix | Dimensiones: 1000 x 5
+Dos modelos de regresión sobre el dataset IMSS ASG abril 2026 (7.4M trabajadores urbanos):
 
-# ff — vector mapeado a disco
-library(ff)
-ffv <- ff(1:10000, filename=tempfile(fileext=".ff"), vmode="integer")
-# → Longitud: 10000 | Tamaño en disco: 40,000 bytes (4 bytes × 10,000 enteros)
-```
+**Modelo 1 — Regresión Lineal Ponderada (WLS)**
+- Fórmula: `sal_num ~ edad + edad² + C(entidad) + C(tamano) + edad:C(tamano)`
+- R²=0.079 · F=7,433 · Pico salarial a los 49.8 años
+- Empresas grandes (S6/S7) valorizan la experiencia más que microempresas
+
+**Modelo 2 — Regresión Logística Ponderada (GLM Binomial)**
+- Fórmula: `sal_alto ~ C(entidad) + C(sector) + mujer`  (umbral = W3, percentil 75)
+- AUC=0.610 · OR_mujer=0.703 — mujeres con 30% menos odds de salario alto
+- Umbral óptimo Youden=0.408 → Sens=39.9%, Spec=75.3%
+
+**Entregables:** `generar_reporte.py` · 6 gráficas · PDF con 9 referencias APA
 
 ---
 
@@ -156,9 +197,8 @@ ffv <- ff(1:10000, filename=tempfile(fileext=".ff"), vmode="integer")
 | YARN ResourceManager | 3.3.6 | `http://homelab:8088` |
 | HiveServer2 | 2.3.2 | `homelab:10000` (vía Tailscale) |
 | Metastore DB | PostgreSQL 9.6 | Interno Docker |
-| Equipo | ThinkPad T14 Gen 4 | Docker Compose |
 | R | 4.5.3 (2026-03-11 ucrt) | Windows 11 local |
-| RStudio | 2025.05.0-496 | Windows 11 local |
+| RStudio | 2025.05.0 | Windows 11 local |
 
 ```bash
 # Conectar a Hive vía beeline
@@ -174,8 +214,8 @@ ssh carpuro@100.64.0.11
 
 | Ruta HDFS | Tabla Hive | Descripción |
 |-----------|------------|-------------|
-| `/user/oem/empleo/mes=NN/` | `empleo` | Semestre completo particionado (~27.7M registros, 6 particiones) |
+| `/user/oem/empleo/mes=NN/` | `empleo` | Semestre completo particionado (~27.7M registros) |
 | `/user/oem/empleo_enero/` | `empleo_enero` | Solo enero 2025 (~4.6M registros) |
 
-**Fuente:** [Datos Abiertos IMSS — Asegurados por Grupo de Edad y Sexo 2025](https://datos.imss.gob.mx/)  
+**Fuente:** [Datos Abiertos IMSS — Asegurados por Grupo de Edad y Sexo 2025](https://datos.imss.gob.mx/)
 **Formato:** CSV con delimitador `|`, 29 columnas, encabezado en primera fila
