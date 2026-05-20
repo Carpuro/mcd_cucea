@@ -370,6 +370,32 @@ figure(os.path.join(PLOTS_DIR, 'orange_flow3_clf.png'),
 doc.add_page_break()
 
 # ------------------------------------------------------------------
+# 5b. REGRESION JERARQUICA M1→M4 (seccion adicional)
+# ------------------------------------------------------------------
+heading('4.4 Regresion Jerarquica Completa M1 → M4', level=2)
+body_text(
+    'Ademas de los flujos exploratorios, se ejecuto la regresion jerarquica '
+    'formal con los 4 bloques de variables para cuantificar la contribucion '
+    'independiente de cada dimension del riesgo.')
+
+t_m4 = table_header('Modelo', 'Bloques', 'R²', 'RMSE', 'Delta R²', 'F-test', 'Significancia')
+for m, bl, r2, rmse, delta, f, sig in [
+    ('M1', 'Block 1 (ENOE)',          '0.6266', '0.0907', 'baseline',  '—',           'Baseline'),
+    ('M2', 'Block 1+2 (O*NET)',        '0.9959', '0.0095', '+0.3693',  'F=13,214 ***', 'Leakage documentado'),
+    ('M3', 'Block 1+2+3 (LLM)',        '0.9972', '0.0079', '+0.0012',  'F=50.95 ***',  'H1 confirmada'),
+    ('M4', 'Block 1+2+3+4 (IRA)',      '0.9971', '0.0080', '-0.0001',  'ns',           'H2: IRA redundante'),
+]:
+    table_row(t_m4, m, bl, r2, rmse, delta, f, sig)
+
+doc.add_paragraph()
+figure(os.path.join(PLOTS_DIR, 'comparacion_m1m4_completa.png'),
+       'Figura 10. Regresion jerarquica M1→M4: R² por modelo (izq), ganancia incremental '
+       'por bloque (centro) y predicciones vs reales M3 (der). '
+       'Block 3 agrega F=50.95*** sobre Block 2 — H1 confirmada.')
+
+doc.add_page_break()
+
+# ------------------------------------------------------------------
 # 6. PYTHON ML
 # ------------------------------------------------------------------
 heading('5. Etapa Python: Machine Learning (07_ml_notebook.ipynb)')
@@ -550,6 +576,24 @@ body_text(
     'Aunque el porcentaje parece modesto, es consistente con la naturaleza de '
     'K-Means: la mayoria del Cluster Medio permanece en Medio porque su perfil O*NET '
     'no cambia — lo que cambia es la direccion del riesgo, no el nivel absoluto.')
+
+figure(os.path.join(PLOTS_DIR, 'permutation_importance.png'),
+       'Figura 11. Permutation Importance — M1 vs M3. '
+       'En M3, rti y cognitive_demand dominan (base del target). '
+       'gpt_exposure y moravec_index tienen importancia adicional independiente '
+       '— evidencia de que Block 3 captura una dimension de riesgo distinta.')
+
+figure(os.path.join(PLOTS_DIR, 'cluster_radar.png'),
+       'Figura 12. Radar chart de los 3 clusters. '
+       'Riesgo Alto: RTI alto, GPT exposure bajo (manufactura/agricultura — Paradoja Moravec). '
+       'Riesgo Medio: GPT exposure alto, cognitivo medio (admin/servicios — zona H1). '
+       'Riesgo Bajo: cognitivo alto, educacion alta (profesionistas — complementariedad IA).')
+
+figure(os.path.join(PLOTS_DIR, 'sector_cluster_heatmap.png'),
+       'Figura 13. Distribucion de clusters por sector (%). '
+       'Agricultura y Manufactura concentran en Riesgo Alto. '
+       'Servicios y Comercio en Riesgo Medio (alta exposicion LLM). '
+       'Salud y Educacion en Riesgo Bajo.')
 
 figure(os.path.join(PLOTS_DIR, 'kmeans_llm_shift.png'),
        'Figura 9. K-Means LLM-aware vs Original (H1 computacional). '
