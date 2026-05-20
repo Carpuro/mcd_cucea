@@ -10,7 +10,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 TEMPLATE = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
-OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 6/Actividad_DW_Tarea6_CarlosPulidoRosas.docx"
+OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 10/Actividad_DW_Tarea6_CarlosPulidoRosas.docx"
 
 NAVY   = RGBColor(0x1F, 0x49, 0x7D)
 AMBER  = RGBColor(0xD4, 0x8C, 0x00)
@@ -225,7 +225,7 @@ add_para(doc,
 # =============================================================================
 add_heading(doc, "2. Diagnostico del Estado Actual")
 add_para(doc,
-    "Tras la implementacion del particionado por mes (Actividad 5), la tabla empleo "
+    "Tras la implementacion del particionado por mes (Actividad 9), la tabla empleo "
     "opera como tabla externa TEXTFILE particionada. La estructura actual en HDFS es "
     "funcional pero presenta tres limitaciones para el patron de consultas de la agencia:",
     space_after=3)

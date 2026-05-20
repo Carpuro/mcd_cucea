@@ -1,53 +1,48 @@
-# Actividad 3 — Instalación y Configuración de Apache Hive
+# Actividad 1 — WordCount con Hadoop MapReduce
 
 **Materia:** Almacenamiento de Grandes Bases de Datos  
-**Módulo:** Apache Hive  
+**Módulo:** Analítica con MapReduce  
 **Alumno:** Carlos Pulido Rosas  
-**Herramienta:** Apache Hive 2.3.2 + Hadoop 3.3.6 (Docker Compose)
+**Herramienta:** Apache Hadoop 3.3.6 (MapReduce + HDFS)
 
 ## Objetivo
 
-Instalar y configurar Apache Hive sobre el clúster Hadoop existente usando Docker Compose, con metastore persistente en PostgreSQL y ruta HDFS propia fuera de `/tmp`.
+Ejecutar el job clásico de WordCount sobre el texto completo de *War and Peace* (Tolstói) usando el framework MapReduce de Hadoop sobre HDFS.
 
-## Stack Docker
+## Archivo de entrada
 
-```yaml
-hive-server:        # HiveServer2 — puerto 10000 (JDBC) y 10002 (Web UI)
-hive-metastore:     # Thrift Metastore Service
-hive-metastore-db:  # PostgreSQL 9.6 — almacena el catálogo de tablas
-```
+| Archivo | Descripción |
+|---------|-------------|
+| `warandpeace.txt` | Texto completo de *Guerra y Paz* — ~3.2 MB, ~560,000 palabras |
 
-Además de los contenedores Hadoop previos:
-```yaml
-hadoop-namenode     # HDFS NameNode — puerto 9870
-hadoop-datanode     # HDFS DataNode
-hadoop-resourcemanager  # YARN — puerto 8088
-hadoop-nodemanager
-```
+## Proceso
 
-## Configuración clave
+1. Subir `warandpeace.txt` a HDFS: `/user/oem/input/`
+2. Ejecutar el job MapReduce de WordCount incluido en Hadoop
+3. Leer el resultado desde HDFS: `/user/oem/output/`
+4. Exportar `resultado.txt` con la frecuencia de cada palabra
 
-- **Ruta HDFS:** `/user/oem/` (persistente, fuera de `/tmp` que se limpia al reiniciar)
-- **Metastore:** PostgreSQL 9.6 en contenedor `hive-metastore-db`
-- **Conexión beeline:**
+## Comandos principales
 
 ```bash
-docker exec -i hive-server beeline \
-  -u 'jdbc:hive2://localhost:10000' \
-  --silent=true 2>/dev/null
+# Subir archivo a HDFS
+docker exec hadoop-namenode hdfs dfs -put warandpeace.txt /user/oem/input/
+
+# Ejecutar WordCount
+docker exec hadoop-namenode hadoop jar \
+  /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar \
+  wordcount /user/oem/input /user/oem/output
+
+# Leer resultado
+docker exec hadoop-namenode hdfs dfs -cat /user/oem/output/part-r-00000
 ```
 
-## Verificación
+## Resultado
 
-```sql
-SHOW DATABASES;
--- default
-CREATE DATABASE prueba;
-SHOW DATABASES;
--- default, prueba
-DROP DATABASE prueba;
-```
+- **Archivo:** `resultado.txt`
+- Contiene cada palabra única del texto y su frecuencia de aparición
+- Las palabras más frecuentes son artículos y preposiciones en inglés (the, and, of…)
 
 ## Entregable
 
-`Actividad_Instalacion_Hive_CarlosPulidoRosas.pdf`
+`Actividad_HadoopMapReduce_WordCount_CarlosPulidoRosas.pdf`
