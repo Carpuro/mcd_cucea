@@ -11,13 +11,13 @@
 
 | # | Módulo | Tema | Herramienta | Entregable |
 |---|--------|------|-------------|------------|
-| 1 | Configuración | Descarga de aplicativos para Linux Mint | — | — |
-| 2 | Hadoop | Instalación de Hadoop | Docker | — |
+| 1 | Configuración | Descarga de aplicativos para Linux Mint | — | Screenshot |
+| 2 | Hadoop | Instalación de Hadoop | Docker | Screenshot |
 | 3 | MapReduce | WordCount sobre *War and Peace* | Hadoop 3.3.6 | PDF + resultado.txt |
 | 4 | MapReduce | WordCount corregido + nube de palabras | Hadoop + Python | PDF + nube.webp |
 | 5 | Hive | Instalación y configuración de Apache Hive | Docker + Hive 2.3.2 | PDF |
-| 6 | Hive | Importar archivos IMSS ASG 2025 a HDFS | HDFS CLI + beeline | — |
-| 7 | Hive | Reorganizar archivos IMSS en HDFS | HDFS CLI + HiveQL | — |
+| 6 | Hive | Importar archivos IMSS ASG 2025 a HDFS | HDFS CLI + beeline | PDF |
+| 7 | Hive | Reorganizar archivos IMSS en HDFS | HDFS CLI + HiveQL | PDF |
 | 8 | Hive | Análisis de empleo IMSS 2025 — 4 consultas HiveQL | HiveQL + beeline | PDF |
 | 9 | Hive | Optimización: particionado por mes | HiveQL + HDFS | PDF |
 | 10 | Hive | Estrategia de optimización de Data Warehouse | Python (python-docx) | PDF |
