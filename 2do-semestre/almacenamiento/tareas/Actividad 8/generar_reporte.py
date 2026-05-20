@@ -485,6 +485,18 @@ def add_image(doc, filename, caption=None, width=Inches(5.8)):
     if caption:
         add_caption(doc, caption)
 
+def add_reference(doc, text):
+    from docx.shared import Inches
+    p = doc.add_paragraph()
+    p.paragraph_format.left_indent       = Pt(28)
+    p.paragraph_format.first_line_indent = Pt(-28)
+    p.paragraph_format.space_after       = Pt(4)
+    p.paragraph_format.space_before      = Pt(0)
+    run = p.add_run(text)
+    run.font.size = Pt(9.5)
+    run.font.name = "Calibri"
+    run.font.color.rgb = BLACK
+
 def add_bullet(doc, titulo, texto):
     p = doc.add_paragraph(style="List Bullet")
     p.paragraph_format.space_after = Pt(4)
@@ -822,6 +834,42 @@ for titulo, texto in conclusiones:
     add_bullet(doc, titulo, texto)
 
 add_para(doc, space_before=6, space_after=0)
+
+# ── 6. Referencias ────────────────────────────────────────────────────────────
+add_heading(doc, "6. Referencias")
+
+referencias = [
+    ("Fawcett, T. (2006). An introduction to ROC analysis. "
+     "Pattern Recognition Letters, 27(8), 861-874. "
+     "https://doi.org/10.1016/j.patrec.2005.10.010"),
+    ("Goldin, C. (2014). A grand gender convergence: Its last chapter. "
+     "American Economic Review, 104(4), 1091-1119. "
+     "https://doi.org/10.1257/aer.104.4.1091"),
+    ("Greene, W. H. (2018). Econometric Analysis (8a ed.). Pearson."),
+    ("Hosmer, D. W., Lemeshow, S., & Sturdivant, R. X. (2013). "
+     "Applied Logistic Regression (3a ed.). John Wiley & Sons. "
+     "https://doi.org/10.1002/9781118548387"),
+    ("Instituto Mexicano del Seguro Social [IMSS]. (2026). "
+     "Asegurados por grupo (ASG) — Abril 2026 [Conjunto de datos]. "
+     "Datos Abiertos IMSS. https://datos.imss.gob.mx/"),
+    ("Mincer, J. (1974). Schooling, Experience, and Earnings. "
+     "Columbia University Press / National Bureau of Economic Research."),
+    ("Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., "
+     "Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., "
+     "Cournapeau, D., Brucher, M., Perrot, M., & Duchesnay, E. (2011). "
+     "Scikit-learn: Machine learning in Python. "
+     "Journal of Machine Learning Research, 12, 2825-2830."),
+    ("Seabold, S., & Perktold, J. (2010). Statsmodels: Econometric and statistical modeling "
+     "with Python. Proceedings of the 9th Python in Science Conference (SciPy 2010), 57-61. "
+     "https://doi.org/10.25080/Majora-92bf1922-011"),
+    ("Wooldridge, J. M. (2010). Econometric Analysis of Cross Section and Panel Data "
+     "(2a ed.). MIT Press."),
+]
+
+for ref in referencias:
+    add_reference(doc, ref)
+
+add_para(doc, space_before=4, space_after=0)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # 7. SAVE DOCX + PDF
