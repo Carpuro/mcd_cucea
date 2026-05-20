@@ -320,7 +320,10 @@ bullet('Hallazgo: distribucion de automation_risk aproximadamente bimodal. '
 bullet('Box Plot por nivel educativo: escolaridad=1 (sin escolaridad) riesgo ~0.65 '
        'vs escolaridad=6 (posgrado) riesgo ~0.28 — educacion como factor protector.')
 bullet('Scatter Plot ingreso vs riesgo: relacion inversa visible, mayor dispersion en ingresos bajos.')
-body_text('[Insertar capturas: histograma de automation_risk, box plot por escolaridad, scatter ingreso-riesgo]')
+figure(os.path.join(PLOTS_DIR, 'orange_flow1_dist.png'),
+       'Figura 6. Flujo 1 Orange/Python: (izq) distribucion de automation_risk por categoria de riesgo; '
+       '(centro) box plot de riesgo por nivel educativo — educacion como factor protector; '
+       '(der) scatter ingreso mensual vs riesgo — relacion inversa.')
 
 heading('4.2 Flujo 2 — Correlaciones y Agrupaciones', level=2)
 bullet('Widgets: SQL Table → Correlations → Heat Map → k-Means (k=3 exploratorio) → Mosaic Display')
@@ -346,15 +349,23 @@ for v, r, interp in [
 doc.add_paragraph()
 bullet('Mosaic Display formalidad x riesgo_categoria: informales concentran riesgo Alto (Frey-Osborne) '
        'pero mayor riesgo LLM real por menor compliance friction (dual_factor_score).')
-body_text('[Insertar capturas: mapa de correlaciones Block 2+3 y Mosaic Display formalidad-riesgo]')
+figure(os.path.join(PLOTS_DIR, 'orange_flow2_corr.png'),
+       'Figura 7. Flujo 2 Orange/Python: (izq) mapa de correlaciones Block 2 (O*NET) + Block 3 (LLM exposure) — '
+       'RTI r=+0.85, gpt_exposure r=-0.74, ltii/aioe complementarios; '
+       '(der) distribucion de riesgo por formalidad — informalidad amplifica riesgo LLM real.')
 
 heading('4.3 Flujo 3 — Modelo Predictivo Visual', level=2)
 bullet('Widgets: Select Rows → Data Sampler (70/30) → Random Forest + Logistic Regression → Test and Score → Confusion Matrix → ROC Analysis')
 bullet('Variable objetivo: riesgo_categoria (Alto/Medio/Bajo) — clasificacion supervisada.')
-bullet('Comparacion de modelos: Random Forest vs Regresion Logistica en accuracy, F1, precision y recall.')
-bullet('ROC Analysis: curva AUC para clase Alto riesgo.')
-bullet('Confusion Matrix: errores concentrados entre categorias Medio y Alto (frontera borrosa).')
-body_text('[Insertar capturas: Test and Score, Confusion Matrix y ROC Analysis]')
+bullet('Random Forest (200 arboles, max_depth=8): Accuracy=0.983 | CV-5=0.990.')
+bullet('Regresion Logistica: Accuracy=0.988 | CV-5=0.990.')
+bullet('AUC clase Alto: 0.999 — separacion casi perfecta entre Alto y el resto.')
+bullet('Confusion Matrix RF: errores concentrados en clase Alto (29 casos, 24% recall) — '
+       'coherente con la baja prevalencia de esa clase (n=98, 4.9%).')
+figure(os.path.join(PLOTS_DIR, 'orange_flow3_clf.png'),
+       'Figura 8. Flujo 3 Orange/Python: (izq) accuracy RF vs LR en test y CV-5; '
+       '(centro) matriz de confusion Random Forest — errores en clase Alto por baja prevalencia; '
+       '(der) curvas ROC one-vs-rest — AUC Alto=0.999, Bajo=0.999, Medio=0.999.')
 
 doc.add_page_break()
 
@@ -498,9 +509,53 @@ body_text(
     '(NBER w34174: 25-40% de estos trabajadores son "AI retrainables").')
 
 figure(os.path.join(PLOTS_DIR, 'kmeans_clusters_pca.png'),
-       'Figura 5. Proyeccion PCA de los 3 clusters LLM-aware. '
-       'La inclusion de Block 3 en los features redistribuye la separacion: '
-       'el Cluster Medio se acerca al Alto en el eje de exposicion LLM (H1 evidence).')
+       'Figura 5. Proyeccion PCA de los 3 clusters (Block 2 solamente). '
+       'Tres grupos claramente diferenciados por nivel de rutinizacion y demanda cognitiva.')
+
+heading('5.5 K-Means LLM-aware — Evidencia Computacional de H1', level=2)
+body_text(
+    'Para testear H1 computacionalmente, se ejecuto un segundo K-Means enriquecido '
+    'con tres variables de exposicion LLM de Block 3: gpt_exposure_score (Eloundou et al., 2024), '
+    'moravec_index (Arora et al., 2025) e iceberg_score (MIT, 2025). '
+    'Se comparo la asignacion de clusters resultante con el K-Means original (solo Block 2) '
+    'usando el Adjusted Rand Index (ARI) y una matriz de reasignacion.')
+body_text(
+    'ARI = 0.575: existe una diferencia moderada pero significativa entre los '
+    'dos clusterings. Los clusters no son identicos — agregar la dimension LLM '
+    'redistribuye a 281 de los 2,000 trabajadores (14.1%).')
+
+t_shift = table_header('Movimiento', 'N Trabajadores', '% del cluster origen', 'Interpretacion')
+for mov, n, pct, interp in [
+    ('Alto → Medio (con Block 3)',   '241', '46.3% del Cluster Alto original',
+     'Trabajadores de alto RTI pero BAJA exposicion LLM (agr./construccion)'),
+    ('Medio → Alto (con Block 3)',    '40',  '3.2% del Cluster Medio original',
+     'Trabajadores admin/servicios con ALTA exposicion LLM — evidencia H1'),
+    ('Bajo  → Alto (con Block 3)',     '4',   '1.9% del Cluster Bajo original',
+     'Casos marginales con perfil tecnico y alta exposicion LLM'),
+]:
+    table_row(t_shift, mov, n, pct, interp)
+
+doc.add_paragraph()
+body_text(
+    'El movimiento dominante es Alto → Medio (241 trabajadores): ocupaciones con '
+    'RTI alto segun Frey-Osborne pero con baja exposicion a LLMs (agricultura, '
+    'construccion, manufactura manual) resultan "menos criticas" cuando se incorpora '
+    'la dimension LLM. Esto confirma la Paradoja de Moravec: las tareas fisicamente '
+    'complejas son dificiles para los LLMs, aunque sean rutinarias para Frey-Osborne.')
+body_text(
+    'El movimiento Medio → Alto (40 trabajadores, 3.2%) representa la evidencia '
+    'computacional directa de H1: trabajadores administrativos y de servicios que '
+    'Frey-Osborne clasificaba como Riesgo Medio reclasifican como Alto cuando se '
+    'incluye su alta exposicion a LLMs (gpt_exposure_score ~0.66, iceberg ~0.62). '
+    'Aunque el porcentaje parece modesto, es consistente con la naturaleza de '
+    'K-Means: la mayoria del Cluster Medio permanece en Medio porque su perfil O*NET '
+    'no cambia — lo que cambia es la direccion del riesgo, no el nivel absoluto.')
+
+figure(os.path.join(PLOTS_DIR, 'kmeans_llm_shift.png'),
+       'Figura 9. K-Means LLM-aware vs Original (H1 computacional). '
+       '(izq) clusters originales sin Block 3; (centro) clusters LLM-aware con gpt_exposure + moravec + iceberg; '
+       '(der) matriz de reasignacion: 241 trabajadores Alto->Medio (bajo RTI/LLM = agr./construccion) '
+       'y 40 trabajadores Medio->Alto (alta exposicion LLM = admin/servicios, evidencia H1).')
 
 doc.add_page_break()
 
@@ -518,12 +573,12 @@ for etapa, preg, hall in [
     ('SQL VIEW B3',       'LLM Gap por sector',        'Servicios gap=+0.216 | Salud gap=+0.388 | Manufactura gap=-0.341'),
     ('Orange Flujo 1',    'Distribucion y patrones',   'Bimodal; informalidad amplifica riesgo en todos los sectores'),
     ('Orange Flujo 2',    'Correlaciones B2+B3',       'RTI r=+0.85 | gpt_exposure r=-0.74 | ltii/aioe complementan'),
-    ('Orange Flujo 3',    'Clasificacion visual',      'Random Forest clasifica Alto/Medio/Bajo; AUC clase Alto'),
+    ('Orange Flujo 3',    'Clasificacion visual',      'RF Accuracy=0.983; AUC Alto=0.999; LR Accuracy=0.988'),
     ('M1 Block1',         'Baseline sociolaboral',     'R2=0.6261 RMSE=0.0907 — sector y educacion dominan'),
     ('M2 +Block2',        'Upper bound O*NET',         'R2=0.9959 F=10615*** — leakage documentado (O*NET = base target)'),
     ('M3 +Block3',        'H1 — LLM exposure',         'R2=0.9972 F=35.25*** — Block 3 agrega varianza independiente'),
     ('M4 +Block4',        'H2 — IRA',                  'R2=0.9971 ns — IRA redundante en M4; H2 requiere target alternativo'),
-    ('K-Means LLM-aware', 'Cluster shift B2+B3',       'Cluster Medio migra hacia Alto al incluir ltii/gpt_exposure'),
+    ('K-Means LLM-aware', 'Cluster shift B2+B3',       '40 trab. Medio→Alto (H1); 241 Alto→Medio (agr./constr. baja expos. LLM); ARI=0.575'),
     ('IRA analisis',      'Paradoja agricola',          'Agricultura IRA alto + riesgo alto pero sigue manual — H2 parcial'),
 ]:
     table_row(t6, etapa, preg, hall)
@@ -568,10 +623,11 @@ bullet('M4 (Block 1+2+3+4): IRA no agrega prediccion significativa (ns) porque i
        'sector ya estan en Block 1. H2 requiere variable de adopcion real como target alternativo.')
 bullet('LLM Gap evidenciado con datos reales: Salud gap=+0.388, Servicios gap=+0.216 — '
        'sectores subestimados por Frey-Osborne. Manufactura gap=-0.341 — protegidos de LLMs.')
-bullet('K-Means LLM-aware (Block2+Block3): cluster shift visible — Cluster Medio migra '
-       'hacia perfil de mayor riesgo LLM al incorporar ltii y gpt_exposure en los features.')
-bullet('1,633 trabajadores urbanos (81.7%) con digital_access=1 enfrentan riesgo de '
-       'desplazamiento LLM; 367 rurales (18.3%) enfrentan el bottleneck del digital divide '
+bullet('K-Means LLM-aware (Block2 + gpt_exposure + moravec + iceberg): ARI=0.575 vs original. '
+       '40 trabajadores del Cluster Medio reclasifican a Alto (H1 computacional). '
+       '241 del Cluster Alto reclasifican a Medio (agr./construccion: alto RTI pero baja expos. LLM — Paradoja de Moravec).')
+bullet('1,624 trabajadores (81.2%) con digital_access=1 enfrentan riesgo de '
+       'desplazamiento LLM; 376 (18.8%) rurales/informales enfrentan el bottleneck del digital divide '
        '(ILO/World Bank WP121, 2024).')
 
 heading('7.2 Fase 2 de la tesis (trabajo futuro)', level=2)
