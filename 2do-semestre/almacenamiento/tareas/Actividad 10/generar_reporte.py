@@ -1,5 +1,5 @@
 """
-Actividad 6 — Estrategia de Optimizacion de Data Warehouse
+Actividad 10 — Estrategia de Optimizacion de Data Warehouse
 Agencia de Investigacion sobre Calidad de Empleo — Datos IMSS ASG 2025
 """
 from docx import Document
@@ -10,7 +10,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 TEMPLATE = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
-OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 10/Actividad_DW_Tarea6_CarlosPulidoRosas.docx"
+OUTPUT   = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 10/Actividad10_AlmacenamientoGBD_CarlosPulidoRosas.docx"
 
 NAVY   = RGBColor(0x1F, 0x49, 0x7D)
 AMBER  = RGBColor(0xD4, 0x8C, 0x00)

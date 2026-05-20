@@ -14,11 +14,11 @@ from docx.shared import Inches
 # Adjust template path for Windows vs Linux
 if sys.platform == "win32":
     TEMPLATE    = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx"
-    OUTPUT      = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividades\R\Actividad 11\Actividad_R_Tarea7_CarlosPulidoRosas.docx"
-    SS_DIR      = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividades\R\Actividad 11\screenshots"
+    OUTPUT      = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividad 11\Actividad11_AlmacenamientoGBD_CarlosPulidoRosas.docx"
+    SS_DIR      = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento\tareas\Actividad 11\screenshots"
 else:
     TEMPLATE    = "/home/carpuro/Documents/mcd/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx"
-    OUTPUT      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 11/Actividad_R_Tarea7_CarlosPulidoRosas.docx"
+    OUTPUT      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 11/Actividad11_AlmacenamientoGBD_CarlosPulidoRosas.docx"
     SS_DIR      = "/home/carpuro/Documents/mcd/mcd_cucea/2do-semestre/almacenamiento/tareas/Actividad 11/screenshots"
 
 NAVY   = RGBColor(0x1F, 0x49, 0x7D)
