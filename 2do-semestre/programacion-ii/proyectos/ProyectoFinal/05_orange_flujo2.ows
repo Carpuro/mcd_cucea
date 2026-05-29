@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<scheme version="2.0" title="Flujo 2 — Correlaciones y Agrupaciones" description="Riesgo de Automatizacion Laboral en Jalisco | Programacion II 2026-A | Carlos Pulido Rosas">
+	<nodes>
+		<node id="0" name="Python Script" qualified_name="Orange.widgets.data.owpythonscript.OWPythonScript" project_name="Orange3" version="" title="Cargar vista_riesgo_jalisco (SQL Server)" position="(-150.0, 200.0)" />
+		<node id="1" name="Data Table" qualified_name="Orange.widgets.data.owtable.OWTable" project_name="Orange3" version="" title="2000 Trabajadores ENOE Jalisco" position="(80.0, 200.0)" />
+		<node id="2" name="Correlations" qualified_name="Orange.widgets.visualize.owcorrelations.OWCorrelations" project_name="Orange3" version="" title="Correlaciones Block2 + Block3 (LLM Exposure)" position="(320.0, 80.0)" />
+		<node id="3" name="Heat Map" qualified_name="Orange.widgets.visualize.owheatmap.OWHeatMap" project_name="Orange3" version="" title="Mapa de Calor: Perfil por Trabajador" position="(320.0, 320.0)" />
+		<node id="4" name="k-Means" qualified_name="Orange.widgets.unsupervised.owkmeans.OWKMeans" project_name="Orange3" version="" title="K-Means k=3 (Elbow Method)" position="(580.0, 200.0)" />
+		<node id="5" name="Scatter Plot" qualified_name="Orange.widgets.visualize.owscatterplot.OWScatterPlot" project_name="Orange3" version="" title="Clusters PCA: Riesgo Alto / Medio / Bajo" position="(820.0, 100.0)" />
+		<node id="6" name="Box Plot" qualified_name="Orange.widgets.visualize.owboxplot.OWBoxPlot" project_name="Orange3" version="" title="automation_risk por Cluster" position="(820.0, 300.0)" />
+	</nodes>
+	<links>
+		<link id="0" source_node_id="0" sink_node_id="1" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="data" sink_channel_id="data" />
+		<link id="1" source_node_id="1" sink_node_id="2" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="data" sink_channel_id="data" />
+		<link id="2" source_node_id="1" sink_node_id="3" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="data" sink_channel_id="data" />
+		<link id="3" source_node_id="1" sink_node_id="4" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="data" sink_channel_id="data" />
+		<link id="4" source_node_id="4" sink_node_id="5" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="annotated_data" sink_channel_id="data" />
+		<link id="5" source_node_id="4" sink_node_id="6" source_channel="Data" sink_channel="Data" enabled="true" source_channel_id="annotated_data" sink_channel_id="data" />
+	</links>
+	<annotations />
+	<thumbnail />
+	<node_properties>
+		<properties node_id="0" format="literal">{'controlAreaVisible': True, 'currentScriptIndex': 0, 'savedWidgetGeometry': None, 'scriptLibrary': [{'name': 'Cargar vista_riesgo_jalisco', 'script': '', 'filename': None}], 'scriptText': 'import pyodbc\nimport numpy as np\nfrom Orange.data import Table, Domain, ContinuousVariable, DiscreteVariable\n\n# Conexion a SQL Server (homelab)\nconn = pyodbc.connect(\n    \'DRIVER={ODBC Driver 17 for SQL Server};\'\n    \'SERVER=localhost,1433;\'\n    \'DATABASE=ai_automation_risk_jalisco;\'\n    \'Trusted_Connection=yes;\'\n    \'TrustServerCertificate=yes;\'\n)\ncursor = conn.cursor()\ncursor.execute(\n    \'SELECT nivel_educativo, ingreso_mensual, edad, tamanio_empresa, ira,\'\n    \' rti, cognitive_demand, social_interaction, creativity, automation_risk,\'\n    \' gpt_exposure_score, moravec_index, dual_factor_score, iceberg_score,\'\n    \' digital_access, sector, formalidad, riesgo_categoria\'\n    \' FROM dbo.vista_riesgo_jalisco\'\n)\nrows = cursor.fetchall()\nconn.close()\n\nsectores     = [\'Agricultura\', \'Comercio\', \'Construccion\', \'Educacion\', \'Finanzas\',\n                \'Manufactura\', \'Salud\', \'Servicios\', \'Tecnologia\', \'Transporte\']\nformalidades = [\'Formal\', \'Informal\']\ncategorias   = [\'Alto\', \'Bajo\', \'Medio\']\n\ncont_vars = [\n    \'nivel_educativo\', \'ingreso_mensual\', \'edad\', \'tamanio_empresa\', \'ira\',\n    \'rti\', \'cognitive_demand\', \'social_interaction\', \'creativity\', \'automation_risk\',\n    \'gpt_exposure_score\', \'moravec_index\', \'dual_factor_score\', \'iceberg_score\', \'digital_access\',\n]\ndomain = Domain(\n    [ContinuousVariable(n) for n in cont_vars] +\n    [DiscreteVariable(\'sector\', values=sectores),\n     DiscreteVariable(\'formalidad\', values=formalidades)],\n    class_vars=DiscreteVariable(\'riesgo_categoria\', values=categorias)\n)\n\nX, y = [], []\nfor row in rows:\n    try:\n        xr = [float(row[i]) for i in range(15)]\n        xr.append(float(sectores.index(str(row[15]))) if str(row[15]) in sectores else 0.0)\n        xr.append(float(formalidades.index(str(row[16]))) if str(row[16]) in formalidades else 0.0)\n        y.append(float(categorias.index(str(row[17]))) if str(row[17]) in categorias else 0.0)\n        X.append(xr)\n    except:\n        pass\n\nout_data = Table.from_numpy(domain, np.array(X, dtype=float), np.array(y, dtype=float))\nprint(f\'Datos cargados: {len(out_data)} trabajadores\')', 'splitterState': None, 'vimModeEnabled': False, '__version__': 2}</properties>
+		<properties node_id="1" format="literal">{'auto_commit': True, 'color_by_class': True, 'controlAreaVisible': True, 'savedWidgetGeometry': None, 'select_rows': True, 'show_attribute_labels': True, 'show_distributions': False, 'stored_selection': {'rows': [], 'columns': []}, 'stored_sort': [], '__version__': 1}</properties>
+		<properties node_id="2" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': None, '__version__': 1}</properties>
+		<properties node_id="3" format="literal">{'controlAreaVisible': True, 'savedWidgetGeometry': None, 'col_clustering': 0, 'row_clustering': 0, '__version__': 3}</properties>
+		<properties node_id="4" format="literal">{'auto_commit': True, 'controlAreaVisible': True, 'k': 3, 'k_from': 2, 'k_to': 8, 'max_iterations': 300, 'n_init': 10, 'normalize': True, 'optimize_k': False, 'savedWidgetGeometry': None, 'selection': None, 'smart_init': 0, '__version__': 2}</properties>
+		<properties node_id="5" format="literal">{'attr_x_is_abs': False, 'attr_y_is_abs': False, 'auto_commit': True, 'auto_sample': True, 'controlAreaVisible': True, 'savedWidgetGeometry': None, 'selection': None, 'tooltip_shows_all': True, '__version__': 5}</properties>
+		<properties node_id="6" format="literal">{'compare': 2, 'controlAreaVisible': True, 'order_by_importance': False, 'savedWidgetGeometry': None, 'show_annotations': True, 'show_labels': True, 'sig_threshold': 0.05, 'sort_freqs': False, 'stattest': 0, 'stretched': True, '__version__': 1}</properties>
+	</node_properties>
+	<session_state>
+		<window_groups />
+	</session_state>
+</scheme>

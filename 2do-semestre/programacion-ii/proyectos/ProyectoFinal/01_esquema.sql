@@ -3,7 +3,7 @@
 -- Autor: Carlos Pulido Rosas
 -- Descripcion: Esquema relacional para analisis de riesgo de
 --              automatizacion laboral en Jalisco
--- Base de datos: Defunciones_2000 (SQL Server)
+-- Base de datos: ai_automation_risk_jalisco (SQL Server)
 -- ============================================================
 
 USE ai_automation_risk_jalisco;
@@ -97,5 +97,5 @@ CREATE TABLE dbo.trabajadores (
 );
 GO
 
-PRINT 'Esquema creado exitosamente en Defunciones_2000';
+PRINT 'Esquema creado exitosamente en ai_automation_risk_jalisco';
 GO

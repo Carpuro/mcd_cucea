@@ -3,7 +3,7 @@
 -- Autor: Carlos Pulido Rosas
 -- Descripcion: Consultas JOIN y creacion de VIEW analitica
 --              sobre el riesgo de automatizacion en Jalisco
--- Base de datos: Defunciones_2000 (SQL Server)
+-- Base de datos: ai_automation_risk_jalisco (SQL Server)
 -- ============================================================
 
 USE ai_automation_risk_jalisco;
@@ -169,9 +169,18 @@ SELECT
         WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing < 0.01 THEN 0.01
         ELSE o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing
     END, 4)                                     AS automation_risk,
+    -- riesgo_categoria derivada del mismo valor clippeado que automation_risk
     CASE
-        WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing >= 0.70 THEN 'Alto'
-        WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing >= 0.40 THEN 'Medio'
+        WHEN CASE
+                 WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing > 0.99 THEN 0.99
+                 WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing < 0.01 THEN 0.01
+                 ELSE o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing
+             END >= 0.70 THEN 'Alto'
+        WHEN CASE
+                 WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing > 0.99 THEN 0.99
+                 WHEN o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing < 0.01 THEN 0.01
+                 ELSE o.automation_risk + sf.f_risk + sf.f_edu + sf.f_ing
+             END >= 0.40 THEN 'Medio'
         ELSE 'Bajo'
     END                                         AS riesgo_categoria,
     -- Block 3 — LLM Exposure (Phase 2, nivel ocupacion)
