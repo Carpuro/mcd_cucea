@@ -1,4 +1,3 @@
-Estado: Pendiente | Calificación: Pendiente
+Estado: Entregado | Calificación: Pendiente
 Título: Practica Power BI
 
-Sube la Graficas creadas para Power BI y tu historia de uso de datos

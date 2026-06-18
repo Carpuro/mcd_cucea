@@ -19,30 +19,17 @@ OUTPUT = os.path.join(BASE, "Actividad9_TopicosSelectos_CarlosPulidoRosas.docx")
 # ── Reload analysis data ──────────────────────────────────────────────────────
 ai = pd.read_excel(f"{BASE}/13._FACT_AI_RECOMENDATION.xlsx", sheet_name="AI_ENRICHED")
 
-target_combos = [
-    {"URGENCY_STATUS": "CRITICAL", "ABC_CLASS": "A"},
-    {"URGENCY_STATUS": "HIGH",     "ABC_CLASS": "A"},
-    {"URGENCY_STATUS": "HIGH",     "ABC_CLASS": "B"},
-    {"URGENCY_STATUS": "MEDIUM",   "ABC_CLASS": "B"},
-    {"URGENCY_STATUS": "LOW"},
+SELECTED_SKUS = [
+    "LED06/10W.",       # CRITICAL — quiebre inminente con SC sobredimensionado
+    "REFLED/300W",      # HIGH     — forecast incorrecto, stockout en 7d con YoY -64%
+    "SUBSOL/60W",       # HIGH     — compra excesiva, Clase A con YoY -59%
+    "REFLED/200W",      # MEDIUM   — exceso de inventario en SC con tendencia bajista
+    "T-SUBFOT/100W-A",  # MEDIUM   — problema logístico, SC saturado 7.1 meses
 ]
-selected, used = [], set()
-for combo in target_combos:
-    mask = pd.Series([True] * len(ai), index=ai.index)
-    for col, val in combo.items():
-        mask &= (ai[col] == val)
-    candidates = ai[mask & ~ai["ITEM"].isin(used)]
-    if candidates.empty:
-        mask2 = ~ai["ITEM"].isin(used)
-        for col, val in combo.items():
-            if col == "URGENCY_STATUS":
-                mask2 &= (ai[col] == val)
-        candidates = ai[mask2]
-    if not candidates.empty:
-        row = candidates.sort_values("URGENCY_SCORE", ascending=False).iloc[0]
-        selected.append(row); used.add(row["ITEM"])
 
-skus_df = pd.DataFrame(selected).reset_index(drop=True)
+skus_df = ai[ai["ITEM"].isin(SELECTED_SKUS)].copy()
+skus_df["_order"] = skus_df["ITEM"].map({s: i for i, s in enumerate(SELECTED_SKUS)})
+skus_df = skus_df.sort_values("_order").drop(columns="_order").reset_index(drop=True)
 
 def my_recommendation(row):
     """
@@ -61,6 +48,8 @@ def my_recommendation(row):
     purchase_months = row["PURCHASE_PROPOSAL_MONTHS"]
     lead_days       = row["SC_LEAD_TIME_TOTAL_DAYS"]
     momentum        = row["DEMAND_MOMENTUM_SCORE"]
+    pp_int   = int(purchase_prop)     if pd.notna(purchase_prop)   else 0
+    pm_float = float(purchase_months) if pd.notna(purchase_months) else 0.0
     declining       = trend in ["DECLINING", "STRONG DECLINE"]
     accelerating    = trend in ["GROWING", "STRONG GROWTH"]
     yoy_bad         = yoy < -0.20
@@ -88,8 +77,8 @@ def my_recommendation(row):
     elif imminent_out and gap_risk:
         risk = "CRITICAL"
         action = (
-            f"Acelerar arribo de SC existente y emitir OC de emergencia {int(purchase_prop):,} pzas"
-            f" ({purchase_months:.1f} meses); stock fisico se agota en {stockout_days:.0f} dias"
+            f"Acelerar arribo de SC existente y emitir OC de emergencia {pp_int:,} pzas"
+            f" ({pm_float:.1f} meses); stock fisico se agota en {stockout_days:.0f} dias"
             f" vs lead time {int(lead_days)} dias."
             f" Riesgo: quiebre inminente con impacto a clientes."
         )
@@ -107,7 +96,7 @@ def my_recommendation(row):
     # CASE 4: Near stockout, coverage below target, declining or bad YoY
     elif near_out and not above_target and (declining or yoy_bad):
         risk = "HIGH"
-        pzas_1m = int(purchase_prop * 0.5) if purchase_months > 1 else int(purchase_prop)
+        pzas_1m = int(pp_int * 0.5) if pm_float > 1 else pp_int
         action = (
             f"Comprar unicamente {pzas_1m:,} pzas (1 mes) de forma escalonada;"
             f" stockout en {stockout_days:.0f} dias pero tendencia {trend} con YoY {yoy:.0%}."
@@ -119,7 +108,7 @@ def my_recommendation(row):
     elif near_out and not above_target and accelerating:
         risk = "HIGH"
         action = (
-            f"Comprar {int(purchase_prop):,} pzas ({purchase_months:.1f} meses) y dividir en"
+            f"Comprar {pp_int:,} pzas ({pm_float:.1f} meses) y dividir en"
             f" dos ordenes mensuales; stockout en {stockout_days:.0f} dias con crecimiento {trend}."
             f" Riesgo: quiebre de stock en segmento con momentum positivo."
         )
@@ -148,7 +137,7 @@ def my_recommendation(row):
     elif above_target and not sc_elevated:
         risk = "MEDIUM"
         action = (
-            f"Planear compra escalonada de {int(purchase_prop):,} pzas en 30 dias;"
+            f"Planear compra escalonada de {pp_int:,} pzas en 30 dias;"
             f" cobertura actual {total_cover:.1f} meses dentro de rango objetivo."
             f" Monitorear tendencia {trend} y YoY {yoy:.0%} antes de confirmar volumen."
             f" Riesgo: retraso de OC si la demanda acelera."
@@ -158,7 +147,7 @@ def my_recommendation(row):
     else:
         risk = "MEDIUM"
         action = (
-            f"Emitir OC por {int(purchase_prop):,} pzas ({purchase_months:.1f} meses)"
+            f"Emitir OC por {pp_int:,} pzas ({pm_float:.1f} meses)"
             f" en proximo ciclo; cobertura total {total_cover:.1f} meses por debajo del objetivo."
             f" Clase {abc}, tendencia {trend}."
             f" Riesgo: reduccion de cobertura si la demanda supera el forecast."
@@ -276,13 +265,15 @@ replacements = {
          "el analisis fueron: ventas historicas (92,466 registros), forecast 2026, stock MB52 "
          "por CEDIS, stock en supply chain, y el archivo de recomendacion de IA con 172 SKUs "
          "activos enriquecidos con metricas de urgencia, tendencia y propuesta de compra.\n\n"
-         "Seleccion de 5 SKUs: se eligieron buscando diversidad en clase ABC, estado de "
-         "urgencia (CRITICAL, HIGH, MEDIUM, LOW) y tendencia de ventas (GROWING, STABLE, "
-         "STRONG GROWTH, DECLINING).\n\n"
-         "Metodologia de recomendacion propia: se calculo el riesgo de desabasto comparando "
-         "el stock en mano (dias disponibles) contra el lead time total de la cadena de "
-         "suministro (120 dias). Si el stockout ocurre antes de que el inventario en SC pueda "
-         "llegar, se clasifica como CRITICAL o HIGH segun la brecha de dias."),
+         "Seleccion de 5 SKUs de la lista del profesor: se eligieron maximizando diversidad "
+         "de tipos de problema: LED06/10W. (quiebre con SC elevado), REFLED/300W (forecast "
+         "incorrecto), SUBSOL/60W (compra excesiva Clase A), REFLED/200W (sobreinventario en "
+         "SC) y T-SUBFOT/100W-A (problema logistico).\n\n"
+         "Metodologia de recomendacion propia: arbol de decision con 9 casos que priorizan "
+         "en orden: (1) congelar si SC > 4 meses, (2) compra de emergencia si stockout "
+         "inminente y lead time no puede cubrir la brecha, (3) acelerar SC si stockout < 30d "
+         "pero cobertura total supera objetivo, (4) compra parcial si stockout cercano con "
+         "demanda decreciente, y (5) freeze si cobertura total > 3 meses con senales negativas."),
 
     "Describe los resultados obtenidos.":
         ("Se analizaron 5 SKUs con perfiles de riesgo distintos. La tabla siguiente muestra "
@@ -291,20 +282,19 @@ replacements = {
 
     "Escribe las conclusiones. ¿Qué aprendiste? ¿Qué observaste en los datos?":
         ("La comparacion entre el modelo propio y la IA revela diferencias metodologicas "
-         "relevantes. El modelo propio es mas conservador: clasifica como CRITICAL cualquier "
-         "SKU donde el stockout ocurra antes de que el lead time de la SC permita reponer. "
-         "La IA, en cambio, integra tres dimensiones adicionales que el analisis manual no "
-         "captura facilmente:\n\n"
-         "1. Nivel real del forecast: un SKU con forecast cercano a cero (LED06/10W3) "
-         "no merece la misma urgencia que uno con alta demanda, aunque ambos tengan stock "
-         "minimo. La IA clasifica este caso como HIGH, no CRITICAL.\n\n"
-         "2. Timing de llegada del SC: la IA discrimina entre stock en transito vs en "
-         "produccion. Si el inventario en SC puede llegar antes del stockout, la urgencia "
-         "baja (SUBSOL/60W: HIGH en lugar de CRITICAL).\n\n"
-         "3. Tendencia como ponderador: en SKUs con tendencia DECLINING y bajo forecast "
-         "(LRD/9W), la IA recomienda compra minima aunque el stock sea limitado, priorizando "
-         "otros articulos con mayor dinamismo comercial.\n\n"
-         "El dashboard de Power BI permite visualizar estas dimensiones de forma integrada "
+         "relevantes en cinco dimensiones de planeacion: quiebre, forecast, compra excesiva, "
+         "sobreinventario en SC y problema logistico.\n\n"
+         "El modelo propio privilegia el flujo de caja: congela compras cuando la cobertura "
+         "total supera 3 meses o el SC ya esta saturado, independientemente del urgency_score. "
+         "La IA, en cambio, reacciona mas al stockout fisico inminente sin penalizar "
+         "suficientemente el sobreinventario en transito ni el YoY negativo.\n\n"
+         "La divergencia mas relevante ocurre en LED06/10W.: la IA ordena compra urgente de "
+         "578,100 pzas ignorando que la cobertura total ya es de 4.2 meses. Mi modelo "
+         "recomienda congelar la OC y acelerar el SC existente, lo cual protege el capital "
+         "sin incrementar el riesgo de quiebre real.\n\n"
+         "En REFLED/300W ambos modelos coinciden en urgencia alta, pero divergen en volumen: "
+         "la IA propone 1.5 meses; mi modelo reduce a 1 mes dado el YoY de -64%.\n\n"
+         "El dashboard integrado permite visualizar las cinco dimensiones simultaneamente "
          "y tomar decisiones de planeacion con mayor contexto que un analisis tabular."),
 }
 
@@ -380,7 +370,7 @@ for i, row in skus_df.iterrows():
         f"{row['MONTHS_IN_SUPPLY_CHAIN']:.2f}",
         f"{row['TOTAL_COVER']:.2f}",
         f"{row['SC_DAYS_UNTIL_STOCKOUT']:.0f}",
-        f"{int(row['PURCHASE_PROPOSAL']):,}",
+        f"{int(row['PURCHASE_PROPOSAL']):,}" if pd.notna(row['PURCHASE_PROPOSAL']) else "N/D",
         row["MY_RISK"],
         row["MY_ACTION"],
         row["URGENCY_STATUS"],
@@ -424,28 +414,28 @@ if results_section:
 # --- Divergence analysis paragraph ──────────────────────────────────────────
 div_text = (
     "\nAnalisis de divergencias entre modelo propio e IA:\n\n"
-    "Ambos modelos usan el marco ACCION + MAGNITUD + POR QUE + RIESGO con prioridad en "
-    "proteger flujo y evitar sobreinventario. Las divergencias surgen de matices en la "
-    "ponderacion de variables:\n\n"
-    "- LED06/10W. (HIGH propio / CRITICAL IA): Acuerdo en urgencia, diferencia en magnitud. "
-    "Mi modelo detecta que el SC ya cubre 3.5 meses y recomienda acelerar arribo en lugar "
-    "de emitir nueva OC; la IA ordena compra adicional de 578,100 pzas ignorando que la "
-    "cobertura total de 4.2 meses ya supera el objetivo operativo de 2 meses.\n\n"
+    "Ambos modelos usan el marco ACCION + MAGNITUD + POR QUE + RIESGO. "
+    "Las divergencias principales son:\n\n"
+    "- LED06/10W. (LOW propio / CRITICAL IA): Divergencia en diagnóstico. "
+    "La IA clasifica CRITICAL y propone compra urgente de 578,100 pzas. Mi modelo clasifica LOW "
+    "porque la cobertura total es 4.2 meses (0.73 stock + 3.5 en SC), superando el objetivo de 2 meses. "
+    "Con YoY de -49%, nueva OC agravaria el sobreinventario. Accion propia: congelar OC y acelerar "
+    "arribo del SC para cubrir el quiebre fisico de 22 dias.\n\n"
+    "- REFLED/300W (CRITICAL propio / HIGH IA): Acuerdo en urgencia, divergencia en volumen. "
+    "Stockout en 6.6 dias vs lead time de 120 dias — brecha de -113 dias. Mi modelo sube a CRITICAL "
+    "y recorta el volumen a 1 mes (vs 1.5 meses de la IA) dado el YoY de -64% y tendencia DECLINING. "
+    "Comprar el volumen completo con demanda colapsada seria capital mal asignado.\n\n"
     "- SUBSOL/60W (LOW propio / HIGH IA): Divergencia por horizonte de analisis. "
-    "Mi modelo prioriza el YoY de -59% y el SC de 2.1 meses como senales de freno; "
-    "la IA responde al stockout en 44 dias sin ponderar suficientemente la desaceleracion "
-    "comercial sostenida. Un Director de Supply Chain priorizaria proteger el flujo.\n\n"
-    "- LED06/10W3 (HIGH propio / HIGH IA): Acuerdo en accion urgente. Mi modelo aplica "
-    "compra escalonada (1 mes primero) por la tendencia STABLE y YoY negativo; "
-    "la IA recomienda 26,160 pzas directas (2 meses) sin considerar la moderacion de demanda.\n\n"
-    "- ADAPTADOR/E40 (LOW propio / MEDIUM IA): Divergencia por saturacion de SC. "
-    "Mi modelo frena la compra porque total cover de 3.5 meses supera el objetivo y "
-    "el YoY es negativo pese a momentum positivo reciente. La IA recomienda compra normal "
-    "de 500 pzas que mantiene el volumen objetivo. La postura conservadora es preferible "
-    "ante senales mixtas.\n\n"
-    "- LRD/9W (LOW propio / LOW IA): Acuerdo total. SC de 5.4 meses, tendencia DECLINING "
-    "y YoY -57% justifican congelar compras y evaluar promocion para liberar capital. "
-    "Unico SKU donde ambos modelos convergen en decision y racional."
+    "La IA reacciona al stockout en 44 dias; mi modelo prioriza el YoY de -59% y la cobertura "
+    "total de 3.6 meses. Clase A pero con caida sostenida — comprar 2,250 pzas adicionales "
+    "incrementaria el sobreinventario. Postura conservadora justificada.\n\n"
+    "- REFLED/200W (LOW propio / MEDIUM IA): Divergencia por saturacion de SC. "
+    "La IA recomienda 1,960 pzas 'normales'. Mi modelo congela: SC de 4.76 meses con YoY -60% "
+    "es excesivo. Primero consumir el transito antes de comprometer mas capital.\n\n"
+    "- T-SUBFOT/100W-A (LOW propio / MEDIUM logístico IA): Convergencia en diagnostico, "
+    "divergencia en accion. Ambos identifican SC saturado (7.1 meses). La IA acelera booking "
+    "de 2,360 pzas; mi modelo frena porque 7.1 meses de cobertura es suficiente incluso con "
+    "STRONG GROWTH. Prioridad: sincronizar arribos antes de emitir nueva OC."
 )
 
 for p in doc.paragraphs:

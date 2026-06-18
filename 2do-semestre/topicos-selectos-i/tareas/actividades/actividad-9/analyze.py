@@ -21,36 +21,18 @@ sales_h = pd.read_excel(f"{BASE}/2._HISTORIC_SALES.xlsx", sheet_name="Historic_s
 sales_h.columns = ["ITEM", "QTY", "YEAR", "MONTH"]
 sales_h = sales_h[sales_h["YEAR"].isin([2024, 2025])]
 
-# ── Select 5 diverse SKUs ─────────────────────────────────────────────────────
-# Goal: variety in urgency, ABC class, trend, and urgency score
-target_combos = [
-    {"URGENCY_STATUS": "CRITICAL", "ABC_CLASS": "A"},   # SKU 1: crítico clase A
-    {"URGENCY_STATUS": "HIGH",     "ABC_CLASS": "A"},   # SKU 2: alto clase A
-    {"URGENCY_STATUS": "HIGH",     "ABC_CLASS": "B"},   # SKU 3: alto clase B
-    {"URGENCY_STATUS": "MEDIUM",   "ABC_CLASS": "C"},   # SKU 4: medio clase C
-    {"URGENCY_STATUS": "LOW"},                           # SKU 5: bajo cualquier clase
+# ── Select 5 SKUs from professor's list (diverse problem types) ───────────────
+SELECTED_SKUS = [
+    "LED06/10W.",       # CRITICAL — quiebre inminente con SC sobredimensionado
+    "REFLED/300W",      # HIGH     — forecast incorrecto, stockout en 7d con YoY -64%
+    "SUBSOL/60W",       # HIGH     — compra excesiva, Clase A con YoY -59%
+    "REFLED/200W",      # MEDIUM   — exceso de inventario en SC con tendencia bajista
+    "T-SUBFOT/100W-A",  # MEDIUM   — problema logístico, SC saturado 7.1 meses
 ]
 
-selected = []
-used = set()
-
-for combo in target_combos:
-    mask = pd.Series([True] * len(ai), index=ai.index)
-    for col, val in combo.items():
-        mask &= (ai[col] == val)
-    candidates = ai[mask & ~ai["ITEM"].isin(used)]
-    if candidates.empty:
-        mask2 = ~ai["ITEM"].isin(used)
-        for col, val in combo.items():
-            if col == "URGENCY_STATUS":
-                mask2 &= (ai[col] == val)
-        candidates = ai[mask2]
-    if not candidates.empty:
-        row = candidates.sort_values("URGENCY_SCORE", ascending=False).iloc[0]
-        selected.append(row)
-        used.add(row["ITEM"])
-
-skus_df = pd.DataFrame(selected).reset_index(drop=True)
+skus_df = ai[ai["ITEM"].isin(SELECTED_SKUS)].copy()
+skus_df["_order"] = skus_df["ITEM"].map({s: i for i, s in enumerate(SELECTED_SKUS)})
+skus_df = skus_df.sort_values("_order").drop(columns="_order").reset_index(drop=True)
 
 # ── My own recommendation logic ───────────────────────────────────────────────
 # Key insight: stock in supply chain is NOT immediately available.
@@ -67,6 +49,8 @@ def my_recommendation(row):
     purchase_prop   = row["PURCHASE_PROPOSAL"]
     purchase_months = row["PURCHASE_PROPOSAL_MONTHS"]
     lead_days       = row["SC_LEAD_TIME_TOTAL_DAYS"]
+    pp_int   = int(purchase_prop)   if pd.notna(purchase_prop)   else 0
+    pm_float = float(purchase_months) if pd.notna(purchase_months) else 0.0
 
     # Risk = stock on hand vs lead time to replenish from SC
     # If stockout_days < lead_time_days, a gap will occur
@@ -87,15 +71,15 @@ def my_recommendation(row):
 
     # Action
     if risk == "CRITICAL":
-        action = (f"Compra inmediata de {int(purchase_prop):,} pzas ({purchase_months:.1f} meses). "
+        action = (f"Compra inmediata de {pp_int:,} pzas ({pm_float:.1f} meses). "
                   f"Stock en mano: {months_stock:.2f} meses. Stockout en {stockout_days:.0f} días "
                   f"(lead time: {int(lead_days)} días). Activar booking y anticipo urgente.")
     elif risk == "HIGH":
-        action = (f"Emitir OC por {int(purchase_prop):,} pzas ({purchase_months:.1f} meses) esta semana. "
+        action = (f"Emitir OC por {pp_int:,} pzas ({pm_float:.1f} meses) esta semana. "
                   f"Stock en mano: {months_stock:.2f} meses. Stockout proyectado: {stockout_days:.0f} días. "
                   f"Clase {abc}, tendencia {trend}.")
     elif risk == "MEDIUM":
-        action = (f"Planear compra de {int(purchase_prop):,} pzas en los próximos 30 días. "
+        action = (f"Planear compra de {pp_int:,} pzas en los próximos 30 días. "
                   f"Cobertura en mano: {months_stock:.2f} meses. Monitorear tendencia ({trend}).")
     else:
         action = (f"Sin acción inmediata. Stock en mano: {months_stock:.2f} meses + "
@@ -129,7 +113,9 @@ for _, row in skus_df.iterrows():
     print(f"  Stock actual:     {row['MONTHS_IN_STOCK']:.2f} meses  |  SC: {row['MONTHS_IN_SUPPLY_CHAIN']:.2f} meses  |  Total: {row['TOTAL_COVER_MONTHS']:.2f} meses")
     print(f"  Stockout en:      {row['SC_DAYS_UNTIL_STOCKOUT']:.0f} días")
     print(f"  YoY growth:       {row['YOY_SALES_GROWTH']:.1%}")
-    print(f"  Propuesta compra: {int(row['PURCHASE_PROPOSAL']):,} pzas ({row['PURCHASE_PROPOSAL_MONTHS']:.1f} meses)")
+    pp = int(row['PURCHASE_PROPOSAL']) if pd.notna(row['PURCHASE_PROPOSAL']) else 0
+    pm = row['PURCHASE_PROPOSAL_MONTHS'] if pd.notna(row['PURCHASE_PROPOSAL_MONTHS']) else 0.0
+    print(f"  Propuesta compra: {pp:,} pzas ({pm:.1f} meses)")
     print(f"\n  [MI RECOMENDACIÓN — {row['MY_RISK']}]")
     print(f"  {row['MY_ACTION']}")
     print(f"\n  [IA RECOMENDACIÓN — {row['URGENCY_STATUS']}]")
