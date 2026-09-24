@@ -277,20 +277,24 @@ def build():
         "las mayores concentraciones.")
 
     add_heading(doc, "3. Resultados")
-    add_heading(doc, "3.1 Series de tiempo y medias móviles", level=2)
-    add_para(doc, "La Figura 1 muestra la serie horaria de CO y su acumulado de 8 h, cada una con "
-                  "su media móvil diaria (SMA 24 h) y mensual (SMA 720 h).", sa=3)
+    h31 = add_heading(doc, "3.1 Series de tiempo y medias móviles", level=2)
+    h31.paragraph_format.keep_with_next = True
+    p31 = add_para(doc, "La Figura 1 muestra la serie horaria de CO y su acumulado de 8 h, cada una con "
+                        "su media móvil diaria (SMA 24 h) y mensual (SMA 720 h).", sa=3)
+    p31.paragraph_format.keep_with_next = True
     add_pic(doc, p_ts, 6.3)
     add_caption(doc, "Figura 1 — Series de tiempo de CO (arriba) y de su acumulado de 8 h (abajo) "
                      "con medias móviles diaria (verde) y mensual (ámbar). La tendencia mensual "
                      "cae en verano y sube en invierno.")
 
-    add_heading(doc, "3.2 Gráficas de caja del CO por hora y por mes", level=2)
+    h32 = add_heading(doc, "3.2 Gráficas de caja del CO por hora y por mes", level=2)
+    h32.paragraph_format.keep_with_next = True
     add_pic(doc, p_box_co, 6.1)
     add_caption(doc, "Figura 2 — Gráficas de caja del CO por hora (arriba) y por mes (abajo). En "
                      "ámbar, los grupos con mayor concentración.")
 
-    add_heading(doc, "3.3 Gráficas de caja del acumulado de 8 h por hora y por mes", level=2)
+    h33 = add_heading(doc, "3.3 Gráficas de caja del acumulado de 8 h por hora y por mes", level=2)
+    h33.paragraph_format.keep_with_next = True
     add_pic(doc, p_box_co8, 6.1)
     add_caption(doc, "Figura 3 — Gráficas de caja del acumulado de 8 h por hora (arriba) y por mes "
                      "(abajo). El acumulado suaviza el patrón horario pero conserva el mensual.")
