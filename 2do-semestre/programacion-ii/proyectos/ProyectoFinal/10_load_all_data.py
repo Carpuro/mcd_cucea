@@ -21,7 +21,7 @@ from sqlalchemy import create_engine, text
 warnings.filterwarnings('ignore')
 
 # ── Rutas ─────────────────────────────────────────────────────────────────────
-TESIS   = r'C:\Users\carlo\OneDrive\Documentos\GitHub\ai-automation-risk-jalisco'
+TESIS   = r'C:\Users\carlo\GitHub\ai-automation-risk-jalisco'
 ENOE    = os.path.join(TESIS, 'data', 'raw', 'enoe')
 ONET    = os.path.join(TESIS, 'data', 'raw', 'onet', 'db_28_3_text')
 

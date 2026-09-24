@@ -3,7 +3,7 @@ import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
-BASE = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\topicos-selectos-i\tareas\actividades\actividad-9"
+BASE = r"C:\Users\carlo\GitHub\mcd_cucea\2do-semestre\topicos-selectos-i\tareas\actividades\actividad-9"
 
 # ── Load core tables ──────────────────────────────────────────────────────────
 ai = pd.read_excel(f"{BASE}/13._FACT_AI_RECOMENDATION.xlsx", sheet_name="AI_ENRICHED")

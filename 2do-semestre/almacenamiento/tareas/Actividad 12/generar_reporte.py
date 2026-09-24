@@ -25,9 +25,9 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-BASE     = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\almacenamiento"
+BASE     = r"C:\Users\carlo\GitHub\mcd_cucea\2do-semestre\almacenamiento"
 DATA     = os.path.join(BASE, "datos", "asg-abr-2026.csv")
-TEMPLATE = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx"
+TEMPLATE = r"C:\Users\carlo\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx"
 ACT_DIR  = os.path.join(BASE, "tareas", "Actividad 12")
 CHARTS   = os.path.join(ACT_DIR, "charts")
 OUTPUT   = os.path.join(ACT_DIR, "Actividad12_AlmacenamientoGBD_CarlosPulidoRosas.docx")

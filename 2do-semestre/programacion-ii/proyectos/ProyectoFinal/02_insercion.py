@@ -19,7 +19,7 @@ import os
 
 np.random.seed(42)
 
-REPO = r'C:\Users\carlo\OneDrive\Documentos\GitHub\ai-automation-risk-jalisco'
+REPO = r'C:\Users\carlo\GitHub\ai-automation-risk-jalisco'
 PROC = os.path.join(REPO, 'data', 'processed')
 
 # ------------------------------------------------------------------

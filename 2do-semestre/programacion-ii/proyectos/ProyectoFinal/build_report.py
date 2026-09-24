@@ -12,8 +12,8 @@ from docx.shared import Pt, Cm, RGBColor, Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 import datetime
 
-TEMPLATE  = r'C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx'
-LOGO      = r'C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\_recursos\logos\logo_udeg_flat.png'
+TEMPLATE  = r'C:\Users\carlo\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx'
+LOGO      = r'C:\Users\carlo\GitHub\mcd_cucea\_recursos\logos\logo_udeg_flat.png'
 OUT_DIR   = os.path.dirname(__file__)
 OUT_DOCX  = os.path.join(OUT_DIR, '08_reporte_final.docx')
 PLOTS_DIR = OUT_DIR

@@ -74,7 +74,7 @@ def ejemplo_intermedio():
         
         # 7. Tomar screenshot antes de enviar
         print("\n Tomando screenshot...")
-        driver.save_screenshot("C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\MCD_Programacion_1\\presentation\\Selenium\\screenshots\\formulario_antes.png")
+        driver.save_screenshot("C:\\Users\\carlo\\GitHub\\MCD_Programacion_1\\presentation\\Selenium\\screenshots\\formulario_antes.png")
         print("   ✓ Screenshot guardado")
         
         # 8. Hacer clic en el botón de submit

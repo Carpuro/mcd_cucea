@@ -12,8 +12,8 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 import os
 
-BASE = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\2do-semestre\topicos-selectos-i\tareas\actividades\actividad-9"
-TEMPLATE = r"C:\Users\carlo\OneDrive\Documentos\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx"
+BASE = r"C:\Users\carlo\GitHub\mcd_cucea\2do-semestre\topicos-selectos-i\tareas\actividades\actividad-9"
+TEMPLATE = r"C:\Users\carlo\GitHub\mcd_cucea\_recursos\plantillas\plantilla_informe_MCD.docx"
 OUTPUT = os.path.join(BASE, "Actividad9_TopicosSelectos_CarlosPulidoRosas.docx")
 
 # ── Reload analysis data ──────────────────────────────────────────────────────

@@ -88,7 +88,7 @@ def ejemplo_avanzado():
         # 4. TOMAR SCREENSHOT DE PÁGINA COMPLETA
         # ==========================================
         print("\n 4. Tomando screenshot...")
-        driver.save_screenshot("C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\MCD_Programacion_1\\presentation\\Selenium\\screenshots\\wikipedia_selenium.png")
+        driver.save_screenshot("C:\\Users\\carlo\\GitHub\\MCD_Programacion_1\\presentation\\Selenium\\screenshots\\wikipedia_selenium.png")
         print("   Screenshot guardado")
         
         # ==========================================

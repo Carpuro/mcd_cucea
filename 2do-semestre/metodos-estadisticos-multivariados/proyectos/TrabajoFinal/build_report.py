@@ -17,8 +17,8 @@ from docx.oxml import OxmlElement
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 SCRIPT_DIR   = Path(__file__).parent
-TEMPLATE     = Path("C:/Users/carlo/OneDrive/Documentos/GitHub/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx")
-LOGO         = Path("C:/Users/carlo/OneDrive/Documentos/GitHub/mcd_cucea/_recursos/logos/logo_udeg_flat.png")
+TEMPLATE     = Path("C:/Users/carlo/GitHub/mcd_cucea/_recursos/plantillas/plantilla_informe_MCD.docx")
+LOGO         = Path("C:/Users/carlo/GitHub/mcd_cucea/_recursos/logos/logo_udeg_flat.png")
 OUTPUT_DIR   = SCRIPT_DIR / "output"
 ENTREGABLES  = SCRIPT_DIR / "entregables"
 DOCX_OUT     = ENTREGABLES / "TrabajoFinal_MetodosMultivariados_CarlosPulidoRosas.docx"
