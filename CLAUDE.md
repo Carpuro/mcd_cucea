@@ -7,13 +7,38 @@ Monorepo for the Maestría en Ciencias de los Datos (MCD) at UdeG CUCEA.
 Contains all coursework organized by semester and subject.
 
 ## Owner
-Carlos Pulido Rosas (carpuro) — 2nd semester, 2026.
+Carlos Pulido Rosas (carpuro) — 3rd semester, ciclo 2026B (grupo 2, modalidad ejecutiva).
+
+## Location
+Repo lives at `C:\Users\carlo\GitHub\mcd_cucea` (moved OUT of OneDrive on 2026-09-03 —
+OneDrive sync froze Explorer and risks corrupting `.git`). Backup = `git push`, never OneDrive.
 
 ## Repo structure
 - `_recursos/` — shared assets: report template, logos, official program PDFs, study plan
 - `1er-semestre/` — 4 subjects (completed)
-- `2do-semestre/` — 4 subjects (active)
-- `3er-semestre/` and `4to-semestre/` — empty, ready for future semesters
+- `2do-semestre/` — 4 subjects (completed)
+- `3er-semestre/` — 4 subjects (active): `econometria`, `visualizacion-grandes-bases-datos`,
+  `desarrollo-proyecto-i`, `topicos-selectos-ii`
+- `4to-semestre/` — empty, ready for future semester
+
+## 3rd semester — subjects, NRC and professors (ciclo 2026B, grupo 2)
+| Materia | NRC | Profesor | Día |
+|---|---|---|---|
+| Econometría | 176457 | Dr. Andrés Jerson Millán López | Lunes (Q-209) |
+| Tópicos Selectos de GBD II | 176456 | Mtro. Iván Alejandro Toledano Juárez | Martes (virtual) |
+| Desarrollo de Proyecto I | 176459 | Dra. Ana Rosa Jiménez Meza | Miércoles (virtual) |
+| Visualización de GBD | 176458 | Mtro. Carlos Fernando Ruiz Chávez | Jueves (virtual) |
+
+### Visualización de GBD — estado
+- Dataset: `visualizacion-grandes-bases-datos/datos/BD_2024_calidad_aire.xlsx` — calidad del
+  aire SIMAJ 2024 (hoja `Data` horaria por estación; hoja `Param` con metadatos/coordenadas).
+  OJO: la columna `DATE` ya incluye la hora (timestamp completo) — no sumarle `HOUR`.
+- Estaciones: **Country (COU)** = la más cercana al domicilio, pero SOLO tiene CO de septiembre
+  y NO mide NO2 → sirve para análisis puntual (tareas 1.0–1.2). **Centro (CEN)** = año completo,
+  mide NO2; usada en tareas 1.3–1.4 (análisis mensual/correlación).
+- Tareas entregadas: 1.0 (boxplot+IQR), 1.1 (cuartiles Tukey), 1.2 (histograma+IMECA),
+  1.3 (series de tiempo + SMA + boxplots hora/mes), 1.4 (correlación con NO2). Cada una tiene
+  su `build_tareaX.py` en `tareas/` que llena la plantilla y exporta PDF con LibreOffice.
 
 ## Per-subject structure (standard, applies to all 16 subjects)
 ```
