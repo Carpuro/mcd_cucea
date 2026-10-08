@@ -37,7 +37,7 @@ Backups are done with `git push`, never with OneDrive.
 - Stations:
   - **Country (COU)** is the closest to home, but it only has CO for September and does not measure NO2.
     Use it for single-period analysis (tasks 1.0 to 1.2).
-  - **Centro (CEN)** has full-year coverage and measures NO2.
+  - **Centro (CEN)** has full-year coverage for O3, CO and PM, but NO2/NO/NOX only from September to December 2024.
     Use it for monthly and correlation analysis (tasks 1.3 and 1.4).
 - Delivered tasks: 1.0 (boxplot and IQR outliers), 1.1 (Tukey quartiles), 1.2 (histogram vs IMECA norm),
   1.3 (time series, moving averages, boxplots by hour and month), 1.4 (correlation with NO2),
