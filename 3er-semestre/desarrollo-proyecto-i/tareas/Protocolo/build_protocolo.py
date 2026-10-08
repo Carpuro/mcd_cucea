@@ -63,22 +63,41 @@ for el in elems[24:]:
 END = body.find(qn("w:sectPr"))
 
 
-def _new(kind, text, bold=None, italic_spans=None):
-    p = copy.deepcopy(PROTO[kind])
-    rpr = None
-    for r in p.findall(qn("w:r")):
-        if rpr is None and r.find(qn("w:rPr")) is not None:
-            rpr = copy.deepcopy(r.find(qn("w:rPr")))
-        p.remove(r)
-    for x in p.findall(qn("w:proofErr")) + p.findall(qn("w:bookmarkStart")) + p.findall(qn("w:bookmarkEnd")):
-        p.remove(x)
-    r = OxmlElement("w:r")
-    rp = copy.deepcopy(rpr) if rpr is not None else OxmlElement("w:rPr")
-    if bold is not None:
-        for b in rp.findall(qn("w:b")) + rp.findall(qn("w:bCs")):
-            rp.remove(b)
-        if bold:
-            rp.append(OxmlElement("w:b"))
+# ---------------- formatting per "Lineamientos presentación de trabajos MCD Ver 2.0" ----------
+# Times New Roman; text 12 / level-1 headings 14; justified; double spacing in text, single in
+# tables, 1.5 in references with hanging indent; 1.25 cm first-line indent; level-1 headings
+# centered, bold, uppercase, Roman numerals; level-2 left, bold, Arabic numbering.
+FONT = "Times New Roman"
+INDENT = 709                     # 1.25 cm in twips
+ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII"]
+_num = {"sec": 0, "sub": 0}
+
+
+def _p(text, size=12, bold=False, italic=False, align="both", line=480, first=None, left=None,
+       hanging=None, before=0, after=0, keep=False):
+    p = OxmlElement("w:p"); ppr = OxmlElement("w:pPr")
+    if keep:
+        ppr.append(OxmlElement("w:keepNext"))
+    sp = OxmlElement("w:spacing")
+    sp.set(qn("w:before"), str(int(before * 20))); sp.set(qn("w:after"), str(int(after * 20)))
+    sp.set(qn("w:line"), str(line)); sp.set(qn("w:lineRule"), "auto"); ppr.append(sp)
+    if first or left or hanging:
+        ind = OxmlElement("w:ind")
+        if left: ind.set(qn("w:left"), str(left))
+        if first: ind.set(qn("w:firstLine"), str(first))
+        if hanging: ind.set(qn("w:hanging"), str(hanging))
+        ppr.append(ind)
+    jc = OxmlElement("w:jc"); jc.set(qn("w:val"), align); ppr.append(jc)
+    p.append(ppr)
+    r = OxmlElement("w:r"); rp = OxmlElement("w:rPr")
+    rf = OxmlElement("w:rFonts")
+    for a in ("ascii", "hAnsi", "cs", "eastAsia"):
+        rf.set(qn(f"w:{a}"), FONT)
+    rp.append(rf)
+    if bold: rp.append(OxmlElement("w:b"))
+    if italic: rp.append(OxmlElement("w:i"))
+    for tag in ("w:sz", "w:szCs"):
+        e = OxmlElement(tag); e.set(qn("w:val"), str(int(size * 2))); rp.append(e)
     r.append(rp)
     t = OxmlElement("w:t"); t.text = text; t.set(qn("xml:space"), "preserve")
     r.append(t); p.append(r)
@@ -86,25 +105,40 @@ def _new(kind, text, bold=None, italic_spans=None):
     return p
 
 
-def space_after(p, pts=6):
-    ppr = p.find(qn("w:pPr")); sp = ppr.find(qn("w:spacing"))
-    if sp is None:
-        sp = OxmlElement("w:spacing"); ppr.append(sp)
-    sp.set(qn("w:after"), str(int(pts * 20)))
+def titulo(t):
+    _p(t, size=14, bold=True, align="center", before=0, after=12, keep=True)
 
 
-def titulo(t):  space_after(_new("titulo", t, bold=True), 12)
-def seccion(t): space_after(_new("seccion", t, bold=True), 6)
-def sub(t):     space_after(_new("sub", t, bold=True), 4)
-def par(t):     space_after(_new("cuerpo", t, bold=False), 8)
-def item(t):    space_after(_new("sangria", t, bold=False), 4)
+def seccion(t):
+    _num["sec"] += 1; _num["sub"] = 0
+    _p(f"{ROMAN[_num['sec'] - 1]}. {t.upper()}", size=14, bold=True, align="center",
+       before=12, after=6, keep=True)
+
+
+def sub(t):
+    _num["sub"] += 1
+    _p(f"{_num['sec']}.{_num['sub']}. {t}", bold=True, align="left", before=12, after=0, keep=True)
+
+
+def par(t):
+    _p(t, first=INDENT)
+
+
+def item(t):
+    _p(t, left=INDENT)
+
+
 def ref(t):
-    p = _new("cuerpo", t, bold=False)
-    ppr = p.find(qn("w:pPr"))
-    jc = ppr.find(qn("w:jc"))
-    if jc is not None: jc.set(qn("w:val"), "left")
-    ind = OxmlElement("w:ind"); ind.set(qn("w:left"), "720"); ind.set(qn("w:hanging"), "720")
-    ppr.append(ind); space_after(p, 6)
+    _p(t, align="left", line=360, left=INDENT, hanging=INDENT)
+
+
+def caption_table(num, title):
+    _p(f"Tabla {num}", bold=True, align="left", line=480, before=12, keep=True)
+    _p(title, italic=True, align="left", line=480, keep=True)
+
+
+def note(t):
+    _p(t, size=8, align="left", line=240, before=4, after=8)
 
 
 def page_break():
@@ -138,11 +172,17 @@ def table(rows, widths_twips):
                 tcPr.append(shd)
             tc.append(tcPr)
             p = OxmlElement("w:p"); ppr = OxmlElement("w:pPr")
+            spc = OxmlElement("w:spacing"); spc.set(qn("w:before"), "0"); spc.set(qn("w:after"), "0")
+            spc.set(qn("w:line"), "240"); spc.set(qn("w:lineRule"), "auto"); ppr.append(spc)
             jc2 = OxmlElement("w:jc"); jc2.set(qn("w:val"), "left" if ci == 0 else "center"); ppr.append(jc2)
             p.append(ppr)
             r = OxmlElement("w:r"); rp = OxmlElement("w:rPr")
-            sz = OxmlElement("w:sz"); sz.set(qn("w:val"), "18"); rp.append(sz)
+            rf = OxmlElement("w:rFonts")
+            for a in ("ascii", "hAnsi", "cs", "eastAsia"):
+                rf.set(qn(f"w:{a}"), FONT)
+            rp.append(rf)
             if ri == 0: rp.append(OxmlElement("w:b"))
+            sz = OxmlElement("w:sz"); sz.set(qn("w:val"), "20"); rp.append(sz)
             r.append(rp); t = OxmlElement("w:t"); t.text = val; t.set(qn("xml:space"), "preserve")
             r.append(t); p.append(r); tc.append(p); tr.append(tc)
         tbl.append(tr)
@@ -159,7 +199,9 @@ par(f"Título: {TITULO}.")
 par("Alumno: Carlos Pulido Rosas. Programa: Maestría en Ciencia de los Datos, Centro Universitario "
     "de Ciencias Económico Administrativas, Universidad de Guadalajara. Generación 2025-2027, "
     "modalidad ejecutiva. Unidad de aprendizaje: Desarrollo de Proyecto I, impartida por la "
-    "Dra. Ana Rosa Jiménez Meza. Director de tesis: por designar.")
+    "Dra. Ana Rosa Jiménez Meza. Director de tesis: por designar. Línea de generación y "
+    "aplicación del conocimiento: Smart Data (LGAC 2), por el uso de técnicas de aprendizaje "
+    "automatizado y analítica de datos.")
 par("El título responde a las tres preguntas que pide la guía. Qué se pretende hacer: evaluar el "
     "riesgo de que el trabajo sea sustituido por tecnología. Con qué herramientas: un modelo "
     "construido con métodos de ciencia de datos que integra índices de exposición ocupacional, "
@@ -364,6 +406,7 @@ seccion("Cronograma")
 par("El cronograma reproduce el plan registrado en el avance de protocolo de la tesis, con la "
     "actividad de reenfoque a la industria manufacturera añadida y el estado de cada etapa a octubre "
     "de 2026.")
+caption_table(1, "Cronograma de actividades del proyecto de tesis")
 table([
     ["Etapa / actividad", "2025B", "2026A", "2026B", "2027A", "Estado"],
     ["Revisión de literatura y antecedentes", "Ago-Sep", "", "", "", "Concluida"],
@@ -380,7 +423,7 @@ table([
     ["Escritura y revisión del documento final", "", "", "", "Mar-Jun", "Pendiente"],
     ["Presentación y defensa del trabajo de tesis", "", "", "", "Jul 2027", "Pendiente"],
 ], [3300, 900, 900, 900, 1000, 1100])
-par("")
+note("Nota. Elaboración propia con base en el plan del avance de protocolo de la tesis.")
 
 seccion("Referencias bibliográficas")
 for a in [
@@ -405,5 +448,9 @@ for a in [
 ]:
     ref(a)
 
+from docx.shared import Cm
+for s_ in doc.sections:
+    s_.left_margin, s_.right_margin = Cm(3.0), Cm(2.5)
+    s_.top_margin, s_.bottom_margin = Cm(2.5), Cm(2.5)
 doc.save(OUT)
 print("DOCX:", OUT)

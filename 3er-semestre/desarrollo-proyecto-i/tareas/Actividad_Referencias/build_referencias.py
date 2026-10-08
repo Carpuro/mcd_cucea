@@ -8,7 +8,7 @@ import os
 import glob
 import pandas as pd
 from docx import Document
-from docx.shared import Pt, RGBColor, Inches
+from docx.shared import Pt, RGBColor, Inches, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.enum.section import WD_ORIENT, WD_SECTION
@@ -271,31 +271,48 @@ def no_split(row):
     el.set(qn("w:val"), "true"); trPr.append(el)
 
 
+FONT = "Times New Roman"
+ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+_sec = [0]
+
+
 def add_run(p, t, bold=False, italic=False, color=None, size=None):
-    r = p.add_run(t); r.bold = bold; r.italic = italic; r.font.name = "Calibri"
-    if color: r.font.color.rgb = color
+    r = p.add_run(t); r.bold = bold; r.italic = italic; r.font.name = FONT
+    rpr = r._r.get_or_add_rPr(); rf = rpr.find(qn("w:rFonts"))
+    if rf is None:
+        rf = OxmlElement("w:rFonts"); rpr.insert(0, rf)
+    for a in ("ascii", "hAnsi", "cs", "eastAsia"):
+        rf.set(qn(f"w:{a}"), FONT)
     if size: r.font.size = Pt(size)
     return r
 
 
-def add_para(doc, t="", bold=False, italic=False, color=None, size=10,
-             align=WD_ALIGN_PARAGRAPH.JUSTIFY, sb=0, sa=5, keep=False):
+def add_para(doc, t="", bold=False, italic=False, color=None, size=12,
+             align=WD_ALIGN_PARAGRAPH.JUSTIFY, sb=0, sa=0, keep=False, line=2.0):
     p = doc.add_paragraph(); p.alignment = align
     p.paragraph_format.space_before = Pt(sb); p.paragraph_format.space_after = Pt(sa)
     p.paragraph_format.keep_with_next = keep
+    p.paragraph_format.line_spacing = line
+    if align == WD_ALIGN_PARAGRAPH.JUSTIFY and not bold:
+        p.paragraph_format.first_line_indent = Cm(1.25)
     if t: add_run(p, t, bold, italic, color, size)
     return p
 
 
 def add_heading(doc, t, level=1):
-    return add_para(doc, t, bold=True, color=NAVY, size=(13 if level == 1 else 11),
-                    align=WD_ALIGN_PARAGRAPH.LEFT, sb=(10 if level == 1 else 7), sa=3, keep=True)
+    t = t.split(". ", 1)[1] if t[:1].isdigit() else t
+    if level == 1:
+        _sec[0] += 1
+        return add_para(doc, f"{ROMAN[_sec[0] - 1]}. {t.upper()}", bold=True, size=14,
+                        align=WD_ALIGN_PARAGRAPH.CENTER, sb=12, sa=6, keep=True)
+    return add_para(doc, t, bold=True, size=12, align=WD_ALIGN_PARAGRAPH.LEFT, sb=12, keep=True)
 
 
 def add_apa(doc, t):
     p = doc.add_paragraph(); p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    p.paragraph_format.left_indent = Inches(0.5); p.paragraph_format.first_line_indent = Inches(-0.5)
-    p.paragraph_format.space_after = Pt(6); add_run(p, t, size=10)
+    p.paragraph_format.left_indent = Cm(1.25); p.paragraph_format.first_line_indent = Cm(-1.25)
+    p.paragraph_format.line_spacing = 1.5; p.paragraph_format.space_after = Pt(0)
+    add_run(p, t, size=12)
 
 
 def clear_body_after_table1(doc):
@@ -344,7 +361,7 @@ def build():
     hdr.paragraphs[3].runs[0].text = "Materia: Desarrollo de Proyecto I"
     tp = doc.paragraphs[1]; tp.clear()
     r = tp.add_run("Búsqueda y análisis de referencias para el trabajo recepcional")
-    r.bold = True; r.font.size = Pt(13); r.font.color.rgb = NAVY; r.font.name = "Calibri"
+    r.bold = True; r.font.size = Pt(14); r.font.name = "Times New Roman"
     tp.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     info = doc.tables[1]
@@ -393,7 +410,7 @@ def build():
                   "Osborne, 2017; Webb, 2020; Eloundou et al., 2023; Azuara et al., 2024; Handa et "
                   "al., 2025).")]:
         p = doc.add_paragraph(style="List Bullet"); p.paragraph_format.space_after = Pt(4)
-        add_run(p, t + " ", bold=True, color=NAVY, size=10); add_run(p, d, size=10)
+        p.paragraph_format.line_spacing = 2.0; add_run(p, t + " ", bold=True, size=12); add_run(p, d, size=12)
     add_para(doc,
         "La tabla presenta las referencias en orden cronológico para mostrar cómo ha evolucionado el "
         "estudio del tema, desde la computarización de las tareas rutinarias hasta la medición del "
@@ -404,6 +421,9 @@ def build():
     for m in ("left_margin", "right_margin"): setattr(sec, m, Inches(0.55))
     sec.top_margin = Inches(0.6); sec.bottom_margin = Inches(0.6)
     add_heading(doc, "3. Tabla de análisis de referencias")
+    add_para(doc, "Tabla 1", bold=True, align=WD_ALIGN_PARAGRAPH.LEFT, keep=True)
+    add_para(doc, "Análisis de las referencias seleccionadas, en orden cronológico", italic=True,
+             align=WD_ALIGN_PARAGRAPH.LEFT, keep=True)
     heads = ["No.", "Nombre del artículo o libro", "Autor o autores", "Año", "Editorial o journal",
              "Página web", "Principal aportación", "Descripción del tema (elaboración propia)"]
     widths = [0.32, 1.45, 1.05, 0.42, 1.25, 1.2, 1.95, 2.25]
@@ -417,9 +437,9 @@ def build():
         for i, w in enumerate(widths): row.cells[i].width = Inches(w)
     repeat_header(tbl.rows[0])
     for ci, h in enumerate(heads):
-        c = tbl.rows[0].cells[ci]; set_cell_bg(c, NAVY)
+        c = tbl.rows[0].cells[ci]; set_cell_bg(c, RGBColor(0xD9, 0xD9, 0xD9))
         p = c.paragraphs[0]; p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        add_run(p, h, bold=True, color=WHITE, size=8)
+        p.paragraph_format.line_spacing = 1.0; add_run(p, h, bold=True, size=8)
     for ri, rec in enumerate(recs):
         row = tbl.rows[ri + 1]; no_split(row)
         vals = [str(ri + 1), rec["titulo"], rec["autores"], str(rec["anio"]), rec["journal"],
@@ -428,10 +448,9 @@ def build():
             c = row.cells[ci]; set_cell_bg(c, WHITE if ri % 2 == 0 else GRAY_L)
             p = c.paragraphs[0]
             p.alignment = WD_ALIGN_PARAGRAPH.CENTER if ci in (0, 3) else WD_ALIGN_PARAGRAPH.LEFT
-            add_run(p, v, size=7.5, italic=(ci == 1))
-    cap = add_para(doc, "Tabla 1. Análisis de las referencias seleccionadas, en orden cronológico.",
-                   italic=True, color=RGBColor(0x40, 0x40, 0x40), size=9,
-                   align=WD_ALIGN_PARAGRAPH.CENTER, sb=4)
+            p.paragraph_format.line_spacing = 1.0; add_run(p, v, size=8, italic=(ci == 1))
+    add_para(doc, "Nota. Elaboración propia con base en los documentos consultados.", size=8,
+             align=WD_ALIGN_PARAGRAPH.LEFT, sb=4, line=1.0)
 
     # ---------- back to portrait for synthesis and references
     sec2 = doc.add_section(WD_SECTION.NEW_PAGE); set_orientation(sec2, False)
@@ -474,6 +493,9 @@ def build():
     add_heading(doc, "Referencias")
     for a in APA:
         add_apa(doc, a)
+    for s_ in doc.sections:
+        s_.left_margin, s_.right_margin = Cm(3.0), Cm(2.5)
+        s_.top_margin, s_.bottom_margin = Cm(2.5), Cm(2.5)
     doc.save(OUT_DOCX)
     print("DOCX:", OUT_DOCX); print("XLSX:", OUT_XLSX)
 
