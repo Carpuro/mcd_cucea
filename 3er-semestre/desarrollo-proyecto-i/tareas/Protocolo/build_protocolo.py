@@ -283,15 +283,12 @@ seccion("Hipótesis")
 par("H1. Dentro de la industria manufacturera de Jalisco, la exposición a la IA cognitiva y la "
     "exposición a la robótica recaen en ocupaciones distintas: los operadores y trabajadores de "
     "producción concentran la exposición física, mientras que las ocupaciones administrativas, "
-    "técnicas y de supervisión concentran la exposición cognitiva.")
-par("H2. Ponderada por empleo, la exposición de la manufactura jalisciense es mayor en el eje físico "
-    "que en el cognitivo.")
-par("H3. Las ramas manufactureras con mayor rentabilidad de automatizar, medida con el Índice de "
+    "técnicas y de supervisión concentran la exposición cognitiva. Se contrastará con análisis "
+    "factorial exploratorio y confirmatorio sobre los índices de exposición.")
+par("H2. Las ramas manufactureras con mayor rentabilidad de automatizar, medida con el Índice de "
     "Rentabilidad de la Automatización, presentan mayor profundización de capital y menor "
-    "participación del trabajo en el valor agregado.")
-par("H4. En el escenario de adopción robótica acelerada asociado al nearshoring, la presión de "
-    "sustitución en la manufactura crece hacia 2030 más que en el resto de los sectores de la "
-    "economía estatal.")
+    "participación del trabajo en el valor agregado. Se contrastará con un panel de los Censos "
+    "Económicos con efectos fijos e inferencia por permutación.")
 
 seccion("Antecedentes")
 par("Los antecedentes se presentan en orden cronológico. Autor, Levy y Murnane (2003) establecieron "
@@ -378,16 +375,17 @@ item("2. Construcción de los índices DBOE y DEOE a partir de O*NET, su validac
      "publicados y contra la medida de robots de Webb (2020), y su traslado a las ocupaciones "
      "manufactureras mediante la cadena de cruce SINCO-SOC.")
 item("3. Análisis de la estructura de la exposición con análisis factorial exploratorio y confirmatorio, "
-     "para contrastar H1 y H2.")
+     "para contrastar H1, y descripción del perfil de exposición del sector ponderado por empleo.")
 item("4. Modelación de la exposición frente al uso observado de la IA con un modelo de dos partes "
      "(hurdle), complementado con modelos de aprendizaje supervisado (bosques aleatorios y gradient "
      "boosting) con validación cruzada e interpretación mediante valores SHAP.")
-item("5. Contraste de H3 con un panel de los Censos Económicos y efectos fijos de periodo, usando el "
+item("5. Contraste de H2 con un panel de los Censos Económicos y efectos fijos de periodo, usando el "
      "Índice de Rentabilidad de la Automatización rezagado e inferencia por permutación. Se propone "
      "desagregar este análisis a nivel de rama manufacturera.")
 item("6. Proyección 2025-2030 en tres escenarios (conservador, base y acelerado) que combinan la "
      "exposición, la rentabilidad y las curvas de capacidad de la IA y de adopción robótica, para "
-     "contrastar H4, y elaboración del tablero de visualización.")
+     "dimensionar la presión de sustitución en el sector, y elaboración del tablero de "
+     "visualización.")
 par("Herramientas de análisis. Python (pandas, NumPy, statsmodels, scikit-learn, factor_analyzer y "
     "Matplotlib), SQL Server para la integración de datos y GitHub para el control de versiones y la "
     "reproducibilidad. Cada tabla y figura se genera con un script versionado.")

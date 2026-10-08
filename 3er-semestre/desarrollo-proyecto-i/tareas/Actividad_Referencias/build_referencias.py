@@ -107,7 +107,7 @@ REFS = [
   desc="Presenta de forma accesible el marco teórico de los mismos autores y lo aplica a datos "
        "sectoriales. Explica por qué el empleo puede estancarse aunque la productividad crezca, "
        "cuando se automatiza mucho y se crean pocas tareas nuevas. La tesis lo usa para "
-       "interpretar la prueba de la hipótesis H4, en la que los sectores con mayor incentivo a "
+       "interpretar la prueba de la hipótesis de rentabilidad, en la que los sectores con mayor incentivo a "
        "automatizar profundizaron su capital y perdieron participación laboral.")),
  ("05_Acemoglu_Restrepo_2020_robots", dict(
   titulo="Robots and jobs: Evidence from US labor markets",
