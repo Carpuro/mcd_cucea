@@ -328,28 +328,28 @@ def build():
     add_para(doc, sb=8, sa=0)
     add_heading(doc, "1. Introducción")
     add_para(doc,
-        "En la Tarea 1.4 se identificó el contaminante con mayor correlación lineal con el dióxido "
-        "de nitrógeno (NO₂) en la estación Centro del Sistema de Monitoreo Atmosférico de Jalisco "
-        "(SIMAJ). Con base en lo revisado en la sesión 7, en esta actividad se corrigen tres "
-        "aspectos de aquel análisis: (a) se trabaja con un corpus homogéneo, es decir, con el mismo "
-        "conjunto de horas para todos los contaminantes; (b) se excluyen los valores atípicos antes "
-        "de ajustar las regresiones, y (c) las rectas de regresión se fuerzan a pasar por el origen "
-        "(0, 0). Con los datos ajustados se vuelve a determinar qué contaminante tiene el mayor "
-        "coeficiente de correlación lineal con el NO₂ y se apoya la respuesta con mapas de calor, "
-        "gráficas de dispersión, diagramas de caja y rectas de regresión.")
+        "En la Tarea 1.4 busqué qué contaminante tiene la correlación lineal más alta con el "
+        "dióxido de nitrógeno (NO₂) en la estación Centro del SIMAJ. Después de la sesión 7 quedó "
+        "claro que a ese análisis le faltaban tres ajustes, y en esta tarea los hago. El primero "
+        "es trabajar con un corpus homogéneo, es decir, que todos los contaminantes se comparen "
+        "usando exactamente las mismas horas. El segundo es quitar los valores atípicos antes de "
+        "ajustar las regresiones. El tercero es que las rectas de regresión pasen por el origen "
+        "(0, 0). Con los datos ya ajustados vuelvo a buscar el contaminante con mayor correlación y "
+        "reviso el resultado con mapas de calor, gráficas de dispersión, diagramas de caja y "
+        "rectas de regresión.")
 
     # ---------------- 2. Metodologia
     add_heading(doc, "2. Metodología")
     add_heading(doc, "2.1 Corpus homogéneo", level=2)
     add_para(doc,
-        "En la Tarea 1.4 cada coeficiente se calculó con las horas en que el NO₂ y el contaminante "
-        "comparado tenían lectura válida, de modo que cada par se basaba en un número distinto de "
-        f"observaciones (entre {num(min(n14.values()))} y {num(max(n14.values()))}) y no "
-        "necesariamente en las mismas horas. Así, las diferencias entre coeficientes podían deberse "
-        "en parte a que se comparaban periodos distintos. Además, la estación solo registra NO₂ de "
-        f"{meses} de 2024, mientras que el O₃, el CO y las partículas tienen cobertura anual. Para "
-        "que la comparación sea justa, se conservaron únicamente las horas con lectura válida de "
-        "las siete variables al mismo tiempo (Tabla 1).")
+        "En la Tarea 1.4 calculé cada correlación con las horas en que el NO₂ y el otro "
+        "contaminante tenían dato. El problema es que cada par terminó usando un número distinto "
+        f"de horas (entre {num(min(n14.values()))} y {num(max(n14.values()))}), y no siempre las "
+        "mismas. Así, si un coeficiente salía más alto que otro, no se podía saber si era por el "
+        "contaminante o porque se estaban comparando horas diferentes. A eso se suma que la "
+        f"estación solo midió NO₂ de {meses} de 2024, mientras que el O₃, el CO y las partículas "
+        "se midieron casi todo el año. Para que la comparación fuera justa, me quedé solo con las "
+        "horas que tienen dato de las siete variables al mismo tiempo (Tabla 1).")
     make_table(doc, ["Etapa", "Horas", "% del total"],
                [["Registros horarios de la estación Centro, 2024", num(n_total), "100.0 %"],
                 [f"Con lectura de NO₂ ({meses})", num(n_valid['NO2']), pct(n_valid['NO2'] / n_total)],
@@ -360,14 +360,13 @@ def build():
 
     add_heading(doc, "2.2 Exclusión de valores atípicos", level=2)
     add_para(doc,
-        "Para identificar los valores atípicos se aplicó el criterio de Tukey visto en las tareas "
-        "1.0 y 1.1: una lectura es atípica cuando queda fuera del intervalo "
-        "[Q1 − 1.5·RIC, Q3 + 1.5·RIC], donde RIC = Q3 − Q1. Las cercas se calcularon por variable "
-        "sobre el corpus homogéneo. Para no perder la homogeneidad, se excluyó toda hora que fuera "
-        "atípica en al menos una de las siete variables, de forma que todas las regresiones "
-        "siguen usando exactamente las mismas horas. Como las distribuciones son asimétricas a la "
-        "derecha, la cerca inferior es negativa en todos los casos y solo se excluyen "
-        "concentraciones altas (Tabla 2 y Figura 1).", keep=True)
+        "Para encontrar los atípicos usé el criterio de Tukey de las tareas 1.0 y 1.1. Un valor es "
+        "atípico si queda fuera del intervalo [Q1 − 1.5·RIC, Q3 + 1.5·RIC], donde RIC = Q3 − Q1. "
+        "Calculé las cercas de cada variable sobre el corpus homogéneo. Si una hora era atípica en "
+        "cualquiera de las siete variables, la quité completa, para que todas las regresiones "
+        "siguieran usando las mismas horas y no se perdiera lo ganado en el paso anterior. Como "
+        "todas las distribuciones tienen la cola hacia la derecha, la cerca inferior siempre salió "
+        "negativa, así que solo se quitaron valores altos (Tabla 2 y Figura 1).", keep=True)
     frows = [[NAMES[c], f(fence[c]["q1"], 3 if UNIT[c] == "ppm" else 1),
               f(fence[c]["q3"], 3 if UNIT[c] == "ppm" else 1),
               f(fence[c]["hi"], 4 if UNIT[c] == "ppm" else 1), fence[c]["n_out"]] for c in ALL]
@@ -380,35 +379,36 @@ def build():
                      "valores atípicos.")
     n_excl = n_h - n_c
     add_para(doc,
-        f"En total se excluyeron {num(n_excl)} horas ({pct(n_excl / n_h)} del corpus homogéneo). El "
-        f"NO concentra la mayor cantidad de atípicos ({fence['NO']['n_out']}), lo que es esperable "
-        "porque se emite directamente en el escape de los vehículos y presenta picos muy marcados "
-        "en las horas de mayor tránsito. Las mismas horas suelen ser atípicas en varias variables "
-        "a la vez, por eso el número de horas excluidas es menor que la suma de la última columna "
-        "de la Tabla 2.")
+        f"En total quité {num(n_excl)} horas, el {pct(n_excl / n_h)} del corpus. El NO es el que "
+        f"tiene más atípicos ({fence['NO']['n_out']}). Tiene sentido, porque sale directo del escape "
+        "de los coches y se dispara en las horas de más tráfico. Muchas veces una misma hora es "
+        "atípica en varios contaminantes a la vez, y por eso el total de horas quitadas es menor "
+        "que la suma de la última columna de la Tabla 2.")
 
     add_heading(doc, "2.3 Recta de regresión que cruza por el origen", level=2)
     add_para(doc,
-        "En lugar de la recta NO₂ = b₀ + b₁X de la Tarea 1.4, se ajustó por mínimos cuadrados el "
-        "modelo sin intercepto NO₂ = b·X, cuya recta pasa por el punto (0, 0). La restricción tiene "
-        "sentido físico: cuando no hay emisiones de combustión, la concentración esperada de NO₂ "
-        "debe ser cercana a cero. La pendiente y el coeficiente de determinación se obtienen con "
-        "las expresiones de la Figura 2. El R²₀ de un modelo sin intercepto se calcula respecto "
-        "a cero y no respecto a la media, por lo que su valor no es comparable con el R² de una "
-        "recta con intercepto ni con el cuadrado de r. Por esa razón, la jerarquía de contaminantes "
-        "se establece con el coeficiente de correlación de Pearson, y la recta por el origen se "
-        "usa para describir la proporción entre el NO₂ y cada contaminante.", keep=True)
+        "En la Tarea 1.4 usé la recta NO₂ = b₀ + b₁X. Ahora ajusté por mínimos cuadrados el modelo "
+        "sin intercepto NO₂ = b·X, que obliga a la recta a pasar por (0, 0). La idea es que, si no "
+        "hay emisiones, tampoco debería haber NO₂. Las fórmulas de la pendiente y del coeficiente "
+        "de determinación están en la Figura 2.", keep=True)
     add_pic(doc, p_form, 2.9)
     add_caption(doc, "Figura 2. Pendiente y coeficiente de determinación de la recta de regresión "
                      "que cruza por el origen.")
+    add_para(doc,
+        "Hay que tener cuidado con el R²₀. En un modelo sin intercepto el R² se mide contra cero y "
+        "no contra el promedio, y por eso suele salir más alto de lo que en realidad ajusta el "
+        "modelo. No se puede comparar con el R² de una recta normal ni con r². Por esa razón usé "
+        "el coeficiente de Pearson para ordenar los contaminantes, y la recta por el origen solo "
+        "para ver la proporción entre el NO₂ y cada contaminante.")
 
     # ---------------- 3. Resultados
     add_heading(doc, "3. Resultados")
     add_heading(doc, "3.1 Efecto de los ajustes sobre el coeficiente de correlación", level=2)
     add_para(doc,
-        "La Tabla 3 muestra cómo cambia el coeficiente de correlación de cada contaminante con el "
-        "NO₂ en cada etapa del ajuste, y la Figura 3 compara las matrices de correlación de la "
-        "Tarea 1.4 y de esta tarea mediante mapas de calor.", keep=True)
+        "En la Tabla 3 se ve cómo cambia la correlación de cada contaminante con el NO₂ después de "
+        "cada ajuste. La Figura 3 compara las matrices de correlación de la Tarea 1.4 y de esta "
+        "tarea en mapas de calor, donde el rojo intenso indica correlación positiva fuerte y el "
+        "azul, negativa.", keep=True)
     crow = [[NAMES[rr["var"]], f"{rr['r14']:+.3f}", f"{rr['rh']:+.3f}", f"{rr['rc']:+.3f}",
              f"{rr['rc'] - rr['r14']:+.3f}"] for _, rr in stats.iterrows()]
     make_table(doc, ["Contaminante", "r Tarea 1.4", "r corpus homogéneo", "r sin atípicos",
@@ -420,26 +420,26 @@ def build():
                      "(Tarea 1.4) y después de los ajustes (Tarea 1.5).")
     sub_ = stats[stats["rc"] < stats["r14"]]
     add_para(doc,
-        "El paso al corpus homogéneo apenas modifica los coeficientes (cambios menores a 0.02), lo "
-        "que indica que la diferencia en el número de horas de la Tarea 1.4 no alteraba los "
-        "resultados de manera importante. La exclusión de atípicos, en cambio, tiene un efecto "
-        "claro y en dos sentidos opuestos. La correlación del NO₂ con el NOx sube de "
-        f"{f(st.loc['NOX','r14'])} a {f(st.loc['NOX','rc'])} y la del CO de "
-        f"{f(st.loc['CO','r14'])} a {f(st.loc['CO','rc'])}. En la Tarea 1.4 se observó que estas "
-        "relaciones son cóncavas: en las concentraciones altas el NO₂ crece más despacio que el NOx "
-        "y el CO, y los puntos quedan por debajo de la recta. Esos episodios son precisamente los "
-        "que el criterio de Tukey identifica como atípicos, y al retirarlos la relación que queda es "
-        "mucho más cercana a una recta. En el "
-        + lista(sub_["var"])
-        + " ocurre lo contrario: su correlación disminuye, porque una parte de ella se debía a unas "
-        "cuantas horas con valores extremos simultáneos en ambas variables, que actuaban como "
-        "puntos de alta palanca.")
+        "Usar el corpus homogéneo casi no movió los coeficientes (ninguno cambió más de 0.02). O "
+        "sea, que en la Tarea 1.4 cada par tuviera distintas horas no estaba distorsionando mucho "
+        "los resultados. Quitar los atípicos, en cambio, sí hizo una diferencia, y no en la misma "
+        f"dirección para todos. En el NOx la correlación subió de {f(st.loc['NOX','r14'])} a "
+        f"{f(st.loc['NOX','rc'])}, y en el CO de {f(st.loc['CO','r14'])} a {f(st.loc['CO','rc'])}.")
+    add_para(doc,
+        "Para entender por qué, hay que recordar lo que se vio en la Tarea 1.4. Con el NOx y el CO "
+        "la nube de puntos se curva: cuando sus concentraciones son muy altas, el NO₂ ya no sube al "
+        "mismo ritmo y los puntos quedan por debajo de la recta. Esos puntos son justo los que el "
+        "criterio de Tukey marca como atípicos. Al quitarlos, lo que queda es casi una línea recta, "
+        "y r sube. En el " + lista(sub_["var"]) + " pasó lo contrario y la correlación bajó. Ahí "
+        "unas cuantas horas con valores extremos en las dos variables a la vez jalaban la recta "
+        "hacia arriba, porque los puntos muy alejados del resto pesan mucho en el cálculo "
+        "(puntos de alta palanca). Sin ellos, la relación resulta más débil de lo que parecía.")
 
     add_heading(doc, "3.2 Gráficas de dispersión y rectas por el origen", level=2)
     add_para(doc,
-        "La Figura 4 presenta las gráficas de dispersión del corpus depurado con la recta que cruza "
-        "por el origen (ámbar) y, como referencia, la recta con intercepto (gris punteada). La "
-        "Tabla 4 reúne los estadísticos de ambos modelos.")
+        "La Figura 4 muestra las gráficas de dispersión ya sin atípicos, con la recta que pasa por "
+        "el origen en ámbar y, para comparar, la recta con intercepto en gris punteado. Los "
+        "valores de los dos modelos están en la Tabla 4.")
     add_pic(doc, p_sc, 6.4)
     add_caption(doc, f"Figura 4. Dispersión del NO₂ frente a cada contaminante con rectas de "
                      f"regresión que cruzan por el origen, corpus homogéneo sin atípicos "
@@ -450,66 +450,64 @@ def build():
                "Tabla 4. Regresión por el origen y regresión con intercepto del NO₂ sobre cada "
                "contaminante, corpus homogéneo sin atípicos.", [2.3, 0.6, 0.8, 0.6, 1.0, 0.7, 0.6], hl=0)
     add_para(doc,
-        "En el NOx y el CO las dos rectas casi se superponen y el intercepto estimado es "
-        f"muy cercano a cero ({st.loc['NOX','a_ic']:+.4f} y {st.loc['CO','a_ic']:+.4f} ppm), de modo "
-        "que la restricción de pasar por el origen es coherente con los datos y casi no cuesta "
-        f"ajuste. La pendiente del NOx (b = {f(st.loc['NOX','b'])}) indica que, en el corpus "
-        f"depurado, el NO₂ representa alrededor de {pct(st.loc['NOX','b'])} del NOx medido, y la "
-        f"del CO (b = {f(st.loc['CO','b'], 4)}) que por cada ppm de CO se observan, en promedio, "
-        f"{f(st.loc['CO','b'] * 1000, 1)} ppb de NO₂.")
+        "En el NOx y el CO las dos rectas casi coinciden. Cuando se deja libre el intercepto, sale "
+        f"prácticamente en cero ({st.loc['NOX','a_ic']:+.4f} y {st.loc['CO','a_ic']:+.4f} ppm), así "
+        "que obligar a la recta a pasar por el origen no le quita casi nada al ajuste. Las "
+        "pendientes también se pueden leer de forma sencilla. La del NOx "
+        f"(b = {f(st.loc['NOX','b'])}) quiere decir que el NO₂ es más o menos el "
+        f"{pct(st.loc['NOX','b'])} del NOx medido. La del CO (b = {f(st.loc['CO','b'], 4)}) indica "
+        f"que por cada ppm de CO hay en promedio {f(st.loc['CO','b'] * 1000, 1)} ppb de NO₂.")
     add_para(doc,
-        "En el resto de los contaminantes la recta por el origen se separa claramente de la recta "
-        "con intercepto. El caso más ilustrativo es el O₃: su correlación con el NO₂ es negativa "
-        f"(r = {f(st.loc['O3','rc'])}), pero la recta forzada al origen tiene pendiente positiva "
-        f"(b = {f(st.loc['O3','b'])}), porque la única forma de acercarse a la nube partiendo de "
-        "(0, 0) es subir hacia ella. En este caso la restricción contradice la relación observada, "
-        "lo que confirma que el O₃ no responde a la misma fuente que el NO₂ sino a su consumo "
-        "fotoquímico. Los R²₀ de estas variables son engañosamente altos: calculado respecto a la "
-        "media, el ajuste de la recta por el origen resulta peor que una línea horizontal en el "
-        + lista(stats.loc[stats["r2_media"] < 0, "var"])
-        + ", ejemplo de por qué el R²₀ no sirve para comparar contaminantes.")
+        "Con los demás contaminantes las dos rectas se separan bastante. El caso más claro es el "
+        f"O₃. Su correlación con el NO₂ es negativa (r = {f(st.loc['O3','rc'])}), pero la recta "
+        f"forzada al origen sale con pendiente positiva (b = {f(st.loc['O3','b'])}), porque si "
+        "tiene que arrancar en (0, 0), la única manera de acercarse a los puntos es subiendo. Para "
+        "el O₃ esta restricción no sirve, ya que contradice lo que muestran los datos, y tiene "
+        "lógica, porque el O₃ no sale de la misma fuente que el NO₂ sino que se forma consumiéndolo. "
+        "Algo parecido pasa con el R²₀ de estas variables, que sale alto aunque el ajuste sea malo. "
+        "Si se mide contra el promedio, la recta por el origen ajusta peor que una línea "
+        "horizontal en el " + lista(stats.loc[stats["r2_media"] < 0, "var"]) + ". Por eso no usé "
+        "el R²₀ para comparar.")
 
     add_heading(doc, "3.3 Dispersión y distribución del NOx y el CO", level=2)
     add_para(doc,
-        "La Figura 5 combina la gráfica de dispersión con los diagramas de caja de cada eje, como se "
-        "vio en la sesión 7, para los dos contaminantes con mayor correlación. Las horas excluidas "
-        "por atípicas aparecen en rojo.", keep=True)
+        "En la Figura 5 junté la gráfica de dispersión con los diagramas de caja de cada eje, como "
+        "en el ejemplo de la sesión 7, para los dos contaminantes con mayor correlación. Las horas "
+        "que quité por atípicas están en rojo.", keep=True)
     add_pic(doc, p_mg, 6.6)
     add_caption(doc, "Figura 5. Dispersión del NO₂ frente al NOx y al CO con diagramas de caja "
                      "marginales, corpus homogéneo. En rojo, las horas excluidas por atípicas; la "
                      "recta se ajustó solo con las horas conservadas.")
     add_para(doc,
-        "Los diagramas de caja muestran que las tres variables tienen una cola larga hacia los "
-        "valores altos. Las horas excluidas se ubican en esa cola y forman la zona donde la nube "
-        "se abre y se curva; las horas conservadas siguen una banda estrecha y casi recta que nace "
-        "en el origen, sobre todo en el caso del NOx. Esta forma explica el aumento de r tras la "
-        "depuración y confirma visualmente que la recta por el origen es una buena descripción de "
-        "la relación en el rango habitual de concentraciones.")
+        "Los diagramas de caja muestran que el NO₂, el NOx y el CO tienen una cola larga hacia los "
+        "valores altos. Las horas en rojo están en esa cola, en la zona donde la nube se "
+        "abre y se dobla. Las horas que se quedaron (en azul) forman una banda angosta y casi "
+        "recta que sale del origen, sobre todo en el NOx. Con esta gráfica se entiende por qué la "
+        "correlación subió al quitar los atípicos y por qué la recta por el origen describe bien la "
+        "relación en los niveles normales de contaminación.")
 
     # ---------------- 4. Conclusiones
     add_heading(doc, "4. Conclusiones")
     add_para(doc,
-        "Después de homogeneizar el corpus, excluir los valores atípicos y ajustar rectas que "
-        "cruzan por el origen, el contaminante con el mayor coeficiente de correlación lineal con "
-        f"el NO₂ sigue siendo el NOx (r = {f(top['rc'])}, frente a {f(top['r14'])} en la Tarea 1.4). "
-        "Como se señaló en la tarea anterior, este resultado debe leerse con cautela, porque el NOx "
-        "se obtiene como la suma de NO y NO₂ y, por lo tanto, contiene a la variable con la que se "
-        "compara.")
+        "Después de los tres ajustes, el contaminante con mayor correlación lineal con el NO₂ sigue "
+        f"siendo el NOx, que pasó de r = {f(top['r14'])} en la Tarea 1.4 a r = {f(top['rc'])}. Como "
+        "ya había mencionado, este resultado hay que tomarlo con reserva, porque el NOx se calcula "
+        "sumando el NO y el NO₂. Es decir, ya trae dentro la variable con la que se está comparando.")
     add_para(doc,
-        "Entre los contaminantes que no incluyen al NO₂ en su cálculo, el de mayor correlación es "
-        f"el CO (r = {f(indep['rc'])}), cuya relación con el NO₂ también se fortalece con los ajustes "
-        f"y queda bien descrita por una recta que cruza por el origen (b = {f(indep['b'], 4)}, "
-        f"intercepto libre de {indep['a_ic']:+.4f} ppm). Ambos contaminantes provienen sobre todo de "
-        "la combustión vehicular, lo que explica que crezcan de manera proporcional. El O₃ conserva "
-        f"una relación inversa (r = {f(st.loc['O3','rc'])}) y, junto con el NO y las partículas, "
-        "queda muy por debajo de los dos anteriores.")
+        "Si solo se consideran los contaminantes que no incluyen al NO₂, el de mayor correlación es "
+        f"el CO (r = {f(indep['rc'])}). Su relación con el NO₂ también mejoró con los ajustes y la "
+        f"describe bien una recta por el origen (b = {f(indep['b'], 4)}; con intercepto libre, este "
+        f"sale en {indep['a_ic']:+.4f} ppm). Los dos vienen sobre todo de los coches, por eso crecen "
+        f"de forma proporcional. El O₃ mantiene su relación inversa (r = {f(st.loc['O3','rc'])}) y, "
+        "junto con el NO y las partículas, queda bastante por debajo del NOx y el CO.")
     add_para(doc,
-        "Los ajustes también muestran que los resultados de la Tarea 1.4 estaban influidos por los "
-        "valores extremos: en el NOx y el CO ocultaban parte de la relación lineal, mientras que en "
-        "el NO y las partículas la inflaban. Por último, la recta por el origen solo es adecuada "
-        "cuando el intercepto libre es cercano a cero, como ocurre con el NOx y el CO; para el O₃ "
-        "la restricción produce una pendiente con el signo equivocado. En todos los casos se trata "
-        "de asociaciones estadísticas, que por sí mismas no establecen relaciones de causalidad.")
+        "Lo que más me llamó la atención es que los atípicos estaban afectando los resultados de "
+        "la Tarea 1.4 en sentidos opuestos. En el NOx y el CO escondían parte de la relación "
+        "lineal, y en el NO y las partículas la hacían ver más fuerte de lo que es. También quedó "
+        "claro que la recta por el origen solo funciona cuando el intercepto libre ya sale cerca "
+        "de cero, como con el NOx y el CO. Con el O₃ da una pendiente con el signo al revés. Una "
+        "correlación alta tampoco significa que un contaminante cause al otro; aquí lo que tienen "
+        "en común es la fuente.")
 
     add_heading(doc, "Referencias")
     add_apa(doc, "Montgomery, D. C., Peck, E. A., & Vining, G. G. (2021). Introduction to linear "
