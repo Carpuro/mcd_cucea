@@ -41,7 +41,8 @@ Backups are done with `git push`, never with OneDrive.
     Use it for monthly and correlation analysis (tasks 1.3 and 1.4).
 - Delivered tasks: 1.0 (boxplot and IQR outliers), 1.1 (Tukey quartiles), 1.2 (histogram vs IMECA norm),
   1.3 (time series, moving averages, boxplots by hour and month), 1.4 (correlation with NO2),
-  1.5 (homogeneous corpus, Tukey outlier exclusion, regression through the origin, heatmaps).
+  1.5 (homogeneous corpus, Tukey outlier exclusion, regression through the origin, heatmaps),
+  1.6 (NO2 imputation from CO with capped model 1.5, multiple regression NO2 ~ PM10 + PM2.5, collinearity).
 - Each task has a `build_tarea*.py` script in `tareas/` that fills the report template and exports the PDF with LibreOffice.
 
 ## Per-subject structure (standard, applies to all 16 subjects)
