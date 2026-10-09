@@ -168,6 +168,28 @@ for c in ["PM10", "PM2.5"]:
     pm[c] = {"media": d[c].mean(), "mediana": d[c].median(), "dias": len(dia),
              "exc": int((dia > OMS[c]).sum())}
 ratio_pm = (d["PM2.5"] / d["PM10"]).replace(np.inf, np.nan).median()
+
+# NO2 coverage in the whole SIMAJ network: first month with readings at any station
+red = df.assign(NO2=pd.to_numeric(df["NO2"], errors="coerce"), mes=pd.to_datetime(df["DATE"]).dt.month)
+red_cov = red.dropna(subset=["NO2"]).groupby("STATION")["mes"].min()
+n_est = red["STATION"].nunique(); n_est_no2 = len(red_cov); mes_ini_red = int(red_cov.min())
+
+
+# coarse fraction: PM10 = PM2.5 + (PM10 - PM2.5); same fit as the PM10 + PM2.5 model, but the two
+# regressors no longer share the fine particles, so collinearity drops and each one is interpretable
+def gruesa(Z):
+    G = Z.assign(PMg=Z["PM10"] - Z["PM2.5"])
+    X = sm.add_constant(G[["PM2.5", "PMg"]])
+    return {"m": sm.OLS(G["NO2"], X).fit(), "vif": variance_inflation_factor(X.values, 1),
+            "r": G[["PM2.5", "PMg"]].corr().iloc[0, 1], "neg": int((G["PMg"] < 0).sum())}
+
+
+Gc, Go = gruesa(Zc), gruesa(Zo)
+
+# daily cycle with observed NO2 only (September to December), each variable relative to its mean
+d["hora"] = d["DATE"].dt.hour
+hor = d[d["NO2"].notna()].groupby("hora")[["NO2", "PM10", "PM2.5", "CO"]].mean()
+hor_rel = hor / hor.mean()
 no2_med_o = Zo["NO2"].mean()
 
 
@@ -270,6 +292,26 @@ def fig_planos():
         ax.set_zlabel("NO₂ (ppm)", fontsize=8); ax.tick_params(labelsize=6)
         ax.set_title(f"{title}\nR² = {Mc[key].rsquared:.3f}", color=NAVY_HEX, weight="bold", fontsize=9)
         ax.view_init(elev=22, azim=-58)
+    plt.tight_layout(); plt.savefig(p, dpi=190, bbox_inches="tight"); plt.close()
+    return p
+
+
+def fig_horario():
+    p = OUT + r"\ciclo_diario.png"
+    fig, ax = plt.subplots(figsize=(9, 3.8))
+    sty = {"NO2": (NAVY_HEX, "-", 2.4), "PM10": (AMBER_HEX, "-", 2.0), "PM2.5": (RED_HEX, "-", 2.0),
+           "CO": ("#777777", "--", 1.4)}
+    for c, (col, ls, lw) in sty.items():
+        ax.plot(hor_rel.index, hor_rel[c], color=col, ls=ls, lw=lw, marker="o", ms=3, label=SHORT[c])
+    ax.axhline(1, color="#333333", lw=0.8)
+    ax.axvspan(10.5, 17.5, color="#F2F2F2", zorder=0)
+    ax.set_ylim(0, hor_rel.values.max() * 1.25)
+    ax.text(14, hor_rel.values.max() * 1.18, "mediodía y tarde", ha="center", va="top", fontsize=8,
+            color="#555555")
+    ax.set_xticks(range(0, 24, 2)); ax.set_xlabel("Hora del día"); ax.set_ylabel("Concentración / promedio")
+    ax.set_title("Ciclo diario promedio, horas con NO₂ observado (septiembre a diciembre de 2024)",
+                 color=NAVY_HEX, weight="bold", fontsize=10)
+    ax.legend(fontsize=8, ncol=4, loc="upper left"); ax.grid(linestyle=":", alpha=0.4)
     plt.tight_layout(); plt.savefig(p, dpi=190, bbox_inches="tight"); plt.close()
     return p
 
@@ -379,7 +421,7 @@ def clear_body_after_table1(doc):
 def build():
     os.makedirs(OUT, exist_ok=True)
     p_imp, p_ser, p_mat = fig_imputacion(), fig_serie(), fig_matriz()
-    p_3d, p_cf = fig_planos(), fig_coef()
+    p_3d, p_cf, p_hr = fig_planos(), fig_coef(), fig_horario()
 
     doc = Document(TEMPLATE)
     hdr = doc.tables[0].rows[0].cells[1]
@@ -430,6 +472,12 @@ def build():
         f"casi anual. Con él se pueden imputar {num(n_falt_co)} de las {num(n_falt)} horas "
         f"faltantes; las {num(n_falt_sin)} restantes tampoco tienen lectura de CO y se dejaron sin "
         "imputar, para no encadenar una estimación sobre otra.")
+    add_para(doc,
+        f"El vacío no es exclusivo de esta estación. De las {n_est} estaciones de la red SIMAJ en la "
+        f"base de 2024, {n_est_no2} registran NO₂ y ninguna lo hace antes de "
+        f"{MESES[mes_ini_red - 1]}, de modo que el hueco de enero a julio afecta a toda la red. Esto "
+        "justifica estimar los valores faltantes a partir de otro contaminante, pero también impide "
+        "validar la imputación contra una estación vecina.")
 
     add_heading(doc, "2.2 Comparación de los modelos de las tareas 1.4 y 1.5", level=2)
     add_para(doc,
@@ -647,6 +695,69 @@ def build():
         f"las dos partículas juntas explican apenas {pct(lc.rsquared)} de la variabilidad del NO₂ "
         "en la serie completada.")
 
+    add_heading(doc, "3.5 Fracción fina y fracción gruesa", level=2)
+    mo, mc = Go["m"], Gc["m"]
+    add_para(doc,
+        "La colinealidad entre el PM10 y el PM2.5 tiene una causa conocida: el PM10 contiene al "
+        "PM2.5. Por eso puede eliminarse sin quitar información, separando el PM10 en sus dos "
+        "componentes, la fracción fina (PM2.5) y la fracción gruesa (PM10 − PM2.5), y ajustando "
+        "NO₂ = b₀ + b₁·PM2.5 + b₂·(PM10 − PM2.5). Este modelo tiene exactamente el mismo ajuste que el "
+        "lineal múltiple de la Tabla 4, porque usa la misma información, pero sus dos variables ya no "
+        "comparten partículas. La correlación entre ellas baja a "
+        f"{f(Go['r'])} con datos observados y el VIF a {f(Go['vif'], 2)} (Tabla 5).", keep=True)
+    ci_o, ci_c = mo.conf_int(), mc.conf_int()
+
+    def ic(ci, v):
+        return f"{ci.loc[v, 0] * 1000:.3f} a {ci.loc[v, 1] * 1000:.3f}"
+    make_table(doc, ["Serie", "b fracción fina (IC 95 %)", "b fracción gruesa (IC 95 %)", "R²", "VIF"],
+               [["Observada", f"{mo.params['PM2.5'] * 1000:.3f} ({ic(ci_o, 'PM2.5')})",
+                 f"{mo.params['PMg'] * 1000:.3f} ({ic(ci_o, 'PMg')})", f(mo.rsquared), f(Go["vif"], 2)],
+                ["Completada", f"{mc.params['PM2.5'] * 1000:.3f} ({ic(ci_c, 'PM2.5')})",
+                 f"{mc.params['PMg'] * 1000:.3f} ({ic(ci_c, 'PMg')})", f(mc.rsquared), f(Gc["vif"], 2)]],
+               "Tabla 5. Modelo del NO₂ con la fracción fina y la fracción gruesa de las partículas "
+               "(ppb de NO₂ por µg/m³). Todos los coeficientes son significativos al 1 %.",
+               [1.1, 2.0, 2.0, 0.6, 0.6], hl=0)
+    add_para(doc,
+        "Con la colinealidad resuelta, los dos coeficientes son significativos y sus intervalos de "
+        "confianza son estrechos. En los datos observados, cada µg/m³ de partículas finas se asocia "
+        f"con {f(mo.params['PM2.5'] * 1000)} ppb de NO₂ y cada µg/m³ de partículas gruesas con "
+        f"{f(mo.params['PMg'] * 1000)} ppb. Ambas fracciones se relacionan con el NO₂ en magnitud "
+        "parecida, con una ventaja moderada de la fina, coherente con su origen en la combustión. "
+        "Este resultado precisa la lectura de la sección anterior: que el PM2.5 dejara de ser "
+        "significativo junto al PM10 no significa que las partículas finas no se relacionen con el "
+        "NO₂, sino que no lo hacen mucho más que las gruesas. El coeficiente del PM2.5 en el modelo "
+        "con PM10 mide justamente esa diferencia entre ambas fracciones. En la serie completada la "
+        "ventaja de la fracción fina es mayor, lo que de nuevo refleja la imputación con CO, un gas "
+        "de combustión.")
+    if Go["neg"] or Gc["neg"]:
+        add_para(doc,
+            f"En {Go['neg']} horas observadas y {Gc['neg']} de la serie completada el PM2.5 medido es "
+            "ligeramente mayor que el PM10, lo que es físicamente imposible y se debe a la "
+            "incertidumbre de los equipos de medición. Son pocas horas y se conservaron en el análisis.")
+
+    add_heading(doc, "3.6 Ciclo diario", level=2)
+    pk = hor["NO2"].idxmax(); mn = hor["NO2"].idxmin()
+    add_para(doc,
+        "La Figura 6 compara el perfil horario promedio de cada contaminante, dividido entre su "
+        "propio promedio para poder verlos en la misma escala. Solo se usaron horas con NO₂ "
+        "observado, para que el perfil no dependa de la imputación.", keep=True)
+    add_pic(doc, p_hr, 6.2)
+    add_caption(doc, "Figura 6. Ciclo diario promedio del NO₂, el PM10, el PM2.5 y el CO, expresado "
+                     "como proporción del promedio de cada variable, estación Centro, septiembre a "
+                     "diciembre de 2024.")
+    add_para(doc,
+        "Los cuatro contaminantes siguen el mismo patrón general: suben en la mañana, alrededor de "
+        "las 7 y 8 horas, caen durante el mediodía y la tarde, y vuelven a subir a partir de las 18 o 19 horas "
+        f"hasta la noche. El NO₂ alcanza su mínimo a las {mn} horas y su máximo a las {pk} horas, con "
+        f"una concentración {f(hor['NO2'].max() / hor['NO2'].min(), 1)} veces mayor. Los picos "
+        "coinciden con las horas de mayor tránsito, y el descenso del mediodía con el crecimiento de "
+        "la capa de mezcla de la atmósfera, que diluye los contaminantes cuando el sol calienta el "
+        "suelo. En el NO₂ la caída es más pronunciada que en las partículas porque, además, en esas "
+        "horas se consume en las reacciones fotoquímicas que forman ozono. Este ciclo compartido "
+        "es la explicación más directa de la correlación entre el NO₂ y las partículas: ambos "
+        "responden a la misma actividad vehicular y a las mismas condiciones de dispersión, sin que "
+        "uno cause al otro.")
+
     # ---------------- 4. Conclusiones
     add_heading(doc, "4. Conclusiones")
     add_para(doc,
@@ -662,10 +773,12 @@ def build():
         "El NO₂ mantiene una relación positiva y moderada con las partículas, algo mayor con el PM10. "
         "La relación más fuerte entre las variables analizadas es la del PM10 con el PM2.5, y esa "
         "colinealidad condiciona el modelo múltiple: con los datos observados, el PM2.5 deja de ser "
-        "significativo cuando se incluye el PM10 y no mejora el ajuste. Para explicar el NO₂ con "
-        "partículas basta con el PM10, y un modelo con ambas no aporta información adicional. La "
-        "aparente contribución del PM2.5 en la serie completada se explica en buena parte por la "
-        "imputación con CO.")
+        "significativo cuando se incluye el PM10 y no mejora el ajuste. Separar el PM10 en fracción "
+        "fina y fracción gruesa resuelve el problema: con dos variables que ya no se traslapan, "
+        "ambas resultan significativas y se relacionan con el NO₂ en magnitud parecida, con una "
+        "ventaja moderada de la fracción fina. El ciclo diario muestra por qué: el NO₂ y las "
+        "partículas suben con el tránsito de la mañana y la noche y bajan juntos al mediodía, "
+        "cuando la atmósfera dispersa mejor los contaminantes.")
     add_para(doc,
         "En términos generales, las partículas explican una fracción mucho menor del NO₂ que el CO o "
         "el NOx, lo que concuerda con que tienen fuentes más diversas (polvo, construcción, "
