@@ -451,42 +451,40 @@ def build():
     add_para(doc, sb=8, sa=0)
     add_heading(doc, "1. Introducción")
     add_para(doc,
-        "La estación Centro del Sistema de Monitoreo Atmosférico de Jalisco (SIMAJ) solo registra "
-        f"dióxido de nitrógeno (NO₂) de septiembre a diciembre de 2024: de las {num(n_total)} horas "
-        f"del año, {num(n_falt)} ({pct(n_falt / n_total)}) carecen de lectura. Esta tarea tiene dos "
-        "partes. Primero, se completan los valores faltantes del NO₂ con los modelos de regresión "
-        "lineal simple construidos en las tareas 1.4 y 1.5. Después, con la serie completada, se "
-        "explora la relación del NO₂ con las partículas PM10 y PM2.5 mediante gráficas de "
-        "dispersión entre la variable dependiente y cada variable independiente, gráficas entre las "
-        "propias variables independientes para detectar colinealidad y modelos de regresión lineal "
-        "múltiple representados como planos y superficies, siguiendo lo visto en la sesión 8.")
+        "En la estación Centro del SIMAJ el dióxido de nitrógeno (NO₂) solo se midió de septiembre "
+        f"a diciembre de 2024. De las {num(n_total)} horas del año, a {num(n_falt)} les falta el dato "
+        f"({pct(n_falt / n_total)}). En esta tarea primero completé esos valores con los modelos de "
+        "regresión lineal simple de las tareas 1.4 y 1.5 y después, con la serie ya completa, revisé "
+        "cómo se relaciona el NO₂ con las partículas PM10 y PM2.5. Para la segunda parte seguí lo "
+        "visto en la sesión 8: gráficas del NO₂ contra cada partícula, gráficas de las partículas "
+        "entre sí para buscar colinealidad y modelos de regresión múltiple, que se pueden ver como "
+        "un plano o una superficie.")
 
     # ---------------- 2. Imputacion
     add_heading(doc, "2. Imputación de los valores faltantes de NO₂")
     add_heading(doc, "2.1 Elección de la variable explicativa", level=2)
     add_para(doc,
-        "En las tareas anteriores el NOx tuvo la correlación más alta con el NO₂, pero no puede "
-        "usarse para imputar por dos razones: contiene al NO₂ en su cálculo y le faltan exactamente "
-        "las mismas horas, porque ambos se miden con el mismo analizador. El CO es el contaminante "
-        "independiente con mayor correlación (r = 0.909 en la Tarea 1.5) y además tiene cobertura "
-        f"casi anual. Con él se pueden imputar {num(n_falt_co)} de las {num(n_falt)} horas "
-        f"faltantes; las {num(n_falt_sin)} restantes tampoco tienen lectura de CO y se dejaron sin "
-        "imputar, para no encadenar una estimación sobre otra.")
+        "El NOx fue el contaminante con mayor correlación en las tareas anteriores, pero no sirve "
+        "para imputar. Por un lado incluye al NO₂ en su cálculo, y por otro le faltan las mismas "
+        "horas, ya que los dos salen del mismo analizador. Por eso usé el CO, que fue el siguiente "
+        "con mayor correlación (r = 0.909 en la Tarea 1.5) y que se midió casi todo el año. Con él "
+        f"se pueden completar {num(n_falt_co)} de las {num(n_falt)} horas faltantes. Las otras "
+        f"{num(n_falt_sin)} tampoco tienen CO y las dejé vacías, porque estimarlas a partir de otra "
+        "estimación ya no tendría mucho sentido.")
     add_para(doc,
-        f"El vacío no es exclusivo de esta estación. De las {n_est} estaciones de la red SIMAJ en la "
-        f"base de 2024, {n_est_no2} registran NO₂ y ninguna lo hace antes de "
-        f"{MESES[mes_ini_red - 1]}, de modo que el hueco de enero a julio afecta a toda la red. Esto "
-        "justifica estimar los valores faltantes a partir de otro contaminante, pero también impide "
-        "validar la imputación contra una estación vecina.")
+        f"Revisé también las demás estaciones. De las {n_est} que tiene la base, {n_est_no2} miden "
+        f"NO₂, y en ninguna hay datos antes de {MESES[mes_ini_red - 1]}. El hueco de enero a julio es "
+        "de toda la red, así que no hay una estación vecina contra la cual comparar los valores "
+        "imputados.")
 
     add_heading(doc, "2.2 Comparación de los modelos de las tareas 1.4 y 1.5", level=2)
     add_para(doc,
-        "Se evaluaron los dos modelos simples del NO₂ en función del CO: el de la Tarea 1.4, con "
-        f"intercepto y ajustado con todas las horas (NO₂ = {b0_14:.4f} + {b1_14:.4f}·CO), y el de la "
-        f"Tarea 1.5, que cruza por el origen y se ajustó sin valores atípicos (NO₂ = {b_15:.4f}·CO). "
-        "La Tabla 1 compara sus errores sobre las horas en que el NO₂ sí se observó, separando las "
-        f"horas con CO dentro y fuera de la cerca superior de Tukey ({co_lim:.3f} ppm), que es el "
-        "límite del rango con el que se estimó el modelo 1.5.", keep=True)
+        "Comparé los dos modelos simples del NO₂ en función del CO. El de la Tarea 1.4 tiene "
+        f"intercepto y se ajustó con todas las horas (NO₂ = {b0_14:.4f} + {b1_14:.4f}·CO). El de la "
+        f"Tarea 1.5 pasa por el origen y se ajustó sin atípicos (NO₂ = {b_15:.4f}·CO). En la Tabla 1 "
+        "están sus errores en las horas donde sí hay NO₂, separando las horas con CO por debajo y "
+        f"por encima de la cerca de Tukey ({co_lim:.3f} ppm), que marca el rango con el que se "
+        "estimó el modelo 1.5.", keep=True)
     erow = []
     for k, nm in [("1.4", "Modelo 1.4 (con intercepto)"), ("1.5", "Modelo 1.5 (por el origen)"),
                   ("comb", "Regla combinada (1.5 y 1.4)"), ("acot", "Modelo 1.5 acotado")]:
@@ -501,40 +499,37 @@ def build():
                "evaluados en noviembre y diciembre. Sesgo = observado − estimado.",
                [2.1, 0.8, 1.0, 1.0, 1.0, 0.9], hl=3)
     add_para(doc,
-        "Ninguno de los dos modelos es mejor en todo el rango. Dentro de la cerca, el modelo 1.5 "
-        f"tiene menos error que el 1.4 (RMSE de {f(c15['bajo']['rmse'], 4)} frente a "
-        f"{f(c14['bajo']['rmse'], 4)} ppm). Fuera de ella, sin embargo, extrapola una recta que nunca "
-        f"vio esas concentraciones y sobrestima el NO₂ en {f(-c15['alto']['sesgo'], 3)} ppm en "
-        "promedio, porque la relación real es cóncava y se aplana en los valores altos, como se "
-        "observó en la Tarea 1.4. El modelo 1.4, al estimarse con todas las horas, tiene una "
-        "pendiente menor y se equivoca mucho menos en ese tramo. A partir de esto se probaron dos "
-        "reglas. La primera combina ambos modelos: el 1.5 cuando el CO no rebasa la cerca y el 1.4 "
-        "cuando la rebasa. La segunda usa solo el modelo 1.5 dentro del rango en el que fue "
-        "estimado: cuando el CO supera la cerca, el NO₂ estimado se mantiene en el valor que el "
-        f"modelo da en la cerca ({f(pred15(co_lim), 4)} ppm), en lugar de prolongar la recta.",
-        keep=True)
+        f"Con CO normal, el modelo 1.5 se equivoca menos (RMSE de {f(c15['bajo']['rmse'], 4)} contra "
+        f"{f(c14['bajo']['rmse'], 4)} ppm). El problema aparece cuando el CO pasa de la cerca. Ahí "
+        "la recta sigue subiendo, pero el NO₂ real ya no, porque la relación se aplana en valores "
+        f"altos (lo mismo que se vio en la Tarea 1.4), y el modelo termina sobrestimando el NO₂ en "
+        f"{f(-c15['alto']['sesgo'], 3)} ppm en promedio. El modelo 1.4 tiene menos pendiente y en "
+        "ese tramo falla mucho menos.")
+    add_para(doc,
+        "Con eso en mente probé dos reglas más. La primera combina los modelos: el 1.5 hasta la "
+        "cerca y el 1.4 de ahí en adelante. La segunda usa solo el 1.5, pero sin dejar que se salga "
+        "de su rango: si el CO rebasa la cerca, el NO₂ se queda en el valor que el modelo da justo "
+        f"en ella ({f(pred15(co_lim), 4)} ppm).", keep=True)
     add_pic(doc, p_imp, 5.6)
     add_caption(doc, "Figura 1. Modelos de regresión simple del NO₂ en función del CO y reglas de "
                      "imputación evaluadas. La línea azul gruesa es la regla adoptada.")
     add_para(doc,
-        "Con los mismos datos con los que se estimaron, la regla combinada obtiene el menor error "
-        f"(RMSE de {f(cc['todo']['rmse'], 4)} ppm, frente a {f(ca['todo']['rmse'], 4)} del modelo "
-        "acotado), pero tiene un salto en la cerca: al pasar de un modelo a otro, el NO₂ estimado "
-        f"cae de {f(pred15(co_lim), 3)} a {f(pred14(co_lim), 3)} ppm, algo que no tiene sentido "
-        "físico. La validación fuera de muestra, en la que los modelos se reestiman con septiembre y "
-        "octubre y se aplican a noviembre y diciembre, resuelve la elección. Los tres esquemas que "
-        f"prolongan una recta tienen errores parecidos y altos (RMSE cercano a {f(oos['comb']['rmse'], 3)} "
-        f"ppm), mientras que el modelo 1.5 acotado reduce el error a {f(oos['acot']['rmse'], 4)} ppm, "
-        "menos de la mitad. Cuando el CO alcanza valores que el modelo no conoce, es más seguro no "
-        "extrapolar. Por eso se adoptó el modelo 1.5 acotado para la imputación. Aun así, la "
-        "relación entre el NO₂ y el CO cambia de un mes a otro, por lo que los valores imputados "
-        "deben tomarse como una aproximación y no como mediciones.")
+        "Medida con los mismos datos del ajuste, la regla combinada sale un poco mejor (RMSE de "
+        f"{f(cc['todo']['rmse'], 4)} contra {f(ca['todo']['rmse'], 4)} ppm). Sin embargo, tiene un "
+        f"salto en la cerca: el NO₂ estimado baja de golpe de {f(pred15(co_lim), 3)} a "
+        f"{f(pred14(co_lim), 3)} ppm, lo cual no tiene explicación física. Para decidir hice una "
+        "prueba fuera de muestra: reajusté los modelos solo con septiembre y octubre y los apliqué "
+        "a noviembre y diciembre. Las tres opciones que prolongan una recta quedaron con errores "
+        f"parecidos, alrededor de {f(oos['comb']['rmse'], 3)} ppm, y el modelo acotado bajó a "
+        f"{f(oos['acot']['rmse'], 4)} ppm. Por eso me quedé con el modelo 1.5 acotado. La prueba "
+        "también deja ver que la relación entre el NO₂ y el CO no es igual todos los meses, así que "
+        "los valores imputados hay que leerlos como una aproximación.")
 
     add_heading(doc, "2.3 Serie completada", level=2)
     add_para(doc,
-        f"Se imputaron {num(n_falt_co)} horas; en {num(n_imp_alto)} de ellas el CO superaba la cerca "
-        "y el NO₂ se fijó en el valor del límite. La Figura 2 muestra la serie diaria "
-        "resultante y la Tabla 2 los promedios mensuales.", keep=True)
+        f"En total se imputaron {num(n_falt_co)} horas. En {num(n_imp_alto)} de ellas el CO estaba "
+        "por encima de la cerca y el NO₂ se quedó en el valor límite. La Figura 2 muestra la serie "
+        "diaria y la Tabla 2 los promedios por mes.", keep=True)
     add_pic(doc, p_ser, 6.4)
     add_caption(doc, "Figura 2. Promedio diario de NO₂ observado (septiembre a diciembre) e "
                      "imputado a partir del CO, estación Centro, 2024.")
@@ -545,63 +540,58 @@ def build():
                mrow, "Tabla 2. Horas observadas e imputadas y promedio mensual de NO₂ (ppm).",
                [1.3, 1.1, 1.1, 1.1, 1.1])
     add_para(doc,
-        "En septiembre a diciembre los promedios casi no cambian, porque solo se completaron "
-        f"{num(n_falt_sd)} horas sueltas. De enero a agosto toda la información proviene del CO. El "
-        f"patrón que resulta es razonable: el promedio más alto se da en enero ({f(ene, 4)} ppm) y "
-        "desciende hacia el verano, lo que coincide con la temporada seca e invernal, en la que las "
-        "inversiones térmicas dificultan la dispersión de los contaminantes en Guadalajara, y con la "
-        "temporada de lluvias, que la favorece. Aun así, ese comportamiento es heredado del CO y no "
-        "puede verificarse, porque no existen mediciones de NO₂ en esos meses.")
+        "De septiembre a diciembre los promedios casi no se mueven, porque ahí solo se rellenaron "
+        f"{num(n_falt_sd)} horas sueltas. De enero a agosto, en cambio, todo viene del CO. El "
+        f"resultado se ve lógico: enero tiene el promedio más alto ({f(ene, 4)} ppm) y los valores "
+        "bajan hacia el verano. Eso cuadra con lo que pasa en Guadalajara, donde en los meses secos "
+        "las inversiones térmicas atrapan los contaminantes y en la temporada de lluvias se "
+        "dispersan mejor. Aun así, este patrón viene del CO y no hay mediciones de NO₂ en esos "
+        "meses para confirmarlo.")
 
     # ---------------- 3. Exploracion
     add_heading(doc, "3. Relación del NO₂ con el PM10 y el PM2.5")
     add_heading(doc, "3.1 Las partículas PM10 y PM2.5", level=2)
     add_para(doc,
-        "Las partículas suspendidas, o material particulado (PM, por sus siglas en inglés), son una "
-        "mezcla de partículas sólidas y gotas líquidas que permanecen en el aire. Se clasifican por "
-        "su diámetro aerodinámico: el PM10 agrupa a las partículas de 10 µm o menos y el PM2.5 a las "
-        "de 2.5 µm o menos, unas treinta veces más delgadas que un cabello humano. Por definición, "
-        "el PM2.5 es una fracción del PM10; la diferencia entre ambos corresponde a la llamada "
-        "fracción gruesa, de entre 2.5 y 10 µm. A diferencia del NO₂ o del CO, que son gases, ambas "
-        "se miden en masa por volumen de aire (µg/m³) (Seinfeld y Pandis, 2016).")
+        "El material particulado (PM) es la mezcla de partículas sólidas y gotitas que quedan "
+        "suspendidas en el aire. Se clasifica por tamaño. El PM10 son las partículas de 10 µm o "
+        "menos y el PM2.5 las de 2.5 µm o menos, unas treinta veces más delgadas que un cabello. "
+        "El PM2.5 forma parte del PM10, y lo que queda entre los dos (partículas de 2.5 a 10 µm) se "
+        "conoce como fracción gruesa. A diferencia del NO₂ y del CO, que son gases, las partículas "
+        "se miden en µg/m³ (Seinfeld y Pandis, 2016).")
     add_para(doc,
-        "Sus fuentes son distintas. La fracción gruesa proviene sobre todo de procesos mecánicos: "
-        "polvo resuspendido por el viento y el tránsito en calles sin pavimentar, construcción, "
-        "erosión del suelo y desgaste de llantas y frenos. El PM2.5, en cambio, se origina "
-        "principalmente en la combustión (motores, en particular los de diésel, quemas agrícolas e "
-        "industria) y en la formación secundaria, es decir, en partículas que se forman en la "
-        "atmósfera a partir de gases precursores. Entre esos precursores están los óxidos de "
-        "nitrógeno: el NO₂ se oxida a ácido nítrico, que al reaccionar con el amoniaco forma "
-        "nitrato de amonio, una sal que pasa a formar parte del PM2.5 "
-        "(Seinfeld y Pandis, 2016). Por eso se espera que el NO₂ se relacione con las partículas "
-        "finas a través de dos vías: la fuente vehicular que comparten y la química atmosférica.")
+        "Las dos fracciones vienen de fuentes distintas. La gruesa se genera sobre todo por "
+        "procesos mecánicos, como el polvo que levantan el viento y los coches, la construcción o "
+        "el desgaste de llantas y frenos. El PM2.5 sale principalmente de la combustión, en "
+        "especial de motores diésel, aunque una parte se forma en la propia atmósfera. Ahí entra "
+        "el NO₂, que se oxida a ácido nítrico y, al reaccionar con amoniaco, forma nitrato de "
+        "amonio, que termina como PM2.5 (Seinfeld y Pandis, 2016). Por lo tanto, se esperaría "
+        "encontrar alguna relación entre el NO₂ y las partículas finas, tanto por la fuente "
+        "vehicular que comparten como por esta química.")
     add_para(doc,
-        "Su efecto en la salud depende del tamaño. El PM10 llega a las vías respiratorias "
-        "superiores y a los bronquios, mientras que el PM2.5 alcanza los alvéolos pulmonares y "
-        "puede pasar al torrente sanguíneo, por lo que se asocia con enfermedades respiratorias, "
-        "cardiovasculares y con mortalidad prematura. La Organización Mundial de la Salud (OMS, "
-        "2021) recomienda que el promedio de 24 horas no rebase 45 µg/m³ de PM10 ni 15 µg/m³ de "
-        "PM2.5. En la estación Centro, durante 2024, el PM10 promedió "
-        f"{f(pm['PM10']['media'], 1)} µg/m³ y el PM2.5 {f(pm['PM2.5']['media'], 1)} µg/m³; el promedio "
-        f"diario superó la recomendación de la OMS en {pm['PM10']['exc']} de {pm['PM10']['dias']} días "
-        f"para el PM10 y en {pm['PM2.5']['exc']} de {pm['PM2.5']['dias']} días para el PM2.5. La "
-        f"mediana del cociente PM2.5/PM10 es de {f(ratio_pm, 2)}, lo que indica que algo menos de la "
-        "mitad de la masa de partículas en esta estación corresponde a la fracción fina.")
+        "En la salud, el tamaño importa. El PM10 llega hasta los bronquios y el PM2.5 entra a los "
+        "alvéolos y puede pasar a la sangre, por lo que se asocia con enfermedades respiratorias y "
+        "cardiovasculares. La OMS (2021) recomienda no pasar de 45 µg/m³ de PM10 ni de 15 µg/m³ de "
+        "PM2.5 en promedio de 24 horas. En la estación Centro, en 2024, el PM10 promedió "
+        f"{f(pm['PM10']['media'], 1)} µg/m³ y el PM2.5 {f(pm['PM2.5']['media'], 1)} µg/m³. El "
+        f"promedio diario rebasó la recomendación en {pm['PM10']['exc']} de {pm['PM10']['dias']} días "
+        f"para el PM10 y en {pm['PM2.5']['exc']} de {pm['PM2.5']['dias']} para el PM2.5. Además, la "
+        f"mediana del cociente PM2.5/PM10 fue de {f(ratio_pm, 2)}; es decir, en esta estación algo "
+        "menos de la mitad de la masa de partículas es fracción fina.")
 
     add_heading(doc, "3.2 Corpus de análisis", level=2)
     add_para(doc,
-        "Para el análisis se tomaron las horas con NO₂ (observado o imputado), PM10 y PM2.5 al mismo "
-        f"tiempo ({num(len(Zc_all))}) y, como en la Tarea 1.5, se excluyeron las horas atípicas en "
-        f"cualquiera de las tres variables según el criterio de Tukey, con lo que quedaron "
-        f"{num(len(Zc))} horas, {num((Zc['origen'] == 'imputado').sum())} de ellas con NO₂ imputado. "
-        "Como control, todos los modelos se estimaron también con las horas de NO₂ observado "
-        f"únicamente ({num(len(Zo))} horas tras la misma depuración).")
+        "Tomé las horas que tienen NO₂ (medido o imputado), PM10 y PM2.5 al mismo tiempo, que son "
+        f"{num(len(Zc_all))}. Igual que en la Tarea 1.5, quité las horas atípicas en cualquiera de "
+        f"las tres variables con el criterio de Tukey, y quedaron {num(len(Zc))}, de las cuales "
+        f"{num((Zc['origen'] == 'imputado').sum())} tienen NO₂ imputado. Para tener una referencia, "
+        "repetí todos los modelos usando solo las horas con NO₂ medido "
+        f"({num(len(Zo))} después de la misma limpieza).")
 
     add_heading(doc, "3.3 Dispersión entre las variables y colinealidad", level=2)
     add_para(doc,
-        "La Figura 3 sigue la técnica de la sesión 8: se grafica la variable dependiente contra cada "
-        "variable independiente y, además, las variables independientes entre sí. La Tabla 3 "
-        "reúne los coeficientes de correlación.", keep=True)
+        "Siguiendo la sesión 8, la Figura 3 muestra el NO₂ contra cada partícula y, en el tercer "
+        "panel, las dos partículas entre sí. Los coeficientes de correlación están en la Tabla 3.",
+        keep=True)
     add_pic(doc, p_mat, 6.5)
     add_caption(doc, "Figura 3. Dispersión del NO₂ frente al PM10 y al PM2.5, y del PM10 frente al "
                      "PM2.5, serie completada sin atípicos. Los puntos ámbar son horas con NO₂ imputado.")
@@ -614,23 +604,22 @@ def build():
                "Tabla 3. Correlación de Pearson entre el NO₂ y las partículas, y entre las partículas, "
                "corpus sin atípicos.", [2.2, 1.4, 1.4], hl=2)
     add_para(doc,
-        "El NO₂ se relaciona de forma positiva y moderada con ambas partículas, un poco más con el "
-        "PM10. La relación más fuerte de la tabla, sin embargo, no es la del NO₂ sino la de las "
-        f"partículas entre sí (r = {f(rc_.loc['PM10', 'PM2.5'])} en la serie completada y "
-        f"{f(ro_.loc['PM10', 'PM2.5'])} con datos observados). No es casual: el PM10 incluye a todas "
-        "las partículas menores de 10 µm y, por lo tanto, al PM2.5. Las dos variables independientes "
-        "aportan en buena medida la misma información, que es justamente la colinealidad que la "
-        "sesión 8 recomienda revisar antes de ajustar un modelo múltiple. El factor de inflación de "
-        f"la varianza (VIF = 1 / (1 − R²ⱼ)) es de {f(Mc['vif'], 2)} y {f(Mo['vif'], 2)}: no llega al "
-        "umbral de 5 o 10 que suele considerarse grave, pero indica que la varianza de cada "
-        "coeficiente se multiplica por tres o cuatro por compartir información con la otra partícula.")
+        "El NO₂ tiene una correlación positiva y moderada con las dos partículas, un poco mayor con "
+        "el PM10. Lo que más destaca, sin embargo, es la correlación entre las partículas mismas "
+        f"(r = {f(rc_.loc['PM10', 'PM2.5'])} en la serie completada y {f(ro_.loc['PM10', 'PM2.5'])} "
+        "con los datos medidos). Se explica porque el PM10 contiene al PM2.5, y significa que las "
+        "dos variables independientes traen en buena parte la misma información, que es la "
+        "colinealidad que hay que revisar antes de un modelo múltiple. El VIF, calculado como "
+        f"1 / (1 − R²ⱼ), fue de {f(Mc['vif'], 2)} y {f(Mo['vif'], 2)}. No llega a 5 o 10, que es "
+        "donde normalmente se considera grave, pero sí quiere decir que la varianza de cada "
+        "coeficiente se multiplica por tres o cuatro.")
 
     add_heading(doc, "3.4 Modelos de regresión lineal múltiple", level=2)
     add_para(doc,
-        "Se ajustaron cuatro modelos por mínimos cuadrados: los dos simples, el lineal múltiple "
-        "NO₂ = b₀ + b₁·PM10 + b₂·PM2.5 y un modelo cuadrático en el PM10, "
-        "NO₂ = b₀ + b₁·PM10 + b₂·PM10² + b₃·PM2.5, como el de la sesión 8. Los resultados se "
-        "presentan en la Tabla 4 y los planos de regresión en la Figura 4.", keep=True)
+        "Ajusté cuatro modelos por mínimos cuadrados: los dos simples, el múltiple "
+        "NO₂ = b₀ + b₁·PM10 + b₂·PM2.5 y uno cuadrático en el PM10, "
+        "NO₂ = b₀ + b₁·PM10 + b₂·PM10² + b₃·PM2.5, parecido al ejemplo de la sesión 8. Los "
+        "resultados están en la Tabla 4 y los planos en la Figura 4.", keep=True)
 
     def fila(M, k, nm):
         m = M[k]; pr, pv = m.params, m.pvalues
@@ -657,54 +646,48 @@ def build():
     lc, lo_ = Mc["lineal"], Mo["lineal"]
     b10o = Mo["PM10"].params["PM10"]; b25o = Mo["PM2.5"].params["PM2.5"]
     add_para(doc,
-        "Los coeficientes se leen como el cambio esperado en el NO₂ por cada µg/m³ adicional de "
-        f"partículas. Con los datos observados, un aumento de 10 µg/m³ de PM10 se asocia con "
-        f"{f(b10o * 10000, 1)} ppb más de NO₂, y uno de 10 µg/m³ de PM2.5 con {f(b25o * 10000, 1)} ppb, "
-        f"frente a un promedio de {f(no2_med_o * 1000, 1)} ppb de NO₂ en esas horas. El coeficiente "
-        "del PM2.5 es mayor porque sus concentraciones son más bajas, de modo que 10 µg/m³ "
-        "representan un cambio relativo más grande. Estas cifras no significan que las partículas "
-        "produzcan NO₂: ambas variables aumentan juntas porque comparten fuentes de combustión y "
-        "porque se acumulan bajo las mismas condiciones meteorológicas, como las inversiones "
-        "térmicas y la falta de viento.")
+        "Cada coeficiente indica cuánto cambia el NO₂ por cada µg/m³ más de partículas. Con los "
+        f"datos medidos, 10 µg/m³ más de PM10 van con {f(b10o * 10000, 1)} ppb más de NO₂, y 10 µg/m³ "
+        f"más de PM2.5 con {f(b25o * 10000, 1)} ppb. Como referencia, el NO₂ promedio en esas horas "
+        f"es de {f(no2_med_o * 1000, 1)} ppb. El coeficiente del PM2.5 sale más grande porque sus "
+        "niveles son más bajos y 10 µg/m³ pesan más en términos relativos. Esto no quiere decir que "
+        "las partículas generen NO₂. Lo que pasa es que los dos suben juntos, porque tienen fuentes "
+        "de combustión en común y se acumulan con el mismo clima, como las inversiones térmicas o "
+        "los días sin viento.")
     add_para(doc,
-        "Con los datos observados, agregar el PM2.5 a un modelo que ya contiene al PM10 no mejora el "
-        f"ajuste (R² de {f(Mo['PM10'].rsquared)} en ambos casos) y el coeficiente del PM2.5 se vuelve "
-        f"no significativo (p = {lo_.pvalues['PM2.5']:.2f}), aunque en el modelo simple sí lo era. "
-        "Es el síntoma típico de la colinealidad: una vez que el PM10 está en el modelo, el PM2.5 ya "
-        "no aporta información propia sobre el NO₂. La Figura 5 lo muestra con claridad: el "
-        f"coeficiente del PM2.5 pasa de {f(Mo['PM2.5'].params['PM2.5'] * 1000)} a "
-        f"{f(lo_.params['PM2.5'] * 1000)} ppb por µg/m³ y su intervalo de confianza incluye el cero.",
-        keep=True)
+        "En los datos medidos, meter el PM2.5 a un modelo que ya tiene al PM10 no mejora nada "
+        f"(R² de {f(Mo['PM10'].rsquared)} en los dos casos) y su coeficiente deja de ser "
+        f"significativo (p = {lo_.pvalues['PM2.5']:.2f}), aunque en el modelo simple sí lo era. Es "
+        "el efecto clásico de la colinealidad. En la Figura 5 se ve bien: el coeficiente del PM2.5 "
+        f"baja de {f(Mo['PM2.5'].params['PM2.5'] * 1000)} a {f(lo_.params['PM2.5'] * 1000)} ppb por "
+        "µg/m³ y su intervalo de confianza toca el cero.", keep=True)
     add_pic(doc, p_cf, 4.8)
     add_caption(doc, "Figura 5. Coeficiente del PM2.5 en el modelo simple y en el múltiple, con su "
                      "intervalo de confianza de 95 %, para la serie observada y la completada.")
     add_para(doc,
-        f"En la serie completada ambos coeficientes son significativos y el R² sube de "
-        f"{f(Mc['PM10'].rsquared)} a {f(lc.rsquared)}. Esta diferencia debe interpretarse con "
-        "cuidado. Las horas imputadas no contienen mediciones de NO₂, sino una función lineal del CO, "
-        "de modo que en esos meses el modelo mide en realidad la relación entre el CO y las "
-        "partículas, que es más pareja entre el PM10 y el PM2.5 porque ambos comparten la combustión "
-        "como fuente. Parte de la información que el PM2.5 parece aportar proviene, entonces, de la "
-        "imputación y no de los datos observados.")
+        "En la serie completada pasa algo distinto: los dos coeficientes son significativos y el "
+        f"R² sube de {f(Mc['PM10'].rsquared)} a {f(lc.rsquared)}. Creo que esto se debe sobre todo "
+        "a la imputación. En las horas imputadas el NO₂ no es una medición sino una función del CO, "
+        "así que en esos meses el modelo está midiendo en realidad cómo se relaciona el CO con las "
+        "partículas. Como el CO también viene de la combustión, se relaciona de forma más pareja "
+        "con el PM10 y el PM2.5, y eso le da al PM2.5 un peso que no tiene en los datos medidos.")
     add_para(doc,
-        "Por último, el término cuadrático no mejora el ajuste en ninguna de las dos series "
-        f"(p = {Mc['cuad'].pvalues['PM10_2']:.2f} y {Mo['cuad'].pvalues['PM10_2']:.2f}), y la "
-        "superficie de la Figura 4 es prácticamente un plano. A diferencia de lo que ocurría con el "
-        "NOx y el CO, la relación del NO₂ con las partículas no muestra una curvatura relevante "
-        "una vez excluidos los atípicos. Lo que limita el ajuste es la dispersión de los puntos: "
-        f"las dos partículas juntas explican apenas {pct(lc.rsquared)} de la variabilidad del NO₂ "
-        "en la serie completada.")
+        "El término cuadrático no aportó nada en ninguna serie "
+        f"(p = {Mc['cuad'].pvalues['PM10_2']:.2f} y {Mo['cuad'].pvalues['PM10_2']:.2f}), y en la "
+        "Figura 4 la superficie casi no se curva. Con el NOx y el CO sí había curvatura, pero con las "
+        "partículas, ya sin atípicos, la relación es prácticamente lineal. Lo que limita el modelo "
+        f"es la dispersión de los puntos: entre las dos partículas explican {pct(lc.rsquared)} de la "
+        "variabilidad del NO₂ en la serie completada.")
 
     add_heading(doc, "3.5 Fracción fina y fracción gruesa", level=2)
     mo, mc = Go["m"], Gc["m"]
     add_para(doc,
-        "La colinealidad entre el PM10 y el PM2.5 tiene una causa conocida: el PM10 contiene al "
-        "PM2.5. Por eso puede eliminarse sin quitar información, separando el PM10 en sus dos "
-        "componentes, la fracción fina (PM2.5) y la fracción gruesa (PM10 − PM2.5), y ajustando "
-        "NO₂ = b₀ + b₁·PM2.5 + b₂·(PM10 − PM2.5). Este modelo tiene exactamente el mismo ajuste que el "
-        "lineal múltiple de la Tabla 4, porque usa la misma información, pero sus dos variables ya no "
-        "comparten partículas. La correlación entre ellas baja a "
-        f"{f(Go['r'])} con datos observados y el VIF a {f(Go['vif'], 2)} (Tabla 5).", keep=True)
+        "Como la colinealidad viene de que el PM10 contiene al PM2.5, se puede quitar separando el "
+        "PM10 en sus dos partes, la fracción fina (PM2.5) y la gruesa (PM10 − PM2.5), y ajustando "
+        "NO₂ = b₀ + b₁·PM2.5 + b₂·(PM10 − PM2.5). El ajuste es el mismo que el del modelo múltiple de "
+        "la Tabla 4, porque la información es la misma, pero ahora las dos variables ya no "
+        f"comparten partículas. Su correlación baja a {f(Go['r'])} en los datos medidos y el VIF a "
+        f"{f(Go['vif'], 2)} (Tabla 5).", keep=True)
     ci_o, ci_c = mo.conf_int(), mc.conf_int()
 
     def ic(ci, v):
@@ -718,73 +701,71 @@ def build():
                "(ppb de NO₂ por µg/m³). Todos los coeficientes son significativos al 1 %.",
                [1.1, 2.0, 2.0, 0.6, 0.6], hl=0)
     add_para(doc,
-        "Con la colinealidad resuelta, los dos coeficientes son significativos y sus intervalos de "
-        "confianza son estrechos. En los datos observados, cada µg/m³ de partículas finas se asocia "
-        f"con {f(mo.params['PM2.5'] * 1000)} ppb de NO₂ y cada µg/m³ de partículas gruesas con "
-        f"{f(mo.params['PMg'] * 1000)} ppb. Ambas fracciones se relacionan con el NO₂ en magnitud "
-        "parecida, con una ventaja moderada de la fina, coherente con su origen en la combustión. "
-        "Este resultado precisa la lectura de la sección anterior: que el PM2.5 dejara de ser "
-        "significativo junto al PM10 no significa que las partículas finas no se relacionen con el "
-        "NO₂, sino que no lo hacen mucho más que las gruesas. El coeficiente del PM2.5 en el modelo "
-        "con PM10 mide justamente esa diferencia entre ambas fracciones. En la serie completada la "
-        "ventaja de la fracción fina es mayor, lo que de nuevo refleja la imputación con CO, un gas "
-        "de combustión.")
+        "Así, los dos coeficientes salen significativos y con intervalos estrechos. En los datos "
+        f"medidos, cada µg/m³ de partículas finas se asocia con {f(mo.params['PM2.5'] * 1000)} ppb de "
+        f"NO₂ y cada µg/m³ de gruesas con {f(mo.params['PMg'] * 1000)} ppb. Las dos fracciones se "
+        "relacionan con el NO₂ más o menos igual, con algo de ventaja para la fina, lo cual tiene "
+        "sentido si se piensa que viene de la combustión.")
+    add_para(doc,
+        "Esto cambia la forma de leer la sección anterior. Que el PM2.5 dejara de ser significativo "
+        "junto al PM10 no quería decir que las partículas finas no tengan que ver con el NO₂, sino que "
+        "no tienen mucho más que ver que las gruesas. En el modelo con PM10, el coeficiente del "
+        "PM2.5 mide precisamente esa diferencia. En la serie completada la fracción fina sale con "
+        "más ventaja, otra vez por efecto de la imputación con CO.")
     if Go["neg"] or Gc["neg"]:
         add_para(doc,
-            f"En {Go['neg']} horas observadas y {Gc['neg']} de la serie completada el PM2.5 medido es "
-            "ligeramente mayor que el PM10, lo que es físicamente imposible y se debe a la "
-            "incertidumbre de los equipos de medición. Son pocas horas y se conservaron en el análisis.")
+            f"Un detalle: en {Go['neg']} horas medidas y {Gc['neg']} de la serie completada el PM2.5 "
+            "aparece un poco mayor que el PM10, cosa que físicamente no puede pasar y que atribuyo a "
+            "la incertidumbre de los equipos. Como son muy pocas, las dejé.")
 
     add_heading(doc, "3.6 Ciclo diario", level=2)
     pk = hor["NO2"].idxmax(); mn = hor["NO2"].idxmin()
     add_para(doc,
-        "La Figura 6 compara el perfil horario promedio de cada contaminante, dividido entre su "
-        "propio promedio para poder verlos en la misma escala. Solo se usaron horas con NO₂ "
-        "observado, para que el perfil no dependa de la imputación.", keep=True)
+        "Por último, quise ver si los contaminantes siguen el mismo horario a lo largo del día. En "
+        "la Figura 6 está el promedio de cada hora dividido entre el promedio general de cada "
+        "contaminante, para poder compararlos en la misma escala. Usé solo las horas con NO₂ medido, "
+        "para que la imputación no influyera.", keep=True)
     add_pic(doc, p_hr, 6.2)
     add_caption(doc, "Figura 6. Ciclo diario promedio del NO₂, el PM10, el PM2.5 y el CO, expresado "
                      "como proporción del promedio de cada variable, estación Centro, septiembre a "
                      "diciembre de 2024.")
     add_para(doc,
-        "Los cuatro contaminantes siguen el mismo patrón general: suben en la mañana, alrededor de "
-        "las 7 y 8 horas, caen durante el mediodía y la tarde, y vuelven a subir a partir de las 18 o 19 horas "
-        f"hasta la noche. El NO₂ alcanza su mínimo a las {mn} horas y su máximo a las {pk} horas, con "
-        f"una concentración {f(hor['NO2'].max() / hor['NO2'].min(), 1)} veces mayor. Los picos "
-        "coinciden con las horas de mayor tránsito, y el descenso del mediodía con el crecimiento de "
-        "la capa de mezcla de la atmósfera, que diluye los contaminantes cuando el sol calienta el "
-        "suelo. En el NO₂ la caída es más pronunciada que en las partículas porque, además, en esas "
-        "horas se consume en las reacciones fotoquímicas que forman ozono. Este ciclo compartido "
-        "es la explicación más directa de la correlación entre el NO₂ y las partículas: ambos "
-        "responden a la misma actividad vehicular y a las mismas condiciones de dispersión, sin que "
-        "uno cause al otro.")
+        "Los cuatro siguen casi el mismo patrón. Suben en la mañana, hacia las 7 u 8, bajan durante "
+        "el mediodía y la tarde, y vuelven a subir desde las 18 o 19 horas hasta la noche. El NO₂ "
+        f"llega a su mínimo a las {mn} horas y a su máximo a las {pk}, cuando es "
+        f"{f(hor['NO2'].max() / hor['NO2'].min(), 1)} veces mayor. Los picos coinciden con las horas "
+        "de más tráfico. La baja del mediodía se debe a que el sol calienta el suelo y la capa de "
+        "mezcla de la atmósfera crece, lo que diluye los contaminantes. En el NO₂ la caída es más "
+        "fuerte que en las partículas porque a esas horas, además, se consume en las reacciones que "
+        "forman ozono.")
+    add_para(doc,
+        "Este patrón compartido ayuda a entender la correlación entre el NO₂ y las partículas. Los "
+        "dos responden al mismo tráfico y a las mismas condiciones de dispersión, sin que uno sea "
+        "causa del otro.")
 
     # ---------------- 4. Conclusiones
     add_heading(doc, "4. Conclusiones")
     add_para(doc,
-        f"La imputación permitió completar {pct(n_falt_co / n_falt)} de las horas sin NO₂ a partir del "
-        "CO. Ninguno de los modelos de las tareas anteriores funcionó bien en todo el rango: la recta "
-        "por el origen de la Tarea 1.5 es la más precisa en las concentraciones habituales, pero "
-        "sobrestima el NO₂ cuando el CO es alto, porque prolonga una recta fuera del rango con el "
-        "que fue estimada. Limitarla a ese rango fue la opción que mejor resistió la validación "
-        "fuera de muestra, con menos de la mitad del error de las alternativas. Aun así, la "
-        "relación entre ambos contaminantes cambia de un mes a otro, por lo que los ocho meses "
-        "imputados son una aproximación que no puede contrastarse con mediciones.")
+        f"Con el CO pude completar {pct(n_falt_co / n_falt)} de las horas sin NO₂. Ninguno de los "
+        "dos modelos anteriores funcionaba bien en todo el rango. La recta por el origen de la "
+        "Tarea 1.5 es la más precisa con valores normales de CO, pero cuando el CO es alto "
+        "sobrestima el NO₂, porque se sale del rango con que se ajustó. Limitarla a ese rango fue la "
+        "opción que mejor aguantó la prueba fuera de muestra, con menos de la mitad del error de "
+        "las otras. Aun así, la relación entre los dos contaminantes cambia de mes a mes, y los "
+        "ocho meses imputados no se pueden comparar con mediciones reales.")
     add_para(doc,
-        "El NO₂ mantiene una relación positiva y moderada con las partículas, algo mayor con el PM10. "
-        "La relación más fuerte entre las variables analizadas es la del PM10 con el PM2.5, y esa "
-        "colinealidad condiciona el modelo múltiple: con los datos observados, el PM2.5 deja de ser "
-        "significativo cuando se incluye el PM10 y no mejora el ajuste. Separar el PM10 en fracción "
-        "fina y fracción gruesa resuelve el problema: con dos variables que ya no se traslapan, "
-        "ambas resultan significativas y se relacionan con el NO₂ en magnitud parecida, con una "
-        "ventaja moderada de la fracción fina. El ciclo diario muestra por qué: el NO₂ y las "
-        "partículas suben con el tránsito de la mañana y la noche y bajan juntos al mediodía, "
-        "cuando la atmósfera dispersa mejor los contaminantes.")
+        "El NO₂ tiene una relación positiva y moderada con las partículas, algo mayor con el PM10. "
+        "La correlación más fuerte de todo el análisis, sin embargo, fue entre el PM10 y el PM2.5, "
+        "y esa colinealidad hizo que, con los datos medidos, el PM2.5 dejara de ser significativo "
+        "al agregar el PM10. Al separar el PM10 en fracción fina y gruesa el problema desaparece, y "
+        "las dos fracciones resultan significativas y con un efecto parecido sobre el NO₂, un poco "
+        "mayor en la fina.")
     add_para(doc,
-        "En términos generales, las partículas explican una fracción mucho menor del NO₂ que el CO o "
-        "el NOx, lo que concuerda con que tienen fuentes más diversas (polvo, construcción, "
-        "combustión, formación secundaria), mientras que el NO₂ depende sobre todo del tránsito "
-        "vehicular. Como en las tareas anteriores, se trata de asociaciones estadísticas que no "
-        "establecen relaciones de causalidad.")
+        "El ciclo diario explica buena parte de lo anterior, ya que el NO₂ y las partículas suben "
+        "con el tráfico de la mañana y de la noche y bajan juntos al mediodía. Aun así, las "
+        "partículas explican mucho menos del NO₂ que el CO o el NOx. Me parece razonable, porque "
+        "además de la combustión tienen otras fuentes, como el polvo y la construcción, mientras "
+        "que el NO₂ depende casi solo del tráfico.")
 
     add_heading(doc, "Referencias")
     add_apa(doc, "Little, R. J. A., & Rubin, D. B. (2019). Statistical analysis with missing data "
