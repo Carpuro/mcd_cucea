@@ -159,6 +159,17 @@ def modelos(Z):
 
 Mc, Mo = modelos(Zc), modelos(Zo)
 
+# descriptive figures of the particles over the whole year (all valid hours) and daily means
+# against the 24-h WHO (2021) air quality guidelines: 45 ug/m3 PM10, 15 ug/m3 PM2.5
+OMS = {"PM10": 45, "PM2.5": 15}
+pm = {}
+for c in ["PM10", "PM2.5"]:
+    dia = d.set_index("DATE")[c].resample("D").mean().dropna()
+    pm[c] = {"media": d[c].mean(), "mediana": d[c].median(), "dias": len(dia),
+             "exc": int((dia > OMS[c]).sum())}
+ratio_pm = (d["PM2.5"] / d["PM10"]).replace(np.inf, np.nan).median()
+no2_med_o = Zo["NO2"].mean()
+
 
 def f(v, dd=3):
     return f"{v:.{dd}f}"
@@ -496,7 +507,40 @@ def build():
 
     # ---------------- 3. Exploracion
     add_heading(doc, "3. Relación del NO₂ con el PM10 y el PM2.5")
-    add_heading(doc, "3.1 Corpus de análisis", level=2)
+    add_heading(doc, "3.1 Las partículas PM10 y PM2.5", level=2)
+    add_para(doc,
+        "Las partículas suspendidas, o material particulado (PM, por sus siglas en inglés), son una "
+        "mezcla de partículas sólidas y gotas líquidas que permanecen en el aire. Se clasifican por "
+        "su diámetro aerodinámico: el PM10 agrupa a las partículas de 10 µm o menos y el PM2.5 a las "
+        "de 2.5 µm o menos, unas treinta veces más delgadas que un cabello humano. Por definición, "
+        "el PM2.5 es una fracción del PM10; la diferencia entre ambos corresponde a la llamada "
+        "fracción gruesa, de entre 2.5 y 10 µm. A diferencia del NO₂ o del CO, que son gases, ambas "
+        "se miden en masa por volumen de aire (µg/m³) (Seinfeld y Pandis, 2016).")
+    add_para(doc,
+        "Sus fuentes son distintas. La fracción gruesa proviene sobre todo de procesos mecánicos: "
+        "polvo resuspendido por el viento y el tránsito en calles sin pavimentar, construcción, "
+        "erosión del suelo y desgaste de llantas y frenos. El PM2.5, en cambio, se origina "
+        "principalmente en la combustión (motores, en particular los de diésel, quemas agrícolas e "
+        "industria) y en la formación secundaria, es decir, en partículas que se forman en la "
+        "atmósfera a partir de gases precursores. Entre esos precursores están los óxidos de "
+        "nitrógeno: el NO₂ se oxida a ácido nítrico, que al reaccionar con el amoniaco forma "
+        "nitrato de amonio, una sal que pasa a formar parte del PM2.5 "
+        "(Seinfeld y Pandis, 2016). Por eso se espera que el NO₂ se relacione con las partículas "
+        "finas a través de dos vías: la fuente vehicular que comparten y la química atmosférica.")
+    add_para(doc,
+        "Su efecto en la salud depende del tamaño. El PM10 llega a las vías respiratorias "
+        "superiores y a los bronquios, mientras que el PM2.5 alcanza los alvéolos pulmonares y "
+        "puede pasar al torrente sanguíneo, por lo que se asocia con enfermedades respiratorias, "
+        "cardiovasculares y con mortalidad prematura. La Organización Mundial de la Salud (OMS, "
+        "2021) recomienda que el promedio de 24 horas no rebase 45 µg/m³ de PM10 ni 15 µg/m³ de "
+        "PM2.5. En la estación Centro, durante 2024, el PM10 promedió "
+        f"{f(pm['PM10']['media'], 1)} µg/m³ y el PM2.5 {f(pm['PM2.5']['media'], 1)} µg/m³; el promedio "
+        f"diario superó la recomendación de la OMS en {pm['PM10']['exc']} de {pm['PM10']['dias']} días "
+        f"para el PM10 y en {pm['PM2.5']['exc']} de {pm['PM2.5']['dias']} días para el PM2.5. La "
+        f"mediana del cociente PM2.5/PM10 es de {f(ratio_pm, 2)}, lo que indica que algo menos de la "
+        "mitad de la masa de partículas en esta estación corresponde a la fracción fina.")
+
+    add_heading(doc, "3.2 Corpus de análisis", level=2)
     add_para(doc,
         "Para el análisis se tomaron las horas con NO₂ (observado o imputado), PM10 y PM2.5 al mismo "
         f"tiempo ({num(len(Zc_all))}) y, como en la Tarea 1.5, se excluyeron las horas atípicas en "
@@ -505,7 +549,7 @@ def build():
         "Como control, todos los modelos se estimaron también con las horas de NO₂ observado "
         f"únicamente ({num(len(Zo))} horas tras la misma depuración).")
 
-    add_heading(doc, "3.2 Dispersión entre las variables y colinealidad", level=2)
+    add_heading(doc, "3.3 Dispersión entre las variables y colinealidad", level=2)
     add_para(doc,
         "La Figura 3 sigue la técnica de la sesión 8: se grafica la variable dependiente contra cada "
         "variable independiente y, además, las variables independientes entre sí. La Tabla 3 "
@@ -533,7 +577,7 @@ def build():
         "umbral de 5 o 10 que suele considerarse grave, pero indica que la varianza de cada "
         "coeficiente se multiplica por tres o cuatro por compartir información con la otra partícula.")
 
-    add_heading(doc, "3.3 Modelos de regresión lineal múltiple", level=2)
+    add_heading(doc, "3.4 Modelos de regresión lineal múltiple", level=2)
     add_para(doc,
         "Se ajustaron cuatro modelos por mínimos cuadrados: los dos simples, el lineal múltiple "
         "NO₂ = b₀ + b₁·PM10 + b₂·PM2.5 y un modelo cuadrático en el PM10, "
@@ -563,6 +607,17 @@ def build():
                      "del NO₂ en función del PM10 y el PM2.5, serie completada (muestra de 1,500 horas).")
 
     lc, lo_ = Mc["lineal"], Mo["lineal"]
+    b10o = Mo["PM10"].params["PM10"]; b25o = Mo["PM2.5"].params["PM2.5"]
+    add_para(doc,
+        "Los coeficientes se leen como el cambio esperado en el NO₂ por cada µg/m³ adicional de "
+        f"partículas. Con los datos observados, un aumento de 10 µg/m³ de PM10 se asocia con "
+        f"{f(b10o * 10000, 1)} ppb más de NO₂, y uno de 10 µg/m³ de PM2.5 con {f(b25o * 10000, 1)} ppb, "
+        f"frente a un promedio de {f(no2_med_o * 1000, 1)} ppb de NO₂ en esas horas. El coeficiente "
+        "del PM2.5 es mayor porque sus concentraciones son más bajas, de modo que 10 µg/m³ "
+        "representan un cambio relativo más grande. Estas cifras no significan que las partículas "
+        "produzcan NO₂: ambas variables aumentan juntas porque comparten fuentes de combustión y "
+        "porque se acumulan bajo las mismas condiciones meteorológicas, como las inversiones "
+        "térmicas y la falta de viento.")
     add_para(doc,
         "Con los datos observados, agregar el PM2.5 a un modelo que ya contiene al PM10 no mejora el "
         f"ajuste (R² de {f(Mo['PM10'].rsquared)} en ambos casos) y el coeficiente del PM2.5 se vuelve "
@@ -623,6 +678,9 @@ def build():
                  "(3.ª ed.). Wiley.")
     add_apa(doc, "Montgomery, D. C., Peck, E. A., & Vining, G. G. (2021). Introduction to linear "
                  "regression analysis (6.ª ed.). Wiley.")
+    add_apa(doc, "Organización Mundial de la Salud. (2021). WHO global air quality guidelines: "
+                 "Particulate matter (PM2.5 and PM10), ozone, nitrogen dioxide, sulfur dioxide and "
+                 "carbon monoxide. World Health Organization. https://iris.who.int/handle/10665/345329")
     add_apa(doc, "Ruiz Chávez, C. F. (2026). Visualización de grandes bases de datos: Sesión 8 "
                  "[Diapositivas de clase]. Maestría en Ciencia de los Datos, Centro Universitario de "
                  "Ciencias Económico Administrativas, Universidad de Guadalajara.")
