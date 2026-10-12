@@ -170,7 +170,8 @@ def _(mo):
     inicializar en cero también sería posible; usaremos una semilla para
     comparar experimentos de forma reproducible.
 
-    **Tu respuesta:**
+    **Tu respuesta:** indica las dimensiones concretas y explica por qué
+    el producto $WX$ y la suma del sesgo son válidos. ¿Qué controla la semilla?
 
     Con nuestros datos $n_x = 2$, $m = 8$ y $n_y = 1$, entonces $X$ es $(2, 8)$,
     $y$ es $(1, 8)$, $W$ es $(1, 2)$, $b$ es $(1, 1)$ y $\hat y$ es $(1, 8)$.
@@ -290,7 +291,8 @@ def _(mo):
     Implementa `forward_propagation`. Recibe los datos y un diccionario de
     parámetros; devuelve un arreglo con todas las predicciones.
 
-    **Tu respuesta:**
+    **Tu respuesta:** ¿qué aportan los pesos y el sesgo? ¿Por qué usamos
+    la función identidad para la salida de este ejercicio?
 
     Los pesos dicen qué tanto influye cada característica en la predicción. Si
     $w_1$ es positivo, cuando $x_1$ sube el puntaje sube, y si es negativo,
@@ -354,7 +356,9 @@ def _(mo):
     Implementa `compute_cost`: debe devolver un escalar. Utiliza `np.sum`;
     si aparecen valores no finitos, investiga su causa.
 
-    **Tu respuesta:**
+    **Tu respuesta:** ¿por qué elevamos el error al cuadrado? ¿Qué efecto
+    tiene el factor $1/2$ en la derivada? ¿Pérdida cero implica siempre
+    que el modelo funcionará bien con datos nuevos?
 
     Lo elevamos al cuadrado para que los errores positivos y negativos no se
     cancelen al sumarlos. Además así los errores grandes pesan mucho más que
@@ -429,7 +433,9 @@ def _(mo):
     La actualización debe devolver un diccionario nuevo sin modificar
     los arreglos originales en el lugar.
 
-    **Tu respuesta:**
+    **Tu respuesta:** muestra la derivación de $\partial J/\partial W_j$
+    y $\partial J/\partial b$. Explica por qué restamos el gradiente y
+    qué representa la tasa de aprendizaje $\alpha$.
 
     Para un ejemplo $i$ la predicción es
     $\hat y^{(i)} = W_1 x_1^{(i)} + W_2 x_2^{(i)} + b$. Si derivo respecto a un
@@ -598,7 +604,7 @@ def _(mo):
     Muestra los valores y comprueba que coinciden con tu
     desarrollo manual. Explica cualquier diferencia por redondeo.
 
-    **Tu interpretación:**
+    **Tu interpretación:** ¿disminuyó la pérdida? ¿Cómo cambiaron las predicciones?
 
     Sí, la pérdida bajó de 3.25 a 1.265625 con un solo paso, más o menos a la
     mitad. Las dos predicciones subieron hacia su valor real (de 0 a 0.65 y de
@@ -671,7 +677,8 @@ def _(mo):
     las predicciones finales, las pérdidas inicial y final y una gráfica
     de pérdida contra número de actualizaciones.
 
-    **Tu respuesta:**
+    **Tu respuesta:** describe qué se repite y qué se conserva en cada iteración.
+    ¿Una iteración de este entrenamiento utiliza todos los ejemplos?
 
     En cada vuelta del ciclo se repiten los pasos 3 a 6: predecir con los
     parámetros que hay en ese momento, calcular la pérdida y el gradiente, y
@@ -937,7 +944,9 @@ def _(X_datos, mo, y_datos):
 def _(historiales, mo):
     _h3 = historiales[3.0]  # pérdida con alpha = 3.0
     mo.md(rf"""
-    **Tu análisis:**
+    **Tu análisis:** ¿qué tasa elegirías entre estas opciones y por qué?
+    ¿Por qué una tasa mayor no garantiza aprender mejor? ¿Qué puedes
+    concluir con solo 200 iteraciones y qué no puedes afirmar todavía?
 
     Con $\alpha = 0.01$ la pérdida sí baja, pero muy despacio: a las 200
     iteraciones va en {historiales[0.01][-1]:.4f} y todavía sigue bajando. Con
