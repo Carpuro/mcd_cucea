@@ -952,7 +952,8 @@ def _(historiales, mo):
     iteraciones va en {historiales[0.01][-1]:.4f} y todavía sigue bajando. Con
     $\alpha = 0.1$ baja rápido y para el final ya casi no cambia
     ({historiales[0.1][-1]:.4f}), o sea que llegó al mínimo. Con $\alpha = 3.0$
-    pasa al revés, la pérdida crece en cada iteración, cada vez unas
+    pasa al revés. En el primer paso la pérdida sí baja (de {_h3[0]:.2f} a
+    {_h3[1]:.2f}), pero desde el segundo crece en cada iteración, cada vez unas
     {_h3[-1] / _h3[-2]:.1f} veces más, hasta llegar a {_h3[-1]:.2e}. En estas
     200 iteraciones los valores siguen siendo finitos (no salen `inf` ni
     `nan`), pero ya son enormes, y con unas cuantas iteraciones más se
