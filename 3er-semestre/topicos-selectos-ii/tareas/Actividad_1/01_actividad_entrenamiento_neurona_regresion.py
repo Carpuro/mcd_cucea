@@ -4,6 +4,7 @@ __generated_with = "0.24.0"
 app = marimo.App(width="medium")
 
 with app.setup:
+    # numpy va en el setup para que las funciones (@app.function) lo puedan usar
     import numpy as np
 
 
@@ -47,10 +48,31 @@ def _(mo):
 
     Esta actividad estudia la mecánica del entrenamiento. Los datos de trabajo
     se usan para entrenar; no se evaluará generalización a datos nuevos.
+    """)
+    return
 
-    > Nota: moví `import numpy as np` a `app.setup` para que las funciones
-    > marcadas con `@app.function` (y las que dependen de ellas) puedan usarlo.
-    > El resto de la estructura de la plantilla se conserva.
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Perceptrón (regresión)
+
+    Como vimos en clase, la neurona recibe las entradas, las multiplica por sus
+    pesos, les suma el sesgo y el resultado pasa por una función de activación.
+    En este caso la activación es la identidad, así que la salida es
+    directamente la combinación lineal.
+
+    ![Perceptron](https://raw.githubusercontent.com/IvTole/Topicos_Selectos_II_CUCEA/main/01_perceptron/images/perceptron.png)
+
+    Los pasos que vamos a seguir son los mismos de la clase:
+
+    1. Definir las dimensiones del perceptrón.
+    2. Inicializar pesos $W$ y sesgo $b$.
+    3. Propagación hacia adelante (predicción).
+    4. Calcular el error con la función de pérdida.
+    5. Calcular el gradiente (backpropagation).
+    6. Actualizar $W$ y $b$ con el descenso del gradiente.
+    7. Repetir 3 a 6 en un ciclo de entrenamiento.
     """)
     return
 
@@ -70,13 +92,14 @@ def _(mo):
 
     **Respuesta:**
 
-    1. Las entradas son las dos características numéricas (las filas de `X_datos`,
-       $x_1$ y $x_2$). La salida es el puntaje de rendimiento (`y_datos`).
-    2. Es regresión porque lo que queremos predecir es un número continuo
-       (el puntaje puede valer -0.7, 1.3, 2.9, etc.) y no una clase o categoría.
-    3. Un ejemplo es una fila de la tabla, que en `X` corresponde a una
-       **columna**: un par de valores $(x_1, x_2)$ junto con el puntaje que le
-       corresponde. Hay 8 ejemplos, así que $m = 8$.
+    1. Las entradas son las dos características (las dos filas de `X_datos`,
+       que llamo $x_1$ y $x_2$) y la salida es el puntaje (`y_datos`).
+    2. Es de regresión porque lo que queremos predecir es un número continuo,
+       el puntaje puede ser -0.7, 1.3, 2.9, etc. No estamos clasificando en
+       categorías.
+    3. Cada ejemplo es un renglón de la tabla: un par de valores $(x_1, x_2)$ con
+       su puntaje. Dentro de `X` cada ejemplo es una **columna**. Tenemos 8
+       ejemplos, o sea $m = 8$.
     """)
     return
 
@@ -103,6 +126,13 @@ def _(X_datos, mo, y_datos):
     return
 
 
+@app.cell
+def _(X_datos, y_datos):
+    print(f"X_datos (shape): {X_datos.shape}")
+    print(f"y_datos (shape): {y_datos.shape}")
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -125,48 +155,93 @@ def _(mo):
 
     **Tu respuesta:**
 
-    Con estos datos $n_x = 2$, $m = 8$ y $n_y = 1$, así que:
-    $X$ es $(2, 8)$, $y$ es $(1, 8)$, $W$ es $(1, 2)$, $b$ es $(1, 1)$ y
-    $\hat y$ es $(1, 8)$.
+    Con nuestros datos $n_x = 2$, $m = 8$ y $n_y = 1$, entonces $X$ es $(2, 8)$,
+    $y$ es $(1, 8)$, $W$ es $(1, 2)$, $b$ es $(1, 1)$ y $\hat y$ es $(1, 8)$.
 
-    El producto $WX$ es válido porque el número de columnas de $W$ (2) es igual
-    al número de filas de $X$ (2); el resultado es $(1, 2)\cdot(2, 8) = (1, 8)$,
-    una predicción por ejemplo. El sesgo $b$ es $(1, 1)$ y NumPy lo
-    "estira" (broadcasting) a las 8 columnas, así que se suma el mismo $b$ a
-    todas las predicciones.
+    El producto $WX$ se puede hacer porque $W$ tiene 2 columnas y $X$ tiene 2
+    filas: $(1, 2)\cdot(2, 8)$ da $(1, 8)$, una predicción para cada ejemplo.
+    Luego $b$ es de $(1, 1)$ y NumPy lo repite en las 8 columnas
+    (*broadcasting*), así que a todas las predicciones se les suma el mismo
+    sesgo.
 
-    La semilla fija el generador de números aleatorios. Con la misma semilla
-    los pesos iniciales salen siempre iguales, y eso permite repetir el
-    entrenamiento y comparar experimentos (por ejemplo, distintas tasas de
-    aprendizaje) partiendo exactamente del mismo punto.
+    La semilla fija los números aleatorios. Si uso la misma semilla, los pesos
+    iniciales salen iguales cada vez que corro el notebook, y así puedo comparar
+    experimentos (como las tasas de aprendizaje de la sección 8) empezando
+    desde el mismo punto.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Paso 1
+    Definimos las dimensiones del perceptrón a partir de las formas de $X$ y $y$.
     """)
     return
 
 
 @app.function
 def layer_sizes(X, y):
-    # n_x: número de características (filas de X); n_y: número de salidas (filas de y)
+    """
+    Argumentos:
+    X -- datos de entrada con dimensiones (tamaño de entrada, número de ejemplos)
+    y -- target con dimensiones (tamaño de salida, número de ejemplos)
+
+    Retorna (tupla):
+    n_x -- tamaño de la capa de entrada
+    n_y -- tamaño de la capa de salida
+    """
     n_x = X.shape[0]
     n_y = y.shape[0]
     return n_x, n_y
 
 
+@app.cell
+def _(X_datos, y_datos):
+    (n_x, n_y) = layer_sizes(X_datos, y_datos)
+    print(f"Tamaño de la capa de entrada: {n_x}")
+    print(f"Tamaño de la capa de salida: {n_y}")
+    return n_x, n_y
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Paso 2
+    Inicializamos los pesos $W$ con valores pequeños aleatorios (usando la
+    semilla) y el sesgo $b$ en cero.
+    """)
+    return
+
+
 @app.function
 def initialize_parameters(n_x, n_y, seed=42):
-    # pesos pequeños aleatorios y sesgo en cero
+    """
+    Argumentos:
+    n_x, n_y -- tamaños de entrada y salida
+    seed -- semilla para que los resultados se puedan repetir
+
+    Retorna:
+    parameters (diccionario) -- pesos W de forma (n_y, n_x) y sesgo b de forma (n_y, 1)
+    """
     rng = np.random.default_rng(seed)
+    # pesos pequeños aleatorios
     W = rng.normal(0.0, 0.01, size=(n_y, n_x))
+    # sesgo en cero
     b = np.zeros((n_y, 1))
-    return {"W": W, "b": b}
+    parameters = {
+        "W": W,
+        "b": b
+    }
+    return parameters
 
 
 @app.cell
-def _(X_datos, y_datos):
-    n_x, n_y = layer_sizes(X_datos, y_datos)
+def _(n_x, n_y):
     parametros_iniciales = initialize_parameters(n_x, n_y, seed=42)
-    print(f"n_x = {n_x}, n_y = {n_y}, m = {X_datos.shape[1]}")
-    print("W inicial:", parametros_iniciales["W"], "forma", parametros_iniciales["W"].shape)
-    print("b inicial:", parametros_iniciales["b"], "forma", parametros_iniciales["b"].shape)
+    print("W:", parametros_iniciales["W"], "->", parametros_iniciales["W"].shape)
+    print("b:", parametros_iniciales["b"], "->", parametros_iniciales["b"].shape)
     return (parametros_iniciales,)
 
 
@@ -182,34 +257,56 @@ def _(mo):
 
     **Tu respuesta:**
 
-    Los pesos indican cuánto pesa cada característica en la predicción: si
-    $w_1$ es grande y positivo, al subir $x_1$ sube el puntaje; si es negativo,
-    baja. El sesgo $b$ es el valor que predice el modelo cuando todas las
-    entradas valen cero; mueve la recta (en este caso, el plano) hacia arriba o
-    hacia abajo sin cambiar su inclinación.
+    Los pesos dicen qué tanto influye cada característica en la predicción. Si
+    $w_1$ es positivo, cuando $x_1$ sube el puntaje sube, y si es negativo,
+    baja. El sesgo es lo que predice el modelo cuando las dos entradas valen
+    cero; sube o baja todo el plano sin cambiar su inclinación.
 
-    Usamos la identidad porque queremos predecir un número real sin límites.
-    Una sigmoide, por ejemplo, encerraría la salida entre 0 y 1, y el puntaje
-    puede ser negativo o mayor que 1. Con la identidad la neurona es
-    exactamente una regresión lineal.
+    Usamos la identidad porque queremos predecir un número real sin límite.
+    Una sigmoide, por ejemplo, dejaría la salida entre 0 y 1, y aquí hay
+    puntajes negativos y mayores que 1. Con la identidad la neurona es una
+    regresión lineal.
+
+    ### Paso 3
+    Forward propagation (inferencia).
     """)
     return
 
 
 @app.function
 def forward_propagation(X, parameters):
+    """
+    Argumentos:
+    X -- datos de entrada (n_x, m)
+    parameters -- diccionario con W y b
+
+    Retorna:
+    y_hat -- predicciones (1, m)
+    """
+    # Extraigo parámetros
     W = parameters["W"]
     b = parameters["b"]
-    Z = W @ X + b      # (1, n_x) @ (n_x, m) + (1, 1) -> (1, m)
-    y_hat = Z          # activación identidad
+    # propagación hacia adelante
+    Z = W @ X + b
+    # predicción (activación identidad)
+    y_hat = Z
     return y_hat
 
 
 @app.cell
 def _(X_datos, parametros_iniciales):
     y_hat_inicial = forward_propagation(X_datos, parametros_iniciales)
-    print("Predicciones iniciales:", y_hat_inicial.round(4), "forma", y_hat_inicial.shape)
+    print(y_hat_inicial.round(4), "->", y_hat_inicial.shape)
     return (y_hat_inicial,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Como los pesos empiezan casi en cero, todas las predicciones iniciales
+    salen muy cerca de cero.
+    """)
+    return
 
 
 @app.cell(hide_code=True)
@@ -224,28 +321,39 @@ def _(mo):
 
     **Tu respuesta:**
 
-    Elevamos al cuadrado por dos razones. La primera es que así los errores
-    positivos y negativos no se cancelan entre sí. La segunda es que los
-    errores grandes se castigan mucho más que los chicos, y además la función
-    queda suave y derivable en todos lados, lo que facilita el descenso del
-    gradiente.
+    Lo elevamos al cuadrado para que los errores positivos y negativos no se
+    cancelen al sumarlos. Además así los errores grandes pesan mucho más que
+    los chicos, y la función queda suave, se puede derivar en todos lados, lo
+    que nos sirve para el descenso del gradiente.
 
-    El $\frac{1}{2}$ es solo por comodidad. Al derivar $(\hat y - y)^2$ aparece
-    un 2 que se cancela con el $\frac{1}{2}$, y el gradiente queda simplemente
-    $\frac{1}{m}\sum(\hat y - y)\,x$. No cambia dónde está el mínimo, solo
-    escala la pérdida.
+    El $\frac{1}{2}$ está ahí por comodidad. Cuando derivamos $(\hat y - y)^2$ sale
+    un 2 que se cancela con el $\frac{1}{2}$, y el gradiente queda más limpio. No
+    cambia en dónde está el mínimo.
 
-    Una pérdida de cero no garantiza que el modelo funcione bien con datos
-    nuevos. Solo dice que se ajusta perfecto a los datos de entrenamiento; el
-    modelo pudo haberse aprendido también el ruido (sobreajuste). Para saberlo
-    habría que medir el error en datos que no usó para entrenar.
+    No, una pérdida de cero no asegura que el modelo funcione bien con datos
+    nuevos. Solo dice que le atinó a los datos de entrenamiento, y pudo haberse
+    "aprendido" también el ruido (sobreajuste). Para saberlo habría que probarlo
+    con datos que no vio al entrenar.
+
+    ### Paso 4
+    Calcular el error (función de pérdida).
     """)
     return
 
 
 @app.function
 def compute_cost(y_hat, y):
+    """
+    Argumentos:
+    y_hat -- predicción de la neurona (1, m)
+    y -- target (1, m)
+
+    Retorna:
+    cost -- pérdida (escalar)
+    """
+    # número de ejemplos
     m = y.shape[1]
+    # cálculo del error
     cost = np.sum((y_hat - y) ** 2) / (2 * m)
     return float(cost)
 
@@ -277,48 +385,100 @@ def _(mo):
 
     **Tu respuesta:**
 
-    Para un ejemplo, la predicción es $\hat y^{(i)} = \sum_j W_j x_j^{(i)} + b$,
-    así que $\partial \hat y^{(i)}/\partial W_j = x_j^{(i)}$ y
-    $\partial \hat y^{(i)}/\partial b = 1$. Aplicando la regla de la cadena a la
-    pérdida:
+    Para un ejemplo $i$ la predicción es
+    $\hat y^{(i)} = W_1 x_1^{(i)} + W_2 x_2^{(i)} + b$. Si derivo respecto a un
+    peso me queda $\partial \hat y^{(i)}/\partial W_j = x_j^{(i)}$, y respecto al
+    sesgo $\partial \hat y^{(i)}/\partial b = 1$. Con la regla de la cadena:
 
     $$\frac{\partial J}{\partial W_j}
-    = \frac{1}{2m}\sum_{i=1}^{m} 2(\hat y^{(i)}-y^{(i)})\,\frac{\partial \hat y^{(i)}}{\partial W_j}
+    = \frac{1}{2m}\sum_{i=1}^{m} 2(\hat y^{(i)}-y^{(i)})\,x_j^{(i)}
     = \frac{1}{m}\sum_{i=1}^{m} (\hat y^{(i)}-y^{(i)})\,x_j^{(i)}$$
 
     $$\frac{\partial J}{\partial b}
-    = \frac{1}{2m}\sum_{i=1}^{m} 2(\hat y^{(i)}-y^{(i)})\cdot 1
+    = \frac{1}{2m}\sum_{i=1}^{m} 2(\hat y^{(i)}-y^{(i)})
     = \frac{1}{m}\sum_{i=1}^{m} (\hat y^{(i)}-y^{(i)})$$
 
-    Si llamamos $dZ = \hat y - y$ (forma $(1, m)$), la suma sobre los ejemplos
-    de $dZ^{(i)} x_j^{(i)}$ para todas las $j$ a la vez es justo el producto
-    $dZ\,X^T$, de forma $(1, m)(m, n_x) = (1, n_x)$, la misma que $W$. Por eso
-    $dW = \frac{1}{m} dZ X^T$ y $db$ es el promedio de $dZ$.
+    Si llamo $dZ = \hat y - y$, que es de $(1, m)$, esa suma para los dos pesos
+    al mismo tiempo es el producto $dZ\,X^T$: $(1, m)(m, 2) = (1, 2)$, la misma
+    forma que $W$. Por eso $dW = \frac{1}{m} dZ X^T$, y $db$ es el promedio de
+    $dZ$.
 
-    Restamos el gradiente porque el gradiente apunta hacia donde la pérdida
-    **crece** más rápido; movernos en sentido contrario la hace bajar. La tasa
-    de aprendizaje $\alpha$ controla el tamaño de ese paso: si es muy chica el
-    modelo aprende lento, y si es muy grande puede pasarse del mínimo y
-    alejarse cada vez más.
+    Restamos porque el gradiente apunta hacia donde la pérdida **sube** más
+    rápido; si vamos en sentido contrario, baja. La tasa de aprendizaje
+    $\alpha$ es el tamaño del paso: muy chica y el modelo aprende lento, muy
+    grande y se puede pasar del mínimo.
+
+    ### Paso 5
+    Backpropagation: calculamos el gradiente de la pérdida.
     """)
     return
 
 
 @app.function
 def back_propagation(y_hat, y, X):
+    """
+    Argumentos:
+    y_hat -- predicción (1, m)
+    y -- observaciones reales (1, m)
+    X -- matriz de datos (n_x, m)
+
+    Retorna:
+    grads (diccionario) -- gradiente de la pérdida respecto a W (dW) y b (db)
+    """
+    # m, número total de ejemplos
     m = X.shape[1]
-    dZ = y_hat - y                                   # (1, m)
-    dW = (1 / m) * (dZ @ X.T)                        # (1, n_x)
-    db = (1 / m) * np.sum(dZ, axis=1, keepdims=True) # (1, 1)
-    return {"dW": dW, "db": db}
+    # derivadas parciales
+    dZ = y_hat - y
+    dW = (1 / m) * (dZ @ X.T)
+    db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
+    grads = {
+        "dW": dW,
+        "db": db
+    }
+    return grads
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Paso 6
+    Actualizamos $W$ y $b$ con el descenso del gradiente,
+    $W = W - \alpha\, dW$ y $b = b - \alpha\, db$.
+    """)
+    return
 
 
 @app.function
 def update_parameters(parameters, grads, learning_rate):
-    # se crean arreglos nuevos; no se modifican los originales en el lugar
-    W = parameters["W"] - learning_rate * grads["dW"]
-    b = parameters["b"] - learning_rate * grads["db"]
-    return {"W": W, "b": b}
+    """
+    Argumentos:
+    parameters -- diccionario de parámetros (W, b)
+    grads -- diccionario de gradientes (dW, db)
+    learning_rate -- tasa de aprendizaje alpha
+
+    Retorna:
+    parámetros actualizados (diccionario nuevo, no modifica el original)
+    """
+    # Extraigo parámetros y gradientes
+    W = parameters["W"]
+    b = parameters["b"]
+    dW = grads["dW"]
+    db = grads["db"]
+    # descenso del gradiente (se crean arreglos nuevos)
+    W_nuevo = W - learning_rate * dW
+    b_nuevo = b - learning_rate * db
+    return {"W": W_nuevo, "b": b_nuevo}
+
+
+@app.cell
+def _(X_datos, parametros_iniciales, y_datos, y_hat_inicial):
+    grads_prueba = back_propagation(y_hat_inicial, y_datos, X_datos)
+    parametros_prueba = update_parameters(parametros_iniciales, grads_prueba, learning_rate=0.1)
+    print("dW:", grads_prueba["dW"].round(4), "->", grads_prueba["dW"].shape)
+    print("db:", grads_prueba["db"].round(4), "->", grads_prueba["db"].shape)
+    print("W después de un paso:", parametros_prueba["W"].round(4))
+    print("b después de un paso:", parametros_prueba["b"].round(4))
+    return
 
 
 @app.cell(hide_code=True)
@@ -338,36 +498,39 @@ def _(mo):
 
     **Tu desarrollo:**
 
-    Aquí $m = 2$. El ejemplo 1 es $x^{(1)} = (1, 0)$ con $y^{(1)} = 2$ y el
+    Aquí $m = 2$. El ejemplo 1 es $x^{(1)} = (1, 0)$ con $y^{(1)} = 2$, y el
     ejemplo 2 es $x^{(2)} = (2, 1)$ con $y^{(2)} = 3$.
 
-    *Predicciones iniciales.* Con $W_0 = [0\ 0]$ y $b_0 = 0$:
+    **Predicciones iniciales.** Con $W_0 = [0\ 0]$ y $b_0 = 0$:
 
-    $$\hat y = W_0 X + b_0 = [0\cdot1 + 0\cdot0,\ \ 0\cdot2 + 0\cdot1] + 0 = [0\ \ 0]$$
+    $$\hat y = W_0 X + b_0 = [0(1) + 0(0),\ \ 0(2) + 0(1)] + 0 = [0\ \ 0]$$
 
-    *Pérdida inicial.*
+    **Pérdida inicial.**
 
-    $$J_0 = \frac{1}{2\cdot2}\left[(0-2)^2 + (0-3)^2\right] = \frac{4 + 9}{4} = 3.25$$
+    $$J_0 = \frac{1}{2(2)}\left[(0-2)^2 + (0-3)^2\right] = \frac{4 + 9}{4} = 3.25$$
 
-    *Gradientes.*
+    **dZ, dW y db.**
 
     $$dZ = \hat y - y = [0-2,\ \ 0-3] = [-2\ \ -3]$$
 
     $$dZ\,X^T = [-2\ \ -3]\begin{bmatrix}1&0\\2&1\end{bmatrix}
     = [(-2)(1) + (-3)(2),\ \ (-2)(0) + (-3)(1)] = [-8\ \ -3]$$
 
-    $$dW = \tfrac{1}{2}[-8\ \ -3] = [-4\ \ -1.5],\qquad
-    db = \tfrac{1}{2}(-2 - 3) = -2.5$$
+    $$dW = \tfrac{1}{2}[-8\ \ -3] = [-4\ \ -1.5]$$
 
-    *Actualización.*
+    $$db = \tfrac{1}{2}\left[(-2) + (-3)\right] = -2.5$$
 
-    $$W_1 = [0\ \ 0] - 0.1\,[-4\ \ -1.5] = [0.4\ \ 0.15],\qquad
-    b_1 = 0 - 0.1(-2.5) = 0.25$$
+    **Actualización.**
 
-    *Nuevas predicciones y pérdida.*
+    $$W_1 = [0\ \ 0] - 0.1[-4\ \ -1.5] = [0.4\ \ 0.15]$$
 
-    $$\hat y^{(1)} = 0.4(1) + 0.15(0) + 0.25 = 0.65,\qquad
-    \hat y^{(2)} = 0.4(2) + 0.15(1) + 0.25 = 1.20$$
+    $$b_1 = 0 - 0.1(-2.5) = 0.25$$
+
+    **Nuevas predicciones y pérdida.**
+
+    $$\hat y^{(1)} = 0.4(1) + 0.15(0) + 0.25 = 0.65$$
+
+    $$\hat y^{(2)} = 0.4(2) + 0.15(1) + 0.25 = 1.20$$
 
     $$J_1 = \frac{1}{4}\left[(0.65-2)^2 + (1.20-3)^2\right]
     = \frac{1.8225 + 3.24}{4} = \frac{5.0625}{4} = 1.265625$$
@@ -378,12 +541,12 @@ def _(mo):
 
     **Tu interpretación:**
 
-    La pérdida bajó de 3.25 a 1.265625, un poco más de la mitad en un solo
-    paso. Las dos predicciones subieron hacia sus valores reales (de 0 a 0.65 y
-    de 0 a 1.20), aunque todavía quedan lejos de 2 y 3; con más iteraciones
-    seguirían acercándose. Los valores de NumPy coinciden con los calculados a
-    mano. Las únicas diferencias posibles son del orden de $10^{-16}$, por cómo
-    la computadora representa números como 0.1 en punto flotante.
+    Sí, la pérdida bajó de 3.25 a 1.265625 con un solo paso, más o menos a la
+    mitad. Las dos predicciones subieron hacia su valor real (de 0 a 0.65 y de
+    0 a 1.20), aunque todavía les falta para llegar a 2 y 3. Los resultados de
+    NumPy salen igual que a mano. Si hubiera diferencias serían del orden de
+    $10^{-16}$, por cómo la computadora guarda números como 0.1, pero en este
+    caso los `assert` pasan sin problema.
     """)
     return
 
@@ -395,31 +558,36 @@ def _():
     parametros_manual = {"W": np.zeros((1, 2)), "b": np.zeros((1, 1))}
     alpha_manual = 0.1
 
+    # antes de actualizar
     y_hat_0 = forward_propagation(X_manual, parametros_manual)
     J_0 = compute_cost(y_hat_0, y_manual)
     grads_manual = back_propagation(y_hat_0, y_manual, X_manual)
+    # actualización
     parametros_1 = update_parameters(parametros_manual, grads_manual, alpha_manual)
+    # después de actualizar
     y_hat_1 = forward_propagation(X_manual, parametros_1)
     J_1 = compute_cost(y_hat_1, y_manual)
 
     print("Predicciones iniciales:", y_hat_0)
     print("Pérdida inicial:", J_0)
     print("dZ:", y_hat_0 - y_manual)
-    print("dW:", grads_manual["dW"], " db:", grads_manual["db"])
-    print("W1:", parametros_1["W"], " b1:", parametros_1["b"])
+    print("dW:", grads_manual["dW"], "  db:", grads_manual["db"])
+    print("W1:", parametros_1["W"], "  b1:", parametros_1["b"])
     print("Predicciones después:", y_hat_1)
     print("Pérdida después:", J_1)
 
-    # comprobación contra el desarrollo manual
+    # reviso que coincida con lo que hice a mano
     assert np.isclose(J_0, 3.25)
     assert np.allclose(grads_manual["dW"], [[-4.0, -1.5]])
     assert np.allclose(grads_manual["db"], [[-2.5]])
-    assert np.allclose(parametros_1["W"], [[0.4, 0.15]]) and np.allclose(parametros_1["b"], [[0.25]])
-    assert np.allclose(y_hat_1, [[0.65, 1.20]]) and np.isclose(J_1, 1.265625)
-    # los parámetros originales no se modificaron en el lugar
+    assert np.allclose(parametros_1["W"], [[0.4, 0.15]])
+    assert np.allclose(parametros_1["b"], [[0.25]])
+    assert np.allclose(y_hat_1, [[0.65, 1.20]])
+    assert np.isclose(J_1, 1.265625)
+    # y que no se modificaron los parámetros originales
     assert np.all(parametros_manual["W"] == 0) and np.all(parametros_manual["b"] == 0)
-    print("Coincide con el cálculo manual.")
-    return X_manual, y_manual
+    print("Todo coincide con el cálculo a mano.")
+    return
 
 
 @app.cell(hide_code=True)
@@ -446,35 +614,54 @@ def _(mo):
 
     **Tu respuesta:**
 
-    En cada iteración se repiten los mismos cuatro pasos: predecir con los
-    parámetros actuales, calcular el error y los gradientes, actualizar $W$ y
-    $b$, y guardar la nueva pérdida. Lo que se conserva de una iteración a otra
-    son los parámetros: cada vuelta parte de los $W$ y $b$ que dejó la anterior
-    (no se vuelven a inicializar). Los datos tampoco cambian.
+    En cada vuelta del ciclo se repiten los pasos 3 a 6: predecir con los
+    parámetros que hay en ese momento, calcular la pérdida y el gradiente, y
+    actualizar $W$ y $b$. Lo que se va conservando son los parámetros: cada
+    iteración arranca con los $W$ y $b$ que dejó la anterior, no se vuelven a
+    inicializar. Los datos son siempre los mismos.
 
-    Sí, cada iteración usa los 8 ejemplos a la vez, porque los gradientes son
-    el promedio sobre todo $X$. Esto se llama descenso del gradiente por lotes
-    completos (*batch*). Si se usara un solo ejemplo o un subconjunto por paso
-    sería descenso estocástico o por minilotes.
+    Sí, cada iteración usa los 8 ejemplos, porque el gradiente es el promedio
+    sobre todo $X$. A esto se le llama descenso del gradiente por lote
+    completo (*batch*). Si en cada paso usáramos solo un ejemplo o un grupo de
+    ejemplos sería estocástico o por minilotes.
     """)
     return
 
 
 @app.function
 def train_model(X, y, iterations=200, learning_rate=0.1, seed=42):
+    """
+    Argumentos:
+    X, y -- datos de entrenamiento
+    iterations -- número de actualizaciones
+    learning_rate -- tasa de aprendizaje alpha
+    seed -- semilla de la inicialización
+
+    Retorna:
+    parameters -- W y b finales
+    cost_history -- pérdidas (iterations + 1 valores, el índice 0 es antes de entrenar)
+    """
+    # paso 1 - dimensiones
     n_x, n_y = layer_sizes(X, y)
+    # paso 2 - inicializar (una sola vez)
     parameters = initialize_parameters(n_x, n_y, seed=seed)
+    # pérdida antes de entrenar
     cost_history = [compute_cost(forward_propagation(X, parameters), y)]
-    for _ in range(iterations):
+    # ciclo de entrenamiento
+    for i in range(iterations):
+        # paso 3 - forward propagation
         y_hat = forward_propagation(X, parameters)
+        # paso 5 - gradiente
         grads = back_propagation(y_hat, y, X)
+        # paso 6 - actualizar W, b
         parameters = update_parameters(parameters, grads, learning_rate)
+        # paso 4 - pérdida después de actualizar
         cost_history.append(compute_cost(forward_propagation(X, parameters), y))
     return parameters, np.array(cost_history)
 
 
 @app.cell
-def _(X_datos, plt, y_datos):
+def _(X_datos, y_datos):
     params_final, historial = train_model(X_datos, y_datos, iterations=200,
                                           learning_rate=0.1, seed=42)
     y_hat_final = forward_propagation(X_datos, params_final)
@@ -485,29 +672,33 @@ def _(X_datos, plt, y_datos):
     print("Valores reales:      ", y_datos)
     print(f"Pérdida inicial: {historial[0]:.6f}")
     print(f"Pérdida final:   {historial[-1]:.6f}")
-    print("Valores en el historial:", len(historial))
-
-    fig_entrenamiento, ax_entrenamiento = plt.subplots(figsize=(7, 4))
-    ax_entrenamiento.plot(range(len(historial)), historial, color="#1F497D", lw=2)
-    ax_entrenamiento.set_xlabel("Número de actualizaciones")
-    ax_entrenamiento.set_ylabel("Pérdida J(W, b)")
-    ax_entrenamiento.set_title("Pérdida durante el entrenamiento (α = 0.1)")
-    ax_entrenamiento.grid(alpha=0.3)
-    fig_entrenamiento
+    print("Número de valores en el historial:", len(historial))
     return historial, params_final
+
+
+@app.cell
+def _(historial, plt):
+    plt.figure(figsize=(7, 4))
+    plt.plot(range(len(historial)), historial)
+    plt.xlabel("Número de actualizaciones")
+    plt.ylabel("Pérdida J(W, b)")
+    plt.title("Pérdida durante el entrenamiento (alpha = 0.1)")
+    plt.grid(alpha=0.3)
+    plt.gca()
+    return
 
 
 @app.cell(hide_code=True)
 def _(historial, mo, params_final):
     mo.md(rf"""
-    **Interpretación.** La pérdida baja de {historial[0]:.4f} a {historial[-1]:.4f}.
-    La curva cae rápido en las primeras 30 o 40 iteraciones y después se va
-    aplanando, porque conforme el modelo se acerca al mínimo los gradientes se
-    hacen más chicos y los pasos también. Los pesos finales
-    ($w_1 \approx$ {params_final["W"][0, 0]:.3f}, $w_2 \approx$ {params_final["W"][0, 1]:.3f})
-    indican que el puntaje sube con la característica 1 y baja con la 2. La
-    pérdida no llega a cero porque los datos no caen exactamente sobre un plano:
-    queda un error que un modelo lineal no puede eliminar.
+    La pérdida baja de {historial[0]:.4f} a {historial[-1]:.4f}. Al principio cae
+    muy rápido, en unas 40 iteraciones ya bajó casi todo, y luego se va aplanando
+    porque cerca del mínimo el gradiente es chico y los pasos también. Los pesos
+    finales ($w_1 \approx$ {params_final["W"][0, 0]:.2f} y
+    $w_2 \approx$ {params_final["W"][0, 1]:.2f}) quieren decir que el puntaje
+    sube con la característica 1 y baja con la 2. La pérdida no llega a cero
+    porque los puntos no caen exactamente en un plano, así que siempre queda
+    algo de error que un modelo lineal no puede quitar.
     """)
     return
 
@@ -531,91 +722,114 @@ def _(mo):
 
 
 @app.cell
-def _(X_datos, mo, plt, y_datos):
+def _(X_datos, y_datos):
     tasas = [0.01, 0.1, 3.0]
     historiales = {}
     for alpha in tasas:
-        # train_model inicializa de nuevo en cada llamada: cada experimento arranca igual
+        # cada llamada a train_model inicializa de nuevo con la misma semilla
         _, historiales[alpha] = train_model(X_datos, y_datos, iterations=200,
                                             learning_rate=alpha, seed=42)
+    return historiales, tasas
 
+
+@app.cell
+def _(historiales, mo, tasas):
     def comportamiento(h):
         if not np.all(np.isfinite(h)):
             return "Divergencia (valores no finitos)"
         if h[-1] > h[0]:
             return "Divergencia"
-        if np.any(np.diff(h) > 0):
-            return "Oscilaciones"
         if abs(h[-1] - h[-2]) < 1e-6:
             return "Convergencia"
-        return "Converge, pero lento (sigue bajando)"
+        return "Converge lento (sigue bajando)"
 
-    tabla_tasas = [
-        {"Tasa α": alpha,
-         "Pérdida inicial": f"{historiales[alpha][0]:.6f}",
+    mo.ui.table([
+        {"Tasa": alpha,
+         "Pérdida inicial": round(historiales[alpha][0], 6),
          "Pérdida final": f"{historiales[alpha][-1]:.6g}",
          "Valores finitos": bool(np.all(np.isfinite(historiales[alpha]))),
          "Comportamiento": comportamiento(historiales[alpha])}
         for alpha in tasas
-    ]
+    ])
+    return
 
-    fig_tasas, axes_tasas = plt.subplots(1, 2, figsize=(11, 4))
-    colores = {0.01: "#D48C00", 0.1: "#1F497D", 3.0: "#C0392B"}
-    for alpha in [0.01, 0.1]:
-        axes_tasas[0].plot(historiales[alpha], color=colores[alpha], lw=2, label=f"α = {alpha}")
-    axes_tasas[0].set_title("Tasas que convergen")
-    axes_tasas[0].set_xlabel("Número de actualizaciones")
-    axes_tasas[0].set_ylabel("Pérdida J(W, b)")
-    axes_tasas[0].legend(); axes_tasas[0].grid(alpha=0.3)
-    for alpha in tasas:
-        axes_tasas[1].semilogy(historiales[alpha], color=colores[alpha], lw=2, label=f"α = {alpha}")
-    axes_tasas[1].set_title("Las tres tasas (escala logarítmica)")
-    axes_tasas[1].set_xlabel("Número de actualizaciones")
-    axes_tasas[1].set_ylabel("Pérdida J(W, b), escala log")
-    axes_tasas[1].legend(); axes_tasas[1].grid(alpha=0.3, which="both")
+
+@app.cell
+def _(historiales, plt):
+    fig, ax = plt.subplots(1, 2, figsize=(11, 4))
+    # izquierda: las dos que convergen, escala normal
+    ax[0].plot(historiales[0.01], label="alpha = 0.01")
+    ax[0].plot(historiales[0.1], label="alpha = 0.1")
+    ax[0].set_title("alpha = 0.01 y 0.1")
+    ax[0].set_xlabel("Número de actualizaciones")
+    ax[0].set_ylabel("Pérdida J(W, b)")
+    ax[0].legend()
+    ax[0].grid(alpha=0.3)
+    # derecha: las tres en escala log, porque 3.0 crece muchísimo
+    for _a in [0.01, 0.1, 3.0]:
+        ax[1].semilogy(historiales[_a], label=f"alpha = {_a}")
+    ax[1].set_title("Las tres tasas (escala logarítmica)")
+    ax[1].set_xlabel("Número de actualizaciones")
+    ax[1].set_ylabel("Pérdida J(W, b)")
+    ax[1].legend()
+    ax[1].grid(alpha=0.3)
     plt.tight_layout()
+    fig
+    return
 
-    mo.vstack([mo.ui.table(tabla_tasas), fig_tasas])
-    return (historiales,)
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Me dio curiosidad saber en qué punto deja de funcionar, así que probé
+    algunas tasas entre 0.1 y 3.0 con las mismas condiciones:
+    """)
+    return
+
+
+@app.cell
+def _(X_datos, mo, y_datos):
+    tasas_extra = [0.5, 1.0, 1.5, 1.8, 1.9, 2.0, 2.5]
+    filas_extra = []
+    for _a in tasas_extra:
+        _, _h = train_model(X_datos, y_datos, iterations=200, learning_rate=_a, seed=42)
+        filas_extra.append({"Tasa": _a, "Pérdida final": f"{_h[-1]:.6g}",
+                            "¿Bajó la pérdida?": bool(_h[-1] < _h[0])})
+    mo.ui.table(filas_extra)
+    return
 
 
 @app.cell(hide_code=True)
 def _(historiales, mo):
     _h3 = historiales[3.0]
-    _crec = _h3[-1] / _h3[-2]
     mo.md(rf"""
     **Tu análisis:**
 
-    Con $\alpha = 0.01$ la pérdida baja todo el tiempo, pero muy despacio:
-    después de 200 iteraciones va en {historiales[0.01][-1]:.4f} y sigue
-    bajando. Con $\alpha = 0.1$ baja rápido y se estabiliza en
-    {historiales[0.1][-1]:.4f}; en las últimas iteraciones ya casi no cambia,
-    así que llegó prácticamente al mínimo. Con $\alpha = 3.0$ pasa lo contrario:
-    la pérdida sube en cada paso (en cada iteración se multiplica por
-    alrededor de {_crec:.1f}) hasta llegar a {_h3[-1]:.2e}. Los valores siguen
-    siendo finitos en estas 200 iteraciones, pero son enormes; con unas cuantas
-    más se desbordarían a `inf` y luego a `nan`.
+    Con $\alpha = 0.01$ la pérdida sí baja, pero muy despacio: a las 200
+    iteraciones va en {historiales[0.01][-1]:.4f} y todavía sigue bajando. Con
+    $\alpha = 0.1$ baja rápido y para el final ya casi no cambia
+    ({historiales[0.1][-1]:.4f}), o sea que llegó al mínimo. Con $\alpha = 3.0$
+    pasa al revés, la pérdida crece en cada iteración, cada vez unas
+    {_h3[-1] / _h3[-2]:.1f} veces más, hasta llegar a {_h3[-1]:.2e}. En estas
+    200 iteraciones los valores siguen siendo finitos (no salen `inf` ni
+    `nan`), pero ya son enormes, y con unas cuantas iteraciones más se
+    desbordarían.
 
-    Elegiría $\alpha = 0.1$, porque es la única de las tres que llega al
-    mínimo dentro de las 200 iteraciones sin volverse inestable.
+    De estas tres elegiría $\alpha = 0.1$, porque es la única que llega al
+    mínimo en las 200 iteraciones sin volverse inestable.
 
-    Una tasa mayor no siempre es mejor porque el gradiente solo dice hacia
-    dónde bajar cerca del punto actual. Si el paso es demasiado grande, el
-    modelo se pasa del mínimo y cae del otro lado del "valle" en un punto más
-    alto que donde estaba; en el siguiente paso el gradiente es todavía mayor y
-    el error crece cada vez más. Para esta pérdida cuadrática se puede ver que
-    el descenso solo es estable si $\alpha$ es menor que $2/\lambda_{{max}}$,
-    donde $\lambda_{{max}}$ es el valor propio más grande de
-    $\frac{{1}}{{m}}\tilde X \tilde X^T$ (con una fila de unos para el sesgo).
-    Con estos datos $\lambda_{{max}} \approx 1.05$, así que el límite es
-    $\alpha \approx 1.9$, y 3.0 queda por encima.
+    Una tasa más grande no significa aprender mejor porque el gradiente solo
+    dice hacia dónde bajar desde donde estás. Si el paso es demasiado largo, el
+    modelo se pasa del mínimo y cae del otro lado del "valle", más arriba de
+    donde estaba. Ahí el gradiente es más grande, el siguiente paso es todavía
+    más largo y el error se va disparando. En la tabla de arriba se ve que con
+    estos datos todo funciona hasta más o menos 1.8; en 1.9 todavía baja pero
+    ya más lento, y desde 2.0 diverge.
 
-    Con 200 iteraciones puedo decir que 0.1 converge, que 0.01 va en la
-    dirección correcta pero lento y que 3.0 diverge. Lo que no puedo afirmar es
-    que 0.1 sea la mejor tasa posible (no probé valores intermedios como 0.5 o
-    1.0), ni que 0.01 no llegaría al mismo resultado con más iteraciones. Y
-    como solo usé datos de entrenamiento, tampoco puedo decir nada de cómo
-    funcionaría el modelo con datos nuevos.
+    Con 200 iteraciones puedo decir que 0.1 converge, que 0.01 va bien pero
+    lento y que 3.0 diverge. Lo que no puedo afirmar es que 0.01 no llegaría al
+    mismo resultado si lo dejo más tiempo, ni que el modelo funcione bien con
+    datos nuevos, porque todo esto es solo con los datos de entrenamiento.
     """)
     return
 
@@ -623,55 +837,53 @@ def _(historiales, mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### Comprobación de la implementación
+    ### Comprobación de resultados
 
-    Para la pregunta 3 de las conclusiones hice dos verificaciones con NumPy.
-    La primera compara los gradientes de `back_propagation` con una
-    aproximación numérica por diferencias finitas:
+    Como en clase comparamos con la regresión lineal de scikit-learn, aquí hice
+    lo mismo pero solo con NumPy, porque en esta actividad no se puede usar
+    sklearn. `np.linalg.lstsq` da la solución exacta de mínimos cuadrados, que
+    es el mínimo al que debería llegar el descenso del gradiente. También
+    comparé el gradiente de `back_propagation` con uno numérico, calculado con
+    diferencias finitas:
     $\frac{\partial J}{\partial \theta} \approx \frac{J(\theta+\varepsilon) - J(\theta-\varepsilon)}{2\varepsilon}$.
-    La segunda compara los parámetros entrenados con la solución exacta de
-    mínimos cuadrados (`np.linalg.lstsq`), que es el mínimo al que debería
-    llegar el descenso del gradiente.
     """)
     return
 
 
 @app.cell
 def _(X_datos, params_final, parametros_iniciales, y_datos):
-    # 1) gradiente analítico vs numérico, en los parámetros iniciales
+    # 1) comparación con la solución exacta de mínimos cuadrados
+    A = np.vstack([X_datos, np.ones(X_datos.shape[1])]).T   # columna de unos para b
+    exacta = np.linalg.lstsq(A, y_datos.ravel(), rcond=None)[0]
+    print("Mínimos cuadrados      (w1, w2, b):", exacta.round(4))
+    print("Descenso del gradiente (w1, w2, b):",
+          np.concatenate([params_final["W"].ravel(), params_final["b"].ravel()]).round(4))
+
+    # 2) gradiente analítico vs numérico en los parámetros iniciales
     eps = 1e-6
-    grads_analiticos = back_propagation(forward_propagation(X_datos, parametros_iniciales), y_datos, X_datos)
+    g = back_propagation(forward_propagation(X_datos, parametros_iniciales), y_datos, X_datos)
+    g_analitico = np.concatenate([g["dW"].ravel(), g["db"].ravel()])
     theta = np.concatenate([parametros_iniciales["W"].ravel(), parametros_iniciales["b"].ravel()])
 
-    def costo_theta(t):
+    def J_theta(t):
         p = {"W": t[:2].reshape(1, 2), "b": t[2:].reshape(1, 1)}
         return compute_cost(forward_propagation(X_datos, p), y_datos)
 
-    grads_numericos = np.array([
-        (costo_theta(theta + eps * e) - costo_theta(theta - eps * e)) / (2 * eps)
-        for e in np.eye(3)
-    ])
-    grads_analiticos_vec = np.concatenate([grads_analiticos["dW"].ravel(), grads_analiticos["db"].ravel()])
-    print("Gradiente analítico:", grads_analiticos_vec.round(8))
-    print("Gradiente numérico: ", grads_numericos.round(8))
-    print("Diferencia máxima:  ", np.abs(grads_analiticos_vec - grads_numericos).max())
-
-    # 2) solución exacta de mínimos cuadrados
-    A = np.vstack([X_datos, np.ones(X_datos.shape[1])]).T
-    solucion_exacta = np.linalg.lstsq(A, y_datos.ravel(), rcond=None)[0]
-    entrenados = np.concatenate([params_final["W"].ravel(), params_final["b"].ravel()])
-    print("Mínimos cuadrados (w1, w2, b):", solucion_exacta.round(5))
-    print("Descenso del gradiente:       ", entrenados.round(5))
+    g_numerico = np.array([(J_theta(theta + eps * e) - J_theta(theta - eps * e)) / (2 * eps)
+                           for e in np.eye(3)])
+    print("Gradiente analítico:", g_analitico.round(6))
+    print("Gradiente numérico: ", g_numerico.round(6))
+    print("Diferencia máxima:", np.abs(g_analitico - g_numerico).max())
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Los dos gradientes coinciden hasta el orden de $10^{-10}$, y los parámetros
-    entrenados con $\alpha = 0.1$ quedan prácticamente iguales a la solución
-    exacta (difieren en la cuarta cifra decimal). Eso confirma que la
-    derivación y el código están bien, más allá de ver que la pérdida baja.
+    Los parámetros que encontró la neurona son prácticamente los mismos que los
+    de mínimos cuadrados (solo cambian en la cuarta decimal), y los dos
+    gradientes coinciden con una diferencia de $10^{-10}$. Con eso ya sé que
+    las cuentas están bien, no solo que la pérdida baja.
     """)
     return
 
@@ -693,38 +905,34 @@ def _(mo):
 
     **Tus conclusiones:**
 
-    1. Que la neurona aprendió quiere decir que ajustó sus parámetros para que
-       sus predicciones se parezcan a los datos. Empezó con pesos casi en cero,
-       que predecían prácticamente 0 para todo, y una pérdida de 0.89. Después
-       de 200 iteraciones con $\alpha = 0.1$ los pesos quedaron en
+    1. Que la neurona aprendió quiere decir que fue moviendo sus parámetros
+       hasta que sus predicciones se parecieran a los datos. Empezó con pesos
+       casi en cero, prediciendo casi 0 para todos, con una pérdida de 0.89. Al
+       terminar las 200 iteraciones con $\alpha = 0.1$ quedó con
        $w \approx (1.42, -1.00)$ y $b \approx 0.75$, las predicciones quedaron
-       cerca de los puntajes reales y la pérdida bajó a 0.022. Lo que
-       "aprende" el modelo está guardado en esos tres números.
+       cerca de los puntajes reales y la pérdida bajó a 0.022. Todo lo que
+       "aprendió" queda guardado en esos tres números.
 
-    2. Calcular los gradientes es medir: dice en qué dirección y con qué
-       intensidad cambia la pérdida si se mueve cada parámetro, pero no cambia
-       nada. Actualizar es actuar: usar esa información para mover los
-       parámetros un paso de tamaño $\alpha$ en contra del gradiente. Por eso
-       las separé en dos funciones, `back_propagation` y `update_parameters`.
+    2. Calcular el gradiente es nada más medir: te dice hacia dónde y qué tanto
+       cambia la pérdida si mueves cada parámetro, pero no cambia nada. Actualizar
+       es ya moverlos, dar un paso de tamaño $\alpha$ en contra del gradiente. Por
+       eso son dos funciones distintas, `back_propagation` y `update_parameters`.
 
-    3. Además de que la pérdida baje, comprobaría tres cosas, que son las que
-       hice en este notebook: (a) que una iteración coincida con el cálculo a
-       mano en un caso pequeño (sección 6); (b) que los gradientes analíticos
-       coincidan con los numéricos por diferencias finitas; y (c) en un caso
-       como este, que tiene solución exacta, que el resultado coincida con
-       mínimos cuadrados. También revisaría que las formas de los arreglos sean
-       las esperadas en cada paso.
+    3. Aparte de ver que la pérdida baja, yo revisaría que una iteración
+       coincida con el cálculo a mano en un caso chico (sección 6), que el
+       gradiente coincida con el numérico y, cuando se puede, que el resultado
+       final sea igual a la solución exacta, como hice con mínimos cuadrados.
+       También que las formas de los arreglos sean las que deben ser en cada paso.
 
-    4. Con sigmoide y entropía cruzada cambian la activación,
-       $\hat y = \sigma(Z) = 1/(1+e^{-Z})$, y la función de pérdida,
-       $J = -\frac{1}{m}\sum [y\log\hat y + (1-y)\log(1-\hat y)]$. Las
-       predicciones pasan a ser probabilidades entre 0 y 1. Lo demás se
-       conserva igual: las dimensiones, $Z = WX + b$, el ciclo de
-       predecir, calcular gradientes y actualizar, y la regla
-       $W \leftarrow W - \alpha\,dW$. Incluso las fórmulas de los gradientes
-       quedan con la misma forma, $dZ = \hat y - y$, $dW = \frac{1}{m}dZ X^T$ y
-       $db = \frac{1}{m}\sum dZ$, porque la derivada de la sigmoide se cancela
-       con la de la entropía cruzada.
+    4. Con sigmoide y entropía cruzada cambia la activación,
+       $\hat y = \sigma(Z) = 1/(1+e^{-Z})$, y la pérdida,
+       $J = -\frac{1}{m}\sum [y\log\hat y + (1-y)\log(1-\hat y)]$, y las
+       predicciones pasan a ser probabilidades entre 0 y 1. Lo demás se queda
+       igual: las dimensiones, $Z = WX + b$, el ciclo de predecir, calcular el
+       gradiente y actualizar, y la regla $W \leftarrow W - \alpha\,dW$. Hasta las
+       fórmulas del gradiente quedan iguales ($dZ = \hat y - y$,
+       $dW = \frac{1}{m}dZ X^T$), porque al derivar, la derivada de la sigmoide
+       se cancela con la de la entropía cruzada.
 
     ## Rúbrica
 
