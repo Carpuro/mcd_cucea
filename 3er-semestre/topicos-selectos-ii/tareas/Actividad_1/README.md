@@ -33,5 +33,7 @@ Con el entorno del repo del profesor (`uv`) también funciona: `uv run marimo ed
 - La iteración manual (sección 6) coincide con NumPy: la pérdida pasa de 3.25 a 1.265625.
 - Con α = 0.1, 200 iteraciones y semilla 42, la pérdida baja de 0.8917 a 0.0224 y los parámetros
   llegan a W ≈ (1.421, −0.995), b ≈ 0.749, prácticamente la solución exacta de mínimos cuadrados.
-- α = 0.01 converge lento y α = 3.0 diverge; probando tasas intermedias, a partir de α = 2.0 diverge.
+- α = 0.01 converge lento y α = 3.0 oscila y diverge (w1 cambia de dirección en las 199 iteraciones);
+  probando tasas intermedias, a partir de α = 2.0 diverge.
+- Tabla y gráfica de valores reales contra predichos antes y después de entrenar.
 - Los gradientes analíticos coinciden con los numéricos (diferencias finitas) hasta ~1e-10.
