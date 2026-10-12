@@ -208,6 +208,14 @@ def _(X_datos, y_datos):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    Salen 2 entradas y 1 salida, que es lo que esperaba: dos características y un puntaje.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ### Paso 2
     Inicializamos los pesos $W$ con valores pequeños aleatorios (usando la
     semilla) y el sesgo $b$ en cero.
@@ -243,6 +251,16 @@ def _(n_x, n_y):
     print("W:", parametros_iniciales["W"], "->", parametros_iniciales["W"].shape)
     print("b:", parametros_iniciales["b"], "->", parametros_iniciales["b"].shape)
     return (parametros_iniciales,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Los pesos salen muy chiquitos, del orden de 0.01, y el sesgo en 0. Las
+    formas son $(1, 2)$ y $(1, 1)$, igual que en la tabla. O sea, la neurona
+    arranca prácticamente sin "saber" nada.
+    """)
+    return
 
 
 @app.cell(hide_code=True)
@@ -367,6 +385,17 @@ def _(y_datos, y_hat_inicial):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    Este 0.89 es el error de arranque. Tiene sentido: como la neurona predice
+    casi 0 para todos, la pérdida queda muy cerca de $\frac{1}{2m}\sum y^2$, que
+    con estos datos da 0.8975. Este es el número que el entrenamiento tiene que
+    bajar.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## 5. Gradientes y actualización
 
     Con pesos organizados como **fila**, las ecuaciones son:
@@ -478,6 +507,19 @@ def _(X_datos, parametros_iniciales, y_datos, y_hat_inicial):
     print("db:", grads_prueba["db"].round(4), "->", grads_prueba["db"].shape)
     print("W después de un paso:", parametros_prueba["W"].round(4))
     print("b después de un paso:", parametros_prueba["b"].round(4))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Los signos del gradiente ya dicen hacia dónde se van a mover los parámetros.
+    $dW_1$ sale negativo, entonces al restarlo $w_1$ **sube**; $dW_2$ sale
+    positivo, entonces $w_2$ **baja**; y $db$ es negativo, así que $b$ sube. Más
+    adelante se ve que el entrenamiento termina justo así: $w_1$ positivo, $w_2$
+    negativo y $b$ positivo. También se ve que con un solo paso de 0.1 los
+    cambios son chiquitos, por eso hacen falta muchas iteraciones.
+    """)
     return
 
 
@@ -673,7 +715,36 @@ def _(X_datos, y_datos):
     print(f"Pérdida inicial: {historial[0]:.6f}")
     print(f"Pérdida final:   {historial[-1]:.6f}")
     print("Número de valores en el historial:", len(historial))
-    return historial, params_final
+    return historial, params_final, y_hat_final
+
+
+@app.cell
+def _(mo, parametros_iniciales, X_datos, y_datos, y_hat_final):
+    # comparo lo real contra lo que predecía antes y después de entrenar
+    _antes = forward_propagation(X_datos, parametros_iniciales)
+    mo.ui.table([
+        {"Ejemplo": i + 1,
+         "Real": float(y_datos[0, i]),
+         "Predicción antes": round(float(_antes[0, i]), 3),
+         "Predicción después": round(float(y_hat_final[0, i]), 3),
+         "Error después": round(float(y_hat_final[0, i] - y_datos[0, i]), 3)}
+        for i in range(y_datos.shape[1])
+    ])
+    return
+
+
+@app.cell
+def _(plt, y_datos, y_hat_final):
+    plt.figure(figsize=(4.5, 4.5))
+    plt.scatter(y_datos.ravel(), y_hat_final.ravel())
+    plt.plot([-1.2, 3.2], [-1.2, 3.2], "--", color="gray", label="predicción perfecta")
+    plt.xlabel("Puntaje real")
+    plt.ylabel("Puntaje predicho")
+    plt.title("Real vs. predicho (después de entrenar)")
+    plt.legend()
+    plt.grid(alpha=0.3)
+    plt.gca()
+    return
 
 
 @app.cell
@@ -699,6 +770,12 @@ def _(historial, mo, params_final):
     sube con la característica 1 y baja con la 2. La pérdida no llega a cero
     porque los puntos no caen exactamente en un plano, así que siempre queda
     algo de error que un modelo lineal no puede quitar.
+
+    En la tabla se ve mejor: antes de entrenar todas las predicciones eran casi
+    0, y después quedan cerca de los reales. Los que más fallan son el ejemplo 3
+    (predice 1.75 y el real es 1.3) y el 6 (0.32 contra 0.6), pero el resto
+    quedan a menos de 0.25. En la gráfica los puntos caen cerca de la línea
+    punteada, que sería acertarle exacto.
     """)
     return
 
@@ -725,19 +802,35 @@ def _(mo):
 def _(X_datos, y_datos):
     tasas = [0.01, 0.1, 3.0]
     historiales = {}
+    pesos_w1 = {}
     for alpha in tasas:
         # cada llamada a train_model inicializa de nuevo con la misma semilla
         _, historiales[alpha] = train_model(X_datos, y_datos, iterations=200,
                                             learning_rate=alpha, seed=42)
-    return historiales, tasas
+        # para ver si oscila, repito el ciclo guardando w1 en cada paso
+        _p = initialize_parameters(2, 1, seed=42)
+        _w1 = [_p["W"][0, 0]]
+        for _i in range(200):
+            _g = back_propagation(forward_propagation(X_datos, _p), y_datos, X_datos)
+            _p = update_parameters(_p, _g, alpha)
+            _w1.append(_p["W"][0, 0])
+        pesos_w1[alpha] = np.array(_w1)
+    return historiales, pesos_w1, tasas
 
 
 @app.cell
-def _(historiales, mo, tasas):
-    def comportamiento(h):
+def _(historiales, mo, pesos_w1, tasas):
+    def cambios_direccion(w):
+        # cuántas veces w1 pasa de subir a bajar (o al revés)
+        pasos = np.sign(np.diff(w))
+        return int(np.sum(pasos[1:] != pasos[:-1]))
+
+    def comportamiento(h, w):
         if not np.all(np.isfinite(h)):
             return "Divergencia (valores no finitos)"
         if h[-1] > h[0]:
+            if cambios_direccion(w) > len(w) // 2:
+                return "Oscila y diverge"
             return "Divergencia"
         if abs(h[-1] - h[-2]) < 1e-6:
             return "Convergencia"
@@ -748,7 +841,8 @@ def _(historiales, mo, tasas):
          "Pérdida inicial": round(historiales[alpha][0], 6),
          "Pérdida final": f"{historiales[alpha][-1]:.6g}",
          "Valores finitos": bool(np.all(np.isfinite(historiales[alpha]))),
-         "Comportamiento": comportamiento(historiales[alpha])}
+         "Cambios de dirección de w1": cambios_direccion(pesos_w1[alpha]),
+         "Comportamiento": comportamiento(historiales[alpha], pesos_w1[alpha])}
         for alpha in tasas
     ])
     return
@@ -778,6 +872,29 @@ def _(historiales, plt):
     return
 
 
+@app.cell
+def _(pesos_w1, plt):
+    fig_w, ax_w = plt.subplots(1, 2, figsize=(11, 4))
+    ax_w[0].plot(pesos_w1[0.01], label="alpha = 0.01")
+    ax_w[0].plot(pesos_w1[0.1], label="alpha = 0.1")
+    ax_w[0].axhline(1.421, ls="--", color="gray", label="valor final (1.421)")
+    ax_w[0].set_title("w1 con alpha = 0.01 y 0.1")
+    ax_w[0].set_xlabel("Número de actualizaciones")
+    ax_w[0].set_ylabel("w1")
+    ax_w[0].legend()
+    ax_w[0].grid(alpha=0.3)
+    # con 3.0 solo las primeras 25 para que se vea el zigzag
+    ax_w[1].plot(pesos_w1[3.0][:26], marker="o", color="tab:green")
+    ax_w[1].set_yscale("symlog")
+    ax_w[1].set_title("w1 con alpha = 3.0 (primeras 25 iteraciones)")
+    ax_w[1].set_xlabel("Número de actualizaciones")
+    ax_w[1].set_ylabel("w1 (escala symlog)")
+    ax_w[1].grid(alpha=0.3)
+    plt.tight_layout()
+    fig_w
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -801,7 +918,7 @@ def _(X_datos, mo, y_datos):
 
 @app.cell(hide_code=True)
 def _(historiales, mo):
-    _h3 = historiales[3.0]
+    _h3 = historiales[3.0]  # pérdida con alpha = 3.0
     mo.md(rf"""
     **Tu análisis:**
 
@@ -814,6 +931,12 @@ def _(historiales, mo):
     200 iteraciones los valores siguen siendo finitos (no salen `inf` ni
     `nan`), pero ya son enormes, y con unas cuantas iteraciones más se
     desbordarían.
+
+    Además con 3.0 no solo diverge, también oscila. En la gráfica de $w_1$ se ve
+    que en cada iteración cambia de dirección: sube, baja, vuelve a subir, y
+    cada salto es más grande que el anterior. Con 0.01 y 0.1 en cambio $w_1$
+    sube siempre de forma suave hacia su valor final, sin regresarse nunca
+    (0 cambios de dirección).
 
     De estas tres elegiría $\alpha = 0.1$, porque es la única que llega al
     mínimo en las 200 iteraciones sin volverse inestable.
@@ -910,8 +1033,9 @@ def _(mo):
        casi en cero, prediciendo casi 0 para todos, con una pérdida de 0.89. Al
        terminar las 200 iteraciones con $\alpha = 0.1$ quedó con
        $w \approx (1.42, -1.00)$ y $b \approx 0.75$, las predicciones quedaron
-       cerca de los puntajes reales y la pérdida bajó a 0.022. Todo lo que
-       "aprendió" queda guardado en esos tres números.
+       cerca de los puntajes reales (se ve en la tabla de real contra
+       predicho) y la pérdida bajó a 0.022. Todo lo que "aprendió" queda
+       guardado en esos tres números.
 
     2. Calcular el gradiente es nada más medir: te dice hacia dónde y qué tanto
        cambia la pérdida si mueves cada parámetro, pero no cambia nada. Actualizar
