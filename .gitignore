@@ -76,3 +76,6 @@ desktop.ini
 .env.*
 config.local.py
 secrets.py
+
+# ── marimo ──
+__marimo__/
