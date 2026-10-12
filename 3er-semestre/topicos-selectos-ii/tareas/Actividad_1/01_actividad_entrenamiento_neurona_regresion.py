@@ -77,6 +77,23 @@ def _(mo):
     return
 
 
+@app.function
+def tabla_md(filas):
+    """
+    Argumentos:
+    filas -- lista de diccionarios (una fila por diccionario)
+
+    Retorna:
+    texto de una tabla en markdown, para que se vea igual en marimo, Jupyter y GitHub
+    """
+    columnas = list(filas[0].keys())
+    lineas = ["| " + " | ".join(columnas) + " |",
+              "|" + "---|" * len(columnas)]
+    for f in filas:
+        lineas.append("| " + " | ".join(str(f[c]) for c in columnas) + " |")
+    return "\n".join(lineas)
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
@@ -722,14 +739,14 @@ def _(X_datos, y_datos):
 def _(mo, parametros_iniciales, X_datos, y_datos, y_hat_final):
     # comparo lo real contra lo que predecía antes y después de entrenar
     _antes = forward_propagation(X_datos, parametros_iniciales)
-    mo.ui.table([
+    mo.md(tabla_md([
         {"Ejemplo": i + 1,
          "Real": float(y_datos[0, i]),
          "Predicción antes": round(float(_antes[0, i]), 3),
          "Predicción después": round(float(y_hat_final[0, i]), 3),
          "Error después": round(float(y_hat_final[0, i] - y_datos[0, i]), 3)}
         for i in range(y_datos.shape[1])
-    ])
+    ]))
     return
 
 
@@ -764,7 +781,7 @@ def _(historial, mo, params_final):
     mo.md(rf"""
     La pérdida baja de {historial[0]:.4f} a {historial[-1]:.4f}. Al principio cae
     muy rápido, en unas 40 iteraciones ya bajó casi todo, y luego se va aplanando
-    porque cerca del mínimo el gradiente es chico y los pasos también. Los pesos
+    porque cerca del mínimo el gradiente es pequeño y los pasos también. Los pesos
     finales ($w_1 \approx$ {params_final["W"][0, 0]:.2f} y
     $w_2 \approx$ {params_final["W"][0, 1]:.2f}) quieren decir que el puntaje
     sube con la característica 1 y baja con la 2. La pérdida no llega a cero
@@ -836,15 +853,15 @@ def _(historiales, mo, pesos_w1, tasas):
             return "Convergencia"
         return "Converge lento (sigue bajando)"
 
-    mo.ui.table([
+    mo.md(tabla_md([
         {"Tasa": alpha,
-         "Pérdida inicial": round(historiales[alpha][0], 6),
+         "Pérdida inicial": round(float(historiales[alpha][0]), 6),
          "Pérdida final": f"{historiales[alpha][-1]:.6g}",
-         "Valores finitos": bool(np.all(np.isfinite(historiales[alpha]))),
+         "Valores finitos": "Sí" if np.all(np.isfinite(historiales[alpha])) else "No",
          "Cambios de dirección de w1": cambios_direccion(pesos_w1[alpha]),
          "Comportamiento": comportamiento(historiales[alpha], pesos_w1[alpha])}
         for alpha in tasas
-    ])
+    ]))
     return
 
 
@@ -911,8 +928,8 @@ def _(X_datos, mo, y_datos):
     for _a in tasas_extra:
         _, _h = train_model(X_datos, y_datos, iterations=200, learning_rate=_a, seed=42)
         filas_extra.append({"Tasa": _a, "Pérdida final": f"{_h[-1]:.6g}",
-                            "¿Bajó la pérdida?": bool(_h[-1] < _h[0])})
-    mo.ui.table(filas_extra)
+                            "¿Bajó la pérdida?": "Sí" if _h[-1] < _h[0] else "No"})
+    mo.md(tabla_md(filas_extra))
     return
 
 
