@@ -256,8 +256,8 @@ def _(n_x, n_y):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    Los pesos salen muy chiquitos, del orden de 0.01, y el sesgo en 0. Las
-    formas son $(1, 2)$ y $(1, 1)$, igual que en la tabla. O sea, la neurona
+    Los pesos salen muy pequeños, del orden de 0.01, y el sesgo en 0. Las
+    formas son $(1, 2)$ y $(1, 1)$, igual que en la tabla, así que la neurona
     arranca prácticamente sin "saber" nada.
     """)
     return
@@ -349,7 +349,7 @@ def _(mo):
     cambia en dónde está el mínimo.
 
     No, una pérdida de cero no asegura que el modelo funcione bien con datos
-    nuevos. Solo dice que le atinó a los datos de entrenamiento, y pudo haberse
+    nuevos. Solo dice que se ajusta a los datos de entrenamiento, y pudo haberse
     "aprendido" también el ruido (sobreajuste). Para saberlo habría que probarlo
     con datos que no vio al entrenar.
 
@@ -518,7 +518,7 @@ def _(mo):
     positivo, entonces $w_2$ **baja**; y $db$ es negativo, así que $b$ sube. Más
     adelante se ve que el entrenamiento termina justo así: $w_1$ positivo, $w_2$
     negativo y $b$ positivo. También se ve que con un solo paso de 0.1 los
-    cambios son chiquitos, por eso hacen falta muchas iteraciones.
+    cambios todavía son pequeños, por eso hacen falta muchas iteraciones.
     """)
     return
 
@@ -775,7 +775,7 @@ def _(historial, mo, params_final):
     0, y después quedan cerca de los reales. Los que más fallan son el ejemplo 3
     (predice 1.75 y el real es 1.3) y el 6 (0.32 contra 0.6), pero el resto
     quedan a menos de 0.25. En la gráfica los puntos caen cerca de la línea
-    punteada, que sería acertarle exacto.
+    punteada, que representa una predicción exacta.
     """)
     return
 
@@ -808,7 +808,7 @@ def _(X_datos, y_datos):
         _, historiales[alpha] = train_model(X_datos, y_datos, iterations=200,
                                             learning_rate=alpha, seed=42)
         # para ver si oscila, repito el ciclo guardando w1 en cada paso
-        _p = initialize_parameters(2, 1, seed=42)
+        _p = initialize_parameters(*layer_sizes(X_datos, y_datos), seed=42)
         _w1 = [_p["W"][0, 0]]
         for _i in range(200):
             _g = back_propagation(forward_propagation(X_datos, _p), y_datos, X_datos)
@@ -1037,7 +1037,7 @@ def _(mo):
        predicho) y la pérdida bajó a 0.022. Todo lo que "aprendió" queda
        guardado en esos tres números.
 
-    2. Calcular el gradiente es nada más medir: te dice hacia dónde y qué tanto
+    2. Calcular el gradiente es solo medir: te dice hacia dónde y qué tanto
        cambia la pérdida si mueves cada parámetro, pero no cambia nada. Actualizar
        es ya moverlos, dar un paso de tamaño $\alpha$ en contra del gradiente. Por
        eso son dos funciones distintas, `back_propagation` y `update_parameters`.
