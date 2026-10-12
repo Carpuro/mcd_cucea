@@ -11,19 +11,19 @@ Plantilla original: [IvTole/Topicos_Selectos_II_CUCEA](https://github.com/IvTole
 
 | Archivo | Contenido |
 |---|---|
-| `01_actividad_entrenamiento_neurona_regresion.py` | Notebook de marimo con código, respuestas y gráficas (entregable) |
-| `01_actividad_entrenamiento_neurona_regresion.ipynb` | El mismo notebook en formato Jupyter, ya ejecutado (se ve directo en GitHub) |
-| `01_actividad_entrenamiento_neurona_regresion.html` | El mismo notebook ya ejecutado, para ver los resultados sin instalar nada |
+| `Actividad1_TopicosGBDII_CarlosPulidoRosas.py` | Notebook de marimo con código, respuestas y gráficas (entregable) |
+| `Actividad1_TopicosGBDII_CarlosPulidoRosas.ipynb` | El mismo notebook en formato Jupyter, ya ejecutado (se ve directo en GitHub) |
+| `Actividad1_TopicosGBDII_CarlosPulidoRosas.html` | El mismo notebook ya ejecutado, para ver los resultados sin instalar nada |
 | `requirements.txt` | Dependencias |
 
 ## Cómo ejecutarlo
 
 ```bash
 pip install -r requirements.txt
-marimo edit 01_actividad_entrenamiento_neurona_regresion.py   # abrir y editar
-marimo run 01_actividad_entrenamiento_neurona_regresion.py    # solo ver
-python 01_actividad_entrenamiento_neurona_regresion.py        # ejecutar como script
-jupyter notebook 01_actividad_entrenamiento_neurona_regresion.ipynb  # versión Jupyter
+marimo edit Actividad1_TopicosGBDII_CarlosPulidoRosas.py   # abrir y editar
+marimo run Actividad1_TopicosGBDII_CarlosPulidoRosas.py    # solo ver
+python Actividad1_TopicosGBDII_CarlosPulidoRosas.py        # ejecutar como script
+jupyter notebook Actividad1_TopicosGBDII_CarlosPulidoRosas.ipynb  # versión Jupyter
 ```
 
 Con el entorno del repo del profesor (`uv`) también funciona: `uv run marimo edit <archivo>`.
