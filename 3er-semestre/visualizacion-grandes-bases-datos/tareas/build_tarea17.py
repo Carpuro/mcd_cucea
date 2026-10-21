@@ -179,49 +179,43 @@ def build():
     add_para(doc, sb=8, sa=0)
     add_heading(doc, "1. Introducción")
     add_para(doc,
-        "En la Tarea 1.6 completé la serie de NO₂ de la estación Centro con el CO y ajusté modelos de "
-        "regresión múltiple del NO₂ con el PM10 y el PM2.5. Ahora toca refinar ese modelo: forzar el "
-        "plano de regresión a pasar por el origen, NO₂ = b₁·PM10 + b₂·PM2.5, y quitar los valores "
-        "atípicos de las tres variables. Después lo comparo contra los modelos de la 1.6 para "
-        "responder cuatro preguntas: si mejoró la correlación, si mejoraron el R² y los residuales, "
-        "cómo se relacionan las partículas entre sí y qué nos dice el modelo.")
+        "En la tarea anterior completé el NO₂ de la estación Centro con el CO y armé modelos de "
+        "regresión múltiple con el PM10 y el PM2.5. En esta tarea refino ese modelo. Le quité el "
+        "intercepto para que el plano pase por el origen, NO₂ = b₁·PM10 + b₂·PM2.5, quité los "
+        "atípicos de las tres variables y comparé el resultado contra los modelos de la 1.6.")
     add_para(doc,
-        "Uso las mismas dos series de la tarea anterior: la serie completada, que incluye el NO₂ "
-        f"imputado ({num(C['n_bruto'])} horas con las tres variables), y la serie observada, solo con "
-        f"NO₂ medido ({num(O['n_bruto'])} horas). La segunda sirve como control, porque no depende de "
-        "la imputación.")
+        "Trabajé con las mismas dos series de la 1.6. La completada tiene el NO₂ imputado y suma "
+        f"{num(C['n_bruto'])} horas con las tres variables. La observada solo tiene NO₂ medido "
+        f"({num(O['n_bruto'])} horas) y la uso para comprobar que lo que veo no sea efecto de la "
+        "imputación.")
 
     # ---------------- 2. Metodologia
     add_heading(doc, "2. Metodología")
     add_heading(doc, "2.1 Exclusión de atípicos", level=2)
     add_para(doc,
-        "Como en las tareas 1.5 y 1.6, usé el criterio de Tukey: una hora es atípica si el NO₂, el "
-        "PM10 o el PM2.5 queda fuera de [Q1 − 1.5·RIC, Q3 + 1.5·RIC]. Si una hora es atípica en "
-        "cualquiera de las tres, la quito completa. Así quedan "
+        "Seguí el mismo criterio de Tukey de las tareas pasadas. Si en una hora el NO₂, el PM10 o el "
+        "PM2.5 quedan fuera de [Q1 − 1.5·RIC, Q3 + 1.5·RIC], quito esa hora completa. Me quedaron "
         f"{num(C['n_limpio'])} horas en la serie completada y {num(O['n_limpio'])} en la observada. "
-        "Para ver el efecto de este paso, también calculé todo con los datos sin depurar.")
+        "También calculé las correlaciones con los datos sin depurar para ver qué cambiaba.")
     add_heading(doc, "2.2 Modelo por el origen", level=2)
     add_para(doc,
-        "El modelo de la 1.6 tenía intercepto, NO₂ = b₀ + b₁·PM10 + b₂·PM2.5. El refinado lo quita, "
-        "así que cuando las dos partículas valen cero el NO₂ estimado también es cero. Para comparar "
-        "los dos modelos de forma justa no basta con el R² que reporta cada uno, porque en un modelo "
-        "sin intercepto el R² se calcula contra cero y no contra el promedio, y por eso sale mucho "
-        "más alto aunque el ajuste sea peor (lo mismo que vimos en la Tarea 1.5). Por eso comparo "
-        "también el R² calculado contra el promedio en los dos modelos, el error cuadrático medio "
-        "(RMSE) y el promedio de los residuales, que en un modelo sin sesgo debe ser cero.")
+        "El modelo de la 1.6 era NO₂ = b₀ + b₁·PM10 + b₂·PM2.5. Al quitarle b₀, el modelo supone que "
+        "si no hay partículas tampoco hay NO₂. Para compararlos no me quise quedar solo con el R² que "
+        "da cada modelo. Como vimos en la Tarea 1.5, cuando no hay intercepto el R² se mide contra "
+        "cero y no contra el promedio, y sale alto aunque el modelo ajuste mal. Así que además "
+        "calculé el R² contra el promedio en los dos casos, el RMSE y el promedio de los residuales.")
     add_heading(doc, "2.3 Relación entre las partículas y K-medias", level=2)
     add_para(doc,
-        "Para la relación entre el PM10 y el PM2.5 uso su correlación, una recta por el origen "
-        "PM2.5 = b·PM10 y, siguiendo la sesión 9, el algoritmo de K-medias. K-medias agrupa las horas "
-        "en k grupos minimizando J = Σ Σ ‖xᵢ − cⱼ‖², la suma de las distancias euclidianas al "
-        "cuadrado de cada punto a su centroide. Antes de agrupar estandaricé las dos variables para "
-        "que pesaran igual, y elegí k con el criterio del codo.")
+        "Para ver cómo se relacionan el PM10 y el PM2.5 usé su correlación y una recta por el origen "
+        "PM2.5 = b·PM10. También probé K-medias, que vimos en la sesión 9. El algoritmo junta las "
+        "horas en k grupos buscando que la suma J = Σ Σ ‖xᵢ − cⱼ‖² de las distancias al centroide sea "
+        "la menor posible. Estandaricé las dos variables antes de agrupar para que ninguna pesara más "
+        "y escogí k con la gráfica del codo.")
 
     # ---------------- 3. Resultados
     add_heading(doc, "3. Resultados")
     add_heading(doc, "3.1 ¿Mejoró la correlación?", level=2)
-    add_para(doc,
-        "La Tabla 1 compara las correlaciones antes y después de quitar los atípicos.", keep=True)
+    add_para(doc, "En la Tabla 1 están las correlaciones antes y después de quitar los atípicos.", keep=True)
     rb_c, rl_c, rb_o, rl_o = C["r_bruto"], C["r_limpio"], O["r_bruto"], O["r_limpio"]
     pares = [("NO₂ – PM10", "NO2", "PM10"), ("NO₂ – PM2.5", "NO2", "PM2.5"), ("PM10 – PM2.5", "PM10", "PM2.5")]
     make_table(doc, ["Par", "Completada sin depurar", "Completada depurada", "Observada sin depurar",
@@ -231,17 +225,15 @@ def build():
                "Tabla 1. Correlación de Pearson antes y después de excluir los atípicos de NO₂, PM10 y PM2.5.",
                [1.4, 1.3, 1.3, 1.3, 1.3])
     add_para(doc,
-        "No, la correlación no mejoró, bajó. En la serie observada la del NO₂ con el PM10 pasa de "
-        f"{f(rb_o.loc['NO2', 'PM10'])} a {f(rl_o.loc['NO2', 'PM10'])}, y con el PM2.5 de "
-        f"{f(rb_o.loc['NO2', 'PM2.5'])} a {f(rl_o.loc['NO2', 'PM2.5'])}. Es lo mismo que pasó con las "
-        "partículas en la Tarea 1.5: los atípicos son horas de contaminación muy alta en las que "
-        "suben todos los contaminantes al mismo tiempo, y esos pocos puntos lejanos inflaban la "
-        "correlación. Sin ellos la relación se ve más débil, pero es más representativa de lo que "
-        "pasa en un día normal. Forzar el modelo por el origen no cambia esto, porque la correlación "
-        "de Pearson no depende del modelo que se ajuste.")
+        "La correlación no mejoró. Bajó en todos los pares. Con los datos observados, la del NO₂ con "
+        f"el PM10 pasó de {f(rb_o.loc['NO2', 'PM10'])} a {f(rl_o.loc['NO2', 'PM10'])}. Ya me había pasado "
+        "algo parecido con las partículas en la Tarea 1.5. Las horas atípicas son episodios de mucha "
+        "contaminación donde todo sube al mismo tiempo, y como quedan muy lejos del resto, jalan la "
+        "correlación hacia arriba. Sin ellas la relación es más débil, pero se parece más a lo que "
+        "pasa normalmente. El origen aquí no influye, porque la correlación no depende del modelo.")
 
     add_heading(doc, "3.2 ¿Mejoraron el R² y los residuales?", level=2)
-    add_para(doc, "La Tabla 2 compara el modelo de la Tarea 1.6 con el refinado en las dos series.", keep=True)
+    add_para(doc, "La Tabla 2 pone lado a lado el modelo de la 1.6 y el refinado.", keep=True)
 
     def fila(serie, nombre, r):
         pr = r["m"].params
@@ -257,21 +249,18 @@ def build():
                "statsmodels; en el modelo por el origen se calcula contra cero.",
                [1.9, 0.7, 0.6, 0.6, 0.7, 0.7, 0.7, 0.9], hl=1)
     add_para(doc,
-        f"A primera vista el modelo refinado mejora muchísimo: el R² pasa de {f(c16['r2_modelo'])} a "
-        f"{f(c17['r2_modelo'])} en la serie completada y de {f(o16['r2_modelo'])} a "
-        f"{f(o17['r2_modelo'])} en la observada. Pero esa mejora no es real. Ese R² está calculado "
-        "contra cero, y como el NO₂ casi nunca está cerca de cero, casi cualquier plano que pase "
-        "cerca de los puntos da un valor alto. Cuando calculo el R² contra el promedio en los dos "
-        f"modelos, el refinado baja a {f(c17['r2_media'])} en la serie completada y a "
-        f"{f(o17['r2_media'])} en la observada, es decir, explica menos que el de la 1.6. El RMSE "
-        f"también sube, de {c16['rmse'] * 1000:.2f} a {c17['rmse'] * 1000:.2f} ppb en la serie "
-        f"completada y de {o16['rmse'] * 1000:.2f} a {o17['rmse'] * 1000:.2f} ppb en la observada.")
+        "Cuando vi el R² del modelo refinado pensé que había mejorado mucho, porque en la serie "
+        f"completada subió de {f(c16['r2_modelo'])} a {f(c17['r2_modelo'])}. Luego recordé lo de la "
+        "Tarea 1.5. Ese R² se mide contra cero, y como el NO₂ casi nunca vale cero, cualquier plano "
+        "más o menos cercano a los puntos da un número alto. Con el R² medido contra el promedio, que "
+        f"es el que sí se puede comparar, el refinado cae a {f(c17['r2_media'])} en la serie completada "
+        f"y a {f(o17['r2_media'])} en la observada. Los dos quedan por debajo de los de la 1.6. El RMSE "
+        f"también empeora, de {c16['rmse'] * 1000:.1f} a {c17['rmse'] * 1000:.1f} ppb en la serie "
+        "completada.")
     add_para(doc,
-        "Con los residuales pasa lo mismo. El modelo de la 1.6 tiene residual medio cero, como debe "
-        "ser en una regresión con intercepto. El refinado tiene un residual medio de "
-        f"{c17['sesgo'] * 1000:+.2f} ppb en la serie completada: en promedio se queda corto y "
-        "subestima el NO₂. La Figura 1 lo muestra comparando lo real con lo estimado, y la Figura 2 "
-        "con los residuales.", keep=True)
+        "Los residuales tampoco mejoraron. En la 1.6 su promedio es cero, que es lo normal cuando el "
+        f"modelo tiene intercepto. En el refinado el promedio es de {c17['sesgo'] * 1000:+.1f} ppb, o sea "
+        "que en general el modelo se queda corto. Las Figuras 1 y 2 lo muestran.", keep=True)
     add_pic(doc, p_rv, 6.4)
     add_caption(doc, "Figura 1. NO₂ real contra NO₂ estimado por el modelo de la Tarea 1.6 y por el "
                      "modelo refinado, serie completada depurada. La línea punteada es la predicción perfecta.")
@@ -279,31 +268,33 @@ def build():
     add_caption(doc, "Figura 2. Residuales de los dos modelos, serie completada depurada. Arriba, "
                      "residuales contra valor estimado con su promedio móvil; abajo, su distribución.")
     add_para(doc,
-        "En la parte de arriba de la Figura 2 se ve el problema. En el modelo de la 1.6 el promedio "
-        "móvil de los residuales queda pegado al cero en casi todo el rango. En el refinado tiene una "
-        "pendiente clara: queda por encima de cero cuando el NO₂ estimado es bajo y por debajo cuando "
-        "es alto. O sea, en las horas con pocas partículas el modelo predice casi nada de NO₂ cuando "
-        "en realidad sí hay, y en las horas con muchas partículas se pasa. Un residual con tendencia "
-        "así indica que al modelo le falta algo, en este caso la constante. (La línea recta de puntos "
-        "que se ve arriba en las dos gráficas son las horas imputadas que quedaron fijas en el valor "
-        f"límite de {t16.pred15(t16.co_lim):.3f} ppm en la Tarea 1.6.) En el histograma "
-        "de abajo la distribución de los residuales del modelo refinado está corrida a la derecha del "
-        "cero. Lo que no cambia casi nada es la correlación entre el NO₂ real y el estimado "
-        f"({f(c16['r_y_yhat'])} contra {f(c17['r_y_yhat'])}), así que los dos modelos ordenan igual "
-        "las horas de más a menos contaminadas; lo que el refinado pierde es el nivel.")
+        "Lo más claro está en la parte de arriba de la Figura 2. En la 1.6 la línea roja, que es el "
+        "promedio móvil de los residuales, se mantiene casi pegada al cero. En el refinado va "
+        "bajando. Cuando el modelo estima poco NO₂ los residuales son positivos, y cuando estima "
+        "mucho son negativos. Eso quiere decir que en horas con pocas partículas el modelo predice "
+        "muy poco NO₂ cuando sí lo hay, y en horas con muchas partículas se pasa. Si los residuales "
+        "tienen una tendencia así, al modelo le falta algo, y aquí lo que le falta es la constante. "
+        "En el histograma de abajo también se nota, porque los residuales del refinado están "
+        "corridos a la derecha del cero.")
+    add_para(doc,
+        "Hay dos detalles más en la figura. La línea recta de puntos que se ve en la parte de arriba "
+        "son horas imputadas que en la 1.6 quedaron fijas en el valor límite de "
+        f"{t16.pred15(t16.co_lim):.3f} ppm. Y la correlación entre el NO₂ real y el estimado casi no "
+        f"cambia ({f(c16['r_y_yhat'])} y {f(c17['r_y_yhat'])}). Los dos modelos ordenan las horas casi "
+        "igual de más a menos contaminadas; el refinado lo que pierde es el nivel.")
 
     add_heading(doc, "3.3 ¿Cómo se relacionan las partículas entre sí?", level=2)
     add_para(doc,
-        "El PM10 y el PM2.5 son, por mucho, el par más correlacionado de todo el análisis "
-        f"(r = {f(rl_o.loc['PM10', 'PM2.5'])} con datos observados y {f(rl_c.loc['PM10', 'PM2.5'])} en la "
-        "serie completada, ya sin atípicos). Tiene sentido, porque el PM10 incluye al PM2.5. Una recta "
-        f"por el origen lo resume bien: PM2.5 ≈ {O['frac']:.2f}·PM10 (R²₀ = {f(O['frac_r2'])}), o sea "
-        f"que alrededor del {O['frac'] * 100:.0f} % de la masa de PM10 son partículas finas. El VIF de "
-        f"{f(O['vif'], 2)} en los datos observados confirma que hay colinealidad moderada entre las dos.")
+        "El PM10 y el PM2.5 son el par con la correlación más alta de todo el análisis, "
+        f"{f(rl_o.loc['PM10', 'PM2.5'])} con los datos observados y {f(rl_c.loc['PM10', 'PM2.5'])} en la "
+        "serie completada. Era de esperarse, porque el PM2.5 forma parte del PM10. Con una recta por "
+        f"el origen me salió PM2.5 ≈ {O['frac']:.2f}·PM10 (R²₀ = {f(O['frac_r2'])}), es decir, cerca "
+        f"del {O['frac'] * 100:.0f} % del PM10 son partículas finas. El VIF de {f(O['vif'], 2)} indica "
+        "colinealidad moderada entre las dos.")
     add_para(doc,
-        "Para ver si había distintos tipos de horas según sus partículas, apliqué K-medias a las "
-        "horas observadas. La curva del codo (Figura 3, derecha) baja rápido hasta k = 3 y luego se "
-        "aplana, así que usé tres grupos. Sus promedios están en la Tabla 3.", keep=True)
+        "Con K-medias quería ver si había distintos tipos de horas según sus partículas. En la "
+        "gráfica del codo (Figura 3, derecha) la J baja mucho hasta k = 3 y después casi no cambia, "
+        "así que me quedé con tres grupos. Sus promedios están en la Tabla 3.", keep=True)
     add_pic(doc, p_pm, 6.4)
     add_caption(doc, "Figura 3. Izquierda: PM2.5 contra PM10 con los tres grupos de K-medias (las cruces "
                      "son los centroides) y la recta por el origen. Derecha: J para k de 1 a 7. Horas "
@@ -314,51 +305,51 @@ def build():
                "Tabla 3. Promedio de cada grupo de K-medias (k = 3), horas con NO₂ observado.",
                [1.0, 0.8, 1.1, 1.1, 1.0, 0.9])
     add_para(doc,
-        "Los grupos no separan tipos de partículas sino niveles de contaminación: bajo, medio y "
-        "alto. Los tres caen sobre la misma diagonal, y la proporción de finas cambia poco, de "
-        f"{f(grupos.loc[0, 'ratio'], 2)} en el grupo bajo a {f(grupos.loc[2, 'ratio'], 2)} en el alto. Esto refuerza la idea de que el PM10 y el PM2.5 se "
-        "mueven casi como una sola variable. Lo interesante es que el NO₂ también sube de grupo en "
-        f"grupo, de {f(grupos.loc[0, 'NO2'] * 1000, 1)} a {f(grupos.loc[2, 'NO2'] * 1000, 1)} ppb, aunque "
-        "el NO₂ no se usó para formar los grupos. Pero incluso en el grupo bajo el NO₂ promedio es de "
-        f"{f(grupos.loc[0, 'NO2'] * 1000, 1)} ppb, lejos de cero, y eso explica por qué forzar el "
-        "modelo por el origen no funciona aquí.")
+        "No salieron tipos de partículas distintos. Los tres grupos están sobre la misma diagonal y "
+        "lo que los separa es qué tanta contaminación hay, poca, media o mucha. La proporción de "
+        f"finas cambia poco, de {f(grupos.loc[0, 'ratio'], 2)} en el grupo bajo a "
+        f"{f(grupos.loc[2, 'ratio'], 2)} en el alto. Esto me confirma que el PM10 y el PM2.5 se mueven "
+        "casi como si fueran una sola variable.")
+    add_para(doc,
+        "Lo que sí me llamó la atención es el NO₂. No lo usé para formar los grupos y aun así sube de "
+        f"uno a otro, de {f(grupos.loc[0, 'NO2'] * 1000, 1)} a {f(grupos.loc[2, 'NO2'] * 1000, 1)} ppb. "
+        "Además, en el grupo con menos partículas el NO₂ sigue en "
+        f"{f(grupos.loc[0, 'NO2'] * 1000, 1)} ppb, que está lejos de cero. Ahí se ve por qué el modelo "
+        "por el origen no funciona con estos datos.")
 
     # ---------------- 4. Interpretacion
     add_heading(doc, "4. ¿Qué nos dice este modelo?")
     p16 = c16["m"].params; p17 = c17["m"].params
     add_para(doc,
-        "En el modelo refinado de la serie completada, cada µg/m³ de PM10 se asocia con "
+        "En el modelo refinado de la serie completada, cada µg/m³ de PM10 va con "
         f"{p17['PM10'] * 1000:.2f} ppb de NO₂ y cada µg/m³ de PM2.5 con {p17['PM2.5'] * 1000:.2f} ppb. "
-        "Los dos coeficientes salieron más grandes que en la 1.6 "
-        f"({p16['PM10'] * 1000:.2f} y {p16['PM2.5'] * 1000:.2f}). No es que las partículas ahora pesen "
-        "más, sino que, al quitarle el intercepto, las pendientes tienen que absorber el NO₂ que antes "
-        f"explicaba la constante, que era de {p16['const'] * 1000:.1f} ppb en la serie completada y "
-        f"de {o16['m'].params['const'] * 1000:.1f} ppb en la observada, y que era claramente distinta de cero.")
+        f"En la 1.6 eran {p16['PM10'] * 1000:.2f} y {p16['PM2.5'] * 1000:.2f}. Las pendientes crecieron "
+        "porque, al quitar la constante, tienen que cargar con el NO₂ que antes explicaba ella. Esa "
+        f"constante valía {p16['const'] * 1000:.1f} ppb en la serie completada y "
+        f"{o16['m'].params['const'] * 1000:.1f} ppb en la observada, y en los dos casos era "
+        "significativa.")
     add_para(doc,
-        "Esa constante tiene una lectura física. Con el CO forzar el origen funcionaba, porque los dos "
-        "salen del mismo escape de los coches. Con las partículas no pasa lo mismo: hay horas con "
-        "poco polvo y poco PM2.5 que siguen teniendo NO₂ por el tráfico, y horas con muchas partículas "
-        "por polvo o construcción que no tienen tanto NO₂. Las partículas tienen fuentes que el NO₂ no "
-        "comparte, así que no hay razón para que el NO₂ valga cero cuando las partículas valen cero. "
-        "El modelo refinado lo deja ver: al quitar la constante, el ajuste empeora y los residuales "
-        "quedan sesgados.")
+        "Creo que la razón es física. Con el CO funcionó forzar el origen porque el CO y el NO₂ salen "
+        "del mismo escape. Las partículas, en cambio, también vienen del polvo, de la construcción y "
+        "de otras cosas que no producen NO₂. Hay horas con pocas partículas en las que sigue habiendo "
+        "NO₂ por el tráfico, y horas con mucho polvo y no tanto NO₂. Por eso no tiene sentido que el "
+        "NO₂ sea cero cuando las partículas son cero, y el modelo refinado lo confirma, porque al "
+        "quitar la constante ajusta peor y los residuales quedan sesgados.")
 
     # ---------------- 5. Conclusiones
     add_heading(doc, "5. Conclusiones")
     add_para(doc,
-        "Quitar los atípicos de NO₂, PM10 y PM2.5 bajó la correlación, porque esas horas extremas, en "
-        "las que todo sube al mismo tiempo, la estaban inflando. El resultado depurado es más débil, "
-        "pero más honesto. Forzar el plano por el origen subió el R² del modelo de "
-        f"{f(c16['r2_modelo'])} a {f(c17['r2_modelo'])}, pero es un efecto de cómo se calcula ese R² "
-        f"sin intercepto. Medido contra el promedio bajó a {f(c17['r2_media'])}, el RMSE subió y los "
-        "residuales quedaron con un sesgo positivo, así que el modelo refinado es peor que el de la 1.6.")
+        "Al quitar los atípicos la correlación bajó, porque esas horas extremas la estaban inflando. "
+        "Forzar el plano por el origen hizo que el R² del modelo subiera de "
+        f"{f(c16['r2_modelo'])} a {f(c17['r2_modelo'])}, pero eso es por la forma en que se calcula sin "
+        f"intercepto. Comparado de forma justa bajó a {f(c17['r2_media'])}, el RMSE subió y los "
+        "residuales quedaron sesgados. En resumen, el modelo refinado es peor que el de la 1.6.")
     add_para(doc,
-        f"El PM10 y el PM2.5 están muy relacionados (r ≈ {f(rl_o.loc['PM10', 'PM2.5'], 2)}) y el PM2.5 es "
-        f"cerca del {O['frac'] * 100:.0f} % del PM10. K-medias no encontró grupos de distinto tipo, solo "
-        "niveles de contaminación sobre la misma diagonal, y el NO₂ sube junto con esos niveles. Para "
-        "describir el NO₂ con partículas me quedaría con el modelo con intercepto de la Tarea 1.6, o "
-        "con la separación en fracción fina y gruesa, y dejaría la recta por el origen para pares "
-        "como el NO₂ y el CO, que sí comparten fuente.")
+        f"El PM10 y el PM2.5 están muy relacionados y el PM2.5 es más o menos el {O['frac'] * 100:.0f} % "
+        "del PM10. K-medias no encontró tipos de horas distintos, solo niveles de contaminación, y el "
+        "NO₂ sube junto con ellos. Si tuviera que describir el NO₂ con partículas usaría el modelo con "
+        "intercepto de la 1.6 o el de fracción fina y gruesa. La recta por el origen la dejaría para "
+        "casos como el NO₂ con el CO, que sí vienen de la misma fuente.")
 
     add_heading(doc, "Referencias")
     add_apa(doc, "Montgomery, D. C., Peck, E. A., & Vining, G. G. (2021). Introduction to linear "
