@@ -81,14 +81,14 @@ materia/
 | [Programación II](2do-semestre/programacion-ii/) | DSI | Python · pyodbc · SQL Server · Power BI | Python avanzado, procedimientos almacenados, análisis del dataset Defunciones_2000 (10M registros) | [censo-salud-mexico-2000](https://github.com/Carpuro/censo-salud-mexico-2000) |
 | [Tópicos Selectos de GBD I](2do-semestre/topicos-selectos-i/) | DSI | Python · NumPy · python-docx | Diseño y análisis de agentes de IA; árboles de decisión, simulación Monte Carlo, viabilidad de inversión | — |
 
-## Tercer Semestre *(próximo)*
+## Tercer Semestre *(en curso, 2026B)*
 
-| Materia | Depto | Herramientas (esperadas) |
-|---------|-------|--------------------------|
-| Econometría | DPE | R · statsmodels · series de tiempo |
-| Visualización de Grandes Bases de Datos | DSI | Power BI · Grafana · D3.js |
-| Desarrollo de Proyecto I | DSI | Python · Spark · SQL |
-| Tópicos Selectos de GBD II | DMC | — |
+| Materia | Depto | Herramientas | Contenido | Repositorio |
+|---------|-------|--------------|-----------|-------------|
+| [Econometría](3er-semestre/econometria/) | DPE | Python · statsmodels | Series de tiempo, modelos ARIMA y SARIMA (PIB de México y petróleo) | — |
+| [Visualización de Grandes Bases de Datos](3er-semestre/visualizacion-grandes-bases-datos/) | DSI | Python · Matplotlib · statsmodels · scikit-learn | Calidad del aire SIMAJ 2024: atípicos, series de tiempo, correlación, regresión múltiple, imputación, K-medias. 8 tareas | — |
+| [Desarrollo de Proyecto I](3er-semestre/desarrollo-proyecto-i/) | DSI | Python · python-docx | Protocolo de investigación de la tesis y análisis de referencias | [ai-automation-risk-jalisco](https://github.com/Carpuro/ai-automation-risk-jalisco) |
+| [Tópicos Selectos de GBD II](3er-semestre/topicos-selectos-ii/) | DMC | Python · NumPy · marimo | Deep learning desde cero: neurona, perceptrón, capa oculta y red profunda en NumPy. 4 actividades | [Material del profesor](https://github.com/IvTole/Topicos_Selectos_II_CUCEA) |
 
 ## Cuarto Semestre *(próximo)*
 

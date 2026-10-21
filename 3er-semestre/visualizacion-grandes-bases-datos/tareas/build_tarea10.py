@@ -19,9 +19,9 @@ BASE = r"C:\Users\carlo\GitHub\mcd_cucea"
 TEMPLATE = BASE + r"\_recursos\plantillas\plantilla_informe_MCD.docx"
 COURSE = BASE + r"\3er-semestre\visualizacion-grandes-bases-datos"
 DATA = COURSE + r"\datos\BD_2024_calidad_aire.xlsx"
-OUTDIR = COURSE + r"\tareas\Tarea1"
+OUTDIR = COURSE + r"\tareas\Tarea1_0"
 FIG = OUTDIR + r"\boxplot_co_country.png"
-DOCX = OUTDIR + r"\Tarea1_VisualizacionGBD_CarlosPulidoRosas.docx"
+DOCX = OUTDIR + r"\Tarea1_0_VisualizacionGBD_CarlosPulidoRosas.docx"
 
 NAVY = RGBColor(0x1F, 0x49, 0x7D)
 AMBER = RGBColor(0xD4, 0x8C, 0x00)

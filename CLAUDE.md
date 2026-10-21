@@ -38,13 +38,41 @@ Backups are done with `git push`, never with OneDrive.
   - **Country (COU)** is the closest to home, but it only has CO for September and does not measure NO2.
     Use it for single-period analysis (tasks 1.0 to 1.2).
   - **Centro (CEN)** has full-year coverage for O3, CO and PM, but NO2/NO/NOX only from September to December 2024.
-    Use it for monthly and correlation analysis (tasks 1.3 and 1.4).
+    Use it for monthly, correlation and regression analysis (tasks 1.3 onward).
+    No SIMAJ station measures NO2 before August 2024.
 - Delivered tasks: 1.0 (boxplot and IQR outliers), 1.1 (Tukey quartiles), 1.2 (histogram vs IMECA norm),
   1.3 (time series, moving averages, boxplots by hour and month), 1.4 (correlation with NO2),
   1.5 (homogeneous corpus, Tukey outlier exclusion, regression through the origin, heatmaps),
   1.6 (NO2 imputation from CO with capped model 1.5, multiple regression NO2 ~ PM10 + PM2.5, collinearity),
   1.7 (refined multiple regression through the origin vs 1.6, residuals, PM10-PM2.5 relation with K-means).
-- Each task has a `build_tarea*.py` script in `tareas/` that fills the report template and exports the PDF with LibreOffice.
+- Each task has a `build_tarea*.py` script in `tareas/` (task 1.0 is `build_tarea10.py`) that fills the
+  report template and exports the PDF with LibreOffice. Outputs go to `tareas/Tarea1_N/`.
+  `build_tarea17.py` imports `build_tarea16.py` for the data preparation.
+- Deliverable names: `Tarea1_N_VisualizacionGBD_CarlosPulidoRosas.pdf`. Copy the final PDF to Downloads.
+
+### Tópicos Selectos de GBD II: current status
+- Professor material: https://github.com/IvTole/Topicos_Selectos_II_CUCEA (marimo notebooks, one folder per topic).
+- Each activity starts from the professor's notebook, keeps his code and questions, and adds answers
+  backed by experiments that reuse his functions with fixed settings (the widgets only show one case).
+- Deliverables per activity in `tareas/ActividadN/`: `ActividadN_TopicosGBDII_CarlosPulidoRosas.py`
+  (marimo, the deliverable), `.ipynb` (exported with outputs, kernelspec set) and `.html`, plus
+  `README.md` and `requirements.txt`. Two notebooks in one topic are `ActividadN_1_…` and `ActividadN_2_…`.
+- Export: `conda run -n MCD marimo export ipynb <f>.py -o <f>.ipynb --include-outputs -f` and
+  `marimo export html`; verify with `marimo check` and `jupyter nbconvert --execute`.
+- Use markdown tables (`tabla_md` helper), not `mo.ui.table`, so tables render in Jupyter and GitHub.
+- The repo is public; the professor gets the folder link. PyTorch is not installed in the MCD env yet.
+- Delivered: 1 (single-neuron regression), 2 (perceptron limits, XOR), 3 (one hidden layer, two
+  notebooks), 4 (deep network with `layer_dims`).
+
+### Desarrollo de Proyecto I: current status
+- `tareas/Protocolo/`: `build_protocolo.py` fills the official CUCEA template; text in `contenido_protocolo.py`.
+  Formatting follows `_recursos/Lineamientos presentación de trabajos MCD Ver 2.0.docx`.
+- `tareas/Actividad_Referencias/`: `build_referencias.py` builds the 16-reference analysis and Excel table.
+- Thesis data comes only from the thesis repo (`ai-automation-risk-jalisco`); every external datum cited in APA 7.
+
+### Writing style for coursework
+- Spanish, first person, natural student voice; no em-dashes; avoid stock AI phrases.
+- Every number in the text must match what the script or notebook computes.
 
 ## Per-subject structure (standard, applies to all 16 subjects)
 ```
