@@ -753,7 +753,7 @@ def _(mo):
         optimizer.step()              # update_parameters_deep
     ```
 
-    Dos diferencias que vale la pena notar. PyTorch usa la convención contraria a la de la clase:
+    Noté dos diferencias con lo que hicimos en clase. PyTorch usa la convención contraria:
     las observaciones van en las **filas**, así que `X` tendría forma $(m, 2)$ en lugar de $(2, m)$.
     Y `loss.backward()` no necesita que guardemos un `cache`, porque PyTorch registra las
     operaciones mientras se hace el forward y de ahí calcula las derivadas solo.
@@ -763,8 +763,8 @@ def _(mo):
     Generalizar con `layer_dims` permite cambiar la profundidad sin reescribir el código, pero más
     capas no significan mejor resultado. En estos datos una o dos capas ya bastan, y las redes
     profundas y angostas fallan por neuronas `ReLU` muertas o por desvanecimiento del gradiente con
-    `tanh`. Lo que importa es que la arquitectura, la activación, la inicialización y el learning
-    rate funcionen juntos.
+    `tanh`. Lo que me quedó de esta actividad es que la arquitectura, la activación, la
+    inicialización y el learning rate se tienen que ajustar juntos; cambiar solo uno no basta.
     """)
     return
 
