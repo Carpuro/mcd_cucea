@@ -455,8 +455,15 @@ def _(
         Entrena la red con una capa oculta usando las funciones del notebook.
         Es el mismo ciclo de nn_model, pero permite cambiar la semilla de inicialización.
 
+        Argumentos:
+        n_h -- número de neuronas ocultas
+        nombre -- activación oculta ("tanh" o "relu")
+        learning_rate -- tasa de aprendizaje
+        iteraciones -- número de actualizaciones
+        semilla -- semilla de initialize_parameters
+
         Retorna:
-        exactitud, costo final y parámetros
+        exactitud, costo final y parámetros entrenados
         """
         p = initialize_parameters(X_exp.shape[0], n_h, 1, nombre, semilla)
         for _i in range(iteraciones):
@@ -614,7 +621,7 @@ def _(mo):
       96.8 % y 97.2 %. Lo que pasa es que el entrenamiento cayó en un mínimo local: desde ese punto
       de partida no encuentra cómo mejorar, aunque exista una mejor solución.
 
-    La lección que me llevo es que un resultado estancado no basta para concluir que le falta
+    Con esto me quedó claro que un resultado estancado no basta para concluir que le falta
     capacidad al modelo. Hay que probar si cambiando la optimización (tasa, iteraciones,
     inicialización) el resultado se mueve antes de cambiar la arquitectura.
     """)

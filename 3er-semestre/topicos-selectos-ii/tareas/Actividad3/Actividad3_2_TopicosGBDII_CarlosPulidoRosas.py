@@ -456,7 +456,7 @@ def _(mo):
     información con el signo cambiado.
 
     No todas son necesarias. Al apagar la neurona 3 la exactitud se queda en 100 %, así que lo que
-    aporta ya lo cubren las otras. Tiene sentido con lo que vi en la pregunta 1: es la de pesos
+    aporta ya lo cubren las otras. Cuadra con lo que vi en la pregunta 1: es la de pesos
     más chicos y la que menos se "decide". En cambio, sin la neurona 1 la exactitud cae a 77.2 %, y
     sin la 4 o la 2 baja a 94.0 % y 91.6 %. Estas tres son las que cargan con la forma de la
     frontera. En la siguiente pregunta lo confirmo, porque con tres neuronas la red ya llega al
