@@ -465,10 +465,13 @@ def _(mo, resultados_base):
     al azar, y el costo se queda en {_x["costo"]:.4f}, que es $\ln 2$. Ese número no es casualidad:
     es la entropía cruzada que se obtiene cuando el modelo predice 0.5 para todo. Los pesos se
     quedan prácticamente en su valor inicial ($w_1 \approx$ {_x["parametros"]["W"][0, 0]:.3f},
-    $w_2 \approx$ {_x["parametros"]["W"][0, 1]:.3f}). Como XOR es simétrico, cualquier recta que
-    deje de un lado más puntos rojos también deja la misma cantidad de azules, así que el
-    gradiente se cancela y la neurona no tiene hacia dónde moverse. La mejor "recta" que encuentra
-    es no decidir nada.
+    $w_2 \approx$ {_x["parametros"]["W"][0, 1]:.3f}). La razón está en el gradiente,
+    $dW = \frac{{1}}{{m}}(\hat y - y)X^T$. Al inicio $\hat y \approx 0.5$ para todos los puntos, y en
+    XOR las dos clases tienen el mismo centro, alrededor de $(0, 0)$, porque cada clase ocupa dos
+    esquinas opuestas. Entonces los términos de una clase se cancelan con los de la otra y $dW$
+    sale prácticamente cero, así que la neurona no tiene hacia dónde moverse. Como la entropía
+    cruzada de una neurona sigmoide es convexa, ese punto no es un mínimo local donde se atoró:
+    es lo mejor que puede hacer un modelo lineal con estos datos, y lo mejor es no decidir nada.
     """)
     return
 
@@ -496,7 +499,7 @@ def _(experimento, mo):
 def _(mo):
     mo.md(r"""
     No, la limitación no desaparece. Probé desde 100 hasta 20,000 iteraciones y la exactitud se
-    queda en 50 % con el costo clavado en 0.6931 en todos los casos. Entrenar más tiempo sirve
+    queda en 50 % con el costo fijo en 0.6931 en todos los casos. Entrenar más tiempo sirve
     cuando el modelo todavía no llega a su mejor solución, pero aquí ya llegó desde el principio:
     la mejor frontera lineal posible para XOR sigue clasificando mal a la mitad de los puntos.
     """)
