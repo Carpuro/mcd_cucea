@@ -1,0 +1,7 @@
+# versiones con las que se probó el notebook (Python 3.13)
+marimo==0.25.1
+numpy==2.3.5
+matplotlib==3.10.1
+scikit-learn==1.8.0
+# solo para abrir la versión .ipynb
+jupyter
