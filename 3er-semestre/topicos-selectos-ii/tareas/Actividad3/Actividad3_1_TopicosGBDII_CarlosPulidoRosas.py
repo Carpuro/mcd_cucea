@@ -545,19 +545,44 @@ def _(entrenar, mo):
     return
 
 
+@app.cell
+def _(ListedColormap, X_exp, entrenar, forward_propagation, np, plt, y_exp):
+    # misma arquitectura (4 neuronas), solo cambia la activación
+    _g1, _g2 = np.meshgrid(np.linspace(X_exp[0].min() - 0.5, X_exp[0].max() + 0.5, 250),
+                           np.linspace(X_exp[1].min() - 0.5, X_exp[1].max() + 0.5, 250))
+    _malla = np.vstack((_g1.ravel(), _g2.ravel()))
+    fig_2, ax_2 = plt.subplots(1, 2, figsize=(11, 4.2))
+    for _ax, _act in zip(ax_2, ["tanh", "relu"]):
+        _acc, _cost, _p = entrenar(n_h=4, nombre=_act)
+        _a, _ = forward_propagation(_malla, _p, _act)
+        _a = _a.reshape(_g1.shape)
+        _ax.contourf(_g1, _g2, _a, levels=np.linspace(0, 1, 21), cmap="RdBu_r", alpha=0.6)
+        _ax.contour(_g1, _g2, _a, levels=[0.5], colors="black", linewidths=2)
+        _ax.scatter(X_exp[0], X_exp[1], c=y_exp.ravel(), cmap=ListedColormap(["blue", "red"]),
+                    edgecolor="white", s=25)
+        _ax.set(title=f"4 neuronas, {_act}: exactitud {_acc:.1%}", xlabel="$x_1$", ylabel="$x_2$")
+    fig_2.tight_layout()
+    fig_2
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     Con los valores por defecto (cuatro neuronas) las dos funcionan casi igual: 97.2 % con `tanh` y
-    98.0 % con `ReLU`, y el costo final es prácticamente el mismo. Al variar el número de neuronas
-    sí aparece una diferencia. Con `tanh` basta con tres neuronas para llegar a 96.8 %, mientras
-    que `ReLU` con tres se queda en 87.2 % y necesita cuatro.
+    98.0 % con `ReLU`, y el costo final es prácticamente el mismo. Donde sí se nota la diferencia es
+    en la forma de la frontera. Con `tanh` la curva es suave, porque $\tanh$ cambia de manera
+    gradual. Con `ReLU` la frontera se arma con tramos rectos que se quiebran en esquinas, porque
+    cada neurona vale cero de un lado de su recta y crece en línea recta del otro; sumar varias de
+    esas funciones da algo que se dobla por partes, no una curva.
 
-    La diferencia viene de la forma de cada función. `tanh` es suave y simétrica, y sus valores
-    van de −1 a 1. `ReLU` vale cero para todo $z < 0$, así que cada neurona solo aporta de un lado
-    de su recta, y con pocas neuronas eso le deja menos margen para armar la curva. Con ocho o
-    doce neuronas las dos quedan alrededor de 97 %, de modo que con suficientes neuronas la
-    elección de activación pesa poco en este problema.
+    En la tabla también aparece una diferencia con tres neuronas: `tanh` llega a 96.8 % y `ReLU`
+    se queda en 87.2 %. Al principio pensé que era porque a `ReLU` le hacían falta más neuronas,
+    pero en la pregunta 3 vi que no es así: con otra inicialización, `ReLU` con tres neuronas llega
+    a 97 %. Con `ReLU` el resultado depende más del punto de partida, porque una neurona que queda
+    en cero para casi todos los puntos deja de recibir gradiente de ese lado. Con ocho o doce
+    neuronas las dos quedan alrededor de 97 %, así que en este problema la activación cambia sobre
+    todo la forma de la frontera y qué tan estable es el entrenamiento, no qué tan bien clasifica.
     """)
     return
 
@@ -624,6 +649,48 @@ def _(mo):
     Con esto me quedó claro que un resultado estancado no basta para concluir que le falta
     capacidad al modelo. Hay que probar si cambiando la optimización (tasa, iteraciones,
     inicialización) el resultado se mueve antes de cambiar la arquitectura.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Comprobación: la red sin función de activación
+
+    Arriba, en la sección "¿Por qué necesitamos una función de activación?", se explica que sin
+    activación varias capas equivalen a una sola capa lineal. Quise comprobarlo, porque también es
+    un caso de falta de capacidad. Entrené la misma red de cuatro neuronas con $A^{[1]} = Z^{[1]}$, que
+    hace que la derivada de la activación valga 1.
+    """)
+    return
+
+
+@app.cell
+def _(X_exp, initialize_parameters, mo, np, y_exp):
+    _p = initialize_parameters(2, 4, 1, "tanh", 42)
+    _m = X_exp.shape[1]
+
+    def _sig(z):
+        return 1.0 / (1.0 + np.exp(-np.clip(z, -500, 500)))
+
+    for _i in range(3000):
+        _A1 = _p["W1"] @ X_exp + _p["b1"]               # sin activación: A1 = Z1
+        _A2 = _sig(_p["W2"] @ _A1 + _p["b2"])
+        _dZ2 = _A2 - y_exp
+        _dZ1 = _p["W2"].T @ _dZ2                        # la derivada de la identidad es 1
+        _p["W2"] -= 0.8 * (_dZ2 @ _A1.T) / _m
+        _p["b2"] -= 0.8 * np.sum(_dZ2, axis=1, keepdims=True) / _m
+        _p["W1"] -= 0.8 * (_dZ1 @ X_exp.T) / _m
+        _p["b1"] -= 0.8 * np.sum(_dZ1, axis=1, keepdims=True) / _m
+    _A2 = _sig(_p["W2"] @ (_p["W1"] @ X_exp + _p["b1"]) + _p["b2"])
+    exactitud_lineal = float(np.mean((_A2 > 0.5) == y_exp))
+    mo.md(rf"""
+    Con cuatro neuronas pero sin activación la exactitud es de **{exactitud_lineal:.1%}**, casi lo
+    mismo que con una sola neurona (84.4 %) y muy lejos del 97.2 % con `tanh`. Las cuatro neuronas
+    no sirven de nada si no hay activación, porque $W^{{[2]}}W^{{[1]}}$ se puede juntar en una sola
+    matriz y la frontera vuelve a ser una recta. Esto confirma que lo que le da capacidad a la red
+    no es solo el número de neuronas, sino la activación no lineal entre capas.
     """)
     return
 

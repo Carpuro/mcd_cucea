@@ -501,7 +501,8 @@ def _(mo):
     datos nuevos entre 98.8 % y 98.9 %. A partir de ahí las neuronas extra no aportan, y como vimos en
     la pregunta 2, terminan repitiendo lo que ya hacen las demás.
 
-    Además, más neuronas no son gratis. Cada una agrega tres parámetros que hay que entrenar y,
+    Además, más neuronas no son gratis. Cada una agrega cuatro parámetros (sus dos pesos, su
+    sesgo y su peso de salida) que hay que entrenar y,
     con datos más ruidosos o con pocas observaciones, una red más grande puede empezar a ajustarse
     al ruido y doblar la frontera alrededor de puntos sueltos. En este problema eso no llegó a
     pasar, pero la conclusión es la misma: la frontera mejora hasta que la red tiene la capacidad
