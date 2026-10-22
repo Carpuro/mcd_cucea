@@ -22,7 +22,7 @@ OUT = os.path.join(HERE, "Protocolo_Investigacion_CarlosPulidoRosas.docx")
 FECHA = "21 de octubre de 2026"
 
 TITULO = ("Modelo de ciencia de datos para evaluar el riesgo de movilidad laboral por modelos de "
-          "inteligencia artificial: caso de estudio de ingeniería informática")
+          "inteligencia artificial: carreras de informática y ciencia de datos")
 
 doc = Document(LAYOUT)
 body = doc.element.body
