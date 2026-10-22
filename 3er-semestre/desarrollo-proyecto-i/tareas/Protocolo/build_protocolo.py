@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Desarrollo de Proyecto I - Research protocol filled directly on the official CUCEA template.
-Keeps the template cover (UdeG crest, CUCEA and MCD logos), its fonts, numbering and the
-footer of the body section (CUCEA logo + page number). Only the guide text is replaced.
-All figures come from the thesis repo (ai-automation-risk-jalisco); manufacturing-specific
-items that are not yet computed are written as planned work.
+Desarrollo de Proyecto I - Research protocol built on Carlos's cleaned copy of the official CUCEA
+template (layout_protocolo_cucea_2026.docx). Keeps the cover (UdeG crest, CUCEA and MCD logos), its
+fonts and the body-section footer (CUCEA logo + page number); replaces the title, date and body.
+Content lives in contenido_protocolo.py (occupational mobility focus, every datum cited in APA 7).
 """
 import copy
-import glob
 import os
 from docx import Document
 from docx.shared import Pt
@@ -16,48 +14,35 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE = glob.glob(os.path.join(HERE, "plantilla_protocolo_cucea_2026.docx"))[0]
+# Layout: Carlos's cleaned copy of the official CUCEA template (cover with UdeG crest, CUCEA and
+# MCD logos, body footer with CUCEA logo and page number). Only the cover placeholders and the body
+# are replaced; everything else in the layout is kept as is.
+LAYOUT = os.path.join(HERE, "layout_protocolo_cucea_2026.docx")
 OUT = os.path.join(HERE, "Protocolo_Investigacion_CarlosPulidoRosas.docx")
+FECHA = "21 de octubre de 2026"
 
-TITULO = ("Modelo de evaluación del riesgo de sustitución laboral mediante herramientas de ciencia "
-          "de datos: inteligencia artificial cognitiva y robótica en la industria manufacturera de "
-          "Jalisco")
+TITULO = ("Modelo de ciencia de datos para evaluar el riesgo de movilidad laboral por modelos de "
+          "inteligencia artificial: caso de estudio de ingeniería informática")
 
-doc = Document(TEMPLATE)
-P = doc.paragraphs
+doc = Document(LAYOUT)
 body = doc.element.body
 
-# ---------------- prototypes taken from the template itself -----------------
-PROTO = {
-    "titulo": copy.deepcopy(P[24]._p),     # centered, bold, 12 pt
-    "seccion": copy.deepcopy(P[54]._p),    # numbered section heading (List Paragraph)
-    "sub": copy.deepcopy(P[26]._p),        # bold justified subheading
-    "cuerpo": copy.deepcopy(P[28]._p),     # justified body, 12 pt, 1.5 spacing
-    "sangria": copy.deepcopy(P[55]._p),    # indented body
-}
 
-# ---------------- cover: fill only the placeholders --------------------------
 def set_text(par, text):
     runs = [r for r in par.runs if r._r.xpath("./w:t")]
     runs[0].text = text
     for r in runs[1:]:
         r.text = ""
 
-set_text(P[10], TITULO)
-set_text(P[14], "Carlos Pulido Rosas")
-set_text(P[20], "7 de octubre de 2026")
-set_text(P[22], "carlos.pulido.rosas@gmail.com")
-for r in P[23].runs:                       # keep the anchored CUCEA / MCD logos untouched
-    if "Teléfono" in r.text:
-        r.text = "Teléfono"
 
-# ---------------- remove the guide, keep the body-section footer ------------
+P = doc.paragraphs
+set_text(P[10], TITULO)
+set_text(P[19], FECHA)
+
+# ---------------- remove the old body, keep the cover and the body-section footer ----------
 elems = list(body)
-cover_break = elems[23]                    # paragraph holding the cover section break
-guide_break = elems[35]                    # paragraph holding the body section break (footer2)
-final_sect = body.find(qn("w:sectPr"))
-body.replace(final_sect, copy.deepcopy(guide_break.find(qn("w:pPr")).find(qn("w:sectPr"))))
-for el in elems[24:]:
+inicio = next(i for i, el in enumerate(elems) if "".join(el.itertext()).startswith("Protocolo de investigación"))
+for el in elems[inicio:]:
     if el.tag != qn("w:sectPr"):
         body.remove(el)
 END = body.find(qn("w:sectPr"))
