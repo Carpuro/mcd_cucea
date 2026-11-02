@@ -44,7 +44,8 @@ Backups are done with `git push`, never with OneDrive.
   1.3 (time series, moving averages, boxplots by hour and month), 1.4 (correlation with NO2),
   1.5 (homogeneous corpus, Tukey outlier exclusion, regression through the origin, heatmaps),
   1.6 (NO2 imputation from CO with capped model 1.5, multiple regression NO2 ~ PM10 + PM2.5, collinearity),
-  1.7 (refined multiple regression through the origin vs 1.6, residuals, PM10-PM2.5 relation with K-means).
+  1.7 (refined multiple regression through the origin vs 1.6, residuals, PM10-PM2.5 relation with K-means),
+  1.8 (Fenómeno X, datos_1.csv: quantization noise + redundancy aggregation, weighted K-means vs standard).
 - Each task has a `build_tarea*.py` script in `tareas/` (task 1.0 is `build_tarea10.py`) that fills the
   report template and exports the PDF with LibreOffice. Outputs go to `tareas/Tarea1_N/`.
   `build_tarea17.py` imports `build_tarea16.py` for the data preparation.
