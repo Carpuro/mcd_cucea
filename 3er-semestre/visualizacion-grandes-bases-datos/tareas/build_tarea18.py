@@ -231,72 +231,79 @@ def build():
     add_para(doc, sb=8, sa=0)
     add_heading(doc, "1. Introducción")
     add_para(doc,
-        f"El conjunto de datos es el Fenómeno X de la sesión 10: {num(n_total)} registros con la "
-        "longitud y la latitud de un fenómeno en la Zona Metropolitana de Guadalajara. Como se vio en "
-        "la sesión 9, un conjunto grande de datos no tiene necesariamente más información, porque es "
-        "común que tenga redundancia (valores repetidos) y ruido (ligeras variaciones de los valores "
-        "centrales). La tarea consiste en obtener el mejor número de agrupaciones con K-medias "
-        "estándar, quitar el ruido y la redundancia, volver a obtener el mejor número de agrupaciones "
-        "con el algoritmo modificado para datos agrupados y comparar ambos resultados.")
+        f"Para esta tarea usé el Fenómeno X de la sesión 10, que tiene {num(n_total)} registros con la "
+        "longitud y la latitud de un fenómeno en la Zona Metropolitana de Guadalajara. En la sesión 9 "
+        "vimos que tener muchos datos no significa tener más información, porque es común que haya "
+        "redundancia (valores repetidos) y ruido (ligeras variaciones de los valores centrales). Lo que "
+        "pide la tarea es encontrar el mejor número de agrupaciones con K-medias estándar, quitar el "
+        "ruido y la redundancia, volver a buscar el mejor número de agrupaciones con el algoritmo "
+        "modificado para datos agrupados y comparar los dos resultados.")
 
     # ---------------- 2
     add_heading(doc, "2. Metodología")
     add_heading(doc, "2.1 K-medias estándar", level=2)
     add_para(doc,
-        "K-medias agrupa los datos en k grupos minimizando J = Σ Σ ‖x_i − c_j‖², la suma de las "
-        "distancias euclidianas al cuadrado entre cada punto y el centroide de su grupo. En cada "
-        "iteración asigna cada punto al centroide más cercano y después re-centra cada centroide con "
-        "la media de sus puntos. Para que la comparación entre los dos abordajes fuera justa, igual "
-        "que en el ejemplo de la clase, usé los mismos centroides iniciales en ambos (los triángulos "
-        "rojos de las gráficas), elegidos con k-means++ sobre los datos originales y una semilla fija.")
+        "K-medias forma k grupos buscando que J = Σ Σ ‖x_i − c_j‖², la suma de las distancias "
+        "euclidianas al cuadrado de cada punto al centroide de su grupo, sea lo más chica posible. En "
+        "cada iteración manda cada punto al centroide más cercano y luego mueve cada centroide al "
+        "promedio de sus puntos. Como el resultado depende de dónde empiezan los centroides, usé los "
+        "mismos centroides iniciales en los dos abordajes, igual que en el ejemplo de la clase. Son "
+        "los triángulos rojos de las gráficas y los elegí con k-means++ sobre los datos originales, "
+        "con una semilla fija para que se pueda repetir.")
     add_para(doc,
-        "Para elegir el mejor número de agrupaciones probé de 2 a 12 grupos y apliqué el criterio del "
-        "codo: normalicé la curva de J y elegí la k que queda más lejos de la recta que une el primer "
-        "y el último punto, que es donde la curva deja de bajar rápido (Satopää et al., 2011). También "
-        "reporto la proporción between/total, la parte de la variación total que explican los grupos, "
-        "que es la medida que se usó en la sesión 10.")
+        "Para el mejor número de agrupaciones probé de 2 a 12 grupos y usé el criterio del codo. Para "
+        "no elegirlo a ojo, normalicé la curva de J y tomé la k que queda más lejos de la recta que va "
+        "del primer al último punto, que es donde la curva deja de bajar rápido (Satopää et al., 2011). "
+        "Además reporto la proporción between/total, la parte de la variación total que explican los "
+        "grupos, que fue la medida que usamos en la sesión 10.")
     add_heading(doc, "2.2 Ruido: cuantización de las coordenadas", level=2)
-    filas_p = [["Sin redondear", "", "", num(n_unicos_crudos)]] + [[f"{dec} decimales", f"{10 ** -dec:g}°", f"{111320 * 10 ** -dec:,.1f} m", num(prec[dec])]
-               for dec in [6, 5, 4, 3, 2]]
+    filas_p = [["Sin redondear", "", "", num(n_unicos_crudos)]] + [
+        [f"{dec} decimales", f"{10 ** -dec:.{dec}f}°", f"{111320 * 10 ** -dec:,.1f} m", num(prec[dec])]
+        for dec in [6, 5, 4, 3, 2]]
     add_para(doc,
-        "El ruido, en el sentido de la sesión 9, son variaciones muy pequeñas alrededor de un mismo "
-        "valor, como dos registros del mismo lugar cuyas coordenadas difieren en el quinto o sexto "
-        "decimal. Para quitarlo cuanticé las coordenadas, es decir, las redondeé a una precisión "
-        "fija. Para escoger la precisión revisé cuántos puntos distintos quedan con cada número de "
-        "decimales (Tabla 1).", keep=True)
+        "Tomé el ruido como lo definimos en la sesión 9: variaciones muy pequeñas alrededor de un "
+        "mismo valor. En estos datos eso se ve en registros que son prácticamente el mismo lugar pero "
+        "cuyas coordenadas cambian en el quinto o sexto decimal. Para quitarlo cuanticé las "
+        "coordenadas, o sea, las redondeé a una precisión fija. Antes de decidir cuántos decimales "
+        "dejar, conté cuántos puntos distintos quedan con cada opción (Tabla 1).", keep=True)
     make_table(doc, ["Redondeo", "Paso", "Distancia aproximada", "Puntos distintos"], filas_p,
                "Tabla 1. Puntos distintos según el número de decimales de las coordenadas.",
-               [1.4, 0.9, 1.5, 1.4], hl=3)
+               [1.4, 1.0, 1.5, 1.4], hl=3)
     add_para(doc,
-        f"Sin redondear hay {num(n_unicos_crudos)} coordenadas distintas, pero con solo 6 decimales "
-        f"bajan a {num(prec[6])}: casi 900 puntos se distinguían únicamente en decimales que "
-        f"equivalen a menos de un metro. De 6 a 4 decimales el cambio es pequeño ({num(prec[6])} "
-        f"contra {num(prec[4])}): las diferencias más allá del cuarto decimal, de menos de 11 metros, son "
-        "las ligeras variaciones que corresponden a ruido. Con 3 decimales ya se juntarían lugares "
-        "separados por unos 111 metros y se perdería estructura del fenómeno. Por eso redondeé a 4 "
-        "decimales.")
+        f"Sin redondear hay {num(n_unicos_crudos)} coordenadas distintas, y con 6 decimales ya bajan a "
+        f"{num(prec[6])}. Eso quiere decir que casi 900 puntos solo se distinguían por diferencias de "
+        f"menos de un metro. De 6 a 4 decimales el cambio es chico ({num(prec[6])} contra "
+        f"{num(prec[4])}), así que lo que hay después del cuarto decimal, menos de 11 metros, lo tomé "
+        "como ruido. Con 3 decimales ya se juntarían lugares que están a unos 111 metros entre sí, y "
+        "con 2 quedarían apenas 143 puntos para toda la zona, lo que borraría la forma del fenómeno. "
+        "Por eso me quedé con 4 decimales.")
     add_heading(doc, "2.3 Redundancia: agrupación de coordenadas repetidas", level=2)
     add_para(doc,
-        f"Después de redondear quedan {num(n_q)} coordenadas distintas para {num(n_total)} registros; "
-        f"{num(n_rep)} de ellas aparecen más de una vez y la más repetida aparece {max_rep} veces. "
-        "Los registros repetidos no dicen nada nuevo sobre dónde está el fenómeno, solo cuántas veces "
-        "ocurrió en ese lugar. Por eso los junté en un solo punto y le asigné un peso w_i igual al "
-        "número de registros que representa (Figura 1). Así el conjunto baja de "
-        f"{num(n_total)} a {num(n_q)} puntos, un {(1 - n_q / n_total) * 100:.1f} % menos, sin perder la "
-        "frecuencia.")
+        f"Ya redondeados, los {num(n_total)} registros caen en {num(n_q)} coordenadas distintas. De "
+        f"ellas, {num(n_rep)} se repiten y la que más se repite aparece {max_rep} veces. Que un mismo "
+        "punto aparezca muchas veces no dice nada nuevo sobre dónde está el fenómeno, solo cuántas "
+        "veces pasó ahí. Entonces junté cada coordenada repetida en un solo punto con un peso w_i igual "
+        f"al número de registros que representa (Figura 1). El conjunto pasa de {num(n_total)} a "
+        f"{num(n_q)} puntos, {(1 - n_q / n_total) * 100:.1f} % menos, y la frecuencia queda guardada "
+        "en el peso.")
     add_pic(doc, p_dat, 6.4)
     add_caption(doc, "Figura 1. Fenómeno X original (izquierda) y después de quitar ruido y redundancia "
                      "(derecha), donde el tamaño de cada punto es su peso.")
     add_heading(doc, "2.4 K-medias modificado para datos agrupados", level=2)
     add_para(doc,
-        "Como cada punto ahora representa varios registros, el algoritmo tiene que considerar su peso. "
-        "Siguiendo la sesión 10, la modificación está en el re-centrado: cada centroide se calcula "
-        "como la media ponderada de sus puntos, c_j = Σ w_i x_i / Σ w_i, de modo que se minimiza "
-        "Σ w_i ‖x_i − c_j‖². La asignación al centroide más cercano no cambia, y si todos los pesos "
-        "valen 1 se recupera el algoritmo estándar. Programé el algoritmo con NumPy y lo comparé "
-        "contra scikit-learn con pesos y los mismos centroides iniciales: la J ponderada de mi "
-        f"versión es {p_k['J']:.6f} y la de scikit-learn {J_sk:.6f} para k = {k_pond}, prácticamente "
-        f"iguales (la diferencia es de {abs(p_k['J'] - J_sk) / J_sk * 100:.2f} %).")
+        "Si a estos puntos les aplicara el algoritmo estándar, una coordenada que representa "
+        f"{max_rep} registros contaría lo mismo que una que representa uno. La modificación que vimos "
+        "en la sesión 10 está en el re-centrado: cada centroide se calcula como la media ponderada de "
+        "sus puntos, c_j = Σ w_i x_i / Σ w_i, y lo que se minimiza es Σ w_i ‖x_i − c_j‖². La asignación "
+        "de cada punto al centroide más cercano queda igual, y si todos los pesos valen 1 se regresa "
+        "al algoritmo estándar.")
+    add_para(doc,
+        "Hay una razón por la que esta versión debería dar casi lo mismo que el estándar: el promedio "
+        "de 10 registros en el mismo lugar es igual a ese lugar con peso 10. La única diferencia viene "
+        "del redondeo, que mueve cada punto unos metros como máximo. Programé el algoritmo con NumPy y "
+        "lo comparé contra scikit-learn con pesos y los mismos centroides iniciales; para k = "
+        f"{k_pond} la J ponderada de mi versión es {p_k['J']:.6f} y la de scikit-learn {J_sk:.6f}, una "
+        f"diferencia de {abs(p_k['J'] - J_sk) / J_sk * 100:.2f} %.")
 
     # ---------------- 3
     add_heading(doc, "3. Resultados")
@@ -310,40 +317,40 @@ def build():
                [0.5, 1.1, 1.6, 1.2, 1.7], hl=k_est - KS[0])
     gan = [(R["est"][k + 1]["bt"] - R["est"][k]["bt"]) * 100 for k in KS[:-1]]
     add_para(doc,
-        f"Con el algoritmo estándar el codo queda en k = {k_est}. Hasta ese punto cada grupo "
-        f"adicional explica bastante más variación (de 2 a 3 grupos se ganan {gan[0]:.1f} puntos "
-        f"porcentuales y de {k_est - 1} a {k_est}, {gan[k_est - 3]:.1f}), y después las ganancias bajan "
-        f"a {gan[k_est - 2]:.1f}, {gan[k_est - 1]:.1f} y {gan[k_est]:.1f} puntos. Con los datos procesados "
-        f"y el algoritmo modificado el codo también queda en k = {k_pond}, y las dos curvas de la "
-        "Figura 2 prácticamente se enciman.")
+        f"Con el algoritmo estándar el codo queda en k = {k_est}. Hasta ahí cada grupo nuevo explica "
+        f"bastante más variación: de 2 a 3 grupos se ganan {gan[0]:.1f} puntos porcentuales y de "
+        f"{k_est - 1} a {k_est} todavía {gan[k_est - 3]:.1f}. Después las ganancias bajan a "
+        f"{gan[k_est - 2]:.1f}, {gan[k_est - 1]:.1f} y {gan[k_est]:.1f} puntos, así que agregar grupos ya "
+        f"aporta poco. Con los datos procesados y el algoritmo modificado el codo vuelve a caer en "
+        f"k = {k_pond}; en la Figura 2 las dos curvas van una encima de la otra.")
     add_heading(doc, "3.2 Agrupaciones con el mejor k", level=2)
     add_pic(doc, p_g, 6.4)
     add_caption(doc, f"Figura 3. Agrupaciones con k = {k_est}. Los triángulos rojos son los centroides "
                      "iniciales, iguales en los dos abordajes, y las cruces son los centroides finales.")
     add_para(doc,
-        f"Las dos visualizaciones muestran los mismos {k_est} grupos. La proporción between/total es de "
-        f"{e_k['bt'] * 100:.2f} % en el estándar y {p_k['bt'] * 100:.2f} % en el modificado, los "
-        f"centroides se mueven como máximo {desp_pond:.1f} metros y solo el {ch_pond * 100:.2f} % de los "
-        "registros cambia de grupo. Es decir, el algoritmo modificado encuentra la misma estructura que "
-        f"el estándar, pero trabajando con {num(n_q)} puntos en lugar de {num(n_total)}.")
+        f"En las dos visualizaciones aparecen los mismos {k_est} grupos. La proporción between/total es "
+        f"de {e_k['bt'] * 100:.2f} % en el estándar y {p_k['bt'] * 100:.2f} % en el modificado, el "
+        f"centroide que más se mueve lo hace {desp_pond:.0f} metros y solo el {ch_pond * 100:.2f} % de "
+        "los registros cambia de grupo. El algoritmo modificado llega a la misma estructura que el "
+        f"estándar, pero trabajando con {num(n_q)} puntos en lugar de {num(n_total)}.")
     add_heading(doc, "3.3 Comparación con el ejemplo de la clase (k = 7)", level=2)
     add_para(doc,
-        "En la sesión 10 el ejemplo se hizo con k = 7 y se comparó el Fenómeno X con y sin redundancia. "
-        "Para relacionar mis resultados con ese ejemplo, la Figura 4 agrega un tercer caso: K-medias "
-        "estándar sobre los puntos sin redundancia pero sin usar los pesos.", keep=True)
+        "En la sesión 10 el ejemplo se hizo con k = 7, comparando el Fenómeno X con y sin redundancia. "
+        "Para poder relacionar mis resultados con ese ejemplo agregué un tercer caso en la Figura 4: "
+        "K-medias estándar sobre los puntos sin repetir, pero sin pesos.", keep=True)
     add_pic(doc, p_7, 6.6)
     add_caption(doc, "Figura 4. Agrupaciones con k = 7: estándar, sin redundancia sin pesos, y sin ruido ni "
                      "redundancia con el algoritmo modificado.")
     add_para(doc,
-        f"Con k = 7 el estándar explica {e7['bt'] * 100:.1f} % de la variación, el mismo 84.7 % que se "
-        f"mostró en clase. Si se quitan las repeticiones pero no se usan pesos, la proporción sube a "
-        f"{s7['bt'] * 100:.1f} %, parecido al 85.3 % de la clase, y los grupos se reacomodan: el "
-        f"{ch_sin7 * 100:.1f} % de los registros cambia de grupo y un centroide se mueve hasta "
-        f"{desp_sin7:.0f} metros. Esto pasa porque, sin pesos, un lugar donde el fenómeno ocurrió {max_rep} "
-        f"veces cuenta igual que uno donde ocurrió una sola vez, y los centroides se desplazan hacia "
-        "las zonas dispersas. Con el algoritmo modificado la proporción vuelve a "
-        f"{p7['bt'] * 100:.1f} % y la partición es prácticamente la del estándar "
-        f"({ch_pond7 * 100:.2f} % de registros que cambian).")
+        f"Con k = 7 el estándar explica {e7['bt'] * 100:.1f} % de la variación, el mismo valor que se "
+        f"mostró en clase. Quitando las repeticiones sin usar pesos, la proporción sube a "
+        f"{s7['bt'] * 100:.1f} %, cerca del 85.3 % de la clase, pero los grupos cambian bastante: el "
+        f"{ch_sin7 * 100:.1f} % de los registros queda en otro grupo y un centroide se mueve "
+        f"{desp_sin7 / 1000:.1f} km. La razón es que, sin pesos, el lugar donde el fenómeno ocurrió "
+        f"{max_rep} veces cuenta igual que uno donde ocurrió una vez, y los centroides se van hacia las "
+        "zonas con puntos dispersos. Con el algoritmo modificado la proporción regresa a "
+        f"{p7['bt'] * 100:.1f} % y la partición es la misma del estándar salvo por el "
+        f"{ch_pond7 * 100:.2f} % de los registros.")
 
     # ---------------- 4
     add_heading(doc, "4. Comparativa entre los dos abordajes")
@@ -358,31 +365,31 @@ def build():
                "Tabla 3. Comparación entre K-medias estándar y K-medias para datos agrupados.",
                [2.8, 1.3, 2.2])
     add_para(doc,
-        f"Los dos abordajes llegan al mismo número de agrupaciones (k = {k_est}) y a prácticamente los "
-        f"mismos grupos, pero el segundo lo hace con {(1 - n_q / n_total) * 100:.1f} % menos puntos. "
-        "Eso reduce el costo de cada iteración, que depende del número de puntos por el número de "
-        "grupos, y también el de visualizar los datos. Es lo que se planteó en la sesión 10: manejar "
-        "la redundancia reduce el tamaño del conjunto y los recursos que se necesitan para procesarlo.")
+        f"Los dos abordajes llegan al mismo número de agrupaciones (k = {k_est}) y a los mismos grupos, "
+        f"pero el segundo usa {(1 - n_q / n_total) * 100:.1f} % menos puntos. Como cada iteración "
+        "calcula la distancia de cada punto a cada centroide, menos puntos significan menos cálculos, "
+        "y también una gráfica más fácil de dibujar y de leer. Con estos 7 mil registros la diferencia "
+        f"de tiempo es de milésimas ({e_k['seg']:.3f} contra {p_k['seg']:.3f} segundos), pero en una "
+        "base de millones de registros con muchas repeticiones sería mucho más notoria.")
     add_para(doc,
-        "La comparación con el caso sin pesos muestra la otra parte del planteamiento de la clase: "
-        "quitar la redundancia sí modifica la captura de estructuras si las repeticiones simplemente "
-        "se eliminan. Al modificar el algoritmo para que use los pesos se conserva la estructura "
-        "original, porque cada punto sigue contando tantas veces como registros representa.")
+        "El caso sin pesos explica la otra parte de lo que vimos en clase: quitar la redundancia sí "
+        "cambia las estructuras que encuentra el algoritmo cuando las repeticiones simplemente se "
+        "borran. Cuando el algoritmo se modifica para usar los pesos, la estructura se conserva, porque "
+        "cada punto sigue contando tantas veces como registros representa.")
 
     # ---------------- 5
     add_heading(doc, "5. Conclusiones")
     add_para(doc,
-        f"Con el algoritmo estándar el mejor número de agrupaciones del Fenómeno X es k = {k_est}. "
-        f"Después de quitar el ruido con la cuantización a 4 decimales y la redundancia con la "
-        f"agrupación de coordenadas repetidas, el algoritmo modificado también llega a k = {k_pond}, "
-        "con la misma variación explicada y los mismos grupos, pero procesando "
-        f"{num(n_q)} puntos en lugar de {num(n_total)}.")
+        f"El mejor número de agrupaciones del Fenómeno X con el algoritmo estándar es k = {k_est}. "
+        f"Después de quitar el ruido redondeando a 4 decimales y la redundancia juntando las "
+        f"coordenadas repetidas, el algoritmo modificado también da k = {k_pond}, con la misma variación "
+        f"explicada y los mismos grupos, pero con {num(n_q)} puntos en lugar de {num(n_total)}.")
     add_para(doc,
-        "Lo que más me llamó la atención fue la diferencia entre quitar las repeticiones con y sin "
-        "pesos. Sin pesos la proporción between/total sube un poco, pero porque los grupos cambian y "
-        "ya no representan dónde se concentra el fenómeno. Con el re-centrado ponderado se obtiene el "
-        "mismo resultado que con todos los datos, así que la reducción de tamaño no tiene costo en la "
-        "calidad del agrupamiento.")
+        "Me quedo con la comparación entre quitar las repeticiones con y sin pesos. A primera vista el "
+        "caso sin pesos parece mejor porque su between/total es un poco más alto, pero es mejor solo en "
+        "apariencia: los grupos cambian y dejan de reflejar dónde se concentra el fenómeno. Con el "
+        "re-centrado ponderado la reducción del tamaño no le cuesta nada a la calidad del agrupamiento, "
+        "que es justo lo que se busca al trabajar con datos agrupados.")
 
     add_heading(doc, "Referencias")
     add_apa(doc, "Lloyd, S. (1982). Least squares quantization in PCM. IEEE Transactions on Information "
