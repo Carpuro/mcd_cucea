@@ -19,6 +19,7 @@ apoyadas en experimentos con las mismas funciones del notebook. Cada carpeta tie
 | 2 | Límites de un perceptrón | Frontera lineal, XOR, capacidad contra optimización | [Actividad2](tareas/Actividad2/) |
 | 3 | Red neuronal con una capa oculta | Dos notebooks: la red con capa oculta y qué aprende cada neurona | [Actividad3](tareas/Actividad3/) |
 | 4 | Red neuronal profunda | `layer_dims`, profundidad, tanh contra ReLU, no convergencia, parámetros, PyTorch | [Actividad4](tareas/Actividad4/) |
+| 5 | CNN para clasificación de Pokémon (informe) | TinyVGG, fuga entre entrenamiento y prueba, sobreajuste, aumento de datos, transferencia con EfficientNet-B0 | [Actividad5](tareas/Actividad5/) |
 
 Convención de nombres: `ActividadN_TopicosGBDII_CarlosPulidoRosas.py`. Cuando una actividad tiene
 dos notebooks se numeran `ActividadN_1_…` y `ActividadN_2_…`.

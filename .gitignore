@@ -82,3 +82,7 @@ __marimo__/
 
 # ── Office lock files ──
 ~$*
+
+# ── Pokemon images (Tópicos II Actividad 5), downloaded from Hugging Face ──
+3er-semestre/topicos-selectos-ii/datos/pokemon/
+*.pth

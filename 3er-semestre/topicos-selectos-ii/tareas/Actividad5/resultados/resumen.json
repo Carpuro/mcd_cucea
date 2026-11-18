@@ -1,0 +1,192 @@
+{
+ "figuras": {
+  "conteo": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig0_conteo.png",
+  "muestras": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig1_muestras.png",
+  "e1": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig2_e1.png",
+  "e2e3": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig3_e2e3.png",
+  "e4": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig4_e4.png",
+  "errores": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig5_errores.png"
+ },
+ "E2": {
+  "peores": [
+   [
+    "Weedle",
+    0.06666666666666667
+   ],
+   [
+    "Dratini",
+    0.13333333333333333
+   ],
+   [
+    "Persian",
+    0.13333333333333333
+   ],
+   [
+    "Dewgong",
+    0.13333333333333333
+   ],
+   [
+    "Drowzee",
+    0.26666666666666666
+   ],
+   [
+    "Raticate",
+    0.26666666666666666
+   ],
+   [
+    "Marowak",
+    0.26666666666666666
+   ],
+   [
+    "Cubone",
+    0.26666666666666666
+   ]
+  ],
+  "n_perfectas": 0,
+  "n_cero": 0,
+  "confusiones": [
+   [
+    "Omastar",
+    "Omanyte",
+    8
+   ],
+   [
+    "Poliwrath",
+    "Poliwhirl",
+    7
+   ],
+   [
+    "Marowak",
+    "Cubone",
+    6
+   ],
+   [
+    "Kingler",
+    "Krabby",
+    5
+   ],
+   [
+    "Magnemite",
+    "Magneton",
+    5
+   ],
+   [
+    "Nidorino",
+    "Nidoran-m",
+    5
+   ],
+   [
+    "Alakazam",
+    "Kadabra",
+    4
+   ],
+   [
+    "Articuno",
+    "Dragonair",
+    4
+   ],
+   [
+    "Charmeleon",
+    "Charmander",
+    4
+   ],
+   [
+    "Jigglypuff",
+    "Clefairy",
+    4
+   ]
+  ],
+  "corr_conteo_acc": 0.20986396416604766
+ },
+ "E4": {
+  "peores": [
+   [
+    "Geodude",
+    0.4
+   ],
+   [
+    "Rhydon",
+    0.4
+   ],
+   [
+    "Pidgeotto",
+    0.4
+   ],
+   [
+    "Abra",
+    0.4666666666666667
+   ],
+   [
+    "Rattata",
+    0.4666666666666667
+   ],
+   [
+    "Kingler",
+    0.4666666666666667
+   ],
+   [
+    "Clefable",
+    0.4666666666666667
+   ],
+   [
+    "Charmeleon",
+    0.5333333333333333
+   ]
+  ],
+  "n_perfectas": 11,
+  "n_cero": 0,
+  "confusiones": [
+   [
+    "Pidgeotto",
+    "Pidgeot",
+    6
+   ],
+   [
+    "Nidoran-m",
+    "Nidorino",
+    5
+   ],
+   [
+    "Clefable",
+    "Clefairy",
+    4
+   ],
+   [
+    "Machoke",
+    "Machamp",
+    4
+   ],
+   [
+    "Alakazam",
+    "Kadabra",
+    3
+   ],
+   [
+    "Dugtrio",
+    "Diglett",
+    3
+   ],
+   [
+    "Haunter",
+    "Gengar",
+    3
+   ],
+   [
+    "Kingler",
+    "Krabby",
+    3
+   ],
+   [
+    "Nidoran-f",
+    "Nidorina",
+    3
+   ],
+   [
+    "Rapidash",
+    "Ponyta",
+    3
+   ]
+  ],
+  "corr_conteo_acc": 0.2471915568316034
+ }
+}

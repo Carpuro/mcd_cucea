@@ -61,9 +61,12 @@ Backups are done with `git push`, never with OneDrive.
 - Export: `conda run -n MCD marimo export ipynb <f>.py -o <f>.ipynb --include-outputs -f` and
   `marimo export html`; verify with `marimo check` and `jupyter nbconvert --execute`.
 - Use markdown tables (`tabla_md` helper), not `mo.ui.table`, so tables render in Jupyter and GitHub.
-- The repo is public; the professor gets the folder link. PyTorch is not installed in the MCD env yet.
+- The repo is public; the professor gets the folder link. PyTorch lives in its own conda env `torch`
+  (pip wheels cu126); installing it in `MCD` clashes with conda's MKL OpenMP DLLs.
 - Delivered: 1 (single-neuron regression), 2 (perceptron limits, XOR), 3 (one hidden layer, two
   notebooks), 4 (deep network with `layer_dims`).
+- Actividad 5 (CNN Pokémon) is a PDF report, not a notebook: `entrenar_actividad5.py` (torch env, GPU),
+  `figuras_actividad5.py`, `build_actividad5.py` (MCD env, template). Images in `datos/pokemon/` (gitignored).
 
 ### Desarrollo de Proyecto I: current status
 - `tareas/Protocolo/`: `build_protocolo.py` fills the official CUCEA template; text in `contenido_protocolo.py`.
