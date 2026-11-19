@@ -193,5 +193,10 @@ if os.path.exists(TEL):
     tel_run.text = "Teléfono: " + open(TEL, encoding="utf-8").read().strip()
 try:
     doc.save(DL); print("DOCX:", DL)
+    # PDF of the copy that carries the phone, next to it in Downloads (the repo PDF has no phone)
+    import subprocess
+    subprocess.run([r"C:\Program Files\LibreOffice\program\soffice.exe", "--headless", "--convert-to",
+                    "pdf", "--outdir", os.path.dirname(DL), DL], check=True, capture_output=True)
+    print("PDF:", DL.replace(".docx", ".pdf"))
 except PermissionError:
     print("No se pudo escribir en Descargas (archivo abierto en Word):", DL)
