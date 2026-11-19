@@ -46,9 +46,19 @@ this subject.
 - Thesis data only from the thesis repo (`ai-automation-risk-jalisco`) or cited public sources. Never
   invent data or summarize tools (Gemini, NotebookLM, Consensus) Carlos has to run himself.
 
+## Advisor requests checked against the protocol (2026-11-18)
+- Done: body starts at Planteamiento; every source cited APA 7; formal definitions now include
+  inteligencia artificial (OCDE, 2024) and automatización (Acemoglu y Restrepo, 2019); scope limited to
+  cognitive AI / LLMs with Webb (2020) as the reason robotics is excluded; English terms added
+  (large language models, labor mobility, displacement, AI exposure); movilidad, not sustitución;
+  careers compared; Khan & Varshney (2026) used.
+- Not applied on purpose: the Jalisco manufacturing / formal employment centers info and the
+  nearshoring definition, because the same meeting dropped manufacturing and robotics. Confirm with
+  Carlos if the Dra. still wants a Jalisco paragraph.
+
 ## Open items
-- Title: Carlos asked for options and got 9 (recommended #6 or #9); he has not chosen yet. Current
-  `TITULO` in `build_protocolo.py` is a placeholder until he picks.
+- Title (chosen 2026-11-18, option 1 of 9): "Riesgo de movilidad laboral por inteligencia artificial en
+  carreras de informática y ciencia de datos" (15 words). Cover date 18 de noviembre de 2026.
 - Send the protocol to the Dra.; meetings with Dr. Willy Walter Cortez and Dra. Ancona.
 - The `.gitkeep` files in `datos/`, `notas/`, `notebooks/`, `proyectos/` were deleted locally and not
   committed; Carlos has not said whether to restore them.

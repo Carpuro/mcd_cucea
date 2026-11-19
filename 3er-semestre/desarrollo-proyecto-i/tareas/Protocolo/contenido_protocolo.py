@@ -15,7 +15,7 @@ Executed from build_protocolo.py with the formatting helpers in scope.
 # ---------------------------------------------------------------- I
 seccion("Planteamiento del problema")
 sub("Contexto")
-par("Los modelos de lenguaje de gran escala son sistemas de inteligencia artificial capaces de "
+par("Los modelos de lenguaje de gran escala (large language models, LLM) son sistemas de inteligencia artificial capaces de "
     "comprender y generar texto y código, y se definen formalmente en el marco teórico. Su difusión "
     "a partir de 2022 reabrió la pregunta de qué ocurre con el empleo cuando una tecnología puede "
     "realizar tareas cognitivas que antes solo hacían las personas. Eloundou et al. (2023) "
@@ -207,24 +207,39 @@ par("En 2026, Broady et al. compararon la exposición con la evolución del empl
 # ---------------------------------------------------------------- VI
 seccion("Marco teórico")
 sub("Conceptos y definiciones")
-par("Movilidad laboral. Se refiere a los cambios en la situación laboral de una persona entre dos "
+par("Inteligencia artificial. Se adopta la definición de la Organización para la Cooperación y el "
+    "Desarrollo Económicos [OCDE] (2024): un sistema de inteligencia artificial (artificial "
+    "intelligence system) es un sistema basado en máquinas que, a partir de objetivos explícitos o "
+    "implícitos, infiere de la información que recibe cómo generar resultados, como predicciones, "
+    "contenidos, recomendaciones o decisiones, que pueden influir en entornos físicos o virtuales. "
+    "Los sistemas difieren en su grado de autonomía y en su capacidad de adaptarse después de su "
+    "implementación.")
+par("Alcance: inteligencia artificial cognitiva. Este protocolo se limita a la inteligencia artificial "
+    "que realiza tareas cognitivas, como redactar, programar, analizar datos o resumir información, y "
+    "en particular a los modelos de lenguaje de gran escala. No incluye la robótica ni la "
+    "automatización física. La distinción importa porque las dos tecnologías afectan tareas "
+    "distintas: Webb (2020) encontró que, a diferencia del software y los robots industriales, la "
+    "inteligencia artificial se dirige a tareas de alta calificación, que son las que predominan en "
+    "las ocupaciones de informática y ciencia de datos.")
+par("Movilidad laboral (labor mobility). Se refiere a los cambios en la situación laboral de una persona entre dos "
     "momentos. En este protocolo incluye tres tipos de transición: el cambio de ocupación, que "
     "Kambourov y Manovskii (2008) miden como el paso de un trabajador de una ocupación a otra entre "
     "dos periodos; el paso del empleo a la desocupación; y la salida de la fuerza de trabajo. El "
     "riesgo de movilidad laboral es la probabilidad de que ocurra alguna de esas transiciones en un "
     "periodo determinado.")
-par("Desplazamiento y reinstalación. La automatización permite que el capital realice tareas que "
-    "antes hacían las personas, lo que produce un efecto de desplazamiento del trabajo; la creación "
+par("Automatización, desplazamiento y reinstalación. La automatización es el uso de capital, como "
+    "máquinas o programas, para realizar tareas que antes hacían las personas; al hacerlo produce un "
+    "efecto de desplazamiento (displacement) del trabajo; la creación "
     "de tareas nuevas genera, en sentido contrario, un efecto de reinstalación (Acemoglu y Restrepo, "
     "2019). La movilidad laboral es la forma en que estos dos efectos se observan en las personas: "
     "unas dejan las tareas que se automatizan y otras se mueven hacia las tareas nuevas.")
-par("Modelos de lenguaje de gran escala. Se trata de modelos de lenguaje basados en la arquitectura "
+par("Modelos de lenguaje de gran escala (large language models, LLM). Se trata de modelos de lenguaje basados en la arquitectura "
     "Transformer que contienen cientos de miles de millones de parámetros o más, se entrenan con "
     "grandes volúmenes de texto y muestran una fuerte capacidad para comprender el lenguaje natural y "
     "resolver tareas complejas mediante la generación de texto; ejemplos de ellos son GPT-3, PaLM y "
     "LLaMA (Zhao et al., 2023). La arquitectura Transformer es una red neuronal que se apoya "
     "únicamente en mecanismos de atención (Vaswani et al., 2017).")
-par("Exposición a la inteligencia artificial. Es el grado en que las tareas de una ocupación pueden "
+par("Exposición a la inteligencia artificial (AI exposure). Es el grado en que las tareas de una ocupación pueden "
     "ser realizadas o asistidas por un sistema de inteligencia artificial. Eloundou et al. (2023) "
     "consideran que una tarea está expuesta cuando usar un modelo de lenguaje puede reducir al menos "
     "a la mitad el tiempo necesario para completarla con la misma calidad. La exposición no implica "
@@ -314,7 +329,7 @@ par("Recursos económicos. El proyecto no requiere la compra de datos ni de lice
 seccion("Cronograma")
 par("El cronograma parte del plan registrado en el avance de protocolo de la tesis e incorpora el "
     "reenfoque hacia la movilidad laboral en informática y ciencia de datos, con el estado de cada "
-    "etapa a octubre de 2026.")
+    "etapa a noviembre de 2026.")
 caption_table(1, "Cronograma de actividades del proyecto de tesis")
 table([
     ["Etapa / actividad", "2025B", "2026A", "2026B", "2027A", "Estado"],
@@ -356,8 +371,10 @@ for a in [
  "Khan, I. R., & Varshney, M. (2026). Dynamic uncertainty-aware Bayesian neural model for real-time workforce displacement risk under AI automation. International Journal of Computer Information Systems and Industrial Management Applications. https://doi.org/10.70917/ijcisim-2026-4563",
  "Meng, Q., Zhu, H., Xiao, K., Zhang, L., & Xiong, H. (2019). A hierarchical career-path-aware neural network for job mobility prediction. En Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining (pp. 14-24). ACM. https://doi.org/10.1145/3292500.3330969",
  "National Center for O*NET Development. (2024). O*NET 28.3 Database [Base de datos]. U.S. Department of Labor. https://www.onetcenter.org/database.html",
+ "Organización para la Cooperación y el Desarrollo Económicos. (2024). Explanatory memorandum on the updated OECD definition of an AI system (OECD Artificial Intelligence Papers, No. 8). OECD Publishing. https://doi.org/10.1787/623da898-en",
  "Paolillo, A., Colella, F., Nosengo, N., Schiano, F., Stewart, W., Zambrano, D., Chappuis, I., Lalive, R., & Floreano, D. (2022). How to compete with robots by assessing job automation risks and resilient alternatives. Science Robotics, 7(65), eabg5561. https://doi.org/10.1126/scirobotics.abg5561",
  "Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information Processing Systems, 30. https://arxiv.org/abs/1706.03762",
+ "Webb, M. (2020). The impact of artificial intelligence on the labor market [Documento de trabajo]. Stanford University. https://web.stanford.edu/~mww/webb_jmp.pdf",
  "Zhao, W. X., Zhou, K., Li, J., Tang, T., Wang, X., Hou, Y., Min, Y., Zhang, B., Zhang, J., Dong, Z., Du, Y., Yang, C., Chen, Y., Chen, Z., Jiang, J., Ren, R., Li, Y., Tang, X., Liu, Z., . . . Wen, J.-R. (2023). A survey of large language models. arXiv. https://arxiv.org/abs/2303.18223",
 ]:
     ref(a)

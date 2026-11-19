@@ -19,10 +19,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # are replaced; everything else in the layout is kept as is.
 LAYOUT = os.path.join(HERE, "layout_protocolo_cucea_2026.docx")
 OUT = os.path.join(HERE, "Protocolo_Investigacion_CarlosPulidoRosas.docx")
-FECHA = "21 de octubre de 2026"
+FECHA = "18 de noviembre de 2026"
 
-TITULO = ("Modelo de ciencia de datos para evaluar el riesgo de movilidad laboral por modelos de "
-          "inteligencia artificial: carreras de informática y ciencia de datos")
+TITULO = ("Riesgo de movilidad laboral por inteligencia artificial en carreras de informática y "
+          "ciencia de datos")
 
 doc = Document(LAYOUT)
 body = doc.element.body
