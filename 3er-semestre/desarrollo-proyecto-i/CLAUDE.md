@@ -16,7 +16,11 @@ this subject.
 - Scope: Mexico, with Jalisco as a state case only if the ENOE sample allows (occupation 2271 has
   about 38 to 62 sample people per quarter in Jalisco, so national scope is the base). This
   feasibility check is internal; it does not go in the protocol.
-- Also assess risk across careers, useful for students choosing a career (advisor's request).
+- Purpose of the model (Carlos, 2026-11-18): a decision tool for people who want to enter or already
+  work as developers / data people: what to study (risk by career), where the work is (destination
+  occupations and their re-employment share) and which skills carry less AI risk (O*NET skill
+  profiles of low- vs high-risk occupations). General objective and specific objectives 5 and 6,
+  question 4, justification and methodology step 5 reflect this.
 
 ## Protocol rules (`tareas/Protocolo/`)
 - Nothing is taken for granted (Carlos, 2026-11-18): every datum, index, source, acronym or method the

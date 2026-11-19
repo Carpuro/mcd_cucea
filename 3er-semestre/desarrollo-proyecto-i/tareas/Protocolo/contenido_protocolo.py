@@ -110,7 +110,9 @@ par("En consecuencia, el problema de investigación es la falta de un modelo que
     "en informática y ciencia de datos ante los modelos de inteligencia artificial, es decir, con "
     "qué probabilidad cambian de ocupación, quedan desocupadas o salen del mercado de trabajo, hacia "
     "qué ocupaciones se mueven, qué características aumentan o reducen ese riesgo y cómo difiere "
-    "entre carreras.")
+    "entre carreras. Sin esa información, quienes quieren estudiar una de estas carreras o ya trabajan "
+    "en ellas no tienen una base con datos de México para decidir qué estudiar, hacia qué "
+    "ocupaciones moverse o qué habilidades desarrollar.")
 sub("Preguntas de investigación")
 par("Pregunta general: ¿cómo se relaciona la exposición a los modelos de inteligencia artificial con "
     "la movilidad laboral de las personas formadas o empleadas en informática y ciencia de datos en "
@@ -121,15 +123,19 @@ item("2. ¿Con qué frecuencia estas personas cambian de ocupación, quedan deso
      "mercado de trabajo, hacia qué ocupaciones se mueven y cómo cambió esa movilidad después de 2022?")
 item("3. ¿Cómo difiere el riesgo de movilidad entre carreras y qué características de la persona, "
      "como la edad, la experiencia y la escolaridad, se asocian con un riesgo mayor?")
+item("4. ¿Qué ocupaciones ofrecen mayores posibilidades de empleo a quienes salen de estas ocupaciones "
+     "y qué habilidades se asocian con un menor riesgo de movilidad?")
 
 # ---------------------------------------------------------------- II
 seccion("Justificación")
 par("Relevancia social. Si el efecto de la inteligencia artificial se concentra en la entrada al "
     "mercado de trabajo, como sugieren Brynjolfsson et al. (2026), quienes más lo resentirían serían "
     "los egresados recientes de carreras de informática y ciencia de datos, que buscan su primer "
-    "empleo en las ocupaciones más expuestas. Un modelo que compare el riesgo de movilidad entre "
-    "carreras serviría a los estudiantes que eligen una carrera universitaria y a las instituciones "
-    "que diseñan sus planes de estudio.")
+    "empleo en las ocupaciones más expuestas. El modelo serviría a tres grupos: a quienes van a elegir "
+    "una carrera, para comparar el riesgo entre las opciones; a quienes ya trabajan como "
+    "desarrolladores, analistas o científicos de datos, para saber hacia qué ocupaciones es más "
+    "probable moverse con éxito y qué habilidades conviene desarrollar; y a las instituciones que "
+    "diseñan los planes de estudio.")
 par("Relevancia práctica. Los resultados permitirán identificar qué ocupaciones reciben a las personas "
     "que salen de la informática y la ciencia de datos, y qué habilidades facilitan esas transiciones. "
     "Paolillo et al. (2022) mostraron que es posible identificar, para cada ocupación, alternativas "
@@ -159,10 +165,14 @@ par("Viabilidad. Las fuentes de información son públicas y gratuitas. La princ
 # ---------------------------------------------------------------- III
 seccion("Objetivos")
 sub("Objetivo general")
-par("Evaluar el riesgo de movilidad laboral de las personas formadas o empleadas en informática y "
-    "ciencia de datos en México frente a los modelos de inteligencia artificial, mediante un modelo "
-    "de ciencia de datos que relacione la exposición de las tareas con las transiciones laborales "
-    "observadas y permita comparar ese riesgo entre carreras.")
+par("Estimar el riesgo de movilidad laboral, entendido como la probabilidad de cambiar de ocupación, "
+    "quedar desocupado o salir de la fuerza de trabajo, de las personas que estudiaron una carrera de "
+    "informática o ciencia de datos, o que trabajan en esas ocupaciones en México, y analizar cómo se "
+    "relaciona con la exposición de sus tareas a los modelos de inteligencia artificial y cómo cambió "
+    "después de su difusión en 2022, mediante un modelo de ciencia de datos construido con el panel de "
+    "la ENOE. El modelo servirá como herramienta de orientación para quienes quieren estudiar estas "
+    "carreras o ya trabajan en ellas, al comparar el riesgo entre carreras e identificar las "
+    "ocupaciones con más posibilidades de empleo y las habilidades asociadas con un menor riesgo.")
 sub("Objetivos específicos")
 item("1. Delimitar las carreras de informática y ciencia de datos en la Clasificación Mexicana de "
      "Planes de Estudio y las ocupaciones correspondientes en el Sistema Nacional de Clasificación "
@@ -174,8 +184,10 @@ item("3. Construir las trayectorias trimestrales con el panel de la ENOE y estim
 item("4. Estimar modelos que expliquen el riesgo de movilidad en función de la exposición, la carrera "
      "y las características de la persona, cuantificar la incertidumbre de sus estimaciones y "
      "evaluar su desempeño.")
-item("5. Identificar las ocupaciones de destino y presentar el riesgo de movilidad por carrera en un "
-     "tablero de visualización.")
+item("5. Identificar las ocupaciones de destino de quienes salen de estas ocupaciones y las "
+     "habilidades, según O*NET, que distinguen a las ocupaciones con menor riesgo de movilidad.")
+item("6. Presentar el riesgo por carrera, las ocupaciones de destino y las habilidades de menor riesgo "
+     "en un tablero de visualización que puedan consultar estudiantes, trabajadores e instituciones.")
 
 # ---------------------------------------------------------------- IV
 seccion("Hipótesis")
@@ -345,12 +357,12 @@ item("e) Índices publicados de exposición y de uso de la inteligencia artifici
      "tanto depende cada ocupación de las capacidades de los modelos de lenguaje; y por Handa et al. "
      "(2025), que miden el uso real del asistente Claude por tarea. Se usarán para asignar a cada "
      "ocupación un nivel de exposición y para comparar si los resultados cambian según el índice.")
-par("Procedimiento. El trabajo se organiza en cinco pasos alineados con los objetivos específicos:")
+par("Procedimiento. El trabajo se organiza en cinco pasos que cubren los seis objetivos específicos:")
 item("1. Delimitación de las carreras y ocupaciones de informática y ciencia de datos con la CMPE y "
      "el SINCO, y depuración de los trimestres de la ENOE disponibles antes y después de 2022, el año "
      "en que se difundieron los modelos de lenguaje.")
-item("2. Asignación de las tareas de O*NET a las ocupaciones mexicanas y cálculo de su exposición a los "
-     "modelos de inteligencia artificial con los índices publicados.")
+item("2. Asignación de las tareas y habilidades de O*NET a las ocupaciones mexicanas y cálculo de la "
+     "exposición de las tareas a los modelos de inteligencia artificial con los índices publicados.")
 item("3. Enlace de los registros de cada persona entre trimestres y construcción de matrices de "
      "transición, que indican qué proporción de las personas pasa de una ocupación o condición "
      "laboral (ocupada, desocupada o fuera de la fuerza de trabajo) a otra entre dos trimestres, "
@@ -367,9 +379,13 @@ item("4. Estimación de modelos de la probabilidad de transición para contrasta
      "proponen Khan y Varshney (2026), para saber en qué casos el modelo es confiable.")
 item("5. Construcción de una red de movilidad con las ocupaciones de destino observadas en la ENOE, en "
      "la que cada ocupación es un nodo y las transiciones entre ellas son las conexiones, para "
-     "contrastar H2. Con los resultados se elaborará un tablero de visualización, una página "
-     "interactiva en la que estudiantes e instituciones puedan consultar el riesgo de movilidad por "
-     "carrera.")
+     "contrastar H2. En cada ocupación de destino se medirá la proporción de personas que encuentra "
+     "empleo, como indicador de las posibilidades de trabajo. Para las habilidades, se compararán los "
+     "perfiles de O*NET de las ocupaciones con riesgo bajo y alto, siguiendo la idea de Chen et al. "
+     "(2022) y Paolillo et al. (2022) de que ciertas habilidades reducen el riesgo. Con los resultados se "
+     "elaborará un tablero de visualización, una página interactiva en la que estudiantes, "
+     "trabajadores e instituciones puedan consultar el riesgo de movilidad por carrera, las "
+     "ocupaciones de destino y las habilidades asociadas con menor riesgo.")
 par("Herramientas de análisis. Python y sus bibliotecas pandas, NumPy, statsmodels, scikit-learn y "
     "Matplotlib, para depurar los datos, estimar los modelos y hacer las gráficas; SQL Server, para "
     "almacenar y unir los trimestres de la ENOE en una sola base de datos; y GitHub, para el control de "
@@ -403,7 +419,7 @@ table([
     ["Cálculo de la exposición de las tareas", "", "", "Dic", "Ene", "Pendiente"],
     ["Construcción de trayectorias y matrices de transición", "", "", "", "Ene-Feb", "Pendiente"],
     ["Estimación y validación de modelos", "", "", "", "Feb-Abr", "Pendiente"],
-    ["Red de movilidad y tablero por carrera", "", "", "", "Abr-May", "Pendiente"],
+    ["Red de movilidad, habilidades de menor riesgo y tablero", "", "", "", "Abr-May", "Pendiente"],
     ["Escritura y revisión del documento final", "", "", "", "May-Jun", "Pendiente"],
     ["Presentación y defensa del trabajo de tesis", "", "", "", "Jul 2027", "Pendiente"],
 ], [3300, 900, 900, 900, 1000, 1100])
