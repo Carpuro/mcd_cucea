@@ -36,6 +36,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "..", "..", "datos", "pokemon", "PokemonData")
 CACHE = os.path.join(HERE, "..", "..", "datos", "pokemon", "cache")
 RES = os.path.join(HERE, "resultados")
+MODELOS = os.path.join(HERE, "models")
 SEED = 42
 N_TEST = 15
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -175,13 +176,17 @@ def loader(ds, shuffle):
 
 
 def predecir(model, dl):
-    model.eval(); ys, ps, top5 = [], [], []
+    """Predicted class, whether the true class is in the top 5, and the top-5 softmax probabilities."""
+    model.eval(); ys, ps, top5, t5i, t5p = [], [], [], [], []
     with torch.inference_mode():
         for X, y in dl:
             out = model(X.to(DEVICE))
+            prob = torch.softmax(out, dim=1).topk(5, 1)
             ps.append(out.argmax(1).cpu()); ys.append(y)
-            top5.append((out.topk(5, 1).indices.cpu() == y[:, None]).any(1))
-    return torch.cat(ys).numpy(), torch.cat(ps).numpy(), torch.cat(top5).numpy()
+            top5.append((prob.indices.cpu() == y[:, None]).any(1))
+            t5i.append(prob.indices.cpu()); t5p.append(prob.values.cpu())
+    return (torch.cat(ys).numpy(), torch.cat(ps).numpy(), torch.cat(top5).numpy(),
+            torch.cat(t5i).numpy(), torch.cat(t5p).numpy())
 
 
 def correr(nombre, model, ds_tr, ds_te, epochs, ds_eval=None):
@@ -191,9 +196,12 @@ def correr(nombre, model, ds_tr, ds_te, epochs, ds_eval=None):
     t0 = time.time()
     res = train(model, loader(ds_tr, True), loader(ds_te, False), opt, loss_fn, epochs, DEVICE)
     res["segundos"] = time.time() - t0
-    y, p, t5 = predecir(model, loader(ds_eval or ds_te, False))
+    y, p, t5, t5i, t5p = predecir(model, loader(ds_eval or ds_te, False))
     res["acc_final"] = float((y == p).mean()); res["top5"] = float(t5.mean())
-    np.savez(os.path.join(RES, f"pred_{nombre}.npz"), y=y, p=p)
+    np.savez(os.path.join(RES, f"pred_{nombre}.npz"), y=y, p=p, top5_idx=t5i, top5_prob=t5p)
+    # save the trained weights, as train.py does with utils.save_model (models/ is gitignored)
+    os.makedirs(MODELOS, exist_ok=True)
+    torch.save(model.state_dict(), os.path.join(MODELOS, f"pokemon_{nombre}.pth"))
     res["params_total"] = sum(q.numel() for q in model.parameters())
     res["params_entrenables"] = sum(q.numel() for q in model.parameters() if q.requires_grad)
     print(nombre, "acc", res["acc_final"], "top5", res["top5"], "seg", round(res["segundos"]))

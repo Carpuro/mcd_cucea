@@ -5,7 +5,160 @@
   "e1": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig2_e1.png",
   "e2e3": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig3_e2e3.png",
   "e4": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig4_e4.png",
-  "errores": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig5_errores.png"
+  "errores": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig5_errores.png",
+  "consola": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig_consola.png",
+  "predicciones": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig_predicciones.png",
+  "top5": "C:\\Users\\carlo\\GitHub\\mcd_cucea\\3er-semestre\\topicos-selectos-ii\\tareas\\Actividad5\\resultados\\figuras\\fig_top5.png"
+ },
+ "ejemplos": {
+  "pred_detalle": [
+   {
+    "real": "Arcanine",
+    "E2": [
+     "Raticate",
+     0.9889335632324219
+    ],
+    "E4": [
+     "Arcanine",
+     0.6629610657691956
+    ]
+   },
+   {
+    "real": "Poliwrath",
+    "E2": [
+     "Poliwhirl",
+     0.7721275091171265
+    ],
+    "E4": [
+     "Poliwrath",
+     0.6483699679374695
+    ]
+   },
+   {
+    "real": "Dewgong",
+    "E2": [
+     "Gyarados",
+     0.4326012432575226
+    ],
+    "E4": [
+     "Rapidash",
+     0.2484736293554306
+    ]
+   },
+   {
+    "real": "Nidorina",
+    "E2": [
+     "Nidorina",
+     0.9696446061134338
+    ],
+    "E4": [
+     "Nidoran-m",
+     0.39273807406425476
+    ]
+   },
+   {
+    "real": "Nidoran-f",
+    "E2": [
+     "Nidoran-f",
+     0.9742189645767212
+    ],
+    "E4": [
+     "Nidoran-f",
+     0.9060508012771606
+    ]
+   },
+   {
+    "real": "Scyther",
+    "E2": [
+     "Scyther",
+     0.9984375834465027
+    ],
+    "E4": [
+     "Scyther",
+     0.9712204933166504
+    ]
+   },
+   {
+    "real": "Cubone",
+    "E2": [
+     "Golbat",
+     0.9692689776420593
+    ],
+    "E4": [
+     "Cloyster",
+     0.15363378822803497
+    ]
+   },
+   {
+    "real": "Magnemite",
+    "E2": [
+     "Magnemite",
+     0.9962382316589355
+    ],
+    "E4": [
+     "Magnemite",
+     0.9997439980506897
+    ]
+   }
+  ],
+  "pred_aciertos": {
+   "E2": 4,
+   "E4": 5,
+   "n": 8
+  },
+  "top5": [
+   {
+    "real": "Pikachu",
+    "nombres": [
+     "Pikachu",
+     "Caterpie",
+     "Raichu",
+     "Weepinbell",
+     "Psyduck"
+    ],
+    "prob": [
+     0.9094853401184082,
+     0.03455427661538124,
+     0.005098145920783281,
+     0.004378892946988344,
+     0.004354811739176512
+    ]
+   },
+   {
+    "real": "Pidgeotto",
+    "nombres": [
+     "Pidgeot",
+     "Pidgeotto",
+     "Pidgey",
+     "Spearow",
+     "Fearow"
+    ],
+    "prob": [
+     0.5095130205154419,
+     0.3061710298061371,
+     0.12431631237268448,
+     0.007473819423466921,
+     0.005018883850425482
+    ]
+   },
+   {
+    "real": "Abra",
+    "nombres": [
+     "Kadabra",
+     "Alakazam",
+     "Abra",
+     "Hypno",
+     "Sandshrew"
+    ],
+    "prob": [
+     0.2894424796104431,
+     0.2627677023410797,
+     0.1898416131734848,
+     0.0924924686551094,
+     0.031000996008515358
+    ]
+   }
+  ]
  },
  "E2": {
   "peores": [

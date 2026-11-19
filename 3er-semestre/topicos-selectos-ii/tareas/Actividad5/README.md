@@ -8,19 +8,20 @@
 
 Trabajé sobre el proyecto [IvTole/Pokemon_Classification](https://github.com/IvTole/Pokemon_Classification).
 Entrené TinyVGG y el modelo de transferencia de aprendizaje con EfficientNet-B0 en mi computadora
-(GPU RTX 4060), con el mismo código, arquitectura e hiperparámetros del repositorio.
+(GPU RTX 4060), con el mismo código, arquitectura e hiperparámetros del repositorio. Los pesos
+entrenados se guardan en `models/` (no se suben porque pesan; se generan al correr el entrenamiento).
 
 ## Resultados
 
 | Experimento | Exactitud en prueba | Top-5 |
 |---|---|---|
-| E1 TinyVGG como en el repositorio, 10 épocas | 79.7 % | 93.9 % |
+| E1 TinyVGG como en el repositorio, 10 épocas | 85.3 % | 96.7 % |
 | E2 TinyVGG sin las imágenes de prueba en el entrenamiento, con aumento de datos, 30 épocas | 57.5 % | 79.8 % |
 | E3 Igual que E2 pero sin aumento de datos | 42.5 % | 65.2 % |
 | E4 EfficientNet-B0 preentrenada, capas convolucionales congeladas, 5 épocas | 77.7 % | 92.2 % |
 
 - `get_data.py` copia las 15 imágenes de prueba de cada especie en lugar de moverlas, así que el
-  modelo también entrena con ellas. En la época 10 la prueba marca 75.8 % con el repositorio original
+  modelo también entrena con ellas. En la época 10 la prueba marca 81.6 % con el repositorio original
   y 56.4 % si se quitan del entrenamiento.
 - TinyVGG se sobreajusta: la pérdida de prueba es mínima en la época 5 y después sube. Sin aumento de
   datos el entrenamiento llega a 99.8 % y la prueba baja a 42.5 %.
@@ -28,6 +29,22 @@ Entrené TinyVGG y el modelo de transferencia de aprendizaje con EfficientNet-B0
   1,745,943 parámetros de TinyVGG están en esa capa.
 - EfficientNet-B0 entrena solo 193,431 parámetros y desde la primera época supera a TinyVGG. Sus
   diez confusiones más frecuentes son entre Pokémon de la misma línea evolutiva.
+
+## Los modelos clasificando
+
+Predicciones sobre imágenes de prueba que los modelos no vieron, con los pesos guardados después del
+entrenamiento (verde = acierto, rojo = error, el porcentaje es la probabilidad de softmax):
+
+![Predicciones](resultados/figuras/fig_predicciones.png)
+
+Las cinco especies más probables según EfficientNet-B0. Cuando se equivoca suele ser entre etapas
+de la misma evolución:
+
+![Top 5](resultados/figuras/fig_top5.png)
+
+Salida de la consola durante el entrenamiento de E1:
+
+![Consola](resultados/figuras/fig_consola.png)
 
 ## Archivos
 
@@ -40,7 +57,7 @@ Entrené TinyVGG y el modelo de transferencia de aprendizaje con EfficientNet-B0
 | `build_actividad5.py` | Arma el informe con la plantilla de la maestría |
 | `resultados/resultados.json` | Pérdida y exactitud por época de cada experimento |
 | `resultados/figuras/` | Las gráficas del informe |
-| `resultados/pred_E*.npz`, `split.json` | Predicciones sobre la prueba e índices de las imágenes de prueba |
+| `resultados/pred_E*.npz`, `split.json` | Predicciones y probabilidades top-5 sobre la prueba, e índices de las imágenes de prueba |
 
 ## Cómo correrlo
 

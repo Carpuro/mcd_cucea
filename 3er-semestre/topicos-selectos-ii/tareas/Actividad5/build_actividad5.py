@@ -27,6 +27,8 @@ J = json.load(open(os.path.join(RES, "resultados.json"), encoding="utf-8"))
 S = json.load(open(os.path.join(RES, "resumen.json"), encoding="utf-8"))
 I, R = J["info"], J["R"]
 FIG = S["figuras"]
+EJ = S["ejemplos"]
+assert EJ["top5"][2]["nombres"][2] == EJ["top5"][2]["real"]   # "tercer lugar" in 5.4
 
 
 def p1(x):
@@ -191,6 +193,13 @@ def build():
         "entrenamiento y ya no les apliqué el giro ni el volteo, porque en la prueba solo se quiere medir. "
         "Lo dejé 30 épocas para ver qué pasaba después de la 10. E3 es igual a E2 pero sin aumento de datos. "
         "E4 es el cuaderno de transferencia de aprendizaje con la misma separación que E2.")
+    add_para(doc,
+        "En la Figura 3 está lo que imprime engine.train en la consola durante E1, una línea por época con "
+        "la pérdida y la exactitud de entrenamiento y de prueba, igual que en el cuaderno de molab. Al final "
+        "de cada experimento guardé los pesos del modelo con torch.save, como hace utils.save_model en "
+        "train.py, y con esos modelos ya entrenados hice las predicciones de la sección 5.4.")
+    add_pic(doc, FIG["consola"], 6.2)
+    add_caption(doc, "Figura 3. Salida de la consola durante el entrenamiento de E1 (configuración del repositorio).")
 
     # ---------------------------------------------------------------- 5
     add_heading(doc, "5. Resultados")
@@ -199,16 +208,16 @@ def build():
         f"En E1, al terminar las 10 épocas, la exactitud fue de {p1(e1_10)} en prueba y "
         f"{p1(R['E1']['train_acc'][9])} en entrenamiento. Evaluando la prueba sin giro ni volteo sube a "
         f"{p1(R['E1']['acc_final'])}. En todas las épocas la prueba sale mejor que el entrenamiento, en "
-        "exactitud y en pérdida (Figura 3), y con imágenes nuevas eso normalmente no pasa. Pasa porque el "
+        "exactitud y en pérdida (Figura 4), y con imágenes nuevas eso normalmente no pasa. Pasa porque el "
         "modelo ya había visto esas imágenes. También influye que la exactitud de entrenamiento se va "
         "calculando mientras los pesos cambian dentro de la época, y por eso queda un poco abajo.")
     add_pic(doc, FIG["e1"], 6.2)
-    add_caption(doc, "Figura 3. E1 (configuración del repositorio) contra la prueba limpia de E2 en las primeras 10 épocas.")
+    add_caption(doc, "Figura 4. E1 (configuración del repositorio) contra la prueba limpia de E2 en las primeras 10 épocas.")
     add_para(doc,
         f"En azul está la misma red pero entrenada sin las imágenes de prueba (E2). En la época 10 tiene "
         f"{p1(e2_10)}, {(e1_10 - e2_10) * 100:.1f} puntos abajo de E1, y esa es la parte de la exactitud "
-        "que viene de la fuga. Con el código original parecería que TinyVGG acierta 3 de cada 4 imágenes "
-        "nuevas, y en realidad acierta poco más de la mitad. Por eso en el resto del trabajo usé la "
+        f"que viene de la fuga. Con el código original parecería que TinyVGG acierta el {p1(e1_10)} de las "
+        "imágenes nuevas, y en realidad acierta poco más de la mitad. Por eso en el resto del trabajo usé la "
         "separación limpia.")
 
     add_heading(doc, "5.2 Sobreajuste y aumento de datos", level=2)
@@ -218,11 +227,11 @@ def build():
         f"{p1(R['E2']['acc_final'])}. La de entrenamiento, en cambio, sigue subiendo hasta "
         f"{p1(R['E2']['train_acc'][-1])}. El sobreajuste se ve mejor en la pérdida de prueba, que tiene su "
         f"mínimo de {min(R['E2']['test_loss']):.2f} en la época {e2_minloss_ep} y de ahí sube hasta "
-        f"{R['E2']['test_loss'][-1]:.2f} (Figura 4). La exactitud casi no cambia mientras la pérdida sube "
+        f"{R['E2']['test_loss'][-1]:.2f} (Figura 5). La exactitud casi no cambia mientras la pérdida sube "
         "porque el modelo acierta más o menos las mismas imágenes, pero en las que falla cada vez está más "
         "seguro de la respuesta equivocada. Entrenar más de 10 épocas no le sirvió.")
     add_pic(doc, FIG["e2e3"], 6.2)
-    add_caption(doc, "Figura 4. TinyVGG con separación limpia, con aumento de datos (E2) y sin él (E3).")
+    add_caption(doc, "Figura 5. TinyVGG con separación limpia, con aumento de datos (E2) y sin él (E3).")
     add_para(doc,
         f"Sin aumento de datos (E3) se sobreajusta mucho más. A la época 5 ya acierta el "
         f"{p1(R['E3']['train_acc'][4])} del entrenamiento y termina en {p1(R['E3']['train_acc'][-1])}, o sea, "
@@ -243,11 +252,11 @@ def build():
         f"{R['E4']['params_entrenables'] / R['E4']['params_total'] * 100:.1f} %, que son menos que los "
         f"{num(p_tiny)} de TinyVGG.")
     add_pic(doc, FIG["e4"], 6.2)
-    add_caption(doc, "Figura 5. Transferencia de aprendizaje con EfficientNet-B0 (E4). La línea punteada es el mejor valor de TinyVGG.")
+    add_caption(doc, "Figura 6. Transferencia de aprendizaje con EfficientNet-B0 (E4). La línea punteada es el mejor valor de TinyVGG.")
     add_para(doc,
         f"En la primera época EfficientNet-B0 ya llega a {p1(R['E4']['test_acc'][0])} en prueba, arriba de "
         f"lo mejor que logró TinyVGG en 30 épocas, y en la quinta termina con {p1(R['E4']['acc_final'])} "
-        f"(Figura 5). Entrenarla tomó {R['E4']['segundos']:.0f} segundos en la GPU. La diferencia entre "
+        f"(Figura 6). Entrenarla tomó {R['E4']['segundos']:.0f} segundos en la GPU. La diferencia entre "
         f"entrenamiento ({p1(R['E4']['train_acc'][-1])}) y prueba es menor que en TinyVGG y la pérdida de "
         "prueba bajó en todas las épocas, así que en 5 épocas todavía no se sobreajusta.")
 
@@ -265,6 +274,37 @@ def build():
         "En la exactitud top-5 se cuenta como acierto si la especie correcta está entre las cinco que el "
         f"modelo considera más probables. Con EfficientNet-B0 es {p1(R['E4']['top5'])}, entonces aunque "
         "se equivoque, casi siempre tiene la respuesta correcta entre sus primeras opciones.")
+    pa, pd_ = EJ["pred_aciertos"], EJ["pred_detalle"]
+    mal2 = [x for x in pd_ if x["E2"][0] != x["real"]]
+    mal4 = [x for x in pd_ if x["E4"][0] != x["real"]]
+    seguro2 = max(mal2, key=lambda x: x["E2"][1])
+    add_para(doc,
+        f"Para ver a los modelos clasificando, tomé {pa['n']} imágenes de prueba al azar y les pedí la "
+        "predicción a TinyVGG (E2) y a EfficientNet-B0 (E4), cargando los pesos que guardé (Figura 7). "
+        "Arriba de cada imagen está la especie que eligió el modelo y su probabilidad, que es la salida de "
+        "softmax para esa clase. El marco es verde si acertó y rojo si no. En estas imágenes TinyVGG acertó "
+        f"{pa['E2']} de {pa['n']} y EfficientNet-B0 {pa['E4']}. Lo que más se nota es cómo se equivocan. "
+        f"TinyVGG falla muy seguro, por ejemplo al {seguro2['real']} lo clasifica como {seguro2['E2'][0]} "
+        f"con {seguro2['E2'][1] * 100:.0f} %, que es lo mismo que se veía con la pérdida de prueba subiendo. "
+        "EfficientNet-B0, cuando falla, lo hace con probabilidades bajas, entre "
+        f"{min(x['E4'][1] for x in mal4) * 100:.0f} % y {max(x['E4'][1] for x in mal4) * 100:.0f} %, o sea "
+        "que el modelo tampoco estaba seguro.")
+    add_pic(doc, FIG["predicciones"], 6.4)
+    add_caption(doc, "Figura 7. Predicciones sobre las mismas imágenes de prueba: TinyVGG a 64 x 64 (arriba) y "
+                     "EfficientNet-B0 a 224 x 224 (abajo). Verde = acierto, rojo = error.")
+    t1, t2, t3 = EJ["top5"]
+    add_para(doc,
+        "En la Figura 8 están las cinco especies con mayor probabilidad que da EfficientNet-B0 para tres "
+        f"imágenes. Al {t1['real']} lo reconoce sin dudar ({t1['prob'][0] * 100:.1f} %). Con el "
+        f"{t2['real']} se queda entre {t2['nombres'][0]} ({t2['prob'][0] * 100:.1f} %), {t2['nombres'][1]} "
+        f"({t2['prob'][1] * 100:.1f} %) y {t2['nombres'][2]} ({t2['prob'][2] * 100:.1f} %), que son las tres "
+        f"etapas de la misma evolución y juntas suman {sum(t2['prob'][:3]) * 100:.0f} %. Con el {t3['real']} "
+        f"pasa lo mismo: reparte la probabilidad entre {t3['nombres'][0]}, {t3['nombres'][1]} y "
+        f"{t3['nombres'][2]}, y la especie correcta queda en tercer lugar con {t3['prob'][2] * 100:.1f} %. El "
+        "modelo sí identifica la familia, lo que no logra es saber en qué etapa está.")
+    add_pic(doc, FIG["top5"], 5.8)
+    add_caption(doc, "Figura 8. Las cinco especies más probables según EfficientNet-B0. Verde = especie real, "
+                     "rojo = predicción equivocada.")
     add_para(doc,
         f"También revisé los aciertos por especie. Con E4, {S['E4']['n_perfectas']} especies tuvieron las 15 "
         f"imágenes bien y ninguna se quedó en cero. Las más bajas fueron "
@@ -276,12 +316,12 @@ def build():
         f"Los errores vienen más bien de especies que se parecen. Las diez confusiones más frecuentes de E4 "
         f"son entre Pokémon de la misma línea evolutiva, por ejemplo {conf4[0][0]} con {conf4[0][1]} "
         f"({conf4[0][2]} de 15), {conf4[1][0]} con {conf4[1][1]}, {conf4[2][0]} con {conf4[2][1]} y "
-        f"{conf4[3][0]} con {conf4[3][1]} (Figura 6). Tienen colores y formas parecidas, y muchas veces "
+        f"{conf4[3][0]} con {conf4[3][1]} (Figura 9). Tienen colores y formas parecidas, y muchas veces "
         "cambian en el tamaño, que en una imagen no se puede saber, o en detalles pequeños. TinyVGG se "
         f"confunde igual, por ejemplo {conf2[0][0]} con {conf2[0][1]} ({conf2[0][2]} de 15) y "
         f"{conf2[1][0]} con {conf2[1][1]} ({conf2[1][2]} de 15), y a 64 x 64 esos detalles casi no se ven.")
     add_pic(doc, FIG["errores"], 6.3)
-    add_caption(doc, "Figura 6. Las cinco confusiones más frecuentes de EfficientNet-B0: arriba una imagen mal "
+    add_caption(doc, "Figura 9. Las cinco confusiones más frecuentes de EfficientNet-B0: arriba una imagen mal "
                      "clasificada y abajo un ejemplo de la especie que predijo el modelo.")
 
     # ---------------------------------------------------------------- 6

@@ -26,6 +26,7 @@ info, R = J["info"], J["R"]
 clases = info["clases"]
 test_idx = json.load(open(os.path.join(RES, "split.json")))["test_idx"]
 os.makedirs(FIG, exist_ok=True)
+EJ = {}   # numbers about the example figures, quoted in the report
 
 
 def guardar(fig, nombre):
@@ -132,11 +133,82 @@ def fig_errores(d, nombre):
     return guardar(fig, "fig5_errores.png")
 
 
+def fig_consola():
+    """The real console output of E1 (the repository's setup), as printed by engine.train."""
+    lineas = open(os.path.join(HERE, "entrenamiento.log"), encoding="utf-8").read().splitlines()
+    i = next(k for k, l in enumerate(lineas) if l.startswith("device"))
+    texto = [lineas[i]] + [l for l in lineas[i + 1:] if l.startswith("Epoch")][:10]   # verbatim
+    fig, a = plt.subplots(figsize=(9, 2.9))
+    fig.patch.set_facecolor("#1E1E1E"); a.set_facecolor("#1E1E1E"); a.axis("off")
+    a.text(0.01, 0.98, "\n".join(texto), family="Consolas", fontsize=8.6, color="#D4D4D4",
+           va="top", ha="left", transform=a.transAxes, linespacing=1.45)
+    return guardar(fig, "fig_consola.png")
+
+
+def _img(d, j, chico):
+    return (d["x64"] if chico else d["x224"])[j].permute(1, 2, 0).numpy()
+
+
+def fig_predicciones(d):
+    """Same 8 random test images: TinyVGG (E2, 64x64) on top and EfficientNet-B0 (E4, 224x224) below.
+    Title = prediction and its softmax probability; green if correct, red if wrong."""
+    z2 = np.load(os.path.join(RES, "pred_E2.npz")); z4 = np.load(os.path.join(RES, "pred_E4.npz"))
+    rng = np.random.default_rng(11)
+    pos = rng.choice(len(test_idx), 8, replace=False)
+    fig, axs = plt.subplots(2, 8, figsize=(9.6, 3.5))
+    for k, q in enumerate(pos):
+        j = test_idx[q]
+        for fila, (z, chico) in enumerate([(z2, True), (z4, False)]):
+            pred, prob = int(z["top5_idx"][q, 0]), float(z["top5_prob"][q, 0])
+            ok = pred == int(z["y"][q])
+            ax = axs[fila, k]; ax.imshow(_img(d, j, chico)); ax.set_xticks([]); ax.set_yticks([])
+            for s_ in ax.spines.values(): s_.set_edgecolor(GREEN if ok else RED); s_.set_linewidth(2.5); s_.set_visible(True)
+            ax.set_title(f"{clases[pred]}\n{prob * 100:.0f} %", fontsize=8, color=GREEN if ok else RED)
+            if fila == 1: ax.set_xlabel(f"Real: {clases[int(z['y'][q])]}", fontsize=7.5)
+    EJ["pred_detalle"] = [{"real": clases[int(z2["y"][q])],
+                           "E2": [clases[int(z2["top5_idx"][q, 0])], float(z2["top5_prob"][q, 0])],
+                           "E4": [clases[int(z4["top5_idx"][q, 0])], float(z4["top5_prob"][q, 0])]} for q in pos]
+    EJ["pred_aciertos"] = {"E2": int((z2["p"][pos] == z2["y"][pos]).sum()),
+                           "E4": int((z4["p"][pos] == z4["y"][pos]).sum()), "n": len(pos)}
+    axs[0, 0].set_ylabel("TinyVGG\n64 x 64", fontsize=8.5); axs[1, 0].set_ylabel("EfficientNet-B0\n224 x 224", fontsize=8.5)
+    fig.tight_layout()
+    return guardar(fig, "fig_predicciones.png")
+
+
+def fig_top5(d):
+    """Top-5 probabilities of EfficientNet-B0 for three test images: a sure hit, the most frequent
+    confusion and a miss where the right species is still in the top 5."""
+    z = np.load(os.path.join(RES, "pred_E4.npz"))
+    y, p, ti, tp = z["y"], z["p"], z["top5_idx"], z["top5_prob"]
+    _, _, _, conf = por_clase("E4")
+    (a_, b_), _ = conf[0]
+    bien = np.where((p == y) & (tp[:, 0] > 0.9))[0]
+    q1 = bien[np.random.default_rng(5).integers(len(bien))]
+    q2 = np.where((y == a_) & (p == b_))[0][0]
+    otros = np.where((p != y) & (ti[:, 1:] == y[:, None]).any(1) & (y != a_))[0]
+    q3 = otros[np.argmax(tp[otros, 0] < 0.6)] if len(otros) else otros[0]
+    EJ["top5"] = [{"real": clases[y[q]], "nombres": [clases[c] for c in ti[q]],
+                   "prob": [float(v) for v in tp[q]]} for q in (q1, q2, q3)]
+    fig, axs = plt.subplots(2, 3, figsize=(9.2, 4.6), gridspec_kw={"height_ratios": [1.15, 1]})
+    for k, q in enumerate([q1, q2, q3]):
+        ax = axs[0, k]; ax.imshow(_img(d, test_idx[q], False)); ax.set_xticks([]); ax.set_yticks([])
+        ax.set_title(f"Real: {clases[y[q]]}", fontsize=9)
+        b = axs[1, k]
+        nombres = [clases[c] for c in ti[q]][::-1]; vals = (tp[q] * 100)[::-1]
+        colores = [GREEN if c == y[q] else (RED if c == ti[q, 0] else GRIS) for c in ti[q]][::-1]
+        b.barh(nombres, vals, color=colores)
+        for yy, v in enumerate(vals): b.text(v + 1, yy, f"{v:.1f} %", va="center", fontsize=8)
+        b.set_xlim(0, 115); b.set_xticks([]); b.spines["bottom"].set_visible(False); b.tick_params(labelsize=8.5)
+    fig.tight_layout()
+    return guardar(fig, "fig_top5.png")
+
+
 def main():
     d = torch.load(CACHE)
     rutas = {"conteo": fig_conteo(), "muestras": fig_muestras(d), "e1": fig_e1(), "e2e3": fig_e2e3(),
-             "e4": fig_comparacion(), "errores": fig_errores(d, "E4")}
-    res = {"figuras": rutas}
+             "e4": fig_comparacion(), "errores": fig_errores(d, "E4"), "consola": fig_consola(),
+             "predicciones": fig_predicciones(d), "top5": fig_top5(d)}
+    res = {"figuras": rutas, "ejemplos": EJ}
     for nombre in ("E2", "E4"):
         y, p, acc, conf = por_clase(nombre)
         orden = np.argsort(acc)
