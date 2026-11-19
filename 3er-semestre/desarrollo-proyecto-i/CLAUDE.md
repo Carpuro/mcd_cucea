@@ -19,6 +19,9 @@ this subject.
 - Also assess risk across careers, useful for students choosing a career (advisor's request).
 
 ## Protocol rules (`tareas/Protocolo/`)
+- Nothing is taken for granted (Carlos, 2026-11-18): every datum, index, source, acronym or method the
+  reader may not know says where it comes from (who produced it, with what data) and what it is used
+  for in the protocol. Do not write claims that no cited source supports.
 - The protocol states the problem and the plan only. **No results of our own**, no thesis numbers as
   evidence. Every datum is explained and cited in APA 7, with formal definitions.
 - Built on Carlos's cleaned layout `layout_protocolo_cucea_2026.docx`: `build_protocolo.py` sets the

@@ -15,73 +15,96 @@ Executed from build_protocolo.py with the formatting helpers in scope.
 # ---------------------------------------------------------------- I
 seccion("Planteamiento del problema")
 sub("Contexto")
-par("Los modelos de lenguaje de gran escala (large language models, LLM) son sistemas de inteligencia artificial capaces de "
-    "comprender y generar texto y código, y se definen formalmente en el marco teórico. Su difusión "
-    "a partir de 2022 reabrió la pregunta de qué ocurre con el empleo cuando una tecnología puede "
-    "realizar tareas cognitivas que antes solo hacían las personas. Eloundou et al. (2023) "
-    "estimaron que alrededor del 80 % de los trabajadores de Estados Unidos podría ver afectado al "
-    "menos el 10 % de sus tareas por estos modelos, y que cerca del 19 % podría ver afectada al menos "
-    "la mitad. En otras palabras, la exposición alcanza a casi todas las ocupaciones, pero solo en "
-    "una de cada cinco toca la mayor parte del trabajo.")
+par("Los modelos de lenguaje de gran escala (large language models, LLM) son sistemas de inteligencia "
+    "artificial capaces de comprender y generar texto y código, como ChatGPT o Claude, y se definen "
+    "formalmente en el marco teórico. Su difusión a partir de 2022 reabrió la pregunta de qué ocurre "
+    "con el empleo cuando una tecnología puede realizar tareas cognitivas que antes solo hacían las "
+    "personas. Para dimensionar el alcance de esta tecnología, Eloundou et al. (2023), investigadores "
+    "de OpenAI y de la Universidad de Pensilvania, revisaron las tareas que la base O*NET describe para "
+    "cada ocupación de Estados Unidos y, con evaluadores humanos y con el modelo GPT-4, calificaron si "
+    "un modelo de lenguaje podía reducir el tiempo necesario para realizarlas. Estimaron que alrededor "
+    "del 80 % de los trabajadores de Estados Unidos podría ver afectado al menos el 10 % de sus tareas, "
+    "y que cerca del 19 % podría ver afectada al menos la mitad. Estas cifras se citan para mostrar que "
+    "la exposición alcanza a casi todas las ocupaciones, pero que solo en una de cada cinco toca la "
+    "mayor parte del trabajo. O*NET es la base de datos de ocupaciones del Departamento del Trabajo de "
+    "Estados Unidos; se describe en la sección de metodología, porque este proyecto también la usará.")
 par("Las ocupaciones relacionadas con la informática y el análisis de datos están entre las más "
-    "involucradas. En el análisis de millones de conversaciones con el asistente Claude, las "
-    "ocupaciones de computación y matemáticas concentraron el 37.2 % de todas las consultas, la "
-    "proporción más alta de cualquier grupo ocupacional, y el 57 % de los usos mostró un patrón de "
-    "aumento de las capacidades humanas más que de automatización (Handa et al., 2025). Es decir, más "
-    "de un tercio del uso observado de esta herramienta proviene de tareas de informática y "
-    "matemáticas, y en la mayoría de los casos el modelo trabaja junto con la persona en lugar de "
-    "reemplazarla. Gao y Huang (2026), por su parte, calcularon un índice relativo de automatización "
-    "ocupacional para Estados Unidos y encontraron que los puestos cognitivos no rutinarios que "
-    "dependen de la manipulación de símbolos son los más vulnerables; los científicos de datos "
-    "encabezan ese índice, con un valor cercano a 0.70.")
+    "involucradas. Handa et al. (2025), investigadores de Anthropic, la empresa que desarrolla el "
+    "asistente Claude, analizaron más de cuatro millones de conversaciones de ese asistente con un "
+    "sistema que protege la privacidad de los usuarios, y asignaron cada conversación a una tarea y a "
+    "una ocupación de O*NET. Encontraron que las ocupaciones de computación y matemáticas concentraron "
+    "el 37.2 % de todas las consultas, la proporción más alta de cualquier grupo ocupacional, y que el "
+    "57 % de los usos mostró un patrón de aumento de las capacidades humanas (la persona aprende, revisa "
+    "o mejora un resultado junto con el modelo) más que de automatización (el modelo entrega el "
+    "resultado con poca intervención de la persona). Estos datos se incluyen porque muestran que el uso "
+    "real de los modelos de lenguaje se concentra en el tipo de trabajo que estudia este protocolo.")
+par("Gao y Huang (2026), de la Universidad aSSIST de Corea del Sur, construyeron un índice relativo "
+    "de automatización ocupacional (Occupational Automation Index, OAI) para Estados Unidos. Para "
+    "calcularlo dividieron 923 ocupaciones en 2,087 actividades de trabajo detalladas de O*NET y "
+    "calificaron cada actividad según dos factores: si un modelo de lenguaje puede hacerla técnicamente "
+    "y qué tan riesgoso sería para una empresa dejarla sin supervisión humana, por ejemplo por "
+    "responsabilidad legal o por cumplimiento de normas. En ese índice, los puestos cognitivos no "
+    "rutinarios que dependen de la manipulación de símbolos resultan los más vulnerables, y los "
+    "científicos de datos aparecen con un valor cercano a 0.70, el más alto que reportan. El dato se "
+    "cita porque coloca a una de las ocupaciones de este estudio en el extremo de mayor exposición.")
 par("Sin embargo, una exposición alta no se ha traducido en pérdidas generales de empleo. Acemoglu "
-    "et al. (2022) encontraron, con las vacantes publicadas en línea en Estados Unidos desde 2010, "
-    "que los establecimientos que adoptan inteligencia artificial reducen sus contrataciones en "
-    "puestos no relacionados con ella y cambian los requisitos de habilidades de las vacantes que "
-    "mantienen, aunque el efecto todavía es demasiado pequeño para observarse en el empleo agregado. "
-    "Broady et al. (2026) mostraron que, entre 2019 y 2024, las ocupaciones con mayor aplicabilidad "
-    "de la inteligencia artificial aumentaron su empleo y sus salarios, por lo que proponen leer la "
-    "exposición como un indicador de reestructuración de las ocupaciones y no como un pronóstico de "
-    "pérdida de empleo.")
-par("Donde sí aparece un cambio es en la entrada al mercado de trabajo. Con registros de nómina de "
-    "millones de trabajadores de Estados Unidos, Brynjolfsson et al. (2026) encontraron que el empleo "
-    "de los jóvenes de 22 a 25 años en ocupaciones expuestas a la inteligencia artificial se "
-    "encuentra 19 % por debajo de donde estaría si hubiera crecido al mismo ritmo que el de sus pares "
-    "en ocupaciones menos expuestas, sin una brecha comparable entre los trabajadores con más "
-    "experiencia. Los autores precisan que la diferencia se explica sobre todo por menos "
-    "contrataciones de jóvenes y no por más despidos, y analizan el desarrollo de software como uno "
-    "de sus casos de estudio. Este resultado sugiere que el efecto de la tecnología se manifiesta en "
-    "quién entra, quién sale y hacia dónde se mueven los trabajadores, más que en la desaparición "
-    "de las ocupaciones.")
+    "et al. (2022) analizaron casi la totalidad de las vacantes publicadas en línea en Estados Unidos "
+    "desde 2010, recopiladas por la empresa Burning Glass, y encontraron que los establecimientos que "
+    "adoptan inteligencia artificial reducen sus contrataciones en puestos no relacionados con ella y "
+    "cambian los requisitos de habilidades de las vacantes que mantienen, aunque el efecto todavía es "
+    "demasiado pequeño para observarse en el empleo agregado. Broady et al. (2026), del Banco de la "
+    "Reserva Federal de Chicago, combinaron una medida de aplicabilidad de la inteligencia artificial "
+    "a cada ocupación, calculada a partir del uso de Microsoft Copilot (Tomlinson et al., 2025, como se "
+    "citó en Broady et al., 2026), con las estadísticas de empleo y salarios de la Oficina de Estadísticas Laborales de Estados Unidos. "
+    "Mostraron que, entre 2019 y 2024, las ocupaciones con mayor aplicabilidad aumentaron su empleo y "
+    "sus salarios, por lo que proponen leer la exposición como un indicador de reestructuración de las "
+    "ocupaciones y no como un pronóstico de pérdida de empleo. Estos dos estudios se citan para "
+    "justificar que el problema se plantee como movilidad y no como pérdida de empleo.")
+par("Donde sí aparece un cambio es en la entrada al mercado de trabajo. Brynjolfsson et al. (2026), "
+    "de la Universidad de Stanford, usaron los registros de nómina de la empresa ADP, que procesa los "
+    "pagos de millones de trabajadores de Estados Unidos, y encontraron que el empleo de los jóvenes de "
+    "22 a 25 años en ocupaciones expuestas a la inteligencia artificial se encuentra 19 % por debajo de "
+    "donde estaría si hubiera crecido al mismo ritmo que el de sus pares en ocupaciones menos "
+    "expuestas, sin una brecha comparable entre los trabajadores con más experiencia. Los autores "
+    "precisan que la diferencia se explica sobre todo por menos contrataciones de jóvenes y no por más "
+    "despidos, y analizan el desarrollo de software como uno de sus casos de estudio. Este resultado "
+    "es la base de la primera hipótesis del protocolo, porque sugiere que el efecto de la tecnología se "
+    "manifiesta en quién entra, quién sale y hacia dónde se mueven los trabajadores, más que en la "
+    "desaparición de las ocupaciones.")
 sub("Definición del problema")
 par("La mayoría de los estudios sobre inteligencia artificial y empleo miden la exposición de cada "
-    "ocupación en un momento dado, pero no siguen a los trabajadores. Frank et al. (2025) mostraron, "
-    "con datos mensuales de desempleo por ocupación de cada estado de Estados Unidos entre 2010 y "
-    "2020, que ningún índice de exposición por sí solo predice bien el riesgo de desempleo; solo al "
-    "combinarlos se explica un 18 % adicional de la variación del riesgo de desempleo entre "
-    "ocupaciones, estados y periodos, respecto a un modelo que ya considera la escolaridad, las "
-    "habilidades, la estacionalidad y la región. Dicho de otro modo, saber que una ocupación está "
-    "expuesta no basta para saber qué les pasará a quienes trabajan en ella.")
-par("Del Rio-Chanona et al. (2021) plantean el problema desde otro ángulo: cuando la automatización "
-    "afecta a una ocupación, el resultado para sus trabajadores depende de cuántas ocupaciones "
-    "cercanas existen hacia donde puedan moverse. Con un modelo de red de movilidad ocupacional, "
-    "encontraron que las ocupaciones ubicadas en zonas de la red con pocas opciones de transición "
-    "tienen más riesgo de desempleo de largo plazo. Por su parte, Georgieff y Hyee (2022) "
-    "encontraron, para 23 países de la OCDE, que en las ocupaciones con uso intensivo de "
-    "computadora una mayor exposición a la inteligencia artificial se asocia con un mayor "
-    "crecimiento del empleo, y Chen et al. (2022) mostraron, con 701 ocupaciones de Estados Unidos, "
-    "que las habilidades digitales moderan el efecto negativo del riesgo de desplazamiento sobre "
-    "los salarios y el empleo.")
+    "ocupación en un momento dado, pero no siguen a los trabajadores. Frank et al. (2025) compararon "
+    "varios índices de exposición publicados con los datos mensuales de desempleo por ocupación que "
+    "reportan las oficinas del seguro de desempleo de cada estado de Estados Unidos entre 2010 y 2020. "
+    "Encontraron que ningún índice por sí solo predice bien el riesgo de desempleo; solo al combinarlos "
+    "se explica un 18 % adicional de la variación del riesgo de desempleo entre ocupaciones, estados y "
+    "periodos, respecto a un modelo que ya considera la escolaridad, las habilidades, la estacionalidad "
+    "y la región. Este resultado se cita porque muestra que saber que una ocupación está expuesta no "
+    "basta para saber qué les pasará a quienes trabajan en ella.")
+par("Del Rio-Chanona et al. (2021) plantean el problema desde otro ángulo. Construyeron una red de "
+    "movilidad ocupacional, es decir, una red en la que cada ocupación es un nodo y dos ocupaciones se "
+    "conectan cuando se observa que los trabajadores de Estados Unidos pasan de una a la otra, y "
+    "simularon qué ocurre cuando la automatización reduce la demanda de algunas ocupaciones. "
+    "Encontraron que las ocupaciones ubicadas en zonas de la red con pocas opciones de transición "
+    "tienen más riesgo de desempleo de largo plazo. Georgieff y Hyee (2022), de la Organización para la "
+    "Cooperación y el Desarrollo Económicos (OCDE), adaptaron a 23 países de esa organización un índice "
+    "de exposición que mide qué tanto depende cada ocupación de habilidades en las que la inteligencia "
+    "artificial ha avanzado más, desarrollado por Felten, Raj y Seamans (como se citó en Georgieff y "
+    "Hyee, 2022), y encontraron que en las ocupaciones con uso "
+    "intensivo de computadora una mayor exposición se asocia con un mayor crecimiento del empleo. Chen "
+    "et al. (2022) mostraron, con 701 ocupaciones de Estados Unidos, que las habilidades digitales "
+    "moderan el efecto negativo del riesgo de desplazamiento sobre los salarios y el empleo. Estos tres "
+    "trabajos sustentan la segunda hipótesis, sobre hacia dónde se mueven las personas.")
 par("Estos trabajos coinciden en que el riesgo relevante no es solo el de perder el empleo, sino el "
     "de verse obligado a cambiar de ocupación, de empleador o de condición laboral, y en que ese "
     "riesgo depende de las habilidades del trabajador y de las rutas de transición disponibles. "
     "Además, como muestran Khan y Varshney (2026), estimar ese riesgo implica medir también su "
-    "incertidumbre, porque en sus resultados el error de predicción es mayor justamente en las "
-    "ocupaciones de riesgo alto. Sin embargo, estos estudios se basan en datos de Estados Unidos o "
-    "de países de la OCDE. En México no se ha medido cómo se mueven las personas que estudiaron una "
-    "carrera de informática o de ciencia de datos, o que trabajan en esas ocupaciones, desde la "
-    "llegada de los modelos de lenguaje, ni si esa movilidad es distinta para quienes empiezan su "
-    "carrera profesional.")
+    "incertidumbre, es decir, qué tan seguro se puede estar de cada predicción, porque en sus "
+    "resultados el error de predicción es mayor justamente en las ocupaciones de riesgo alto. Sin "
+    "embargo, estos estudios se basan en datos de Estados Unidos o de países de la OCDE. En México no "
+    "se ha medido cómo se mueven las personas que estudiaron una carrera de informática o de ciencia de "
+    "datos, o que trabajan en esas ocupaciones, desde la llegada de los modelos de lenguaje, ni si esa "
+    "movilidad es distinta para quienes empiezan su carrera profesional.")
 par("En consecuencia, el problema de investigación es la falta de un modelo que permita evaluar, con "
     "datos de México, el riesgo de movilidad laboral que enfrentan las personas formadas o empleadas "
     "en informática y ciencia de datos ante los modelos de inteligencia artificial, es decir, con "
@@ -120,15 +143,18 @@ par("Aportación a la ciencia. El proyecto propone medir la movilidad laboral as
     "transiciones reales aporta una medida más directa del riesgo. Además, incorporar la "
     "incertidumbre de la estimación, como proponen Khan y Varshney (2026), permitiría distinguir los "
     "casos en los que el modelo es confiable de aquellos en los que no lo es.")
-par("Viabilidad. Las fuentes de información son públicas y gratuitas. La Encuesta Nacional de "
-    "Ocupación y Empleo (ENOE) del INEGI tiene un diseño de panel rotatorio: la muestra se divide en "
+par("Viabilidad. Las fuentes de información son públicas y gratuitas. La principal es la Encuesta "
+    "Nacional de Ocupación y Empleo (ENOE), que el Instituto Nacional de Estadística y Geografía "
+    "(INEGI) levanta cada trimestre en hogares de todo el país para medir el empleo. Tiene un diseño "
+    "de panel rotatorio: la muestra se divide en "
     "cinco paneles y cada vivienda permanece en la encuesta durante cinco trimestres, de modo que en "
     "cada trimestre se mantiene el 80 % de la muestra (INEGI, 2025). Esto significa que una misma "
     "persona se entrevista hasta cinco veces seguidas, lo que permite observar si cambió de "
     "ocupación o de condición laboral entre un trimestre y otro. La encuesta registra además la "
     "carrera que estudió cada persona mediante un código de carrera (INEGI, 2025), y la ocupación "
     "con el Sistema Nacional de Clasificación de Ocupaciones (INEGI, 2019). Las tareas de cada "
-    "ocupación pueden obtenerse de la base O*NET (National Center for O*NET Development, 2024).")
+    "ocupación pueden obtenerse de la base O*NET (National Center for O*NET Development, 2024). Estas "
+    "fuentes se describen con más detalle en la metodología.")
 
 # ---------------------------------------------------------------- III
 seccion("Objetivos")
@@ -173,7 +199,8 @@ par("Los antecedentes se presentan en orden cronológico. Autor et al. (2003) es
     "Manovskii (2008) documentaron el aumento de la movilidad ocupacional en Estados Unidos entre 1968 "
     "y 1997 y destacaron su importancia porque buena parte del capital humano de los trabajadores es "
     "específico de su ocupación, de modo que cambiar de ocupación implica perder parte de ese "
-    "capital. Frey y Osborne (2017) estimaron la probabilidad de automatización de 702 ocupaciones, "
+    "capital. Frey y Osborne (2017) estimaron, a partir de las características de sus tareas, la probabilidad de automatización "
+    "de 702 ocupaciones de Estados Unidos, "
     "y Acemoglu y Restrepo (2019) formalizaron la idea de que la automatización desplaza trabajo de "
     "unas tareas mientras la creación de tareas nuevas lo reinstala en otras.")
 par("Sobre la movilidad, Meng et al. (2019) propusieron una red neuronal jerárquica con mecanismos de "
@@ -199,7 +226,8 @@ par("En 2026, Broady et al. compararon la exposición con la evolución del empl
     "probabilístico de aprendizaje profundo para predecir el riesgo de desplazamiento por tarea: "
     "combina redes neuronales bayesianas, redes profundas deterministas y la técnica de Monte Carlo "
     "Dropout, y lo probaron con 18,796 registros de tareas. Su modelo explica una parte pequeña de "
-    "la variación del riesgo (un coeficiente de determinación de 0.067), pero muestra que la "
+    "la variación del riesgo (un coeficiente de determinación de 0.067, es decir, el modelo explica "
+    "cerca del 7 % de las diferencias en el riesgo entre tareas), pero muestra que la "
     "incertidumbre estimada crece junto con el error real, lo que permite saber cuándo confiar en "
     "una predicción, y que el error es menor en las ocupaciones de riesgo medio y mayor en las de "
     "riesgo alto.")
@@ -236,8 +264,8 @@ par("Automatización, desplazamiento y reinstalación. La automatización es el 
 par("Modelos de lenguaje de gran escala (large language models, LLM). Se trata de modelos de lenguaje basados en la arquitectura "
     "Transformer que contienen cientos de miles de millones de parámetros o más, se entrenan con "
     "grandes volúmenes de texto y muestran una fuerte capacidad para comprender el lenguaje natural y "
-    "resolver tareas complejas mediante la generación de texto; ejemplos de ellos son GPT-3, PaLM y "
-    "LLaMA (Zhao et al., 2023). La arquitectura Transformer es una red neuronal que se apoya "
+    "resolver tareas complejas mediante la generación de texto; ejemplos de ellos son GPT-3, de "
+    "OpenAI, PaLM, de Google, y LLaMA, de Meta (Zhao et al., 2023). La arquitectura Transformer es una red neuronal que se apoya "
     "únicamente en mecanismos de atención (Vaswani et al., 2017).")
 par("Exposición a la inteligencia artificial (AI exposure). Es el grado en que las tareas de una ocupación pueden "
     "ser realizadas o asistidas por un sistema de inteligencia artificial. Eloundou et al. (2023) "
@@ -246,14 +274,16 @@ par("Exposición a la inteligencia artificial (AI exposure). Es el grado en que 
     "sustitución: puede traducirse en automatización o en aumento de las capacidades del trabajador "
     "(Handa et al., 2025).")
 par("Carreras de informática y ciencia de datos. Se delimitarán con la Clasificación Mexicana de "
-    "Planes de Estudio por Campos de Formación Académica 2016 (INEGI, 2016). En ella, el campo amplio "
+    "Planes de Estudio por Campos de Formación Académica 2016 (INEGI, 2016). En ella, cada campo tiene una clave numérica, que se indica entre "
+    "paréntesis. El campo amplio "
     "06, Tecnologías de la información y la comunicación, comprende la innovación en tecnologías de "
     "la información (061: ciencias computacionales, desarrollo de hardware y desarrollo de software) "
     "y su implementación (062: telecomunicaciones, informática, y soporte y servicios de "
     "mantenimiento). La ciencia de datos aparece explícitamente dentro del campo 0613, Desarrollo de "
     "software, y las carreras de estadística y actuaría forman el campo 0532 (INEGI, 2016).")
 par("Ocupaciones de informática y ciencia de datos. En el Sistema Nacional de Clasificación de "
-    "Ocupaciones 2019 corresponden principalmente a los desarrolladores y analistas de software y "
+    "Ocupaciones 2019 (entre paréntesis, la clave de cada ocupación en ese catálogo) corresponden "
+    "principalmente a los desarrolladores y analistas de software y "
     "multimedia (2271), los administradores de bases de datos y redes de computadora (2272) y los "
     "investigadores y profesionistas en matemáticas, estadística y actuaría (2212). Como ocupaciones "
     "cercanas se considerarán los técnicos en la instalación y reparación de redes, equipos y "
@@ -283,36 +313,68 @@ par("El enfoque es cuantitativo porque el riesgo se expresa como una probabilida
 seccion("Metodología")
 par("Tipo de estudio. Investigación cuantitativa, no experimental y longitudinal, basada en el "
     "seguimiento de personas en el panel de la ENOE.")
-par("Población y unidades de análisis. Personas de 15 años o más que estudiaron una carrera de los "
+par("Población y unidades de análisis. Personas de 15 años o más, que es la población en edad de "
+    "trabajar que considera la ENOE (INEGI, 2025), que estudiaron una carrera de los "
     "campos 06 o 0532 de la Clasificación Mexicana de Planes de Estudio, o que trabajan en las "
     "ocupaciones de informática y ciencia de datos señaladas en el marco teórico, en México. Jalisco "
     "se analizará como caso estatal en la medida en que el tamaño de la muestra lo permita. Las "
     "unidades de análisis son la persona, observada trimestre a trimestre, la ocupación y la "
     "carrera.")
-par("Fuentes de datos. La ENOE (INEGI, 2025) para las trayectorias laborales, la carrera y las "
-    "características de las personas; la Clasificación Mexicana de Planes de Estudio (INEGI, 2016) "
-    "y el Sistema Nacional de Clasificación de Ocupaciones (INEGI, 2019) para delimitar carreras y "
-    "ocupaciones; la base O*NET (National Center for O*NET Development, 2024) para las tareas de cada "
-    "ocupación; e índices publicados de exposición a la inteligencia artificial (Eloundou et al., "
-    "2023; Felten et al., 2023) y de uso observado (Handa et al., 2025).")
+par("Fuentes de datos. El proyecto usará cinco fuentes públicas. Para cada una se indica quién la "
+    "produce, qué contiene y para qué se utilizará:")
+item("a) Encuesta Nacional de Ocupación y Empleo (ENOE). La levanta el INEGI cada trimestre en "
+     "viviendas de todo el país y registra la ocupación, la condición laboral, la carrera estudiada y "
+     "las características de cada persona (INEGI, 2025). Se usará para construir las trayectorias "
+     "laborales de las personas entre trimestres.")
+item("b) Clasificación Mexicana de Planes de Estudio por Campos de Formación Académica 2016 (CMPE). Es "
+     "el catálogo del INEGI que agrupa las carreras por campo de formación (INEGI, 2016). Se usará "
+     "para identificar en la ENOE a las personas que estudiaron una carrera de informática o de "
+     "ciencia de datos.")
+item("c) Sistema Nacional de Clasificación de Ocupaciones 2019 (SINCO). Es el catálogo del INEGI con "
+     "el que la ENOE codifica la ocupación de cada persona (INEGI, 2019). Se usará para identificar las "
+     "ocupaciones de informática y ciencia de datos y las ocupaciones de destino.")
+item("d) O*NET. Es la base de datos de ocupaciones del Departamento del Trabajo de Estados Unidos, que "
+     "describe las tareas, habilidades y actividades de trabajo de cada ocupación (National Center for "
+     "O*NET Development, 2024). Se usará porque las tareas son la unidad con la que los estudios "
+     "citados miden la exposición a la inteligencia artificial (Eloundou et al., 2023; Handa et al., "
+     "2025); para aplicarla a México, las ocupaciones de O*NET se unirán al SINCO mediante tablas de "
+     "correspondencia entre clasificaciones de ocupaciones.")
+item("e) Índices publicados de exposición y de uso de la inteligencia artificial. Son las "
+     "calificaciones por tarea u ocupación calculadas por Eloundou et al. (2023), que miden si un "
+     "modelo de lenguaje puede reducir el tiempo de cada tarea; por Felten et al. (2023), que miden qué "
+     "tanto depende cada ocupación de las capacidades de los modelos de lenguaje; y por Handa et al. "
+     "(2025), que miden el uso real del asistente Claude por tarea. Se usarán para asignar a cada "
+     "ocupación un nivel de exposición y para comparar si los resultados cambian según el índice.")
 par("Procedimiento. El trabajo se organiza en cinco pasos alineados con los objetivos específicos:")
-item("1. Delimitación de las carreras y ocupaciones de informática y ciencia de datos, y depuración de "
-     "los trimestres de la ENOE disponibles antes y después de 2022.")
-item("2. Asignación de las tareas de O*NET a las ocupaciones mexicanas mediante tablas de "
-     "correspondencia y cálculo de su exposición a los modelos de inteligencia artificial.")
+item("1. Delimitación de las carreras y ocupaciones de informática y ciencia de datos con la CMPE y "
+     "el SINCO, y depuración de los trimestres de la ENOE disponibles antes y después de 2022, el año "
+     "en que se difundieron los modelos de lenguaje.")
+item("2. Asignación de las tareas de O*NET a las ocupaciones mexicanas y cálculo de su exposición a los "
+     "modelos de inteligencia artificial con los índices publicados.")
 item("3. Enlace de los registros de cada persona entre trimestres y construcción de matrices de "
-     "transición entre ocupaciones, desocupación e inactividad, comparando el periodo anterior y el "
-     "posterior a 2022.")
-item("4. Estimación de modelos de la probabilidad de transición, como regresiones logísticas "
-     "multinomiales y modelos de diferencias en diferencias que comparen a jóvenes y a personas con "
-     "experiencia antes y después de 2022, complementados con modelos de aprendizaje automático con "
-     "validación cruzada y con modelos que estimen la incertidumbre de la predicción, para contrastar "
-     "H1 y comparar el riesgo entre carreras.")
-item("5. Construcción de una red de movilidad con las ocupaciones de destino observadas, para "
-     "contrastar H2, y elaboración del tablero de visualización del riesgo por carrera.")
-par("Herramientas de análisis. Python (pandas, NumPy, statsmodels, scikit-learn y Matplotlib), "
-    "SQL Server para la integración de datos y GitHub para el control de versiones y la "
-    "reproducibilidad del análisis.")
+     "transición, que indican qué proporción de las personas pasa de una ocupación o condición "
+     "laboral (ocupada, desocupada o fuera de la fuerza de trabajo) a otra entre dos trimestres, "
+     "comparando el periodo anterior y el posterior a 2022.")
+item("4. Estimación de modelos de la probabilidad de transición para contrastar H1 y comparar el riesgo "
+     "entre carreras. Se usará una regresión logística multinomial, que estima la probabilidad de cada "
+     "resultado posible (permanecer en la ocupación, cambiar de ocupación, quedar desocupado o salir "
+     "de la fuerza de trabajo) según las características de la persona, y un modelo de diferencias "
+     "en diferencias, que compara cuánto cambió esa probabilidad antes y después de 2022 en los "
+     "jóvenes respecto a las personas con más experiencia. Como complemento se probarán modelos de "
+     "aprendizaje automático, que aprenden los patrones directamente de los datos, evaluados con "
+     "validación cruzada, que consiste en entrenar el modelo con una parte de los datos y medir su "
+     "desempeño con otra que no vio. También se estimará la incertidumbre de cada predicción, como "
+     "proponen Khan y Varshney (2026), para saber en qué casos el modelo es confiable.")
+item("5. Construcción de una red de movilidad con las ocupaciones de destino observadas en la ENOE, en "
+     "la que cada ocupación es un nodo y las transiciones entre ellas son las conexiones, para "
+     "contrastar H2. Con los resultados se elaborará un tablero de visualización, una página "
+     "interactiva en la que estudiantes e instituciones puedan consultar el riesgo de movilidad por "
+     "carrera.")
+par("Herramientas de análisis. Python y sus bibliotecas pandas, NumPy, statsmodels, scikit-learn y "
+    "Matplotlib, para depurar los datos, estimar los modelos y hacer las gráficas; SQL Server, para "
+    "almacenar y unir los trimestres de la ENOE en una sola base de datos; y GitHub, para el control de "
+    "versiones y para que el análisis se pueda reproducir.")
+
 
 # ---------------------------------------------------------------- VIII
 seccion("Recursos")
@@ -329,7 +391,8 @@ par("Recursos económicos. El proyecto no requiere la compra de datos ni de lice
 seccion("Cronograma")
 par("El cronograma parte del plan registrado en el avance de protocolo de la tesis e incorpora el "
     "reenfoque hacia la movilidad laboral en informática y ciencia de datos, con el estado de cada "
-    "etapa a noviembre de 2026.")
+    "etapa a noviembre de 2026. Las columnas corresponden a los ciclos escolares de la Universidad de "
+    "Guadalajara: el ciclo A va de enero a junio y el ciclo B de agosto a diciembre.")
 caption_table(1, "Cronograma de actividades del proyecto de tesis")
 table([
     ["Etapa / actividad", "2025B", "2026A", "2026B", "2027A", "Estado"],
