@@ -276,36 +276,35 @@ def build():
     add_para(doc, sb=8, sa=0)
     add_heading(doc, "1. Introducción")
     add_para(doc,
-        "Seguí trabajando con la estación Centro (CEN), que es la que he usado desde la Tarea 1.3 porque "
-        "tiene ozono, monóxido de carbono y partículas todo el año. La tarea tiene tres partes. Primero "
-        "hay que marcar qué lecturas de ozono (O3) por hora y de monóxido de carbono (CO) en 8 horas están "
-        "dentro o fuera de su norma, calcular la entropía de cada uno y quedarme con el que tenga la "
-        "entropía mayor. Después hay que generar un árbol de decisión que clasifique ese contaminante "
-        "usando solo los demás contaminantes como variables. Al final, presentar el árbol con un diseño "
-        "propio que deje ver cómo el cumplimiento de la norma depende de esas variables.")
+        "Para esta tarea seguí con la estación Centro (CEN), la misma que uso desde la Tarea 1.3, porque "
+        "mide ozono, monóxido de carbono y partículas durante todo el año. Primero revisé qué lecturas de "
+        "ozono (O3) por hora y de monóxido de carbono (CO) en 8 horas cumplen su norma y calculé la "
+        "entropía de cada uno para escoger el de mayor entropía. Con ese contaminante armé un árbol de "
+        "decisión que usa como variables solo a los otros contaminantes, y al final lo dibujé con un diseño "
+        "mío para que se vea de qué depende que se cumpla la norma.")
 
     # ---------------- 2
     add_heading(doc, "2. Normas IMECA y entropía")
     add_para(doc,
-        "En el IMECA (Índice Metropolitano de la Calidad del Aire) el valor de 100 puntos corresponde al "
-        "límite de la norma de salud de cada contaminante (Secretaría del Medio Ambiente de la Ciudad de "
-        "México, 2018). Para el ozono el límite es de 0.095 ppm en una hora (Secretaría de Salud, 2014) y "
-        "para el monóxido de carbono de 11 ppm en promedio móvil de 8 horas (Secretaría de Salud, 1994), "
-        "el mismo valor que usé en la Tarea 1.2. Con el ozono comparé cada lectura horaria contra el "
-        "límite. Con el CO primero calculé el promedio de las 8 horas anteriores a cada hora, pidiendo al "
-        "menos 6 lecturas válidas en la ventana, y ese promedio es el que comparé con los 11 ppm.")
+        "En el IMECA (Índice Metropolitano de la Calidad del Aire) los 100 puntos equivalen al límite de "
+        "la norma de salud de cada contaminante (Secretaría del Medio Ambiente de la Ciudad de México, "
+        "2018). Para el ozono el límite es 0.095 ppm en una hora (Secretaría de Salud, 2014) y para el "
+        "monóxido de carbono 11 ppm en promedio móvil de 8 horas (Secretaría de Salud, 1994), que es el "
+        "mismo valor que usé en la Tarea 1.2. En el ozono comparé cada lectura horaria directamente con el "
+        "límite. En el CO saqué para cada hora el promedio de las 8 horas anteriores, con al menos 6 "
+        "lecturas válidas en la ventana, y comparé ese promedio con los 11 ppm.")
     add_pic(doc, p1, 6.2)
     add_caption(doc, "Figura 1. O3 horario y promedio móvil de 8 horas del CO en 2024 contra su norma IMECA.")
     add_para(doc,
-        f"De las {num(n_o3)} horas con lectura de ozono, {f_o3} quedaron arriba de 0.095 ppm, el "
-        f"{pct(f_o3 / n_o3, 2)}; el máximo fue de {max_o3:.3f} ppm. El CO nunca se acercó a su norma: de "
-        f"{num(n_co)} promedios de 8 horas el más alto fue de {max_co8:.2f} ppm y ni siquiera la lectura "
-        f"horaria más alta, de {max_co:.2f} ppm, llega a 11 (Figura 1). Las horas de ozono fuera de norma "
-        "se concentran de febrero a junio y entre las 11 y las 18 horas, que es cuando hay más sol.")
+        f"De las {num(n_o3)} horas con lectura de ozono, {f_o3} pasaron de 0.095 ppm, el "
+        f"{pct(f_o3 / n_o3, 2)}, y la más alta llegó a {max_o3:.3f} ppm. El CO quedó muy lejos de su norma. "
+        f"De {num(n_co)} promedios de 8 horas el mayor fue de {max_co8:.2f} ppm, y la lectura horaria más "
+        f"alta del año fue de {max_co:.2f} ppm, que tampoco llega a 11 (Figura 1). Casi todas las horas de "
+        "ozono fuera de norma fueron de febrero a junio, siempre entre las 11 y las 18 horas.")
     add_para(doc,
-        "La entropía binaria mide qué tan mezcladas están las dos clases, H = −Σ p(x) log₂ p(x). Vale 0 "
-        "cuando todas las lecturas son de una sola clase y 1 cuando hay la misma cantidad de cada una. "
-        "Siguiendo el ejemplo del tipo de motor de la sesión 13, para el ozono:")
+        "La entropía binaria, H = −Σ p(x) log₂ p(x), indica qué tan mezcladas están las dos clases. Es 0 "
+        "si todas las lecturas están en la misma clase y 1 si la mitad está en cada una. La calculé igual "
+        "que en el ejemplo del tipo de motor de la sesión 13:")
     filas_h = [
         ["O3 (1 h, 0.095 ppm)", num(n_o3 - f_o3), str(f_o3), f(p0_o3), f(p1_o3),
          f(plog(p0_o3)), f(plog(p1_o3)), f(H_o3)],
@@ -318,11 +317,10 @@ def build():
                [1.75, 0.6, 0.45, 0.7, 0.7, 0.85, 0.85, 0.7], hl=0)
     add_para(doc,
         f"S(O3) = −(({f(plog(p0_o3))}) + ({f(plog(p1_o3))})) = {f(H_o3)}. En el CO todas las lecturas "
-        f"están dentro de la norma, p(dentro) = 1 y log₂ 1 = 0, y el término de la clase vacía también es "
-        f"0 (se toma 0 log₂ 0 = 0), así que S(CO) = 0. El contaminante con mayor entropía es el ozono y es "
-        "el que clasifico con el árbol. La entropía del ozono es baja porque casi todas las horas cumplen "
-        "la norma, pero no es cero, y eso es lo que hace que haya algo que clasificar. Con el CO el árbol "
-        "no tendría nada que separar.")
+        f"están dentro de norma, así que p(dentro) = 1, log₂ 1 = 0 y el término de la clase vacía también "
+        f"vale 0 (se toma 0 log₂ 0 = 0). Por eso S(CO) = 0. El ozono tiene la entropía más alta y es el que "
+        "clasifiqué con el árbol. Su entropía es baja porque la mayoría de las horas cumplen la norma, pero "
+        "por lo menos hay casos de las dos clases. Con el CO no habría nada que separar.")
 
     # ---------------- 3
     add_heading(doc, "3. Árbol de decisión para el ozono")
@@ -334,30 +332,29 @@ def build():
                "Tabla 2. Contaminantes medidos en la estación Centro en 2024, además del ozono.",
                [1.3, 1.3, 2.4, 1.4])
     add_para(doc,
-        f"La estación Centro tiene columna de dióxido de azufre (SO2), pero en todo 2024 no registró una "
-        f"sola lectura, así que lo descarté como pide la tarea. Las variables del árbol fueron "
-        f"{', '.join(V[:-1])} y {V[-1]}. NO, NO2 y NOX sí tienen lecturas, pero solo de septiembre a "
-        f"diciembre (ya lo había visto en la Tarea 1.6), y de las {f_o3} horas fuera de norma solo "
-        f"{lect_fuera['NO2']} tienen dato de NO2. Las dejé en el modelo porque sí tienen lecturas y el "
-        "árbol de scikit-learn acepta valores faltantes: en cada corte prueba mandar las horas sin dato a "
-        "un lado o al otro y se queda con lo que reduzca más la entropía (Pedregosa et al., 2011).")
+        f"En la base de Centro viene la columna de dióxido de azufre (SO2), pero está vacía todo 2024, así "
+        f"que la quité como dice la tarea. Las variables del árbol quedaron como {', '.join(V[:-1])} y "
+        f"{V[-1]}. NO, NO2 y NOX sí tienen lecturas, aunque solo de septiembre a diciembre, como ya había "
+        f"visto en la Tarea 1.6, y de las {f_o3} horas fuera de norma solo {lect_fuera['NO2']} tienen dato "
+        "de NO2. Aun así las dejé porque sí tienen lecturas, y el árbol de scikit-learn puede trabajar con "
+        "datos faltantes. En cada corte prueba mandar las horas sin dato a un lado y al otro y escoge el "
+        "lado que deja menos entropía (Pedregosa et al., 2011).")
     add_heading(doc, "3.2 Construcción del árbol", level=2)
     add_para(doc,
-        "Usé CART (Breiman et al., 1984), que es el algoritmo del ejemplo de rendimiento de la sesión 13, "
-        "pero con la entropía como medida de impureza, igual que ID3 (Quinlan, 1986). En cada nodo el árbol "
-        "busca la variable y el valor de corte que más reducen la entropía. Por ejemplo, el primer corte "
-        f"que encontró fue PM10 ≤ {T.threshold[0]:.1f} µg/m³: de un lado quedan {num(nodo_n[izq])} horas, "
-        f"ninguna fuera de norma (entropía 0), y del otro {num(nodo_n[der])} horas con las {nodo_f[der]} "
-        f"fuera de norma (entropía {f(H_der)}). La ganancia de información es {f(H_o3)} − "
+        "Usé CART (Breiman et al., 1984), el algoritmo del ejemplo de rendimiento de la sesión 13, con la "
+        "entropía como medida de impureza, que es la que usa ID3 (Quinlan, 1986). En cada nodo el árbol "
+        "prueba todas las variables y valores de corte y se queda con el que más baja la entropía. El primer "
+        f"corte fue PM10 ≤ {T.threshold[0]:.1f} µg/m³. De un lado quedaron {num(nodo_n[izq])} horas sin "
+        f"ninguna fuera de norma (entropía 0) y del otro {num(nodo_n[der])} horas con las {nodo_f[der]} "
+        f"fuera de norma (entropía {f(H_der)}). La ganancia de información de ese corte es {f(H_o3)} − "
         f"({nodo_n[izq]}/{n_o3} × 0 + {nodo_n[der]}/{n_o3} × {f(H_der)}) = {f(ganancia)}.")
     add_para(doc,
-        f"Hubo un problema con el desbalance. Como solo el {pct(f_o3 / n_o3, 1)} de las horas están fuera "
-        f"de norma, un árbol normal aprende que siempre conviene decir \"dentro de norma\": lo probé y "
-        f"predice {n_pred_sin} horas fuera de norma, o sea ninguna, aunque acierta en el {pct(1 - f_o3 / n_o3, 1)} "
-        "de los casos. Para que le diera la misma importancia a las dos clases le puse pesos inversos a su "
-        f"frecuencia: cada hora fuera de norma pesa {w_fuera:.2f} y cada hora dentro {w_dentro:.3f}. "
-        "También limité la profundidad a 3 niveles y pedí al menos 50 horas por hoja para que el árbol se "
-        "pudiera leer y no se aprendiera casos sueltos.")
+        f"Como solo el {pct(f_o3 / n_o3, 1)} de las horas están fuera de norma, un árbol sin ajustes "
+        f"siempre dice \"dentro de norma\". Lo probé y predijo {n_pred_sin} horas fuera de norma, aunque así "
+        f"acierta en el {pct(1 - f_o3 / n_o3, 1)} de los casos. Para que tomara en cuenta las dos clases "
+        f"por igual les puse pesos inversos a su frecuencia, {w_fuera:.2f} a cada hora fuera de norma y "
+        f"{w_dentro:.3f} a cada hora dentro. Además lo limité a 3 niveles y a un mínimo de 50 horas por "
+        "hoja, para que se pudiera leer y no se ajustara a casos aislados.")
     add_heading(doc, "3.3 Resultado", level=2)
     filas_cm = [["Dentro de norma (real)", num(cm[0, 0]), num(cm[0, 1]), num(cm_cv[0, 0]), num(cm_cv[0, 1])],
                 ["Fuera de norma (real)", str(cm[1, 0]), str(cm[1, 1]), str(cm_cv[1, 0]), str(cm_cv[1, 1])]]
@@ -365,22 +362,22 @@ def build():
                filas_cm, "Tabla 3. Matriz de confusión del árbol con todos los datos y con validación "
                          "cruzada de 5 particiones (VC).", [1.8, 1.0, 1.0, 1.2, 1.2])
     add_para(doc,
-        f"El árbol identifica {cm[1, 1]} de las {f_o3} horas fuera de norma, y con validación cruzada, donde "
-        f"cada hora se clasifica con un árbol que no la vio, identifica {cm_cv[1, 1]}. El costo es que marca "
-        f"como riesgo {num(cm[0, 1])} horas que sí cumplieron la norma. Eso se entiende porque los otros "
-        "contaminantes no alcanzan para saber si el ozono va a pasar de 0.095 ppm. Lo que sí hacen bien es "
-        "separar las condiciones en las que eso puede pasar de las condiciones en las que nunca pasa. De las "
-        f"variables, PM10 tiene una importancia de {imp['PM10']:.2f}, CO de {imp['CO']:.2f} y PM2.5 de "
-        f"{imp['PM2.5']:.2f}. NO, NO2 y NOX no aparecen en ningún corte: con datos en solo "
-        f"{lect_fuera['NO2']} de las horas fuera de norma no le sirven para separar las clases.")
+        f"El árbol detecta {cm[1, 1]} de las {f_o3} horas fuera de norma. Con validación cruzada, en la que "
+        f"cada hora la clasifica un árbol que no se entrenó con ella, detecta {cm_cv[1, 1]}. A cambio marca "
+        f"como riesgo {num(cm[0, 1])} horas que sí cumplieron la norma, porque con los otros contaminantes "
+        "no se puede saber exactamente cuándo el ozono va a pasar de 0.095 ppm. Sí se puede saber en qué "
+        "condiciones nunca pasa y en cuáles es posible. La importancia de las variables fue de "
+        f"{imp['PM10']:.2f} para PM10, {imp['CO']:.2f} para CO y {imp['PM2.5']:.2f} para PM2.5. NO, NO2 y "
+        f"NOX no salieron en ningún corte, porque con datos en solo {lect_fuera['NO2']} de las horas fuera "
+        "de norma no ayudan a separar las clases.")
 
     # ---------------- 4
     add_heading(doc, "4. Diseño del árbol")
     add_para(doc,
-        "Para presentar el árbol no usé el dibujo que da la librería. En cada caja puse cuántas horas "
-        "llegan a ese nodo, cuántas estuvieron fuera de norma y qué porcentaje representan, y la pinté de "
-        "verde a rojo según ese porcentaje. En las ramas está la condición escrita con unidades, incluyendo "
-        "para dónde se van las horas sin dato. Así se puede seguir el árbol como una serie de preguntas.")
+        "No usé el dibujo que genera la librería, lo hice yo. Cada caja dice cuántas horas llegan a ese "
+        "nodo, cuántas estuvieron fuera de norma y qué porcentaje son, y el color va de verde a rojo según "
+        "ese porcentaje. En las ramas puse la condición con sus unidades y hacia qué lado se van las horas "
+        "sin dato, para que el árbol se pueda seguir pregunta por pregunta.")
     add_pic(doc, p2, 6.4)
     add_caption(doc, "Figura 2. Árbol de decisión para el cumplimiento de la norma de ozono, con diseño propio.")
     hr, n_r, f_r = hoja_riesgo, nodo_n[hoja_riesgo], nodo_f[hoja_riesgo]
@@ -388,56 +385,57 @@ def build():
     hoja_pm25 = T.children_right[T.children_right[n2]]
     co_alto_mid = o3.loc[o3.CO > t_hi].DATE.dt.hour.between(11, 18).mean()
     add_para(doc,
-        f"La lectura del árbol es esta. Si el PM10 está en {T.threshold[0]:.1f} µg/m³ o menos, el ozono "
-        f"cumplió la norma en las {num(nodo_n[izq])} horas. Si el PM10 es mayor, lo que decide es el CO: con "
-        f"CO entre {t_lo:.2f} y {t_hi:.2f} ppm están {num(n_r)} horas y ahí caen {f_r} de las {f_o3} horas "
-        f"fuera de norma. En esa hoja el {pct(f_r / n_r, 1)} de las horas rebasó la norma, "
-        f"{(f_r / n_r) / (f_o3 / n_o3):.1f} veces la proporción de todo el año. Con CO más bajo o más alto "
-        f"casi no hay casos. El último corte, PM2.5 ≤ {T.threshold[T.children_right[n2]]:.1f} µg/m³, no cambia "
-        f"la clasificación porque las dos hojas quedan como dentro de norma, y en la de PM2.5 alto solo hubo "
-        f"{nodo_f[hoja_pm25]} hora fuera de norma.")
+        f"Si el PM10 es de {T.threshold[0]:.1f} µg/m³ o menos, el ozono cumplió la norma en todas las "
+        f"{num(nodo_n[izq])} horas. Si el PM10 es mayor, depende del CO. Con CO entre {t_lo:.2f} y "
+        f"{t_hi:.2f} ppm hay {num(n_r)} horas y ahí están {f_r} de las {f_o3} horas fuera de norma. En esa "
+        f"hoja el {pct(f_r / n_r, 1)} de las horas pasó la norma, {(f_r / n_r) / (f_o3 / n_o3):.1f} veces "
+        f"más que en todo el año. Con CO más bajo o más alto casi no hubo casos. El último corte, "
+        f"PM2.5 ≤ {T.threshold[T.children_right[n2]]:.1f} µg/m³, no cambia la clasificación porque las dos "
+        f"hojas salen como dentro de norma, y en la de PM2.5 alto solo hubo {nodo_f[hoja_pm25]} hora fuera "
+        "de norma.")
     add_para(doc,
-        "En la Figura 3 puse el mismo árbol como regiones del plano CO contra PM10, parecido a la gráfica "
-        "de la sesión 13 que compara el corte de CART con la regresión logística. Cada corte del árbol es "
-        "una línea recta paralela a un eje, y la zona roja es la hoja de riesgo.")
+        "En la Figura 3 dibujé el mismo árbol como regiones del plano CO contra PM10, como la gráfica de la "
+        "sesión 13 donde se compara el corte de CART con la regresión logística. Cada corte es una línea "
+        "paralela a uno de los ejes y la zona roja es la hoja de riesgo.")
     add_pic(doc, p3, 5.9)
     add_caption(doc, f"Figura 3. Horas de 2024 en el plano PM10 contra CO y regiones del árbol. Se muestran "
                      f"PM10 hasta 150 µg/m³ y CO hasta 3 ppm; quedan fuera de la vista {fuera_vista} de "
                      f"{num(n_plano)} horas, ninguna fuera de norma.")
     add_para(doc,
-        f"Revisé si los cortes tienen sentido con los datos. El de PM10 tiene mucho que ver con la temporada "
-        f"de lluvias: de julio a septiembre solo el {pct(pm_lluvia, 0)} de las horas tuvo PM10 mayor a "
-        f"{t_pm:.1f} µg/m³, contra el {pct(pm_resto, 0)} en el resto del año, porque la lluvia limpia las "
-        f"partículas. Esos meses también son nublados y el ozono se forma con la luz del sol a partir de "
-        f"óxidos de nitrógeno y compuestos orgánicos, así que en julio, agosto y septiembre solo hubo "
-        f"{fuera_lluvia} horas fuera de norma. El corte del CO tiene que ver con la hora y con qué tan "
-        f"cargado está el aire. Las horas fuera de norma fueron todas entre las 11 y las 18 horas, cuando "
-        f"el CO normalmente baja porque el aire se mezcla más (mediana de {co_mediodia:.2f} ppm a esa "
-        f"hora), pero en esas horas la mediana del CO fue de {co_med_fuera:.2f} ppm: eran días con más "
-        f"emisiones del tráfico, que también traen los precursores del ozono. El CO arriba de "
-        f"{t_hi:.2f} ppm casi nunca se da a mediodía (solo el {pct(co_alto_mid, 1)} de esas horas cae "
-        f"entre las 11 y las 18 horas); son horas de la mañana y de la noche, cuando no hay sol suficiente "
-        f"para formar ozono.")
+        f"Quise ver si los cortes tenían sentido. El de PM10 coincide bastante con la temporada de lluvias. "
+        f"De julio a septiembre solo el {pct(pm_lluvia, 0)} de las horas tuvo PM10 arriba de {t_pm:.1f} "
+        f"µg/m³, y en el resto del año fue el {pct(pm_resto, 0)}, porque la lluvia limpia las partículas. "
+        f"En esos meses también hay más nubes, y como el ozono se forma con la luz del sol a partir de "
+        f"óxidos de nitrógeno y compuestos orgánicos, en julio, agosto y septiembre solo hubo "
+        f"{fuera_lluvia} horas fuera de norma.")
     add_para(doc,
-        f"Esto también explica las falsas alarmas. El árbol no sabe qué hora es y solo el "
-        f"{pct(r_hora.between(11, 18).mean(), 0)} de las horas de la hoja de riesgo caen entre las 11 y "
-        "las 18 horas; el resto son horas de la noche o la madrugada con valores parecidos de CO y PM10, "
-        "en las que el ozono no puede llegar a la norma.")
+        f"El corte del CO va más con la hora y con qué tan contaminado está el aire. Las horas fuera de "
+        f"norma fueron todas entre las 11 y las 18 horas. A esa hora el CO suele bajar porque el aire se "
+        f"mezcla más (la mediana es de {co_mediodia:.2f} ppm), pero en las horas fuera de norma la mediana "
+        f"fue de {co_med_fuera:.2f} ppm, o sea que eran días con más emisiones del tráfico, que también "
+        f"traen los contaminantes que forman el ozono. El CO arriba de {t_hi:.2f} ppm casi no se da a "
+        f"mediodía, solo el {pct(co_alto_mid, 1)} de esas horas cae entre las 11 y las 18. Son horas de la "
+        "mañana y la noche, cuando no hay sol para que se forme ozono.")
+    add_para(doc,
+        f"Con esto se entienden también las falsas alarmas. El árbol no sabe la hora y solo el "
+        f"{pct(r_hora.between(11, 18).mean(), 0)} de las horas de la hoja de riesgo son entre las 11 y las "
+        "18. Las demás son de la noche o la madrugada, con valores parecidos de CO y PM10, pero sin sol el "
+        "ozono no llega a la norma.")
 
     # ---------------- 5
     add_heading(doc, "5. Conclusiones")
     add_para(doc,
-        f"El ozono fue el contaminante con mayor entropía ({f(H_o3)} contra 0 del CO), porque es el único "
-        f"que rebasó su norma en la estación Centro: {f_o3} horas en 2024. El árbol, con PM10, CO y PM2.5 "
-        f"como variables útiles, encontró que el ozono nunca rebasó la norma con PM10 de "
-        f"{T.threshold[0]:.1f} µg/m³ o menos, y que casi todas las horas fuera de norma ({f_r} de {f_o3}) "
-        f"ocurrieron con PM10 alto y CO entre {t_lo:.2f} y {t_hi:.2f} ppm.")
+        f"El ozono tuvo la entropía más alta ({f(H_o3)} contra 0 del CO) porque fue el único contaminante "
+        f"que pasó su norma en Centro, con {f_o3} horas en 2024. Según el árbol, que terminó usando PM10, "
+        f"CO y PM2.5, el ozono nunca pasó la norma con PM10 de {T.threshold[0]:.1f} µg/m³ o menos, y casi "
+        f"todas las horas fuera de norma ({f_r} de {f_o3}) fueron con PM10 alto y CO entre {t_lo:.2f} y "
+        f"{t_hi:.2f} ppm.")
     add_para(doc,
-        "No es un modelo para predecir el ozono hora por hora, porque marca muchas horas de riesgo que "
-        "terminaron dentro de norma. Lo que sí deja es una regla fácil de leer sobre en qué condiciones "
-        "puede rebasarse la norma, y eso es lo que tienen los árboles por ser de caja blanca. Para "
-        "mejorarlo agregaría variables meteorológicas como la radiación solar o la temperatura, que tienen "
-        "más que ver con la formación del ozono, pero la tarea pedía usar solo contaminantes.")
+        "El árbol no sirve para predecir el ozono hora por hora, porque marca muchas horas de riesgo que "
+        "al final cumplieron la norma. Pero da una regla sencilla de en qué condiciones puede pasarse la "
+        "norma, y se puede leer completa porque es un modelo de caja blanca. Si se pudieran usar variables "
+        "meteorológicas, agregaría la radiación solar y la temperatura, que influyen más en la formación "
+        "del ozono, pero en esta tarea solo se podían usar contaminantes.")
 
     add_heading(doc, "Referencias")
     for t in [
