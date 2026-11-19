@@ -86,57 +86,53 @@ def build():
     add_para(doc, sb=8, sa=0)
     add_heading(doc, "1. Introducción")
     add_para(doc,
-        "En esta actividad trabajé con el proyecto del profesor para clasificar imágenes de Pokémon "
-        "con una red neuronal convolucional (CNN). El código está organizado como en el curso de "
-        "PyTorch de Bourke (s.f.): data_setup.py arma los DataLoaders, model_builder.py define la red "
-        "TinyVGG, engine.py tiene los ciclos de entrenamiento y prueba, y train.py junta todo. En molab "
-        "el profesor dejó la misma versión como cuaderno de marimo, con 10 épocas. Además, en el "
-        "repositorio hay un segundo cuaderno que usa transferencia de aprendizaje con EfficientNet-B0.")
+        "Para esta actividad usé el proyecto del profesor que clasifica imágenes de Pokémon con una red "
+        "neuronal convolucional (CNN). El código sigue la estructura del curso de PyTorch de Bourke (s.f.), "
+        "con un archivo para cada parte: data_setup.py crea los DataLoaders, model_builder.py tiene la red "
+        "TinyVGG, engine.py los ciclos de entrenamiento y prueba, y train.py manda llamar todo. La versión "
+        "de molab es el mismo código en un cuaderno de marimo, con 10 épocas. En el repositorio también "
+        "viene un cuaderno de transferencia de aprendizaje con EfficientNet-B0.")
     add_para(doc,
-        "No me quise quedar solo en correr el código y anotar la exactitud final. Corrí los dos modelos en "
-        "mi computadora y revisé tres cosas: si el conjunto de prueba realmente mide lo que el modelo "
-        "aprendió, qué tanto se sobreajusta TinyVGG y qué papel juega el aumento de datos, y cuánto se "
-        "gana al partir de una red ya entrenada con ImageNet. Usé el código del profesor sin cambiar la "
-        "arquitectura, la función de pérdida, el optimizador ni los hiperparámetros, y fijé las semillas "
-        "para que los resultados se puedan repetir.")
+        "Entrené los dos modelos en mi computadora con la GPU. No cambié la arquitectura, la pérdida, el "
+        "optimizador ni los hiperparámetros del profesor, y fijé las semillas para poder repetir los "
+        "resultados. Además de ver qué exactitud alcanzaba cada modelo, revisé si el conjunto de prueba "
+        "estaba bien separado, qué tanto se sobreajusta TinyVGG, cuánto ayuda el aumento de datos y en qué "
+        "Pokémon se equivocan los modelos.")
 
     # ---------------------------------------------------------------- 2
     add_heading(doc, "2. Datos")
     add_para(doc,
-        "El README del proyecto apunta al conjunto Pokemon Classification de Kaggle (Lantian, s.f.), pero "
-        "para descargarlo se necesita una cuenta con token de la API. Por eso usé PokemonData, una versión "
-        "pública que está en Hugging Face (sgtsaughter, 2024) con la misma organización: una carpeta por "
-        f"especie, {n_cls} especies en total. Son {num(n_img)} imágenes JPG y "
-        "todas se pudieron abrir. Busqué archivos repetidos comparando el hash MD5 y solo encontré 5 "
-        "copias exactas, así que no influyen en los resultados.")
+        "El README del proyecto usa el conjunto Pokemon Classification de Kaggle (Lantian, s.f.), pero para "
+        "bajarlo se necesita cuenta y token de la API. Usé en su lugar PokemonData, que está público en "
+        "Hugging Face (sgtsaughter, 2024) y viene organizado igual, con una carpeta por especie. Tiene "
+        f"{num(n_img)} imágenes JPG de las {n_cls} especies de la primera generación y todas abrieron sin "
+        "problema. Revisé si había archivos repetidos con el hash MD5 y solo había 5, así que no afectan.")
     add_para(doc,
-        f"Las clases no están balanceadas: la que menos imágenes tiene es {cls_min}, con {min(conteo)}, y las "
-        f"que más, {cls_max}, con {max(conteo)} cada una. La mediana es de {I['conteo_mediana']:.0f} imágenes por "
-        "especie (Figura 1). Para un problema de 151 clases es poco, porque la red tiene que distinguir "
-        "cada especie a partir de unas decenas de ejemplos. Además las imágenes son muy variadas: hay "
-        "ilustraciones oficiales, capturas de la serie, cartas, figuras, peluches y dibujos de fans, con "
-        "fondos de todo tipo.")
+        f"No todas las especies tienen el mismo número de imágenes. {cls_min} es la que menos tiene, con "
+        f"{min(conteo)}, y {cls_max} las que más, con {max(conteo)} cada una. La mediana es de "
+        f"{I['conteo_mediana']:.0f} (Figura 1). Para 151 clases son pocas imágenes por clase, y además son "
+        "muy distintas entre sí: hay ilustraciones oficiales, escenas de la serie, cartas, figuras, peluches "
+        "y dibujos hechos por fans, cada una con su propio fondo.")
     add_pic(doc, FIG["conteo"], 4.6)
     add_caption(doc, "Figura 1. Número de imágenes por especie.")
     add_para(doc,
-        "TinyVGG recibe las imágenes reducidas a 64 x 64 píxeles, mientras que EfficientNet-B0 las recibe "
-        "a 224 x 224, que es el tamaño con el que se preentrenó. En la Figura 2 se ve lo que se pierde con "
-        "la reducción: los contornos y los colores se mantienen, pero detalles como los ojos, las manchas o "
-        "las texturas quedan en unos cuantos píxeles. Este punto pesa más adelante, cuando la red tiene "
-        "que separar especies parecidas.")
+        "TinyVGG trabaja con las imágenes a 64 x 64 píxeles y EfficientNet-B0 a 224 x 224, que es el tamaño "
+        "con el que se preentrenó. En la Figura 2 se nota la diferencia. A 64 x 64 se siguen viendo la "
+        "silueta y los colores, pero los ojos, las manchas y otros detalles quedan en muy pocos píxeles, y "
+        "eso después se refleja en los errores entre especies parecidas.")
     add_pic(doc, FIG["muestras"], 6.3)
     add_caption(doc, "Figura 2. La misma imagen como la recibe cada modelo: 224 x 224 (arriba) y 64 x 64 (abajo).")
 
     # ---------------------------------------------------------------- 3
     add_heading(doc, "3. La red TinyVGG")
     add_para(doc,
-        "TinyVGG es la versión reducida de VGG (Simonyan y Zisserman, 2015) que usa CNN Explainer para "
-        "enseñar cómo funciona una red convolucional (Wang et al., 2021). Tiene dos bloques iguales y un "
-        "clasificador. Cada bloque aplica dos convoluciones de 3 x 3 con ReLU y después un max pooling "
-        "de 2 x 2. Una convolución recorre la imagen con filtros pequeños y en cada posición calcula una "
-        "suma ponderada, así que cada filtro aprende a detectar un patrón local, por ejemplo un borde o un "
-        "cambio de color, sin importar en qué parte de la imagen esté (LeCun et al., 1998). El pooling se "
-        "queda con el valor más alto de cada ventana de 2 x 2, con lo que reduce el tamaño a la mitad.")
+        "TinyVGG es una versión chica de VGG (Simonyan y Zisserman, 2015) que se usa en CNN Explainer para "
+        "explicar cómo funciona una red convolucional (Wang et al., 2021). Tiene dos bloques y un "
+        "clasificador. En cada bloque hay dos convoluciones de 3 x 3 con ReLU y luego un max pooling de "
+        "2 x 2. La convolución pasa filtros pequeños por toda la imagen y en cada posición calcula una suma "
+        "ponderada de los píxeles, por lo que cada filtro termina detectando un patrón local, como un borde o "
+        "un cambio de color, en cualquier parte de la imagen (LeCun et al., 1998). El max pooling toma el "
+        "valor más alto de cada ventana de 2 x 2 y así reduce a la mitad el alto y el ancho.")
     filas = [
         ["Entrada", "3 x 64 x 64", "0"],
         ["Conv 3x3 + ReLU", f"{H} x 62 x 62", num(p_conv1)],
@@ -153,35 +149,34 @@ def build():
                "Tabla 1. Tamaños y parámetros de TinyVGG con hidden_units = 64 y 151 clases.",
                [2.0, 1.8, 1.4], hl=len(filas) - 1)
     add_para(doc,
-        "En model_builder.py hay un comentario que pregunta de dónde sale el 13 x 13 de la capa lineal. "
-        "Sale de la Tabla 1: como las convoluciones no tienen relleno (padding = 0), cada una le quita un "
-        "píxel a cada lado, y cada pooling divide entre dos. Así, 64 pasa a 62 y a 60, el pooling lo deja "
-        f"en 30, luego 28 y 26, y el segundo pooling en 13. Al aplanar quedan 64 x 13 x 13 = {num(flat)} "
-        "valores por imagen. Si se cambia el tamaño de entrada hay que recalcular este número, porque si "
-        "no la capa lineal no coincide con la salida del segundo bloque.")
+        "En model_builder.py el profesor dejó un comentario preguntando de dónde sale el 13 x 13 de la capa "
+        "lineal. Las convoluciones no usan relleno (padding = 0), así que cada una le quita un píxel a cada "
+        "orilla, y cada pooling divide el tamaño entre dos. La imagen pasa de 64 a 62 y a 60, el pooling la "
+        f"deja en 30, después baja a 28 y a 26, y con el segundo pooling queda en 13 (Tabla 1). Al aplanar "
+        f"son 64 x 13 x 13 = {num(flat)} valores por imagen. Si se usa otro tamaño de entrada hay que "
+        "recalcular este número, si no la capa lineal no coincide con lo que sale del segundo bloque.")
     add_para(doc,
-        f"Lo que más me sorprendió es dónde quedan los parámetros. Las cuatro convoluciones juntas tienen "
-        f"{num(p_conv1 + 3 * p_conv)}, porque cada filtro de 3 x 3 se comparte en toda la imagen. La capa "
-        f"lineal, en cambio, conecta los {num(flat)} valores con las {n_cls} clases y tiene {num(p_lin)}, "
-        f"el {p_lin / p_tiny * 100:.1f} % del total. Es la parte de la red que más fácilmente puede "
-        "memorizar el conjunto de entrenamiento, y eso se nota en los resultados.")
+        f"Contando parámetros, las cuatro convoluciones suman {num(p_conv1 + 3 * p_conv)}, porque cada filtro "
+        f"de 3 x 3 se reutiliza en toda la imagen. La capa lineal une los {num(flat)} valores con las "
+        f"{n_cls} clases y tiene {num(p_lin)} parámetros, el {p_lin / p_tiny * 100:.1f} % de la red. Con "
+        "tantos parámetros en una sola capa es fácil que el modelo memorice las imágenes de entrenamiento, y "
+        "eso se ve en los resultados.")
 
     # ---------------------------------------------------------------- 4
     add_heading(doc, "4. Entrenamiento y experimentos")
     add_para(doc,
-        "Usé la configuración de train.py: pérdida de entropía cruzada, optimizador Adam con tasa de "
-        "aprendizaje 0.001 y lotes de 32 imágenes. Antes de entrar a la red, cada imagen se reduce a "
-        "64 x 64, se voltea horizontalmente al azar, se gira hasta 25 grados y se normaliza a [-1, 1]. "
-        "El volteo y el giro son el aumento de datos: en cada época la red ve una versión un poco distinta "
-        "de la misma imagen, como si hubiera más ejemplos (Shorten y Khoshgoftaar, 2019). Para no leer "
-        "miles de archivos JPG en cada época, guardé las imágenes ya reducidas en memoria y apliqué las "
-        "mismas transformaciones del profesor sobre ellas, lo que da el mismo resultado.")
+        "La configuración es la de train.py: entropía cruzada como pérdida, Adam con tasa de aprendizaje "
+        "0.001 y lotes de 32 imágenes. Cada imagen se reduce a 64 x 64, se voltea horizontalmente al azar, "
+        "se gira hasta 25 grados y se normaliza a [-1, 1]. El volteo y el giro son aumento de datos, porque "
+        "en cada época la red ve la imagen un poco cambiada y es como tener más ejemplos (Shorten y "
+        "Khoshgoftaar, 2019). Para que el entrenamiento no tuviera que leer los JPG en cada época, cargué "
+        "las imágenes ya reducidas en memoria y sobre ellas apliqué las mismas transformaciones.")
     add_para(doc,
-        "Al revisar get_data.py me di cuenta de que el conjunto de prueba se arma copiando 15 imágenes al "
-        "azar de cada especie con shutil.copy. Como se copian y no se mueven, esas imágenes siguen en la "
-        "carpeta de entrenamiento y el modelo las ve durante el entrenamiento. A esto se le conoce como "
-        "fuga de información (Kaufman et al., 2012). Por eso planteé cuatro experimentos con las mismas "
-        f"15 imágenes de prueba por especie ({num(n_te)} en total):")
+        "Revisando get_data.py vi que el conjunto de prueba se forma copiando 15 imágenes al azar de cada "
+        "especie con shutil.copy. Al copiarlas, las imágenes se quedan también en la carpeta de "
+        "entrenamiento, y el modelo entrena con las mismas imágenes con las que después se evalúa. Esto es "
+        "una fuga de información (Kaufman et al., 2012). Para medir su efecto hice cuatro experimentos, "
+        f"todos con las mismas 15 imágenes de prueba por especie ({num(n_te)} en total):")
     exps = [
         ["E1", "TinyVGG, como en el repositorio", "Todas (incluye las de prueba)", "Sí (también en prueba)", "10"],
         ["E2", "TinyVGG, separación limpia", f"{num(I['n_train_limpio'])} (sin las de prueba)", "Sí (solo entrenamiento)", "30"],
@@ -192,73 +187,69 @@ def build():
                "Tabla 2. Experimentos. Todos usan Adam (lr = 0.001), lotes de 32 y semilla 42.",
                [0.4, 1.9, 1.9, 1.5, 0.6])
     add_para(doc,
-        "E1 reproduce exactamente lo que hace el repositorio, con las 10 épocas del cuaderno de molab. "
-        "En E2 saqué las imágenes de prueba del entrenamiento y dejé de aplicar el giro y el volteo a la "
-        "prueba, porque ahí solo interesa medir. Lo entrené 30 épocas para ver qué pasa después de las 10. "
-        "E3 es igual a E2 pero sin aumento de datos, para medir cuánto aporta. E4 es el cuaderno de "
-        "transferencia de aprendizaje con la misma separación limpia que E2.")
+        "E1 es el repositorio tal cual, con las 10 épocas de molab. En E2 quité las imágenes de prueba del "
+        "entrenamiento y ya no les apliqué el giro ni el volteo, porque en la prueba solo se quiere medir. "
+        "Lo dejé 30 épocas para ver qué pasaba después de la 10. E3 es igual a E2 pero sin aumento de datos. "
+        "E4 es el cuaderno de transferencia de aprendizaje con la misma separación que E2.")
 
     # ---------------------------------------------------------------- 5
     add_heading(doc, "5. Resultados")
     add_heading(doc, "5.1 El conjunto de prueba del repositorio", level=2)
     add_para(doc,
-        f"Con la configuración original (E1), después de 10 épocas la exactitud en prueba fue de "
-        f"{p1(e1_10)} y la de entrenamiento de {p1(R['E1']['train_acc'][9])}. Si se evalúa esa misma prueba "
-        f"sin el giro ni el volteo, sube a {p1(R['E1']['acc_final'])}. Lo raro es que en todas las épocas "
-        "la prueba sale mejor que el entrenamiento, tanto en exactitud como en pérdida (Figura 3), y eso no "
-        "debería pasar con datos que el modelo no ha visto. La explicación es la fuga: el modelo ya conoce "
-        "esas imágenes, y además en el entrenamiento la exactitud se calcula mientras los pesos todavía se "
-        "están ajustando, así que siempre va un poco atrás.")
+        f"En E1, al terminar las 10 épocas, la exactitud fue de {p1(e1_10)} en prueba y "
+        f"{p1(R['E1']['train_acc'][9])} en entrenamiento. Evaluando la prueba sin giro ni volteo sube a "
+        f"{p1(R['E1']['acc_final'])}. En todas las épocas la prueba sale mejor que el entrenamiento, en "
+        "exactitud y en pérdida (Figura 3), y con imágenes nuevas eso normalmente no pasa. Pasa porque el "
+        "modelo ya había visto esas imágenes. También influye que la exactitud de entrenamiento se va "
+        "calculando mientras los pesos cambian dentro de la época, y por eso queda un poco abajo.")
     add_pic(doc, FIG["e1"], 6.2)
     add_caption(doc, "Figura 3. E1 (configuración del repositorio) contra la prueba limpia de E2 en las primeras 10 épocas.")
     add_para(doc,
-        f"La línea azul es la misma red entrenada sin las imágenes de prueba. En la época 10 llega a "
-        f"{p1(e2_10)}, {(e1_10 - e2_10) * 100:.1f} puntos menos que E1. Esa diferencia es lo que la fuga "
-        "infla la exactitud. Si solo se corriera el código del repositorio, uno se quedaría con la idea de "
-        "que TinyVGG clasifica 3 de cada 4 imágenes nuevas, cuando en realidad es poco más de la mitad. "
-        "Para todo lo que sigue usé la separación limpia.")
+        f"En azul está la misma red pero entrenada sin las imágenes de prueba (E2). En la época 10 tiene "
+        f"{p1(e2_10)}, {(e1_10 - e2_10) * 100:.1f} puntos abajo de E1, y esa es la parte de la exactitud "
+        "que viene de la fuga. Con el código original parecería que TinyVGG acierta 3 de cada 4 imágenes "
+        "nuevas, y en realidad acierta poco más de la mitad. Por eso en el resto del trabajo usé la "
+        "separación limpia.")
 
     add_heading(doc, "5.2 Sobreajuste y aumento de datos", level=2)
     add_para(doc,
-        f"En E2 la exactitud en prueba sube rápido al principio, llega a su máximo de {p1(e2_best)} en la "
-        f"época {e2_best_ep}, pero desde la época 8 ya solo se mueve entre 56 % y 59 % y termina en "
-        f"{p1(R['E2']['acc_final'])}. "
-        f"Mientras tanto, la exactitud de entrenamiento sigue subiendo hasta {p1(R['E2']['train_acc'][-1])}. "
-        f"La pérdida de prueba es la que mejor muestra el sobreajuste: llega a su mínimo de "
-        f"{min(R['E2']['test_loss']):.2f} en la época {e2_minloss_ep} y luego sube hasta "
-        f"{R['E2']['test_loss'][-1]:.2f} (Figura 4). Que la pérdida suba mientras la exactitud se mantiene "
-        "quiere decir que el modelo sigue acertando en las mismas imágenes, pero cuando se equivoca lo hace "
-        "con más seguridad. Con estos datos, entrenar más de 10 épocas no ayuda.")
+        f"En E2 la exactitud de prueba sube rápido en las primeras épocas. Su máximo es {p1(e2_best)} en la "
+        f"época {e2_best_ep}, pero desde la época 8 solo se mueve entre 56 % y 59 %, y al final queda en "
+        f"{p1(R['E2']['acc_final'])}. La de entrenamiento, en cambio, sigue subiendo hasta "
+        f"{p1(R['E2']['train_acc'][-1])}. El sobreajuste se ve mejor en la pérdida de prueba, que tiene su "
+        f"mínimo de {min(R['E2']['test_loss']):.2f} en la época {e2_minloss_ep} y de ahí sube hasta "
+        f"{R['E2']['test_loss'][-1]:.2f} (Figura 4). La exactitud casi no cambia mientras la pérdida sube "
+        "porque el modelo acierta más o menos las mismas imágenes, pero en las que falla cada vez está más "
+        "seguro de la respuesta equivocada. Entrenar más de 10 épocas no le sirvió.")
     add_pic(doc, FIG["e2e3"], 6.2)
     add_caption(doc, "Figura 4. TinyVGG con separación limpia, con aumento de datos (E2) y sin él (E3).")
     add_para(doc,
-        f"Sin aumento de datos (E3) el sobreajuste es mucho más fuerte. En 5 épocas la red ya acierta el "
-        f"{p1(R['E3']['train_acc'][4])} del entrenamiento y termina en {p1(R['E3']['train_acc'][-1])}, es "
-        f"decir, se aprende las imágenes de memoria. La prueba tiene su mejor punto en la época "
-        f"{e3_best_ep} con {p1(e3_best)}, de ahí baja hasta {p1(R['E3']['acc_final'])}, y la pérdida de "
-        f"prueba se dispara hasta {R['E3']['test_loss'][-1]:.2f}. El giro y el volteo valen "
-        f"{(R['E2']['acc_final'] - R['E3']['acc_final']) * 100:.1f} puntos de exactitud al final. Aun así, "
-        "el aumento no resuelve todo: E2 también se sobreajusta, solo que más despacio.")
+        f"Sin aumento de datos (E3) se sobreajusta mucho más. A la época 5 ya acierta el "
+        f"{p1(R['E3']['train_acc'][4])} del entrenamiento y termina en {p1(R['E3']['train_acc'][-1])}, o sea, "
+        f"ya se memorizó las imágenes. En prueba su mejor época es la {e3_best_ep}, con {p1(e3_best)}, luego "
+        f"baja a {p1(R['E3']['acc_final'])} y la pérdida de prueba llega a {R['E3']['test_loss'][-1]:.2f}. "
+        f"Al final, el giro y el volteo aportan {(R['E2']['acc_final'] - R['E3']['acc_final']) * 100:.1f} "
+        "puntos de exactitud. Aun con aumento de datos E2 también se sobreajusta, nada más que tarda más.")
 
     add_heading(doc, "5.3 Transferencia de aprendizaje con EfficientNet-B0", level=2)
     add_para(doc,
-        "El segundo cuaderno del repositorio parte de EfficientNet-B0 (Tan y Le, 2019) con los pesos "
-        "entrenados en ImageNet (Deng et al., 2009), en su versión de 1,000 categorías y alrededor de "
-        "1.2 millones de fotos. Congela toda la parte convolucional (features), que ya sabe detectar bordes, texturas "
-        "y formas, y solo cambia la última capa por una nueva de 1,280 a 151 salidas. La idea es que las "
-        "características de las primeras capas sirven para casi cualquier problema de imágenes y que solo "
-        f"hay que aprender a combinarlas (Yosinski et al., 2014). De los {num(R['E4']['params_total'])} "
-        f"parámetros de la red solo se entrenan {num(R['E4']['params_entrenables'])}, el "
-        f"{R['E4']['params_entrenables'] / R['E4']['params_total'] * 100:.1f} %, que incluso son menos que "
-        f"los {num(p_tiny)} de TinyVGG.")
+        "El otro cuaderno del repositorio usa EfficientNet-B0 (Tan y Le, 2019) con pesos entrenados en "
+        "ImageNet (Deng et al., 2009), en la versión de 1,000 categorías y alrededor de 1.2 millones de "
+        "fotos. Las capas convolucionales (features) se congelan, porque ya saben reconocer bordes, texturas "
+        "y formas, y solo se reemplaza la última capa por una de 1,280 entradas a 151 salidas. Las "
+        "características que aprenden las primeras capas sirven para casi cualquier problema de imágenes "
+        f"(Yosinski et al., 2014). De los {num(R['E4']['params_total'])} parámetros de la red solo se "
+        f"entrenan {num(R['E4']['params_entrenables'])}, el "
+        f"{R['E4']['params_entrenables'] / R['E4']['params_total'] * 100:.1f} %, que son menos que los "
+        f"{num(p_tiny)} de TinyVGG.")
     add_pic(doc, FIG["e4"], 6.2)
     add_caption(doc, "Figura 5. Transferencia de aprendizaje con EfficientNet-B0 (E4). La línea punteada es el mejor valor de TinyVGG.")
     add_para(doc,
-        f"Desde la primera época EfficientNet-B0 ya tiene {p1(R['E4']['test_acc'][0])} en prueba, más que "
-        f"el mejor resultado de TinyVGG en 30 épocas, y termina la quinta con {p1(R['E4']['acc_final'])} "
-        f"(Figura 5). El entrenamiento tardó {R['E4']['segundos']:.0f} segundos en la GPU. La distancia "
-        f"entre entrenamiento ({p1(R['E4']['train_acc'][-1])}) y prueba es mucho menor que en TinyVGG y la "
-        "pérdida de prueba sigue bajando en todas las épocas, así que todavía no se sobreajusta.")
+        f"En la primera época EfficientNet-B0 ya llega a {p1(R['E4']['test_acc'][0])} en prueba, arriba de "
+        f"lo mejor que logró TinyVGG en 30 épocas, y en la quinta termina con {p1(R['E4']['acc_final'])} "
+        f"(Figura 5). Entrenarla tomó {R['E4']['segundos']:.0f} segundos en la GPU. La diferencia entre "
+        f"entrenamiento ({p1(R['E4']['train_acc'][-1])}) y prueba es menor que en TinyVGG y la pérdida de "
+        "prueba bajó en todas las épocas, así que en 5 épocas todavía no se sobreajusta.")
 
     add_heading(doc, "5.4 Comparación y errores", level=2)
     comp = [
@@ -271,26 +262,24 @@ def build():
                f"Tabla 3. Resultados finales sobre las {num(n_te)} imágenes de prueba, sin aumento de datos.",
                [1.9, 0.9, 0.8, 1.3, 1.5], hl=3)
     add_para(doc,
-        "La exactitud top-5 cuenta como acierto que la especie correcta esté entre las cinco con mayor "
-        "probabilidad. EfficientNet-B0 la tiene en "
-        f"{p1(R['E4']['top5'])}, lo que quiere decir que aun cuando falla casi siempre tiene la respuesta "
-        "correcta entre sus primeras opciones.")
+        "En la exactitud top-5 se cuenta como acierto si la especie correcta está entre las cinco que el "
+        f"modelo considera más probables. Con EfficientNet-B0 es {p1(R['E4']['top5'])}, entonces aunque "
+        "se equivoque, casi siempre tiene la respuesta correcta entre sus primeras opciones.")
     add_para(doc,
-        f"Para entender los errores revisé el resultado por especie. Con E4, {S['E4']['n_perfectas']} especies "
-        f"acertaron las 15 imágenes y ninguna se quedó en cero. Las más bajas fueron "
+        f"También revisé los aciertos por especie. Con E4, {S['E4']['n_perfectas']} especies tuvieron las 15 "
+        f"imágenes bien y ninguna se quedó en cero. Las más bajas fueron "
         f"{', '.join(c for c, a in peores4[:n_peor4])}, con {p1(peores4[0][1])}. En TinyVGG (E2) la peor fue "
-        f"{peores2[0][0]}, que solo acertó {round(peores2[0][1] * 15)} de 15. La correlación entre el número "
-        f"de imágenes de cada especie y su exactitud es baja ({S['E4']['corr_conteo_acc']:.2f} en E4 y "
-        f"{S['E2']['corr_conteo_acc']:.2f} en E2), así que el desbalance no explica la mayoría de los errores.")
+        f"{peores2[0][0]}, con solo {round(peores2[0][1] * 15)} de 15. Calculé la correlación entre cuántas "
+        f"imágenes tiene cada especie y su exactitud, y salió baja ({S['E4']['corr_conteo_acc']:.2f} en E4 y "
+        f"{S['E2']['corr_conteo_acc']:.2f} en E2), así que la mayoría de los errores no vienen del desbalance.")
     add_para(doc,
-        f"Lo que sí los explica es el parecido entre especies. Las diez confusiones más frecuentes de E4 son "
-        f"todas entre Pokémon de la misma línea evolutiva: {conf4[0][0]} con {conf4[0][1]} "
+        f"Los errores vienen más bien de especies que se parecen. Las diez confusiones más frecuentes de E4 "
+        f"son entre Pokémon de la misma línea evolutiva, por ejemplo {conf4[0][0]} con {conf4[0][1]} "
         f"({conf4[0][2]} de 15), {conf4[1][0]} con {conf4[1][1]}, {conf4[2][0]} con {conf4[2][1]} y "
-        f"{conf4[3][0]} con {conf4[3][1]}, entre otras (Figura 6). Estas especies comparten colores y "
-        "forma, y muchas veces solo cambian en el tamaño, que en una imagen no se puede saber, o en "
-        f"detalles chicos. En TinyVGG pasa lo mismo, por ejemplo {conf2[0][0]} con {conf2[0][1]} "
-        f"({conf2[0][2]} de 15) y {conf2[1][0]} con {conf2[1][1]} ({conf2[1][2]} de 15), y a 64 x 64 esos "
-        "detalles casi desaparecen.")
+        f"{conf4[3][0]} con {conf4[3][1]} (Figura 6). Tienen colores y formas parecidas, y muchas veces "
+        "cambian en el tamaño, que en una imagen no se puede saber, o en detalles pequeños. TinyVGG se "
+        f"confunde igual, por ejemplo {conf2[0][0]} con {conf2[0][1]} ({conf2[0][2]} de 15) y "
+        f"{conf2[1][0]} con {conf2[1][1]} ({conf2[1][2]} de 15), y a 64 x 64 esos detalles casi no se ven.")
     add_pic(doc, FIG["errores"], 6.3)
     add_caption(doc, "Figura 6. Las cinco confusiones más frecuentes de EfficientNet-B0: arriba una imagen mal "
                      "clasificada y abajo un ejemplo de la especie que predijo el modelo.")
@@ -298,26 +287,25 @@ def build():
     # ---------------------------------------------------------------- 6
     add_heading(doc, "6. Conclusiones")
     add_para(doc,
-        "Lo más importante que saqué de esta actividad es que el número que imprime el entrenamiento no "
-        "siempre mide lo que uno cree. Con el conjunto de prueba del repositorio TinyVGG parece llegar a "
-        f"{p1(e1_10)}, pero en imágenes que de verdad no ha visto se queda en {p1(e2_10)} con las mismas "
-        "10 épocas. Para evitarlo basta con mover las imágenes en lugar de copiarlas en get_data.py "
-        "(shutil.move en vez de shutil.copy) y no aplicar el aumento de datos a la prueba.")
+        "Con el conjunto de prueba del repositorio TinyVGG parece llegar a "
+        f"{p1(e1_10)}, pero con imágenes que no vio en el entrenamiento se queda en {p1(e2_10)} con las "
+        "mismas 10 épocas. No me esperaba una diferencia tan grande por un shutil.copy. Se corrige moviendo "
+        "las imágenes en get_data.py (shutil.move en lugar de shutil.copy) y sin aplicar aumento de datos "
+        "al conjunto de prueba.")
     add_para(doc,
-        "TinyVGG sirve para entender cómo funciona una CNN, pero se queda corta para 151 clases con unas "
-        f"{I['conteo_mediana']:.0f} imágenes por especie. Casi todos sus parámetros están en la capa lineal, "
-        "aprende rápido el entrenamiento y deja de mejorar en prueba alrededor de la época 10. El aumento "
-        "de datos ayuda bastante, pero no alcanza para compensar la falta de ejemplos. La transferencia de "
-        f"aprendizaje sí lo compensa: con menos parámetros entrenables y solo 5 épocas, EfficientNet-B0 "
-        f"llega a {p1(R['E4']['acc_final'])}, porque no tiene que aprender desde cero a ver formas y texturas, "
-        "solo a combinarlas para distinguir especies.")
+        "TinyVGG está bien para entender cómo funciona una CNN, pero para 151 clases con unas "
+        f"{I['conteo_mediana']:.0f} imágenes por especie no alcanza. Tiene casi todos sus parámetros en la "
+        "capa lineal, memoriza rápido el entrenamiento y en prueba ya no mejora después de la época 10. El "
+        "aumento de datos ayuda, pero no suple la falta de ejemplos. Con transferencia de aprendizaje el "
+        "resultado cambia mucho, porque EfficientNet-B0 ya sabe reconocer formas y texturas y solo tiene "
+        f"que aprender a usarlas para separar especies. Con menos parámetros entrenables y 5 épocas llegó a "
+        f"{p1(R['E4']['acc_final'])}.")
     add_para(doc,
-        "Para mejorarlo probaría tres cosas. Primero, descongelar los últimos bloques de EfficientNet-B0 con "
-        "una tasa de aprendizaje más baja para ajustarlos a este tipo de imágenes. Segundo, usar en ese "
-        "modelo el mismo aumento de datos que en TinyVGG. Tercero, separar un conjunto de validación para "
-        "elegir la época con early stopping, en lugar de decidirlo viendo la prueba. Y como la mayoría de "
-        "los errores son entre especies de la misma línea evolutiva, revisaría esos casos con más imágenes "
-        "o a mayor resolución.")
+        "Si siguiera con el proyecto, descongelaría los últimos bloques de EfficientNet-B0 con una tasa de "
+        "aprendizaje más baja y le pondría el mismo aumento de datos que a TinyVGG. También separaría un "
+        "conjunto de validación para escoger la época con early stopping, porque aquí la decidí viendo la "
+        "prueba. Como casi todos los errores son entre especies de la misma línea evolutiva, valdría la pena "
+        "conseguir más imágenes de esos casos o usar una resolución mayor.")
 
     add_heading(doc, "Referencias")
     for ref in [
