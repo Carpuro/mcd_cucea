@@ -185,6 +185,12 @@ doc.save(OUT)
 print("DOCX:", OUT)
 DL = os.path.join(os.path.expanduser("~"), "Downloads",
                   "Protocolo de investigación MCD con Inteligencia Artificial 2026.docx")
+# The phone number goes only in the Downloads copy that Carlos sends; the repo is public, so the
+# number lives in telefono.local.txt (gitignored) and the repo copy keeps the "Teléfono" label.
+TEL = os.path.join(HERE, "telefono.local.txt")
+if os.path.exists(TEL):
+    tel_run = [r for r in P[22].runs if r.text.strip() == "Teléfono"][0]
+    tel_run.text = "Teléfono: " + open(TEL, encoding="utf-8").read().strip()
 try:
     doc.save(DL); print("DOCX:", DL)
 except PermissionError:
