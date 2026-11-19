@@ -53,6 +53,35 @@ this subject.
 - Thesis data only from the thesis repo (`ai-automation-risk-jalisco`) or cited public sources. Never
   invent data or summarize tools (Gemini, NotebookLM, Consensus) Carlos has to run himself.
 
+## Thesis repo: `C:\Users\carlo\GitHub\ai-automation-risk-jalisco`
+- Remote: https://github.com/Carpuro/ai-automation-risk-jalisco (separate from mcd_cucea, no CLAUDE.md
+  of its own). Read its `README.md`, `data/DATA_INDEX.md`, `data/raw/README.md`, `analysis/README.md`,
+  `docs/THEORETICAL_FRAMEWORK.md` and `docs/SQL_SERVER_SCHEMA.md` before using anything from it.
+- **It still reflects the OLD framing**, not the current protocol: all of AI on two axes (cognitive
+  LLM vs embodied robots), Jalisco labor market, hypotheses H1 cognitive gradient, H2 bipolar
+  structure, H3 Jalisco leans physical, H4 profitability (IRA). Own indices DBOE (dynamic LLM
+  exposure, extends Felten AIOE with Epoch AI benchmark curves) and DEOE (embodied exposure from
+  O*NET). Level-1 hurdle model on Anthropic observed usage; Level-2 Jalisco sector projection
+  2025-2030. Thesis draft in `thesis/` (8 chapters in Spanish, `build_thesis.py`, `tesis_borrador.docx/pdf`)
+  and the earlier protocol deck (`protocolo_avance_2026.pptx`, `build_protocol_deck.py`, whose plan
+  the protocol's cronograma comes from).
+- The current protocol (labor mobility in informatics and data science careers, national ENOE panel)
+  has NOT been carried into the thesis repo yet. When the thesis work resumes, the repo has to be
+  reframed; ask Carlos before rewriting its README, hypotheses or chapters.
+- Reusable for the new focus:
+  - O*NET 28.3 (tasks, skills, technology skills) loaded in SQL Server; skills for the "lower-risk
+    skills" objective come from here (ENOE has no usable skills data: the COE1 p5f battery is ~0 % filled).
+  - Official INEGI SINCO <-> SOC/CIUO crosswalk (`data/raw/crosswalks/`, `build_sinco_exposure.py`):
+    the "tablas de correspondencia" the protocol mentions.
+  - Exposure indices already loaded: Felten AIOE, DBOE, Eloundou (via Comparison of Indices), Anthropic
+    Economic Index by SOC.
+  - ENOE microdata: Q3 2024 Jalisco in `data/raw/enoe/`, plus national quarterly zips 2022T1-2024T3 in
+    `data/raw/enoe/quarters/` (gitignored). The mobility panel also needs pre-2022 quarters (the ENOE
+    became ENOE-N in 2020, check panel linkage across that change) and later quarters; not downloaded.
+  - SQL Server on the homelab (katana) holds the loaded tables.
+- Rule from the advisor: the protocol must not use the repo's own results (DBOE r = 0.94, hurdle AUC,
+  IRA betas, etc.) as evidence. The repo is a source of data and tools, not of citable findings.
+
 ## Advisor requests checked against the protocol (2026-11-18)
 - Done: body starts at Planteamiento; every source cited APA 7; formal definitions now include
   inteligencia artificial (OCDE, 2024) and automatización (Acemoglu y Restrepo, 2019); scope limited to
