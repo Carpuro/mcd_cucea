@@ -93,3 +93,4 @@ __marimo__/
 # ── Proyecto final Tópicos II (SSD300): VOC dataset and checkpoints ──
 3er-semestre/topicos-selectos-ii/datos/voc/
 *.pth.tar
+3er-semestre/topicos-selectos-ii/proyectos/ProyectoFinal_SSD300/resultados/_*.pt

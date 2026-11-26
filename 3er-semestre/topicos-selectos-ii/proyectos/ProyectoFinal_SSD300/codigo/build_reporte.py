@@ -64,7 +64,8 @@ def cambios(a, b):
 def build():
     figs = {k: os.path.join(FIG, v) for k, v in [
         ("arq", "fig1_arquitectura.png"), ("map", "fig2_map_epocas.png"), ("ap", "fig3_ap_clases.png"),
-        ("ej", "fig4_ejemplos.png"), ("nms", "fig5_nms.png"), ("app", "fig6_app_molab.png")]}
+        ("ej", "fig4_ejemplos.png"), ("nms", "fig5_nms.png"), ("app", "fig6_app_molab.png"),
+        ("cmp", "fig7_comparacion.png"), ("pr", "fig8_pr.png"), ("tam", "fig9_tamano.png"), ("local", "fig10_app_local.png")]}
     ap160 = AP[160]["AP_by_class"]
     mejores = sorted(ap160, key=lambda c: -ap160[c])[:3]
     peores = sorted(ap160, key=lambda c: ap160[c])[:3]
@@ -243,6 +244,9 @@ def build():
                      f"{num(nms['0.45']['imagenes'])} imágenes de VOC2007 test).")
 
     # ------------------------------------------------------------ 4
+    X = json.load(open(os.path.join(RES, "extra.json"), encoding="utf-8"))
+    cmp_ = X["comparacion"]; mt = X["map_tam"]; nt = X["n_obj_tam"]; prc = X["pr_clases"]; prr = X["pr_max_recall"]
+    pr_sel = list(prc)
     add_heading(doc, "4. Resultados y demostración del detector")
     add_heading(doc, "4.1 mAP por época", level=2)
     add_para(doc,
@@ -258,23 +262,63 @@ def build():
         "conjunto de prueba, así que el 75 % puede estar un poco optimista.")
     add_pic(doc, figs["map"], 5.4)
     add_caption(doc, "Figura 3. mAP en VOC2007 test por época. La época 83 la evaluamos localmente; las demás son de la evaluación en Modal.")
-    add_heading(doc, "4.2 AP por clase", level=2)
+    add_para(doc,
+        "Para ver la mejora en imágenes y no solo en el número, pasamos el checkpoint del profesor y el "
+        f"de la época 160 por las mismas {cmp_['imagenes']} imágenes de prueba escogidas al azar, con un "
+        f"umbral de 0.4. En esas imágenes hay {cmp_['reales']} objetos reales. El modelo del profesor tuvo "
+        f"{cmp_['bien83']} detecciones correctas y {cmp_['mal83']} erróneas, y el de la época 160 tuvo "
+        f"{cmp_['bien160']} correctas y {cmp_['mal160']} erróneas. En la Figura 4 están tres de esas "
+        "imágenes. El modelo de la época 160 encuentra personas que el del profesor no veía, separa mejor "
+        "las dos motocicletas y en la última imagen reconoce al gato, que el modelo del profesor había "
+        "marcado como perro, aunque todavía deja también una caja de perro sobre él.")
+    add_pic(doc, figs["cmp"], 6.3)
+    add_caption(doc, "Figura 4. El mismo detector antes (época 83, arriba) y después (época 160, abajo) del entrenamiento del equipo. Verde: detección correcta (IoU > 0.5 con un objeto real de la misma clase); rojo: errónea.")
+
+    add_heading(doc, "4.2 AP por clase y curvas de precisión contra recall", level=2)
     add_para(doc,
         f"Las clases que mejor detecta el modelo son {ES[mejores[0]]} ({p(ap160[mejores[0]], 1)}), "
         f"{ES[mejores[1]]} ({p(ap160[mejores[1]], 1)}) y {ES[mejores[2]]} ({p(ap160[mejores[2]], 1)}), que "
         "suelen ser objetos grandes y con forma bien definida. Las más bajas son "
         f"{ES[peores[0]]} ({p(ap160[peores[0]], 1)}), {ES[peores[1]]} ({p(ap160[peores[1]], 1)}) y "
         f"{ES[peores[2]]} ({p(ap160[peores[2]], 1)}). Las botellas y las plantas suelen ser pequeñas y "
-        "estar al fondo de la escena, y las sillas casi siempre aparecen tapadas por personas o mesas. SSD "
-        "tiene dificultad con objetos pequeños porque a 300 x 300 ocupan pocos píxeles y solo los ve bien "
-        "el mapa conv4_3. Entre las épocas 130 y 160 las que más mejoraron fueron "
+        "estar al fondo de la escena, y las sillas casi siempre aparecen tapadas por personas o mesas. "
+        "Entre las épocas 130 y 160 las que más mejoraron fueron "
         f"{ES[c130[0][0]]} ({pp(c130[0][1])} puntos), {ES[c130[1][0]]} ({pp(c130[1][1])}) y "
-        f"{ES[c130[2][0]]} ({pp(c130[2][1])}) (Figura 4).")
+        f"{ES[c130[2][0]]} ({pp(c130[2][1])}) (Figura 5).")
     add_pic(doc, figs["ap"], 5.4)
-    add_caption(doc, "Figura 4. AP por clase en las épocas 130 y 160.")
-    add_heading(doc, "4.3 Ejemplos de detección", level=2)
+    add_caption(doc, "Figura 5. AP por clase en las épocas 130 y 160.")
     add_para(doc,
-        "En la Figura 5 están seis imágenes de VOC2007 test escogidas al azar, con las detecciones del "
+        "El AP de cada clase sale de su curva de precisión contra recall (Figura 6). Si se van aceptando "
+        "las detecciones de mayor a menor confianza, el recall dice qué parte de los objetos reales ya se "
+        "encontró y la precisión qué parte de lo aceptado era correcto. Un detector ideal mantiene la "
+        f"precisión en 1 hasta encontrar todo. La curva de {ES[pr_sel[0]]} se queda arriba de 0.9 hasta "
+        f"pasar el 80 % de recall y llega a encontrar el {p(prr[pr_sel[0]], 0)} de los gatos. En "
+        f"{ES[pr_sel[3]]}, en cambio, la precisión empieza a caer desde el principio y el modelo nunca "
+        f"encuentra más del {p(prr[pr_sel[3]], 0)} de las botellas, aunque se acepten detecciones con "
+        "confianza de 0.01. El AP resume toda la curva en un número, por eso dos clases con AP parecido "
+        "pueden comportarse distinto según el umbral que se use en la aplicación.")
+    add_pic(doc, figs["pr"], 4.8)
+    add_caption(doc, "Figura 6. Curvas de precisión contra recall de cuatro clases (época 160, VOC2007 test completo).")
+
+    add_heading(doc, "4.3 AP según el tamaño del objeto", level=2)
+    add_para(doc,
+        "Para comprobar que el problema principal son los objetos pequeños, separamos los objetos de "
+        "prueba por su área en la imagen original con el criterio de COCO: pequeños si miden menos de "
+        "32 x 32 píxeles, medianos entre 32 x 32 y 96 x 96, y grandes arriba de 96 x 96. En cada grupo "
+        "calculamos el mAP ignorando los objetos de los otros tamaños, igual que se hace con los objetos "
+        f"difíciles. Con todo el conjunto el cálculo vuelve a dar {p(X['map_analisis'])}, lo que confirma que "
+        f"la evaluación es la misma. En objetos grandes el mAP es de {p(mt['grande'], 1)}, en medianos de "
+        f"{p(mt['mediano'], 1)} y en pequeños apenas de {p(mt['pequeño'], 1)} (Figura 7). Al reducir la "
+        "imagen a 300 x 300 un objeto pequeño queda en unos cuantos píxeles, y solo el mapa conv4_3, el de "
+        f"cajas de escala 0.1, tiene resolución para verlo. Los pequeños son solo {num(nt['pequeño'])} de "
+        f"los {num(sum(nt.values()))} objetos que cuentan en la evaluación, por eso pesan poco en el mAP "
+        "general, pero explican el bajo desempeño en botellas y plantas.")
+    add_pic(doc, figs["tam"], 4.4)
+    add_caption(doc, "Figura 7. mAP por tamaño de objeto (época 160, VOC2007 test).")
+
+    add_heading(doc, "4.4 Ejemplos de detección", level=2)
+    add_para(doc,
+        "En la Figura 8 están seis imágenes de VOC2007 test escogidas al azar, con las detecciones del "
         "modelo de la época 160 con puntaje de al menos 0.4 (cajas naranjas) y las cajas reales "
         f"(punteadas en blanco). En total el modelo encontró {n_det} objetos contra {n_real} reales en esas "
         "imágenes. Las cajas quedan bien ajustadas en objetos grandes y separados, como el ave o el jinete "
@@ -284,10 +328,11 @@ def build():
         "las impresoras no están entre las 20 clases de VOC y el modelo la asigna a la clase que más se le "
         "parece.")
     add_pic(doc, figs["ej"], 6.3)
-    add_caption(doc, "Figura 5. Detecciones del modelo (naranja, con su puntaje) y cajas reales (blanco punteado) en VOC2007 test.")
-    add_heading(doc, "4.4 Interfaz en marimo", level=2)
+    add_caption(doc, "Figura 8. Detecciones del modelo (naranja, con su puntaje) y cajas reales (blanco punteado) en VOC2007 test.")
+
+    add_heading(doc, "4.5 Interfaces para probar el detector", level=2)
     add_para(doc,
-        "Para probar el detector construimos una aplicación en marimo, publicada en molab (Figura 6). Al "
+        "Para probar el detector construimos una aplicación en marimo, publicada en molab (Figura 9). Al "
         "abrirla descarga los cinco checkpoints desde Google Drive si no están en la carpeta. Permite "
         "escoger uno o varios modelos para comparar sus detecciones sobre la misma imagen, subir una "
         "imagen propia y mover dos controles: el umbral de confianza (min_score, 0.2 por defecto) y el "
@@ -296,7 +341,17 @@ def build():
         "demasiadas cajas de baja confianza. El detector solo reconoce las 20 clases de VOC; cualquier otro "
         "objeto lo ignora o lo confunde con la clase más parecida.")
     add_pic(doc, figs["app"], 5.6)
-    add_caption(doc, "Figura 6. Aplicación del detector en molab (https://molab.marimo.io/notebooks/nb_9o5HDcMtHPxcr5FNwajrGh/app).")
+    add_caption(doc, "Figura 9. Aplicación del detector en molab (https://molab.marimo.io/notebooks/nb_9o5HDcMtHPxcr5FNwajrGh/app).")
+    add_para(doc,
+        "Como complemento hicimos una versión local en Streamlit, que el profesor también mencionó como "
+        "opción, porque tiene un componente para tomar fotos con la cámara de la computadora (Figura 10). "
+        "Corre en la GPU de la laptop y tiene tres fuentes de imagen: la cámara, una imagen subida o "
+        "cualquiera de las imágenes de VOC2007 test. Igual que la de molab, deja escoger el modelo (época "
+        "160 o la del profesor) y mover el umbral de confianza y el de NMS, y muestra cuántos objetos "
+        "encontró, el tiempo de detección y la tabla de clases con su confianza. Se ejecuta con "
+        "streamlit run app_camara.py.")
+    add_pic(doc, figs["local"], 5.8)
+    add_caption(doc, "Figura 10. Aplicación local con cámara (Streamlit) detectando autos y una persona en una imagen de VOC2007 test.")
 
     # ------------------------------------------------------------ 5
     add_heading(doc, "5. Conclusiones")
@@ -305,7 +360,10 @@ def build():
         f"{p(AP[160]['mAP'])}, y lo pudimos reproducir en otra máquina ({p(E160['mAP'])}). Después de la "
         "época 160 el modelo ya no mejoró con la tasa de aprendizaje inicial. El SSD300 detecta bien "
         "objetos grandes como gatos, caballos o autos, y sus puntos débiles son los objetos pequeños o "
-        "tapados, como botellas, plantas y sillas.")
+        f"tapados, como botellas, plantas y sillas: en objetos grandes el mAP es de {p(mt['grande'], 1)} y en "
+        f"pequeños baja a {p(mt['pequeño'], 1)}. La comparación con el checkpoint del profesor sobre las mismas "
+        "imágenes muestra que el entrenamiento adicional no solo subió el número, sino que el modelo "
+        "encuentra más objetos y confunde menos clases.")
     add_para(doc,
         "Del trabajo con distintas GPU aprendimos que la tarjeta más cara no siempre es la más rápida: "
         "la B300 se quedó esperando los datos del disco y sus 30 épocas costaron más del triple que las "
