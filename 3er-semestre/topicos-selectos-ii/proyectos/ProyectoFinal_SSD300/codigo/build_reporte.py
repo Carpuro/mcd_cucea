@@ -168,7 +168,8 @@ def build():
         "negativos, y si se usaran todos el modelo aprendería a decir siempre \"fondo\". Por eso se usa "
         "minería de negativos difíciles: solo entran a la pérdida los negativos con mayor error, tres por "
         "cada positivo. La pérdida total es L = L_conf + α L_loc con α = 1, dividida entre el número de "
-        "positivos.")
+        "positivos. Un detalle de la implementación: el artículo usa Smooth L1 para la localización, pero "
+        "el código del tutorial usa L1 normal (nn.L1Loss), y así se entrenó nuestro modelo.")
     add_para(doc,
         "El optimizador es SGD con tasa de aprendizaje de 0.001 (el doble para los sesgos), momentum de "
         "0.9, decaimiento de pesos de 0.0005 y lotes de 32 imágenes. Para que el modelo vea más variedad, "
@@ -226,6 +227,28 @@ def build():
         f"completa de las {num(E160['imagenes'])} imágenes tardó {E160['segundos']:.0f} segundos en la "
         f"laptop, y la detección de una sola imagen corre a unos {L['fps']:.0f} cuadros por segundo, lo que "
         "permitiría usarlo con video.")
+    FI = json.load(open(os.path.join(RES, "mas_analisis.json"), encoding="utf-8"))["ficha"]
+    pa = FI["partes"]
+    add_para(doc,
+        f"En la Tabla 3 está la ficha del modelo. Tiene {FI['parametros'] / 1e6:.1f} millones de parámetros, "
+        f"de los cuales {pa['base_vgg'] / 1e6:.1f} millones ({pa['base_vgg'] / FI['parametros'] * 100:.0f} %) son "
+        "de la base VGG-16; las capas que hacen las predicciones son una parte pequeña del modelo. Solo la "
+        f"red procesa unas {FI['imgs_seg_gpu_solo_red']:.0f} imágenes por segundo en la GPU y "
+        f"{FI['imgs_seg_cpu_solo_red']:.1f} en el procesador ({FI['cpu_hilos']} hilos), "
+        f"{FI['imgs_seg_gpu_solo_red'] / FI['imgs_seg_cpu_solo_red']:.0f} veces menos, así que para usarlo en "
+        "video sí hace falta una GPU.")
+    make_table(doc, ["Concepto", "Valor"], [
+        ["Parámetros totales", f"{FI['parametros']:,}"],
+        ["Base VGG-16 (conv1 a conv7)", f"{pa['base_vgg']:,}"],
+        ["Convoluciones auxiliares (conv8 a conv11)", f"{pa['auxiliares']:,}"],
+        ["Convoluciones de predicción", f"{pa['prediccion']:,}"],
+        ["Tamaño del checkpoint", f"{FI['mb_archivo']:.0f} MB"],
+        ["Imágenes por segundo, GPU (solo la red)", f"{FI['imgs_seg_gpu_solo_red']:.0f}"],
+        ["Imágenes por segundo, GPU (red + NMS)", f"{L['fps']:.0f}"],
+        ["Imágenes por segundo, CPU (solo la red)", f"{FI['imgs_seg_cpu_solo_red']:.1f}"],
+        ["Memoria de GPU para una imagen", f"{FI['mem_gpu_mb']:.0f} MB"]],
+        f"Tabla 3. Ficha del modelo SSD300 (época 160) en la laptop con {L['gpu'].replace('NVIDIA GeForce ', '')}.",
+        [3.4, 1.8])
     add_heading(doc, "3.3 Experimento con el umbral de NMS", level=2)
     nms = L["nms"]
     add_para(doc,
@@ -353,6 +376,113 @@ def build():
     add_pic(doc, figs["local"], 5.8)
     add_caption(doc, "Figura 10. Aplicación local con cámara (Streamlit) detectando autos y una persona en una imagen de VOC2007 test.")
 
+    # ---------------- additional analysis (4.6 to 4.10)
+    MA = json.load(open(os.path.join(RES, "mas_analisis.json"), encoding="utf-8"))
+    TUT = {"aeroplane": 0.7888, "bicycle": 0.8352, "bird": 0.7623, "boat": 0.7218, "bottle": 0.4598, "bus": 0.8705,
+           "car": 0.8656, "cat": 0.8829, "chair": 0.5917, "cow": 0.8256, "diningtable": 0.7569, "dog": 0.8563,
+           "horse": 0.8778, "motorbike": 0.8317, "person": 0.7884, "pottedplant": 0.5072, "sheep": 0.7937,
+           "sofa": 0.7998, "train": 0.8656, "tvmonitor": 0.7492}
+    dif_tut = sorted(((c, ap160[c] - TUT[c]) for c in TUT), key=lambda t: t[1])
+    add_heading(doc, "4.6 Comparación con el artículo original y el tutorial", level=2)
+    add_para(doc,
+        "Para saber qué tan bueno es nuestro resultado lo comparamos con el del tutorial y el del artículo. "
+        "El tutorial reporta 77.2 % de mAP en VOC2007 test, el mismo valor que el artículo para SSD300 "
+        "entrenado con VOC2007+2012 y el aumento de datos con alejamiento (Liu et al., 2016; Vinodababu, "
+        "2019). Ese resultado sigue el calendario del artículo: 80,000 pasos con la tasa de aprendizaje "
+        "inicial, después dos reducciones a la décima parte de 20,000 pasos cada una, hasta la época 232 con "
+        "lotes de 32 imágenes. Nuestro mejor modelo se quedó en la época 160 y nunca bajó la tasa (Tabla 4).")
+    make_table(doc, ["Modelo", "Épocas", "Reducción de la tasa", "mAP VOC2007 test"], [
+        ["SSD300, artículo (Liu et al., 2016)", "~232", "Sí, dos veces", "77.2 %"],
+        ["SSD300, tutorial de Vinodababu", "232", "Sí, dos veces", "77.2 %"],
+        ["Checkpoint del profesor", "83", "No", p(E83["mAP"])],
+        ["Nuestro modelo, época 160", "160", "No", p(AP[160]["mAP"])],
+        ["Nuestro modelo, época 190", "190", "No", p(AP[190]["mAP"])]],
+        "Tabla 4. mAP de SSD300 en VOC2007 test según el entrenamiento.", [2.6, 0.8, 1.5, 1.4], hl=3)
+    add_para(doc,
+        f"Quedamos {(0.772 - AP[160]['mAP']) * 100:.1f} puntos abajo del artículo. Por clase, las mayores "
+        f"diferencias contra el tutorial están en {ES[dif_tut[0][0]]} ({pp(dif_tut[0][1])} puntos), "
+        f"{ES[dif_tut[1][0]]} ({pp(dif_tut[1][1])}) y {ES[dif_tut[2][0]]} ({pp(dif_tut[2][1])}), y en "
+        f"{ES[dif_tut[-1][0]]} {'incluso quedamos un poco arriba' if dif_tut[-1][1] > 0 else 'quedamos casi igual'} ({pp(dif_tut[-1][1])}). La explicación más probable es la "
+        "falta de la reducción de la tasa de aprendizaje: con una tasa fija los pesos siguen oscilando "
+        "alrededor del mínimo en lugar de asentarse, y es justo en esa etapa final donde el artículo y el "
+        "tutorial ganan los últimos puntos. Para un entrenamiento continuado con presupuesto de estudiantes, "
+        "quedar a menos de dos puntos del resultado publicado nos parece un buen resultado.")
+
+    P = MA["perdidas"]["por_epoca"]
+    add_heading(doc, "4.7 Pérdida de cada checkpoint", level=2)
+    add_para(doc,
+        "No guardamos la pérdida de entrenamiento de cada época, así que para ver cómo fue aprendiendo el "
+        "modelo calculamos la pérdida MultiBox de los cinco checkpoints sobre las primeras "
+        f"{num(MA['perdidas']['imagenes'])} imágenes de prueba, sin aumento de datos (Figura 11). La pérdida "
+        f"total bajó de {P['83']['total']:.3f} en la época 83 a {P['100']['total']:.3f} en la 100, "
+        f"{P['130']['total']:.3f} en la 130 y {P['160']['total']:.3f} en la 160, y en la 190 quedó en "
+        f"{P['190']['total']:.3f}, prácticamente igual. Separando las dos partes, la de confianza pasó de "
+        f"{P['83']['confianza']:.3f} a {P['160']['confianza']:.3f} y la de localización de "
+        f"{P['83']['localizacion']:.3f} a {P['160']['localizacion']:.3f}, es decir, el modelo mejoró tanto "
+        "en reconocer la clase como en ajustar las cajas. De la 160 a la 190 la localización todavía bajó un "
+        f"poco ({P['190']['localizacion']:.3f}) pero la confianza subió ({P['190']['confianza']:.3f}), lo que "
+        "coincide con que el mAP ya no mejorara.")
+    add_pic(doc, os.path.join(FIG, "fig12_perdidas.png"), 6.0)
+    add_caption(doc, f"Figura 11. Pérdida MultiBox de cada checkpoint en {num(MA['perdidas']['imagenes'])} imágenes de VOC2007 test.")
+
+    CJ = MA["cajas"]["objetos"]
+    add_heading(doc, "4.8 Cómo ajusta las cajas en un ejemplo real", level=2)
+    add_para(doc,
+        "Para que se vea lo que explicamos en la sección 2.3, tomamos una imagen de prueba con una persona "
+        "montando un caballo (Figura 12). Del lado izquierdo están todas las cajas previas que tienen IoU "
+        f"mayor a 0.5 con cada objeto: {CJ[0]['n_priors_positivos']} para el {ES[CJ[0]['clase']]} y "
+        f"{CJ[1]['n_priors_positivos']} para la {ES[CJ[1]['clase']]}. Esas son las cajas que en el "
+        "entrenamiento aprenden la clase y el ajuste de ese objeto; las otras "
+        f"{num(8732 - CJ[0]['n_priors_positivos'] - CJ[1]['n_priors_positivos'])} son fondo. El caballo, "
+        "que ocupa buena parte de la imagen, tiene muchos más priors positivos que la persona.")
+    add_para(doc,
+        f"Del lado derecho está el prior con mayor IoU de cada objeto. El del {ES[CJ[0]['clase']]} es del "
+        f"mapa {CJ[0]['mapa']} y su IoU con la caja real es {CJ[0]['iou_prior']:.2f}. La red predice para él "
+        f"los ajustes (g_cx, g_cy, g_w, g_h) = ({', '.join(f'{v:.2f}' for v in CJ[0]['predicho_g'])}), y al "
+        f"aplicarlos la caja queda con IoU de {CJ[0]['iou_prediccion']:.2f}, con {p(CJ[0]['prob_clase'], 1)} "
+        f"de probabilidad de ser {ES[CJ[0]['clase']]}. El de la {ES[CJ[1]['clase']]} es del mapa "
+        f"{CJ[1]['mapa']}, más chico, y pasa de IoU {CJ[1]['iou_prior']:.2f} a {CJ[1]['iou_prediccion']:.2f} "
+        f"con {p(CJ[1]['prob_clase'], 1)} de probabilidad. Los ajustes predichos no son iguales a los ideales "
+        f"(para la persona serían {', '.join(f'{v:.2f}' for v in CJ[1]['objetivo_g'])}), porque la caja "
+        "final no sale de un solo prior: varios priors cercanos predicen cajas parecidas y la NMS se queda "
+        "con la de mayor confianza.")
+    add_pic(doc, os.path.join(FIG, "fig11_cajas.png"), 6.4)
+    add_caption(doc, "Figura 12. Asignación de priors y ajuste de la caja en una imagen de VOC2007 test (época 160).")
+
+    ER = MA["errores"]; T = ER["tipos"]; tot = sum(T.values()); cf = ER["confusiones"]
+    add_heading(doc, "4.9 Tipos de error", level=2)
+    add_para(doc,
+        "Para saber en qué se equivoca el modelo clasificamos todas sus detecciones del conjunto de prueba "
+        f"con confianza de al menos {ER['umbral']} (Figura 13). Una detección es correcta si coincide con un "
+        "objeto real de su clase con IoU mayor a 0.5. Las erróneas las separamos en caja mal ubicada (la "
+        "clase es correcta pero la IoU queda entre 0.1 y 0.5), confusión de clase (está sobre un objeto de "
+        "otra clase), fondo (no hay ningún objeto cerca) y duplicada (el objeto ya se había detectado). De "
+        f"las {num(tot)} detecciones, {num(T['correcta'])} fueron correctas ({p(T['correcta'] / tot, 1)}). El "
+        f"error más común es la caja mal ubicada ({num(T['localizacion'])}), seguido de la confusión de clase "
+        f"({num(T['confusion'])}) y el fondo ({num(T['fondo'])}). Las confusiones más frecuentes son "
+        f"{ES[cf[0][0]]} en lugar de {ES[cf[0][1]]} ({cf[0][2]} veces), {ES[cf[1][0]]} en lugar de "
+        f"{ES[cf[1][1]]} ({cf[1][2]}) y {ES[cf[2][0]]} en lugar de {ES[cf[2][1]]} ({cf[2][2]}), clases que "
+        "aparecen juntas y se parecen en la imagen. Esto indica que al modelo le cuesta más ajustar bien la "
+        "caja que reconocer qué objeto es.")
+    add_pic(doc, os.path.join(FIG, "fig13_errores.png"), 5.8)
+    add_caption(doc, f"Figura 13. Clasificación de las detecciones con confianza de al menos {ER['umbral']} (época 160, VOC2007 test).")
+
+    U = ER["umbrales"]
+    add_heading(doc, "4.10 Umbral de confianza para la aplicación", level=2)
+    add_para(doc,
+        "El mAP se calcula con todas las detecciones desde 0.01, pero en una aplicación hay que escoger un "
+        "umbral. Con las detecciones del conjunto de prueba calculamos la precisión (qué parte de las cajas "
+        "mostradas es correcta) y el recall (qué parte de los objetos se encuentra) para varios umbrales "
+        f"(Tabla 5). Con 0.2 el modelo encuentra el {p(U['0.2']['recall'], 1)} de los objetos pero solo el "
+        f"{p(U['0.2']['precision'], 1)} de las cajas son correctas; con 0.6 casi todas son correctas "
+        f"({p(U['0.6']['precision'], 1)}) pero se pierde más de la tercera parte de los objetos. Para la "
+        f"demostración nos parece mejor un umbral entre 0.3 y 0.4, donde la precisión y el recall quedan "
+        "cerca uno del otro.")
+    make_table(doc, ["Umbral", "Detecciones mostradas", "Precisión", "Recall"],
+               [[k, num(U[k]["detecciones"]), p(U[k]["precision"], 1), p(U[k]["recall"], 1)] for k in U],
+               f"Tabla 5. Precisión y recall según el umbral de confianza (época 160, {num(ER['objetos_faciles'])} objetos de VOC2007 test).",
+               [1.0, 1.8, 1.3, 1.3])
+
     # ------------------------------------------------------------ 5
     add_heading(doc, "5. Conclusiones")
     add_para(doc,
@@ -371,6 +501,13 @@ def build():
         "pasos proponemos aplicar el decaimiento de la tasa de aprendizaje, separar un conjunto de "
         "validación para escoger la época sin usar la prueba, y mejorar la carga de datos para aprovechar "
         "GPU más grandes.")
+    add_para(doc,
+        f"El análisis adicional ayuda a entender de dónde viene el {p(AP[160]['mAP'])}. Quedamos "
+        f"{(0.772 - AP[160]['mAP']) * 100:.1f} puntos abajo del 77.2 % del artículo y del tutorial, que sí "
+        "redujeron la tasa de aprendizaje al final del entrenamiento. La pérdida bajó en sus dos partes hasta la "
+        f"época 160 y luego se estancó. De las detecciones con confianza de al menos {ER['umbral']}, el "
+        f"{p(T['correcta'] / tot, 1)} son correctas y el error más común es una caja mal ubicada, más que una "
+        "clase equivocada. Para la aplicación, un umbral entre 0.3 y 0.4 equilibra la precisión y el recall.")
 
     add_heading(doc, "Referencias")
     for t in [
