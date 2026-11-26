@@ -89,3 +89,7 @@ __marimo__/
 
 # ── Personal contact data kept out of the public repo ──
 *.local.txt
+
+# ── Proyecto final Tópicos II (SSD300): VOC dataset and checkpoints ──
+3er-semestre/topicos-selectos-ii/datos/voc/
+*.pth.tar

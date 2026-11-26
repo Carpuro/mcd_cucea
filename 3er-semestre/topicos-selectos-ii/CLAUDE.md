@@ -52,3 +52,19 @@ this subject.
 - Run envs with `C:\Users\carlo\anaconda3\Scripts\conda.exe run -n <env> python <file>` (direct
   `python.exe` from an env fails with rc 127; `conda run` rejects `-c` code with newlines, so write a
   file).
+
+## Proyecto final (SSD300 object detection), team project, 2026-11-26
+- Repo base: sgrvinod/a-PyTorch-Tutorial-to-Object-Detection. Team: one member trained in Modal
+  (epochs 83 to 190, best = epoch 160, mAP 75.19 %), another built the marimo app on molab
+  (nb_9o5HDcMtHPxcr5FNwajrGh/app). Carlos wrote the report. Carlos asked to keep member names OUT of
+  the report (no participation table).
+- Folder `proyectos/ProyectoFinal_SSD300/`: `codigo/evaluar_ssd.py` (torch env, resumable steps),
+  `figuras_ssd.py` (torch env), `build_reporte.py` (MCD env). Checkpoints in `modelos/` and VOC2007
+  test in `datos/voc/` are gitignored. Source zips in `Downloads\RCNN`.
+- Local check on RTX 4060: epoch 160 = 75.19 % (matches Modal), professor's epoch 83 = 66.91 %.
+  NMS experiment on first 1,000 test images: 0.30 -> 74.63 %, 0.45 -> 75.55 %, 0.60 -> 74.04 %.
+- The repo's `calculate_mAP` mixes CPU/GPU tensors and syncs per detection; `calc_map_rapido` gives
+  identical results (verified, uses float32 like the repo; float64 changes the 0.9 recall threshold).
+- Low RAM (16 GB): Claude Code reaps background jobs; run long evals as a detached Start-Process with
+  num_workers=1. A full VOC test pass takes ~11 to 23 min on the laptop.
+- matplotlib in the torch env does not draw plain text or bbox text over imshow; use path_effects.
